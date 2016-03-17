@@ -13,23 +13,57 @@
 apply plugin: 'idea'
 apply plugin: 'versions'
 apply plugin: 'properties'
+apply plugin: 'org.sonarqube'
 
 
 idea.project.languageLevel = '1.7'
 idea.project.jdkName = '1.7'
 
-buildscript {
-  repositories {
-    mavenCentral()
+
+sonarqube
+{
+  properties
+  {
+    property "sonar.projectName" , "$sonarProjectName"
+    property "sonar.projectVersion" , "$sonarProjectVersion"
+
+    property "sonar.host.url" , "$sonarHostUrl"
+    property "sonar.jdbc.url" , "$sonarJdbcUrl"
+
+    property "sonar.sources" , "$sonarSources"
+    property "sonar.java.binaries" , "$sonarJavaBinaries"
+    property "sonar.sourceEncoding" , "$sonarSourceEncoding"
+
+    property "sonar.junit.reportsPath", "$buildDir/test-results/"
+    property "sonar.java.coveragePlugin", "cobertura"
+    property "sonar.cobertura.reportPath", "$buildDir/reports/cobertura/coverage.xml"
   }
-  dependencies {
+}
+
+
+
+buildscript
+{
+  repositories
+  {
+    mavenCentral()
+
+    maven
+    {
+      name "repository reference added for the sonarqube runner"
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+
+  dependencies
+  {
     classpath "net.saliman:gradle-cobertura-plugin:1.2.0"
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.3'
     classpath 'net.saliman:gradle-properties-plugin:1.2.0'
-
-
+    classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:1.2"
   }
 }
+
 subprojects {
   apply plugin: 'idea'
   apply plugin: 'properties'
