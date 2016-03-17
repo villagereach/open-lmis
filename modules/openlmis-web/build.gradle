@@ -190,6 +190,17 @@ dependencies {
     project(path: ':modules:reporting', configuration: 'testFixtures')
 }
 
+sonarqube
+{
+  properties
+  {
+    properties["sonar.sources"] += 'src/main/webapp/public/js'
+    properties["sonar.sources"] += 'src/main/webapp/public/pages'
+    properties["sonar.sources"] += 'src/main/webapp/public/less'
+    properties["sonar.tests"] += 'src/test/javascript/specs'
+  }
+}
+
 jettyRun {
   jettyRun.httpPort = 9091;
   contextPath = ''
