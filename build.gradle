@@ -26,13 +26,7 @@ sonarqube
   {
     property "sonar.projectName" , "$sonarProjectName"
     property "sonar.projectVersion" , "$sonarProjectVersion"
-
     property "sonar.host.url" , "$sonarHostUrl"
-    property "sonar.jdbc.url" , "$sonarJdbcUrl"
-
-    property "sonar.sources" , "$sonarSources"
-    property "sonar.java.binaries" , "$sonarJavaBinaries"
-    property "sonar.sourceEncoding" , "$sonarSourceEncoding"
 
     property "sonar.junit.reportsPath", "$buildDir/test-results/"
     property "sonar.java.coveragePlugin", "cobertura"
@@ -67,12 +61,22 @@ buildscript
 subprojects {
   apply plugin: 'idea'
   apply plugin: 'properties'
+
   idea {
     project {
       ext.languageLevel = '1.7'
       ext.jdkName = '1.7'
     }
   }
+
+  sonarqube {
+    properties {
+      property "sonar.junit.reportsPath", "$buildDir/test-results/"
+      property "sonar.java.coveragePlugin", "cobertura"
+      property "sonar.cobertura.reportPath", "$buildDir/reports/cobertura/coverage.xml"
+    }
+  }
+
   apply plugin: 'java'
 
   [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
