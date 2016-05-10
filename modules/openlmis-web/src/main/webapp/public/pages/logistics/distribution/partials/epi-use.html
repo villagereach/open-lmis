@@ -35,22 +35,36 @@
           <table class="table table-bordered">
             <thead>
             <tr>
-              <th class="col-doses"
+              <th class="col-doses" rowspan="2"
                   openlmis-message="header.epi.use.doses"></th>
-              <th class="col-starting-stock"
+              <th class="col-starting-stock" rowspan="2"
                   openlmis-message="header.epi.use.startingStock"></th>
-              <th class="col-received"
+              <th class="col-received" rowspan="2"
                   openlmis-message="header.epi.use.received"></th>
-              <th class="col-total"
+              <th class="col-total" rowspan="2"
                   openlmis-message="header.epi.use.total"></th>
-              <th class="col-distributed"
+              <th class="col-distributed" rowspan="2"
                   openlmis-message="header.epi.use.distributed"></th>
-              <th class="col-loss"
-                  openlmis-message="header.epi.use.loss"></th>
-              <th class="col-ending-stock"
+              <th class="col-loss center-justified" colspan="5"
+                  openlmis-message="header.epi.use.lossesUnopenedStock"></th>
+              <th class="col-ending-stock" rowspan="2"
                   openlmis-message="header.epi.use.endingStock"></th>
-              <th class="col-expiration-date"
+              <th class="col-number-stockout-days" rowspan="2"
+                  openlmis-message="header.epi.use.numberOfStockoutDays"></th>
+              <th class="col-expiration-date" rowspan="2"
                   openlmis-message="description.column.expiration.date"></th>
+            </tr>
+            <tr>
+              <th class="col-loss-over-heated"
+                  openlmis-message="header.epi.use.lossOverHeated"></th>
+              <th class="col-loss-frozen"
+                  openlmis-message="header.epi.use.lossFrozen"></th>
+              <th class="col-loss-expired"
+                  openlmis-message="header.epi.use.lossExpired"></th>
+              <th class="col-loss-other"
+                  openlmis-message="header.epi.use.lossOther"></th>
+              <th class="col-total-losses"
+                  openlmis-message="header.epi.use.totalLosses"></th>
             </tr>
             </thead>
             <tbody>
@@ -129,25 +143,88 @@
                 <label class="checkbox-label" for="distributed{{$index}}"
                        openlmis-message="label.not.recorded"></label>
               </td>
-              <td class="col-loss">
+              <td class="col-loss-over-heated">
                 <div>
                   <span class="position-relative">
-                    <input id="lossInput{{$index}}" type="number"
-                           ng-model="lineItem.loss.value" ng-trim=false
-                           name="loss{{$index}}" numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                           error-holder="lossError{{$index}}"
-                           ng-class="{'required-error': !facilityData.isDisabled('epi-use') && !(lineItem.loss.value.hasValue() ||
-                             lineItem.loss.notRecorded)}"/>
-                    <span id="lossError{{$index}}" class="rnr-form-error"
+                    <input id="lossOverHeatedInput{{$index}}" type="number"
+                           ng-model="lineItem.lossOverHeated.value" ng-trim=false
+                           name="lossOverHeated{{$index}}" numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="lossOverHeatedError{{$index}}"
+                           ng-class="{'required-error': !facilityData.isDisabled('epi-use') && !(lineItem.lossOverHeated.value.hasValue() ||
+                             lineItem.lossOverHeated.notRecorded)}"/>
+                    <span id="lossOverHeatedError{{$index}}" class="rnr-form-error"
                           openlmis-message="error.number.only"
                           style="display: none"></span>
                   </span>
                 </div>
-                <input id="loss{{$index}}" type="checkbox"
-                       ng-model="lineItem.loss.notRecorded"
+                <input id="lossOverHeated{{$index}}" type="checkbox"
+                       ng-model="lineItem.lossOverHeated.notRecorded"
                        not-recorded/>
-                <label class="checkbox-label" for="loss{{$index}}"
+                <label class="checkbox-label" for="lossOverHeated{{$index}}"
                        openlmis-message="label.not.recorded"></label>
+              </td>
+              <td class="col-loss-frozen">
+                <div>
+                  <span class="position-relative">
+                    <input id="lossFrozenInput{{$index}}" type="number"
+                           ng-model="lineItem.lossFrozen.value" ng-trim=false
+                           name="lossFrozen{{$index}}" numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="lossFrozenError{{$index}}"
+                           ng-class="{'required-error': !facilityData.isDisabled('epi-use') && !(lineItem.lossFrozen.value.hasValue() ||
+                             lineItem.lossFrozen.notRecorded)}"/>
+                    <span id="lossFrozenError{{$index}}" class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                  </span>
+                </div>
+                <input id="lossFrozen{{$index}}" type="checkbox"
+                       ng-model="lineItem.lossFrozen.notRecorded"
+                       not-recorded/>
+                <label class="checkbox-label" for="lossFrozen{{$index}}"
+                       openlmis-message="label.not.recorded"></label>
+              </td>
+              <td class="col-loss-expired">
+                <div>
+                  <span class="position-relative">
+                    <input id="lossExpiredInput{{$index}}" type="number"
+                           ng-model="lineItem.lossExpired.value" ng-trim=false
+                           name="lossExpired{{$index}}" numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="lossExpiredError{{$index}}"
+                           ng-class="{'required-error': !facilityData.isDisabled('epi-use') && !(lineItem.lossExpired.value.hasValue() ||
+                             lineItem.lossExpired.notRecorded)}"/>
+                    <span id="lossExpiredError{{$index}}" class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                  </span>
+                </div>
+                <input id="lossExpired{{$index}}" type="checkbox"
+                       ng-model="lineItem.lossExpired.notRecorded"
+                       not-recorded/>
+                <label class="checkbox-label" for="lossExpired{{$index}}"
+                       openlmis-message="label.not.recorded"></label>
+              </td>
+              <td class="col-loss-other">
+                <div>
+                  <span class="position-relative">
+                    <input id="lossOtherInput{{$index}}" type="number"
+                           ng-model="lineItem.lossOther.value" ng-trim=false
+                           name="lossOther{{$index}}" numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="lossOtherError{{$index}}"
+                           ng-class="{'required-error': !facilityData.isDisabled('epi-use') && !(lineItem.lossOther.value.hasValue() ||
+                             lineItem.lossOther.notRecorded)}"/>
+                    <span id="lossOtherError{{$index}}" class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                  </span>
+                </div>
+                <input id="lossOther{{$index}}" type="checkbox"
+                       ng-model="lineItem.lossOther.notRecorded"
+                       not-recorded/>
+                <label class="checkbox-label" for="lossOther{{$index}}"
+                       openlmis-message="label.not.recorded"></label>
+              </td>
+              <td class="col-total-losses">
+                <span ng-bind="getTotalLosses()"></span>
               </td>
               <td class="col-ending-stock">
                 <div>
@@ -170,6 +247,29 @@
                        not-recorded/>
                 <label class="checkbox-label"
                        for="stockAtEndOfMonth{{$index}}"
+                       openlmis-message="label.not.recorded"></label>
+              </td>
+              <td class="col-number-stockout-days">
+                <div>
+                  <span class="position-relative">
+                    <input id="numberOfStockoutDaysInput{{$index}}" type="number"
+                           ng-model="lineItem.numberOfStockoutDays.value"
+                           name="numberOfStockoutDays{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,2" min="0" max="99" step="1"
+                           error-holder="numberOfStockoutDaysError{{$index}}"
+                           ng-class="{'required-error': !facilityData.isDisabled('epi-use') && !(lineItem.numberOfStockoutDays.value.hasValue() ||
+                             lineItem.numberOfStockoutDays.notRecorded)}"/>
+                    <span id="numberOfStockoutDaysError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                  </span>
+                </div>
+                <input id="numberOfStockoutDays{{$index}}" type="checkbox"
+                       ng-model="lineItem.numberOfStockoutDays.notRecorded"
+                       not-recorded/>
+                <label class="checkbox-label"
+                       for="numberOfStockoutDays{{$index}}"
                        openlmis-message="label.not.recorded"></label>
               </td>
               <td class="expiration-date">

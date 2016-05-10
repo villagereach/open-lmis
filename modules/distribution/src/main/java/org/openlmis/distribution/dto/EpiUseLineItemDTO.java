@@ -10,6 +10,7 @@
 
 package org.openlmis.distribution.dto;
 
+import com.google.common.base.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,7 @@ import org.openlmis.core.domain.ProductGroup;
 import org.openlmis.distribution.domain.EpiUseLineItem;
 
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
+import static org.openlmis.distribution.dto.Reading.EMPTY;
 
 /**
  *  DTO for EpiUseLineItem. It contains facilityVisitId and
@@ -43,15 +45,27 @@ public class EpiUseLineItemDTO extends BaseModel {
   private Reading loss;
   private Reading distributed;
   private Reading expirationDate;
+  private Reading numberOfStockoutDays;
+  private Reading lossOverHeated;
+  private Reading lossFrozen;
+  private Reading lossExpired;
+  private Reading lossOther;
 
   public EpiUseLineItem transform() {
-    EpiUseLineItem epiUseLineItem = new EpiUseLineItem(this.facilityVisitId, this.productGroup,
+      Integer numberOfStockoutDays = Optional.fromNullable(this.numberOfStockoutDays).or(EMPTY).parsePositiveInt();
+      Integer lossOverHeated = Optional.fromNullable(this.lossOverHeated).or(EMPTY).parsePositiveInt();
+      Integer lossFrozen = Optional.fromNullable(this.lossFrozen).or(EMPTY).parsePositiveInt();
+      Integer lossExpired = Optional.fromNullable(this.lossExpired).or(EMPTY).parsePositiveInt();
+      Integer lossOther = Optional.fromNullable(this.lossOther).or(EMPTY).parsePositiveInt();
+
+      EpiUseLineItem epiUseLineItem = new EpiUseLineItem(this.facilityVisitId, this.productGroup,
       this.stockAtFirstOfMonth.parsePositiveInt(),
       this.stockAtEndOfMonth.parsePositiveInt(),
       this.received.parsePositiveInt(),
       this.loss.parsePositiveInt(),
       this.distributed.parsePositiveInt(),
-      this.expirationDate.getEffectiveValue());
+      this.expirationDate.getEffectiveValue(),
+      numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, lossOther);
 
     epiUseLineItem.setId(this.id);
     epiUseLineItem.setModifiedBy(this.modifiedBy);
