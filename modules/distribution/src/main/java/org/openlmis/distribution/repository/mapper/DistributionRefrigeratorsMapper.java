@@ -27,10 +27,16 @@ public interface DistributionRefrigeratorsMapper {
 
   @Insert({"INSERT INTO refrigerator_readings",
     "(temperature, functioningCorrectly, lowAlarmEvents, highAlarmEvents, ",
-    "problemSinceLastTime, notes, facilityVisitId, refrigeratorId, refrigeratorSerialNumber, refrigeratorBrand, refrigeratorModel, createdBy, modifiedBy)",
+    "problemSinceLastTime, notes, hasMonitoringDevice, monitoringDeviceType, monitoringDeviceOtherType, ",
+    "temperatureReportingForm, highestTemperatureReported, lowestTemperatureReported, problemOccurredDate, ",
+    "problemReportedDate, equipmentRepaired, equipmentRepairedDate, totalDaysCceUptime, facilityVisitId, ",
+    "refrigeratorId, refrigeratorSerialNumber, refrigeratorBrand, refrigeratorModel, createdBy, modifiedBy)",
     "VALUES",
     "(#{temperature}, #{functioningCorrectly}, #{lowAlarmEvents}, #{highAlarmEvents}, ",
-    "#{problemSinceLastTime}, #{notes}, #{facilityVisitId}, #{refrigerator.id}, #{refrigerator.serialNumber}, #{refrigerator.brand}, #{refrigerator.model}, #{createdBy}, #{modifiedBy})"})
+    "#{problemSinceLastTime}, #{notes}, #{hasMonitoringDevice}, #{monitoringDeviceType}, #{monitoringDeviceOtherType}, ",
+    "#{temperatureReportingForm}, #{highestTemperatureReported}, #{lowestTemperatureReported}, #{problemOccurredDate}, ",
+    "#{problemReportedDate}, #{equipmentRepaired}, #{equipmentRepairedDate}, #{totalDaysCceUptime}, #{facilityVisitId}, ",
+    "#{refrigerator.id}, #{refrigerator.serialNumber}, #{refrigerator.brand}, #{refrigerator.model}, #{createdBy}, #{modifiedBy})"})
   @Options(useGeneratedKeys = true)
   void insertReading(RefrigeratorReading refrigeratorReading);
 

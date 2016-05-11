@@ -10,7 +10,12 @@
 
 function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
 
-  var fieldList = ['temperature', 'functioningCorrectly', 'lowAlarmEvents', 'highAlarmEvents', 'problemSinceLastTime'];
+  var fieldList = [
+    'temperature', 'functioningCorrectly', 'lowAlarmEvents', 'highAlarmEvents', 'problemSinceLastTime',
+    'hasMonitoringDevice', 'monitoringDeviceType', 'monitoringDeviceOtherType', 'temperatureReportingForm',
+    'highestTemperatureReported', 'lowestTemperatureReported', 'problemOccurredDate', 'problemReportedDate',
+    'equipmentRepaired', 'equipmentRepairedDate', 'totalDaysCceUptime'
+  ];
 
   RefrigeratorReading.prototype.computeStatus = function () {
 

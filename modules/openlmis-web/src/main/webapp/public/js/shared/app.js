@@ -59,7 +59,7 @@ app.directive('dateValidator', function () {
   return {
     require: '?ngModel',
     link: function (scope, element, attrs, ctrl) {
-      app[attrs.dateValidator](element, ctrl, scope);
+      app[attrs.dateValidator](element, attrs, ctrl, scope);
     }
   };
 });
@@ -262,7 +262,7 @@ app.directive('numericValidator', function () {
   };
 });
 
-app.date = function (element, ctrl, scope) {
+app.date = function (element, attrs, ctrl, scope) {
 
   var shouldSetError = element.attr('showError');
 
@@ -281,8 +281,10 @@ app.date = function (element, ctrl, scope) {
   });
 
   function validationFunction() {
-    var DATE_REGEXP = /^(0[1-9]|1[012])[/]((2)\d\d\d)$/;
-    var valid = (isUndefined(ctrl.$viewValue)) ? true : DATE_REGEXP.test(ctrl.$viewValue);
+    var DAY_MONTH_YEAR_REGEX = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/]((2)\d\d\d)$/,
+        MONTH_YEAR_REGEX = /^(0[1-9]|1[012])[/]((2)\d\d\d)$/,
+        DATE_REGEX = "true" === attrs.withDays ? DAY_MONTH_YEAR_REGEX : MONTH_YEAR_REGEX,
+        valid = (isUndefined(ctrl.$viewValue)) ? true : DATE_REGEX.test(ctrl.$viewValue);
 
     var errorHolder = document.getElementById(element.attr('error-holder'));
     errorHolder.style.display = (valid) ? 'none' : 'block';

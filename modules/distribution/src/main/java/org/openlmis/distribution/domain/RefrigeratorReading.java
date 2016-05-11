@@ -46,6 +46,17 @@ public class RefrigeratorReading extends BaseModel {
   private String problemSinceLastTime;
   private RefrigeratorProblem problem;
   private String notes;
+  private String hasMonitoringDevice;
+  private MonitoringDeviceType monitoringDeviceType;
+  private String monitoringDeviceOtherType;
+  private String temperatureReportingForm;
+  private Integer highestTemperatureReported;
+  private Integer lowestTemperatureReported;
+  private String problemOccurredDate;
+  private String problemReportedDate;
+  private String equipmentRepaired;
+  private String equipmentRepairedDate;
+  private Integer totalDaysCceUptime;
 
   public RefrigeratorReading(Refrigerator refrigerator) {
     this.refrigerator = refrigerator;
