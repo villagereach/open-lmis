@@ -605,6 +605,7 @@ public class E2EDistributionTest extends TestCaseHelper {
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 3rd dose", "P10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("IPV", "IPV", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Measles", "Measles", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("VAA (Vaccin Anti-Amaril)", "VAA", true);
   }
 
   public void insertOpenedVialsProductMapping() throws SQLException {
@@ -616,6 +617,7 @@ public class E2EDistributionTest extends TestCaseHelper {
     dbWrapper.insertChildCoverageProductVial("PCV", "P10");
     dbWrapper.insertChildCoverageProductVial("IPV", "IPV");
     dbWrapper.insertChildCoverageProductVial("Measles", "Measles");
+    dbWrapper.insertChildCoverageProductVial("VAA", "VAA");
   }
 
   @AfterMethod(groups = {"offline"})

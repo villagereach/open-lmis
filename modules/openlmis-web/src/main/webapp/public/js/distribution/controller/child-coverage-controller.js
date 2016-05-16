@@ -81,6 +81,11 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
       products: ['Measles'],
       vaccinations: ['Measles'],
       rowSpan: 1
+    },
+    "VAA (Vaccin Anti-Amaril)": {
+      products: ['VAA'],
+      vaccinations: ['VAA (Vaccin Anti-Amaril)'],
+      rowSpan: 1
     }
   };
 

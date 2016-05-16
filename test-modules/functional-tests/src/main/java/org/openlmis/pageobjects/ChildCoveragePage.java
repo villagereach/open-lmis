@@ -61,6 +61,9 @@ public class ChildCoveragePage extends DistributionTab {
   @FindBy(how = ID, using = "colMeasles")
   private static WebElement regimenMeasles = null;
 
+  @FindBy(how = ID, using = "colVAA (Vaccin Anti-Amaril)")
+  private static WebElement regimenVaccinAntiAmaril = null;
+
   @FindBy(how = ID, using = "vaccination")
   private static WebElement headerChildVaccination = null;
 
@@ -126,6 +129,9 @@ public class ChildCoveragePage extends DistributionTab {
 
   @FindBy(how = ID, using = "Measles")
   private static WebElement openedVialsMeaslesLabel = null;
+
+  @FindBy(how = ID, using = "VAA")
+  private static WebElement openedVialsVAALabel = null;
 
   @FindBy(how = ID, using = "coverageOpenedVial00")
   private static WebElement openedVialsBcgNR = null;
@@ -202,7 +208,7 @@ public class ChildCoveragePage extends DistributionTab {
 
   @Override
   public void verifyAllFieldsDisabled() {
-    for (int rowNumber = 1; rowNumber <= 13; rowNumber++) {
+    for (int rowNumber = 1; rowNumber <= 14; rowNumber++) {
       assertFalse(isHealthCenter11MonthsEnabledForGivenRow(rowNumber));
       assertFalse(isOutreach11MonthsEnabledForGivenRow(rowNumber));
       if (rowNumber != 2) {
@@ -282,6 +288,11 @@ public class ChildCoveragePage extends DistributionTab {
   public String getTextOfRegimenMeasles() {
     testWebDriver.waitForElementToAppear(regimenMeasles);
     return regimenMeasles.getText();
+  }
+
+  public String getTextOfRegimenVaccinAntiAmaril() {
+    testWebDriver.waitForElementToAppear(regimenVaccinAntiAmaril);
+    return regimenVaccinAntiAmaril.getText();
   }
 
   public String getTextOfHeaderChildrenVaccination() {
@@ -392,6 +403,11 @@ public class ChildCoveragePage extends DistributionTab {
   public String getTextOfOpenedVialsMeasles() {
     testWebDriver.waitForElementToAppear(openedVialsMeaslesLabel);
     return openedVialsMeaslesLabel.getText();
+  }
+
+  public String getTextOfOpenedVialsVAA() {
+    testWebDriver.waitForElementToAppear(openedVialsVAALabel);
+    return openedVialsVAALabel.getText();
   }
 
   public String getTextOfTargetGroupValue(int rowNumber) {
@@ -595,7 +611,7 @@ public class ChildCoveragePage extends DistributionTab {
   }
 
   public void enterAllChildCoverageValues() {
-    for (int i = 1; i <= 13; i++) {
+    for (int i = 1; i <= 14; i++) {
       if (i == 2) {
         enterHealthCenter11MonthsDataForGivenRow(i, String.valueOf(i));
         enterOutreach11MonthsDataForGivenRow(i, String.valueOf(i + 10));
