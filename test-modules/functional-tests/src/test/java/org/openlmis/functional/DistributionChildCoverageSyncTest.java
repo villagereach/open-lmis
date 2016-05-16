@@ -649,8 +649,8 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
         assertEqualsAndNulls(childCoverageDetails.getString("outreach23months"), "null");
       }
     }
-    List<String> openedVials = asList("BCG", "Polio10", "Polio20", "Penta1", "Penta10", "PCV", "IPV", "Measles", "VAA");
-    for (int i = 1; i <= 9; i++) {
+    List<String> openedVials = asList("BCG", "Polio20", "Penta10", "PCV", "IPV", "Measles", "VAA");
+    for (int i = 1; i <= 7; i++) {
       ResultSet openedVialLineItem = dbWrapper.getChildOpenedVialLineItem(openedVials.get(i - 1), facilityVisitId);
       assertEqualsAndNulls(openedVialLineItem.getString("openedVials"), "null");
     }
@@ -783,8 +783,8 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
       }
     }
 
-    List<String> openedVials = asList("BCG", "Polio10", "Polio20", "Penta1", "Penta10", "PCV", "IPV", "Measles", "VAA");
-    for (int i = 1; i <= 9; i++) {
+    List<String> openedVials = asList("BCG", "Polio20", "Penta10", "PCV", "IPV", "Measles", "VAA");
+    for (int i = 1; i <= 7; i++) {
       ResultSet openedVialLineItem = dbWrapper.getChildOpenedVialLineItem(openedVials.get(i - 1), facilityVisitId);
       assertEquals(openedVialLineItem.getString("openedVials"), String.valueOf(i * 100));
     }
@@ -793,9 +793,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
 
   public void insertOpenedVialsProductMapping() throws SQLException {
     dbWrapper.insertChildCoverageProductVial("BCG", "P10");
-    dbWrapper.insertChildCoverageProductVial("Polio10", "P11");
     dbWrapper.insertChildCoverageProductVial("Polio20", "P10");
-    dbWrapper.insertChildCoverageProductVial("Penta1", "penta1");
     dbWrapper.insertChildCoverageProductVial("Penta10", "P11");
     dbWrapper.insertChildCoverageProductVial("PCV", "P10");
     dbWrapper.insertChildCoverageProductVial("IPV", "IPV");
@@ -806,9 +804,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
   private void verifyOpenVialsPresent() {
     ChildCoveragePage childCoveragePage = PageObjectFactory.getChildCoveragePage(testWebDriver);
     assertEquals(childCoveragePage.getTextOfOpenedVialsBCG(), "BCG");
-    assertEquals(childCoveragePage.getTextOfOpenedVialsPolio10(), "Polio10");
     assertEquals(childCoveragePage.getTextOfOpenedVialsPolio20(), "Polio20");
-    assertEquals(childCoveragePage.getTextOfOpenedVialsPenta1(), "Penta1");
     assertEquals(childCoveragePage.getTextOfOpenedVialsPenta10(), "Penta10");
     assertEquals(childCoveragePage.getTextOfOpenedVialsPCV(), "PCV");
     assertEquals(childCoveragePage.getTextOfOpenedVialsIPV(), "IPV");
@@ -854,13 +850,13 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
 
   private void insertRegimenProductMapping() throws SQLException {
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("BCG", "BCG", true);
-    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Polio (Newborn)", "polio10dose", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Polio (Newborn)", "polio20dose", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Polio 1st dose", "polio20dose", true);
-    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Polio 2nd dose", "polio10dose", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Polio 2nd dose", "polio20dose", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Polio 3rd dose", "polio20dose", true);
-    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Penta 1st dose", "penta1", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Penta 1st dose", "penta10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Penta 2nd dose", "penta10", true);
-    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Penta 3rd dose", "penta1", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Penta 3rd dose", "penta10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 1st dose", "P10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 2nd dose", "P10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 3rd dose", "P10", true);

@@ -109,14 +109,8 @@ public class ChildCoveragePage extends DistributionTab {
   @FindBy(how = ID, using = "BCG")
   private static WebElement openedVialsBCGLabel = null;
 
-  @FindBy(how = ID, using = "Polio10")
-  private static WebElement openedVialsPolio10Label = null;
-
   @FindBy(how = ID, using = "Polio20")
   private static WebElement openedVialsPolio20Label = null;
-
-  @FindBy(how = ID, using = "Penta1")
-  private static WebElement openedVialsPenta1Label = null;
 
   @FindBy(how = ID, using = "Penta10")
   private static WebElement openedVialsPenta10Label = null;
@@ -370,19 +364,9 @@ public class ChildCoveragePage extends DistributionTab {
     return openedVialsBCGLabel.getText();
   }
 
-  public String getTextOfOpenedVialsPolio10() {
-    testWebDriver.waitForElementToAppear(openedVialsPolio10Label);
-    return openedVialsPolio10Label.getText();
-  }
-
   public String getTextOfOpenedVialsPolio20() {
     testWebDriver.waitForElementToAppear(openedVialsPolio20Label);
     return openedVialsPolio20Label.getText();
-  }
-
-  public String getTextOfOpenedVialsPenta1() {
-    testWebDriver.waitForElementToAppear(openedVialsPenta1Label);
-    return openedVialsPenta1Label.getText();
   }
 
   public String getTextOfOpenedVialsPenta10() {

@@ -58,12 +58,12 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
       rowSpan: 1
     },
     "Polio (Newborn)": {
-      products: ['Polio10', 'Polio20'],
+      products: ['Polio20'],
       vaccinations: ['Polio (Newborn)', 'Polio 1st dose', 'Polio 2nd dose', 'Polio 3rd dose'],
       rowSpan: 4
     },
     "Penta 1st dose": {
-      products: ['Penta1', 'Penta10'],
+      products: ['Penta10'],
       vaccinations: ['Penta 1st dose', 'Penta 2nd dose', 'Penta 3rd dose'],
       rowSpan: 3
     },
@@ -92,14 +92,6 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.hideCell = function (vaccination) {
     return Object.keys($scope.productsMap).indexOf(vaccination) === -1;
   };
-
-  $scope.$watch("openedVialMap['Polio20'].openedVial.notRecorded", function () {
-    syncNR('Polio10', 'Polio20');
-  });
-
-  $scope.$watch("openedVialMap['Penta10'].openedVial.notRecorded", function () {
-    syncNR('Penta1', 'Penta10');
-  });
 
   $scope.getTotal = function (obj1, obj2) {
     return getValue(obj1) + getValue(obj2);
