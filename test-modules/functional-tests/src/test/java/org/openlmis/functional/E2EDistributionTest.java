@@ -603,6 +603,7 @@ public class E2EDistributionTest extends TestCaseHelper {
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 1st dose", "P10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 2nd dose", "P10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 3rd dose", "P10", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("IPV", "IPV", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Measles", "Measles", true);
   }
 
@@ -613,6 +614,7 @@ public class E2EDistributionTest extends TestCaseHelper {
     dbWrapper.insertChildCoverageProductVial("Penta1", "penta1");
     dbWrapper.insertChildCoverageProductVial("Penta10", "P11");
     dbWrapper.insertChildCoverageProductVial("PCV", "P10");
+    dbWrapper.insertChildCoverageProductVial("IPV", "IPV");
     dbWrapper.insertChildCoverageProductVial("Measles", "Measles");
   }
 

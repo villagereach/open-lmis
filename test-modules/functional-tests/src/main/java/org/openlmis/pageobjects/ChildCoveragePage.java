@@ -55,6 +55,9 @@ public class ChildCoveragePage extends DistributionTab {
   @FindBy(how = ID, using = "colPCV10 3rd dose")
   private static WebElement regimenPCV10Dose3 = null;
 
+  @FindBy(how = ID, using = "colIPV")
+  private static WebElement regimenIPV = null;
+
   @FindBy(how = ID, using = "colMeasles")
   private static WebElement regimenMeasles = null;
 
@@ -118,6 +121,9 @@ public class ChildCoveragePage extends DistributionTab {
   @FindBy(how = ID, using = "PCV")
   private static WebElement openedVialsPCVLabel = null;
 
+  @FindBy(how = ID, using = "IPV")
+  private static WebElement openedVialsIPVLabel = null;
+
   @FindBy(how = ID, using = "Measles")
   private static WebElement openedVialsMeaslesLabel = null;
 
@@ -154,7 +160,7 @@ public class ChildCoveragePage extends DistributionTab {
   @Override
   public void enterValues(List<Map<String, String>> data) {
     Map<String, String> dataMap = data.get(0);
-    for (int rowNumber = 1; rowNumber <= 12; rowNumber++) {
+    for (int rowNumber = 1; rowNumber <= 13; rowNumber++) {
       enterHealthCenter11MonthsDataForGivenRow(rowNumber, dataMap.get("healthCenter11"));
       enterOutreach11MonthsDataForGivenRow(rowNumber, dataMap.get("outreach11"));
       if (rowNumber != 2) {
@@ -168,7 +174,7 @@ public class ChildCoveragePage extends DistributionTab {
     enterOpenedVialsCountForGivenGroupAndRow(6, 1, dataMap.get("openedVial"));
     enterOpenedVialsCountForGivenGroupAndRow(6, 2, dataMap.get("openedVial"));
     enterOpenedVialsCountForGivenGroupAndRow(9, 1, dataMap.get("openedVial"));
-    enterOpenedVialsCountForGivenGroupAndRow(12, 1, dataMap.get("openedVial"));
+    enterOpenedVialsCountForGivenGroupAndRow(13, 1, dataMap.get("openedVial"));
   }
 
   @Override
@@ -196,7 +202,7 @@ public class ChildCoveragePage extends DistributionTab {
 
   @Override
   public void verifyAllFieldsDisabled() {
-    for (int rowNumber = 1; rowNumber <= 12; rowNumber++) {
+    for (int rowNumber = 1; rowNumber <= 13; rowNumber++) {
       assertFalse(isHealthCenter11MonthsEnabledForGivenRow(rowNumber));
       assertFalse(isOutreach11MonthsEnabledForGivenRow(rowNumber));
       if (rowNumber != 2) {
@@ -210,7 +216,7 @@ public class ChildCoveragePage extends DistributionTab {
     assertFalse(isOpenVialEnabled(6, 1));
     assertFalse(isOpenVialEnabled(6, 2));
     assertFalse(isOpenVialEnabled(9, 1));
-    assertFalse(isOpenVialEnabled(12, 1));
+    assertFalse(isOpenVialEnabled(13, 1));
   }
 
   public String getTextOfRegimenBCG() {
@@ -266,6 +272,11 @@ public class ChildCoveragePage extends DistributionTab {
   public String getTextOfRegimenPCV10Dose3() {
     testWebDriver.waitForElementToAppear(regimenPCV10Dose3);
     return regimenPCV10Dose3.getText();
+  }
+
+  public String getTextOfRegimenIPV() {
+    testWebDriver.waitForElementToAppear(regimenIPV);
+    return regimenIPV.getText();
   }
 
   public String getTextOfRegimenMeasles() {
@@ -371,6 +382,11 @@ public class ChildCoveragePage extends DistributionTab {
   public String getTextOfOpenedVialsPCV() {
     testWebDriver.waitForElementToAppear(openedVialsPCVLabel);
     return openedVialsPCVLabel.getText();
+  }
+
+  public String getTextOfOpenedVialsIPV() {
+    testWebDriver.waitForElementToAppear(openedVialsIPVLabel);
+    return openedVialsIPVLabel.getText();
   }
 
   public String getTextOfOpenedVialsMeasles() {
@@ -575,11 +591,11 @@ public class ChildCoveragePage extends DistributionTab {
     enterOpenedVialsCountForGivenGroupAndRow(6, 1, "400");
     enterOpenedVialsCountForGivenGroupAndRow(6, 2, "500");
     enterOpenedVialsCountForGivenGroupAndRow(9, 1, "600");
-    enterOpenedVialsCountForGivenGroupAndRow(12, 1, "700");
+    enterOpenedVialsCountForGivenGroupAndRow(13, 1, "700");
   }
 
   public void enterAllChildCoverageValues() {
-    for (int i = 1; i <= 12; i++) {
+    for (int i = 1; i <= 13; i++) {
       if (i == 2) {
         enterHealthCenter11MonthsDataForGivenRow(i, String.valueOf(i));
         enterOutreach11MonthsDataForGivenRow(i, String.valueOf(i + 10));
