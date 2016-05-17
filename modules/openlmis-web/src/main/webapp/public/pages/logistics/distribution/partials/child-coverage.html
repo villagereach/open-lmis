@@ -53,7 +53,7 @@
             <tbody>
             <tr ng-repeat="lineItem in childCoverage.childCoverageLineItems">
               <td class="col-complete-vaccinated">
-                <span id="col{{lineItem.vaccination}}" ng-bind="lineItem.vaccination"></span>
+                <span id="col{{lineItem.vaccination}}" openlmis-message="{{vaccinationNamesMap[lineItem.vaccination]}}"></span>
               </td>
               <td class="col-complete-vaccinated col-target-group" id="target{{$index}}">
                 <span ng-bind="lineItem.targetGroup"></span>
@@ -118,7 +118,7 @@
                   rowspan="{{productsMap[lineItem.vaccination].rowSpan}}">
                 <div id="{{product}}Container"
                      ng-repeat="product in productsMap[lineItem.vaccination].products">
-                  <span id="{{product}}" ng-bind="product"></span>
+                  <span id="{{product}}" openlmis-message="{{productNamesMap[product]}}"></span>
                   <div>
                     <span class="position-relative">
                       <input id="openedVial{{$parent.$index}}{{$index}}" type="number"

@@ -47,6 +47,33 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     openedVialsWastageRate: "label.coverage.opened.vials.wastage.rate"
   };
 
+  $scope.vaccinationNamesMap = {
+    "BCG": "label.vaccination.bcg",
+    "Polio (Newborn)": "label.vaccination.polio.newborn",
+    "Polio 1st dose": "label.vaccination.polio.first.dose",
+    "Polio 2nd dose": "label.vaccination.polio.second.dose",
+    "Polio 3rd dose": "label.vaccination.polio.third.dose",
+    "Penta 1st dose": "label.vaccination.penta.first.dose",
+    "Penta 2nd dose": "label.vaccination.penta.second.dose",
+    "Penta 3rd dose": "label.vaccination.penta.third.dose",
+    "PCV10 1st dose": "label.vaccination.pcv10.first.dose",
+    "PCV10 2nd dose": "label.vaccination.pcv10.second.dose",
+    "PCV10 3rd dose": "label.vaccination.pcv10.third.dose",
+    "Measles": "label.vaccination.measles",
+    "IPV": "label.vaccination.ipv",
+    "VAA (Vaccin Anti-Amaril)": "label.vaccination.vaa"
+  };
+
+  $scope.productNamesMap = {
+    "BCG": "label.opened.vials.bcg",
+    "Polio20": "label.opened.vials.polio20",
+    "Penta10": "label.opened.vials.penta10",
+    "PCV": "label.opened.vials.pcv",
+    "IPV": "label.opened.vials.ipv",
+    "Measles": "label.opened.vials.measles",
+    "VAA": "label.opened.vials.vaa"
+  };
+
   $scope.productsMap = {
     "BCG": {
       products: ['BCG'],
