@@ -26,15 +26,15 @@ import java.util.List;
 @Repository
 public interface EpiInventoryLineItemMapper {
 
-  @Insert({"INSERT INTO epi_inventory_line_items (facilityVisitId, programProductId, productCode, productName, productDisplayOrder, idealQuantity, idealQuantityByPackSize, createdBy, modifiedBy) VALUES ",
-    "(#{facilityVisitId}, #{programProductId}, #{productCode}, #{productName}, #{productDisplayOrder}, #{idealQuantity}, #{idealQuantityByPackSize}, #{createdBy}, #{modifiedBy})"})
+  @Insert({"INSERT INTO epi_inventory_line_items (facilityVisitId, programProductId, productCode, productName, productDisplayOrder, idealQuantity, idealQuantityByPackSize, createdBy, modifiedBy, packSize) VALUES ",
+    "(#{facilityVisitId}, #{programProductId}, #{productCode}, #{productName}, #{productDisplayOrder}, #{idealQuantity}, #{idealQuantityByPackSize}, #{createdBy}, #{modifiedBy}, #{productPackSize} )"})
   @Options(useGeneratedKeys = true)
   void insertLineItem(EpiInventoryLineItem lineItem);
 
-  @Select({"SELECT * FROM epi_inventory_line_items WHERE facilityVisitId = #{facilityVisitId} ORDER BY productDisplayOrder, LOWER(productCode)"})
+  @Select({"SELECT eili.*, products.packsize AS productPackSize FROM epi_inventory_line_items eili LEFT JOIN products ON(eili.productcode = products.code) WHERE facilityVisitId = #{facilityVisitId} ORDER BY productDisplayOrder, LOWER(productCode)"})
   List<EpiInventoryLineItem> getLineItemsBy(Long facilityVisitId);
 
   @Update({"UPDATE epi_inventory_line_items SET spoiledQuantity = #{spoiledQuantity}, deliveredQuantity = #{deliveredQuantity},",
-    "existingQuantity = #{existingQuantity}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
+    "existingQuantity = #{existingQuantity}, packSize = #{productPackSize}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
   void updateLineItem(EpiInventoryLineItem lineItem);
 }
