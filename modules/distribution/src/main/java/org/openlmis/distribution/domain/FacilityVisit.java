@@ -55,6 +55,14 @@ public class FacilityVisit extends BaseModel {
 
   private Boolean synced;
 
+  private Boolean stockouts;
+  private StockoutCauses stockoutCauses;
+
+  private Boolean received;
+  private ReceivedProducts receivedProducts;
+
+  private Boolean stockCardsUpToDate;
+
   public FacilityVisit(Facility facility, Distribution distribution) {
     this.distributionId = distribution.getId();
     this.facilityId = facility.getId();
@@ -77,5 +85,10 @@ public class FacilityVisit extends BaseModel {
     this.verifiedBy = null;
     this.vehicleId = null;
     this.visitDate = null;
+    this.stockouts = null;
+    this.stockoutCauses = null;
+    this.received = null;
+    this.receivedProducts = null;
+    this.stockCardsUpToDate = null;
   }
 }

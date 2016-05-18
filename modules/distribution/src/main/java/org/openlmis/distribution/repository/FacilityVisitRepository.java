@@ -13,6 +13,8 @@
 package org.openlmis.distribution.repository;
 
 import org.openlmis.distribution.domain.FacilityVisit;
+import org.openlmis.distribution.domain.ReceivedProducts;
+import org.openlmis.distribution.domain.StockoutCauses;
 import org.openlmis.distribution.repository.mapper.FacilityVisitMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,23 +32,23 @@ public class FacilityVisitRepository {
   FacilityVisitMapper mapper;
 
   public FacilityVisit get(FacilityVisit facilityVisit) {
-    return mapper.getBy(facilityVisit.getFacilityId(), facilityVisit.getDistributionId());
+    return retrieveDetails(mapper.getBy(facilityVisit.getFacilityId(), facilityVisit.getDistributionId()));
   }
 
   public void update(FacilityVisit facilityVisit) {
-    mapper.update(facilityVisit);
+    updateWithDetails(facilityVisit);
   }
 
   public FacilityVisit getById(Long facilityVisitId) {
-    return mapper.getById(facilityVisitId);
+    return retrieveDetails(mapper.getById(facilityVisitId));
   }
 
   public FacilityVisit getBy(Long facilityId, Long distributionId) {
-    return mapper.getBy(facilityId, distributionId);
+    return retrieveDetails(mapper.getBy(facilityId, distributionId));
   }
 
   public List<FacilityVisit> getUnSyncedFacilities(Long distributionId) {
-    return mapper.getUnSyncedFacilities(distributionId);
+    return retrieveDetails(mapper.getUnSyncedFacilities(distributionId));
   }
 
   public Integer getUnsyncedFacilityCountForDistribution(Long distributionId) {
@@ -57,8 +59,76 @@ public class FacilityVisitRepository {
     if (facilityVisit.getId() == null) {
       mapper.insert(facilityVisit);
     } else {
-      mapper.update(facilityVisit);
+      updateWithDetails(facilityVisit);
     }
     return facilityVisit;
+  }
+
+    private List<FacilityVisit> retrieveDetails(List<FacilityVisit> visits) {
+        for (FacilityVisit visit : visits) {
+            retrieveDetails(visit);
+        }
+
+        return visits;
+    }
+
+  private FacilityVisit retrieveDetails(FacilityVisit visit) {
+    visit.setStockoutCauses(mapper.getStockoutCausesByFacilityVisitId(visit.getId()));
+    visit.setReceivedProducts(mapper.getReceivedProductsByFacilityVisitId(visit.getId()));
+
+    return visit;
+  }
+
+  private void updateWithDetails(FacilityVisit visit) {
+    StockoutCauses stockoutCauses = visit.getStockoutCauses();
+
+    if (null != stockoutCauses) {
+      StockoutCauses stockoutCausesDB = mapper.getStockoutCausesByFacilityVisitId(visit.getId());
+
+      if (null == stockoutCausesDB) {
+        stockoutCauses.setFacilityVisitId(visit.getId());
+        stockoutCauses.setCreatedBy(visit.getCreatedBy());
+        stockoutCauses.setModifiedBy(visit.getModifiedBy());
+
+        mapper.insertStockoutCauses(stockoutCauses);
+      } else {
+        stockoutCausesDB.setFacilityVisitId(stockoutCauses.getFacilityVisitId());
+        stockoutCausesDB.setColdChainEquipmentFailure(stockoutCauses.getColdChainEquipmentFailure());
+        stockoutCausesDB.setIncorrectEstimationNeeds(stockoutCauses.getIncorrectEstimationNeeds());
+        stockoutCausesDB.setStockoutZonalWarehouse(stockoutCauses.getStockoutZonalWarehouse());
+        stockoutCausesDB.setDeliveryNotOnTime(stockoutCauses.getDeliveryNotOnTime());
+        stockoutCausesDB.setProductsTransferedAnotherFacility(stockoutCauses.getProductsTransferedAnotherFacility());
+        stockoutCausesDB.setOther(stockoutCauses.getOther());
+        stockoutCausesDB.setStockoutCausesOther(stockoutCauses.getStockoutCausesOther());
+        stockoutCausesDB.setModifiedBy(visit.getModifiedBy());
+
+        mapper.updateStockoutCauses(stockoutCausesDB);
+      }
+    }
+
+    ReceivedProducts receivedProducts = visit.getReceivedProducts();
+
+    if (null != receivedProducts) {
+      ReceivedProducts receivedProductsDB = mapper.getReceivedProductsByFacilityVisitId(visit.getId());
+
+      if (null == receivedProductsDB) {
+        receivedProducts.setFacilityVisitId(visit.getId());
+        receivedProducts.setCreatedBy(visit.getCreatedBy());
+        receivedProducts.setModifiedBy(visit.getModifiedBy());
+
+        mapper.insertReceivedProducts(receivedProducts);
+      } else {
+        receivedProductsDB.setFacilityVisitId(receivedProducts.getFacilityVisitId());
+        receivedProductsDB.setAnotherHealthFacility(receivedProducts.getAnotherHealthFacility());
+        receivedProductsDB.setZonalWarehouse(receivedProducts.getZonalWarehouse());
+        receivedProductsDB.setOther(receivedProducts.getOther());
+        receivedProductsDB.setReceivedProductsSourcesOther(receivedProducts.getReceivedProductsSourcesOther());
+        receivedProductsDB.setModifiedBy(visit.getModifiedBy());
+
+        mapper.updateReceivedProducts(receivedProductsDB);
+      }
+    }
+
+    mapper.update(visit);
   }
 }

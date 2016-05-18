@@ -50,6 +50,136 @@
           </div>
 
           <div class="form-row clearfix">
+            <label id="wasStockouts"
+                   openlmis-message="label.was.stockouts"></label>
+
+            <div>
+              <input id="stockoutsYes" type="radio" ng-model="facilityData.facilityVisit.stockouts"
+                     ng-value="true">
+              <label for="stockoutsYes" class="radio-label" openlmis-message="label.yes"></label>
+              <input id="stockoutsNo" type="radio" ng-model="facilityData.facilityVisit.stockouts"
+                     ng-value="false">
+              <label for="stockoutsNo" class="radio-label" openlmis-message="label.no"></label>
+            </div>
+          </div>
+
+          <div class="form-row clearfix" ng-show="facilityData.facilityVisit.stockouts === true">
+            <div class="form-group stockouts-form">
+              <div class="form-row clearfix">
+                <label openlmis-message="label.stockouts.select"></label>
+              </div>
+
+              <div class="form-row clearfix">
+                <input id="coldChainEquipmentFailure{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.coldChainEquipmentFailure"/>
+                <label class="checkbox-label" for="coldChainEquipmentFailure{{ $index }}"
+                       openlmis-message="label.stockouts.select.cold.chain.equipment.failure"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="incorrectEstimationNeeds{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.incorrectEstimationNeeds"/>
+                <label class="checkbox-label" for="incorrectEstimationNeeds{{ $index }}"
+                       openlmis-message="label.stockouts.select.incorrect.estimation.needs"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="stockoutZonalWarehouse{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.stockoutZonalWarehouse"/>
+                <label class="checkbox-label" for="stockoutZonalWarehouse{{ $index }}"
+                       openlmis-message="label.stockouts.select.stockout.zonal.warehouse"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="deliveryNotOnTime{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.deliveryNotOnTime"/>
+                <label class="checkbox-label" for="deliveryNotOnTime{{ $index }}"
+                       openlmis-message="label.stockouts.select.delivery.not.on.time"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="productsTransferedAnotherFacility{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.productsTransferedAnotherFacility"/>
+                <label class="checkbox-label" for="productsTransferedAnotherFacility{{ $index }}"
+                       openlmis-message="label.stockouts.select.products.transfered.another.facility"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="otherCause{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.other"/>
+                <label class="checkbox-label" for="otherCause{{ $index }}"
+                       openlmis-message="label.stockouts.select.other"></label>
+              </div>
+              <div class="form-row clearfix">
+              <input ng-model="facilityData.facilityVisit.stockoutCauses.stockoutCausesOther"
+                     id="otherCauseInput"
+                     ng-show="facilityData.facilityVisit.stockoutCauses.other === true"
+                     maxlength="140"
+                     ng-class="{'required-error': !facilityData.facilityVisit.stockoutCauses.stockoutCausesOther}">
+              </input>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row clearfix">
+            <label id="wasReceived"
+                   openlmis-message="label.was.received"></label>
+
+            <div>
+              <input id="receivedYes" type="radio" ng-model="facilityData.facilityVisit.received"
+                     ng-value="true">
+              <label for="receivedYes" class="radio-label" openlmis-message="label.yes"></label>
+              <input id="receivedNo" type="radio" ng-model="facilityData.facilityVisit.received"
+                     ng-value="false">
+              <label for="receivedNo" class="radio-label" openlmis-message="label.no"></label>
+            </div>
+          </div>
+
+          <div class="form-row clearfix" ng-show="facilityData.facilityVisit.received === true">
+            <div class="form-group received-form">
+              <div class="form-row clearfix">
+                <label openlmis-message="label.received.select"></label>
+              </div>
+
+              <div class="form-row clearfix">
+                <input id="anotherHealthFacility{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.receivedProducts.anotherHealthFacility"/>
+                <label class="checkbox-label" for="anotherHealthFacility{{ $index }}"
+                       openlmis-message="label.received.select.another.health.facility"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="zonalWarehouse{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.receivedProducts.zonalWarehouse"/>
+                <label class="checkbox-label" for="zonalWarehouse{{ $index }}"
+                       openlmis-message="label.received.select.zonal.warehouse"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="otherSource{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.receivedProducts.other"/>
+                <label class="checkbox-label" for="otherSource{{ $index }}"
+                       openlmis-message="label.received.select.other"></label>
+              </div>
+              <div class="form-row clearfix">
+              <input ng-model="facilityData.facilityVisit.receivedProducts.receivedProductsSourcesOther"
+                     id="otherSourceInput"
+                     ng-show="facilityData.facilityVisit.receivedProducts.other === true"
+                     maxlength="140"
+                     ng-class="{'required-error': !facilityData.facilityVisit.receivedProducts.receivedProductsSourcesOther}">
+              </input>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row clearfix">
+            <label id="wasStockCardsUpToDate"
+                   openlmis-message="label.was.stock.cards.up.to.date"></label>
+
+            <div>
+              <input id="stockCardsUpToDateYes" type="radio" ng-model="facilityData.facilityVisit.stockCardsUpToDate"
+                     ng-value="true">
+              <label for="stockCardsUpToDateYes" class="radio-label" openlmis-message="label.yes"></label>
+              <input id="stockCardsUpToDateNo" type="radio" ng-model="facilityData.facilityVisit.stockCardsUpToDate"
+                     ng-value="false">
+              <label for="stockCardsUpToDateNo" class="radio-label" openlmis-message="label.no"></label>
+            </div>
+          </div>
+
+          <div class="form-row clearfix">
             <label openlmis-message="label.observations"></label>
             <textarea id="observations" maxlength="1000"
                       ng-model="facilityData.facilityVisit.observations"></textarea>

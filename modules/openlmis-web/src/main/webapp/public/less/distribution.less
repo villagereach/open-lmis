@@ -493,6 +493,30 @@
       height: 85px;
     }
   }
+  .received-form, .stockouts-form {
+    margin-top: 0;
+    .form-row {
+      margin: 0 0 5px;
+    }
+    label {
+      display: inline;
+      &:first-child {
+        display: block;
+        font-weight: bold;
+      }
+    }
+    input[type="checkbox"] {
+      margin: 0 2px 0 10px;
+      vertical-align: middle;
+    }
+    .checkbox-label {
+      vertical-align: middle;
+      line-height: normal;
+    }
+    #otherCauseInput, #otherSourceInput {
+      width: 550px;
+    }
+  }
   form {
     margin: 0;
   }

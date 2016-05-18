@@ -12,12 +12,63 @@ function FacilityVisit(facilityVisitJson) {
   $.extend(true, this, facilityVisitJson);
   var mandatoryList = ['visitDate'];
 
+  function isUndefinedOrFalse(value) {
+    return isUndefined(value) || value === false;
+  }
+
+  function isBlank(value) {
+    return isUndefined(value) || value.length === 0;
+  }
+
   FacilityVisit.prototype.computeStatus = function () {
     if (isUndefined(this.visited)) {
       return DistributionStatus.EMPTY;
     }
 
     if (this.visited) {
+      if (isUndefined(this.stockouts) || isUndefined(this.received) || isUndefined(this.stockCardsUpToDate)) {
+        return DistributionStatus.INCOMPLETE;
+      }
+
+      if (this.stockouts === true) {
+        if (isUndefined(this.stockoutCauses)) {
+            return DistributionStatus.INCOMPLETE;
+        }
+
+        // if no cause was selected
+        if (isUndefinedOrFalse(this.stockoutCauses.coldChainEquipmentFailure) &&
+          isUndefinedOrFalse(this.stockoutCauses.incorrectEstimationNeeds) &&
+          isUndefinedOrFalse(this.stockoutCauses.stockoutZonalWarehouse) &&
+          isUndefinedOrFalse(this.stockoutCauses.deliveryNotOnTime) &&
+          isUndefinedOrFalse(this.stockoutCauses.productsTransferedAnotherFacility) &&
+          isUndefinedOrFalse(this.stockoutCauses.other)) {
+          return DistributionStatus.INCOMPLETE;
+        }
+
+        // if selected other cause but description is empty
+        if (this.stockoutCauses.other === true && isBlank(this.stockoutCauses.stockoutCausesOther)) {
+          return DistributionStatus.INCOMPLETE;
+        }
+      }
+
+      if (this.received === true) {
+        if (isUndefined(this.receivedProducts)) {
+            return DistributionStatus.INCOMPLETE;
+        }
+
+        // if no source was selected
+        if (isUndefinedOrFalse(this.receivedProducts.anotherHealthFacility) &&
+          isUndefinedOrFalse(this.receivedProducts.zonalWarehouse) &&
+          isUndefinedOrFalse(this.receivedProducts.other)) {
+          return DistributionStatus.INCOMPLETE;
+        }
+
+        // if selected other source but description is empty
+        if (this.receivedProducts.other === true && isBlank(this.receivedProducts.receivedProductsSourcesOther)) {
+          return DistributionStatus.INCOMPLETE;
+        }
+      }
+
       var visitedObservationStatus = computeStatusForObservation.call(this);
       return visitedObservationStatus === DistributionStatus.EMPTY ? DistributionStatus.INCOMPLETE : visitedObservationStatus;
     }
