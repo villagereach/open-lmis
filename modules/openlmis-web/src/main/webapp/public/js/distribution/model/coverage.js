@@ -29,6 +29,11 @@ function FullCoverage(facilityVisitId, fullCoverage) {
 
   init.call(this);
 
+  // full coverage screen should be hidden on UI
+  FullCoverage.prototype.isActive = function () {
+    return false;
+  };
+
   FullCoverage.prototype.computeStatus = function () {
     var _this = this;
     var status;
