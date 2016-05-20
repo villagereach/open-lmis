@@ -23,6 +23,10 @@ function FacilityDistribution(facilityDistribution) {
 
   this.status = facilityDistribution.status;
 
+  // the full coverage screen is toggle off
+  // all fields will get NR value
+  this.fullCoverage.setNotRecorded();
+
   FacilityDistribution.prototype.computeStatus = function () {
 
     var forms = [this.epiUse, this.refrigerators, this.facilityVisit, this.epiInventory, this.fullCoverage, this.childCoverage, this.adultCoverage];

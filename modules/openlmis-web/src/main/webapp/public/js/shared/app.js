@@ -86,6 +86,11 @@ app.directive('numericValidator', function () {
         return errorHolder;
       }
 
+        function getControlName()
+        {
+            return element.attr('name');
+        }
+
       function checkCondition(value) {
         var condition = true;
 
@@ -222,42 +227,64 @@ app.directive('numericValidator', function () {
         return allow;
       }
 
-      element.bind('keypress', function (e) {
-        var allow = allowKey(e),
-            errorHolder = getErrorHolder(),
-            value = allow ? (ctrl.$modelValue || '') : '',
-            valueAsNumber = parseFloat(value);
+     /*
+       Most validations should be, and are, run immediately on keypress in order to verify that the associated key's value is valid.
+       In the case of nonNegativeIntegerMultiple, though, validating individual key entries doesn't work. This is because, for example,
+       2 isn't a multiple of 20, but 20 is. It's therefore only after the user blurs the control (indicating that they've finished
+       entering a datum) that we can evaluate the value in its entirety and determine whether it's valid.  */
+     if(validationFunction != app.nonNegativeIntegerMultiple)
+     {
+         element.bind('keypress', function (e)
+         {
+             var allow = allowKey(e),
+                 errorHolder = getErrorHolder(),
+                 value = allow ? (ctrl.$modelValue || '') : '',
+                 valueAsNumber = parseFloat(value);
 
-        if (allow && (isNaN(valueAsNumber) || checkCondition(valueAsNumber))) {
-          validationFunction(value.toString(), errorHolder, integerPartLength, fractionalPartLength);
-        } else {
-          document.getElementById(errorHolder).style.display = allow ? 'none' : 'block';
-        }
+             if (allow && (isNaN(valueAsNumber) || checkCondition(valueAsNumber))) {
+                 validationFunction(value.toString(), errorHolder, integerPartLength, fractionalPartLength, scope, ctrl, getControlName());
+             } else {
+                 document.getElementById(errorHolder).style.display = allow ? 'none' : 'block';
+             }
 
-        return allow;
-      });
+             return allow;
+         });
 
-      element.bind('blur', function () {
+         ctrl.$parsers.unshift(function (viewValue)
+         {
+             var valueAsNumber = parseFloat(viewValue);
+
+             if ((isNaN(valueAsNumber) || checkCondition(valueAsNumber)) && validationFunction(viewValue, getErrorHolder(), integerPartLength, fractionalPartLength, scope, ctrl)) {
+                 if (viewValue === "")  viewValue = undefined;
+                 return viewValue;
+             } else {
+                 ctrl.$viewValue = ctrl.$modelValue;
+                 ctrl.$render();
+                 return ctrl.$modelValue;
+             }
+         });
+     }
+     else
+     {
+         element.bind('focus', function (e)
+         {
+             document.getElementById(getErrorHolder()).style.display = 'none';
+         });
+     }
+
+
+      element.bind('blur', function ()
+      {
         var value = ctrl.$modelValue;
         var valueAsNumber = parseFloat(value);
 
         if (isNaN(valueAsNumber) || checkCondition(valueAsNumber)) {
-          validationFunction(value, getErrorHolder(), integerPartLength, fractionalPartLength);
+          validationFunction(value, getErrorHolder(), integerPartLength, fractionalPartLength, scope, ctrl, getControlName());
         }
       });
 
-      ctrl.$parsers.unshift(function (viewValue) {
-        var valueAsNumber = parseFloat(viewValue);
 
-        if ((isNaN(valueAsNumber) || checkCondition(valueAsNumber)) && validationFunction(viewValue, getErrorHolder(), integerPartLength, fractionalPartLength)) {
-          if (viewValue === "")  viewValue = undefined;
-          return viewValue;
-        } else {
-          ctrl.$viewValue = ctrl.$modelValue;
-          ctrl.$render();
-          return ctrl.$modelValue;
-        }
-      });
+
     }
   };
 });
@@ -292,7 +319,7 @@ app.date = function (element, ctrl, scope) {
 };
 
 
-app.numericValue = function (value, errorHolder, integerPartLength, fractionalPartLength) {
+app.numericValue = function (value, errorHolder, integerPartLength, fractionalPartLength, scope, control) {
   var str = '^-?(\\d{0,' + integerPartLength + '}\\.\\d{0,' + fractionalPartLength + '}|\\d{0,' + integerPartLength + '})$';
   var NUMERIC_REGEXP_FIXED_PRECISION = new RegExp(str);
   str = '\\.\\d{' + fractionalPartLength + '}.$';
@@ -310,7 +337,7 @@ app.numericValue = function (value, errorHolder, integerPartLength, fractionalPa
   return valid;
 };
 
-app.positiveNumericValue = function (value, errorHolder, integerPartLength, fractionalPartLength) {
+app.positiveNumericValue = function (value, errorHolder, integerPartLength, fractionalPartLength, scope, control) {
   var str = '^(\\d{0,'.concat(integerPartLength).concat('}\\.\\d{0,').concat(fractionalPartLength)
     .concat('}|\\d{0,').concat(integerPartLength).concat('})$');
   var NUMERIC_REGEXP_FIXED_PRECISION = new RegExp(str);
@@ -345,16 +372,23 @@ app.integer = function (value, errorHolder, length) {
   return valid;
 };
 
+function isPositiveInteger(value, length)
+{
+    var str = isUndefined(length) ? "^\\d*$" : "^\\d{0,".concat(length).concat("}$"),
+        POSITIVE_INTEGER_REGEXP_FIXED_LENGTH = new RegExp(str),
+        valid;
 
-app.positiveInteger = function (value, errorHolder, length) {
-  var str = isUndefined(length) ? "^\\d*$" : "^\\d{0,".concat(length).concat("}$"),
-      POSITIVE_INTEGER_REGEXP_FIXED_LENGTH = new RegExp(str),
-      valid;
+    if (value === undefined || value === null)
+        return undefined;
+    else if (value.toString().length >= 0)
+        return POSITIVE_INTEGER_REGEXP_FIXED_LENGTH.test(value);
+}
 
-  if (value === undefined || value === null)
+app.positiveInteger = function (value, errorHolder, length)
+{
+  var valid = isPositiveInteger(value, length);
+  if(valid === undefined)
     valid = true;
-  else if (value.toString().length >= 0)
-    valid = POSITIVE_INTEGER_REGEXP_FIXED_LENGTH.test(value);
 
   if (errorHolder !== undefined && document.getElementById(errorHolder) !== null) {
     document.getElementById(errorHolder).style.display = (valid) ? 'none' : 'block';
@@ -362,6 +396,38 @@ app.positiveInteger = function (value, errorHolder, length) {
 
   return valid;
 };
+
+
+var isValidNonNegativeMultiple = function(value, length, multiple)
+{
+    var valid = isPositiveInteger(value, length);
+
+    if(valid === undefined)
+        valid = true;
+    else if(valid) {
+        valid = value % multiple === 0 ? true : false;
+    }
+
+    return valid;
+};
+
+
+app.nonNegativeIntegerMultiple = function(value, errorHolder, length, multiple, scope, control, controlName)
+{
+    var valid = isValidNonNegativeMultiple(value, length, multiple);
+
+    if (errorHolder !== undefined && document.getElementById(errorHolder) !== null)
+        document.getElementById(errorHolder).style.display = (valid) ? 'none' : 'block';
+
+    if (!valid)
+    {
+        var textbox = document.getElementsByName(controlName)[0];
+        textbox.value = null;
+        var el = angular.element(textbox);
+        el.triggerHandler('input');
+    }
+};
+
 
 app.run(function ($rootScope) {
   $rootScope.$on('$routeChangeStart', function () {
