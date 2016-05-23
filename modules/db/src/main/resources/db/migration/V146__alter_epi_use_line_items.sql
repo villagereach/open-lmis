@@ -12,4 +12,5 @@ ALTER TABLE epi_use_line_items ADD COLUMN numberOfStockoutDays NUMERIC(2);
 ALTER TABLE epi_use_line_items ADD COLUMN lossOverHeated NUMERIC(7);
 ALTER TABLE epi_use_line_items ADD COLUMN lossFrozen NUMERIC(7);
 ALTER TABLE epi_use_line_items ADD COLUMN lossExpired NUMERIC(7);
-ALTER TABLE epi_use_line_items ADD COLUMN lossOther NUMERIC(7);
+
+ALTER TABLE epi_use_line_items RENAME COLUMN loss TO lossOther;

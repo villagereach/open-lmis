@@ -42,7 +42,6 @@ public class EpiUseLineItemDTO extends BaseModel {
   private Reading stockAtFirstOfMonth;
   private Reading stockAtEndOfMonth;
   private Reading received;
-  private Reading loss;
   private Reading distributed;
   private Reading expirationDate;
   private Reading numberOfStockoutDays;
@@ -62,7 +61,6 @@ public class EpiUseLineItemDTO extends BaseModel {
       this.stockAtFirstOfMonth.parsePositiveInt(),
       this.stockAtEndOfMonth.parsePositiveInt(),
       this.received.parsePositiveInt(),
-      this.loss.parsePositiveInt(),
       this.distributed.parsePositiveInt(),
       this.expirationDate.getEffectiveValue(),
       numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, lossOther);

@@ -27,7 +27,6 @@ public class EpiUseLineItemDTOTest {
     Reading stockAtFirstOfMonth = new Reading("12345", false);
     Reading stockAtEndOfMonth = new Reading("1000", false);
     Reading received = new Reading("12345", false);
-    Reading loss = new Reading("12345", false);
     Reading distributed = new Reading("12345", false);
     Reading expirationDate = new Reading("12/2013", false);
     Reading numberOfStockoutDays = new Reading("10", false);
@@ -37,14 +36,13 @@ public class EpiUseLineItemDTOTest {
     Reading lossOther = new Reading("2", false);
 
     Long facilityVisitId = 1L;
-    EpiUseLineItemDTO epiUseLineItemDTO = new EpiUseLineItemDTO(facilityVisitId, null, stockAtFirstOfMonth, stockAtEndOfMonth, received, loss, distributed, expirationDate, numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, lossOther);
+    EpiUseLineItemDTO epiUseLineItemDTO = new EpiUseLineItemDTO(facilityVisitId, null, stockAtFirstOfMonth, stockAtEndOfMonth, received, distributed, expirationDate, numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, lossOther);
 
     EpiUseLineItem epiUseLineItem = epiUseLineItemDTO.transform();
 
     assertThat(epiUseLineItem.getStockAtFirstOfMonth(), is(12345));
     assertThat(epiUseLineItem.getStockAtEndOfMonth(), is(1000));
     assertThat(epiUseLineItem.getReceived(), is(12345));
-    assertThat(epiUseLineItem.getLoss(), is(12345));
     assertThat(epiUseLineItem.getDistributed(), is(12345));
     assertThat(epiUseLineItem.getExpirationDate(), is("12/2013"));
     assertThat(epiUseLineItem.getFacilityVisitId(), is(facilityVisitId));

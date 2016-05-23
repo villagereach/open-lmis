@@ -36,7 +36,6 @@ public class EpiUseLineItem extends BaseModel {
   private Integer stockAtFirstOfMonth;
   private Integer stockAtEndOfMonth;
   private Integer received;
-  private Integer loss;
   private Integer distributed;
   private String expirationDate;
   private Integer numberOfStockoutDays;
