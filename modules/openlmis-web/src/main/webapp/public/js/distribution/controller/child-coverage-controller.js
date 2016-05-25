@@ -38,17 +38,40 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     vaccination: "label.child.vaccination.doses",
     targetGroup: "label.coverage.target.Group",
     childrenAgeGroup0To11: "label.children.age.group.zero.eleven.months",
-    childrenAgeGroup12To23: "label.children.age.group.twelve.twenty.three.months",
     categoryOneHealthCenter: "label.coverage.health.center",
     categoryOneMobileBrigade: "label.coverage.outreach",
     categoryOneTotal: "label.child.coverage.first.total",
     coverageRate: "label.coverage.rate",
-    categoryTwoHealthCenter: "label.coverage.health.center",
-    categoryTwoMobileBrigade: "label.coverage.outreach",
-    categoryTwoTotal: "label.child.coverage.first.total",
     totalVaccination: "label.child.coverage.total.vaccination",
     openedVials: "label.coverage.opened.vials",
     openedVialsWastageRate: "label.coverage.opened.vials.wastage.rate"
+  };
+
+  $scope.vaccinationNamesMap = {
+    "BCG": "label.vaccination.bcg",
+    "Polio (Newborn)": "label.vaccination.polio.newborn",
+    "Polio 1st dose": "label.vaccination.polio.first.dose",
+    "Polio 2nd dose": "label.vaccination.polio.second.dose",
+    "Polio 3rd dose": "label.vaccination.polio.third.dose",
+    "Penta 1st dose": "label.vaccination.penta.first.dose",
+    "Penta 2nd dose": "label.vaccination.penta.second.dose",
+    "Penta 3rd dose": "label.vaccination.penta.third.dose",
+    "PCV10 1st dose": "label.vaccination.pcv10.first.dose",
+    "PCV10 2nd dose": "label.vaccination.pcv10.second.dose",
+    "PCV10 3rd dose": "label.vaccination.pcv10.third.dose",
+    "Measles": "label.vaccination.measles",
+    "IPV": "label.vaccination.ipv",
+    "VAA": "label.vaccination.vaa"
+  };
+
+  $scope.productNamesMap = {
+    "BCG": "label.opened.vials.bcg",
+    "Polio20": "label.opened.vials.polio20",
+    "Penta10": "label.opened.vials.penta10",
+    "PCV": "label.opened.vials.pcv",
+    "IPV": "label.opened.vials.ipv",
+    "Measles": "label.opened.vials.measles",
+    "VAA": "label.opened.vials.vaa"
   };
 
   $scope.productsMap = {
@@ -58,12 +81,12 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
       rowSpan: 1
     },
     "Polio (Newborn)": {
-      products: ['Polio10', 'Polio20'],
+      products: ['Polio20'],
       vaccinations: ['Polio (Newborn)', 'Polio 1st dose', 'Polio 2nd dose', 'Polio 3rd dose'],
       rowSpan: 4
     },
     "Penta 1st dose": {
-      products: ['Penta1', 'Penta10'],
+      products: ['Penta10'],
       vaccinations: ['Penta 1st dose', 'Penta 2nd dose', 'Penta 3rd dose'],
       rowSpan: 3
     },
@@ -72,9 +95,19 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
       vaccinations: ['PCV10 1st dose', 'PCV10 2nd dose', 'PCV10 3rd dose'],
       rowSpan: 3
     },
+    "IPV": {
+      products: ['IPV'],
+      vaccinations: ['IPV'],
+      rowSpan: 1
+    },
     "Measles": {
       products: ['Measles'],
       vaccinations: ['Measles'],
+      rowSpan: 1
+    },
+    "VAA": {
+      products: ['VAA'],
+      vaccinations: ['VAA'],
       rowSpan: 1
     }
   };
@@ -82,14 +115,6 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.hideCell = function (vaccination) {
     return Object.keys($scope.productsMap).indexOf(vaccination) === -1;
   };
-
-  $scope.$watch("openedVialMap['Polio20'].openedVial.notRecorded", function () {
-    syncNR('Polio10', 'Polio20');
-  });
-
-  $scope.$watch("openedVialMap['Penta10'].openedVial.notRecorded", function () {
-    syncNR('Penta1', 'Penta10');
-  });
 
   $scope.getTotal = function (obj1, obj2) {
     return getValue(obj1) + getValue(obj2);

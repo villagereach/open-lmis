@@ -12,7 +12,7 @@ describe('Child Coverage Controller', function () {
 
   var scope, distributionService, routeParams, childCoverageJSON,
     childCoverageLineItem1, childCoverageLineItem2, childCoverageLineItem3, childCoverageLineItem4, childCoverageLineItem5,
-    openedVialLineItem1, openedVialLineItem2, openedVialLineItem3, openedVialLineItem4, openedVialLineItem5;
+    openedVialLineItem1, openedVialLineItem2, openedVialLineItem3;
 
   beforeEach(module('distribution'));
   beforeEach(inject(function ($controller, $rootScope, _distributionService_) {
@@ -30,10 +30,8 @@ describe('Child Coverage Controller', function () {
     childCoverageLineItem5 = {"id": 29, "facilityVisitId": 3, "vaccination": "Polio 3rd dose"};
 
     openedVialLineItem1 = {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: null, notRecorded: true}};
-    openedVialLineItem2 = {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {value: null, notRecorded: true}};
-    openedVialLineItem3 = {"id": 17, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {value: null, notRecorded: true}};
-    openedVialLineItem4 = {"id": 16, "facilityVisitId": 3, "productVialName": "Penta1", "packSize": 10, openedVial: {value: null, notRecorded: true}};
-    openedVialLineItem5 = {"id": 17, "facilityVisitId": 3, "productVialName": "Penta10", "packSize": 10, openedVial: {value: null, notRecorded: true}};
+    openedVialLineItem2 = {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {value: null, notRecorded: true}};
+    openedVialLineItem3 = {"id": 16, "facilityVisitId": 3, "productVialName": "Penta10", "packSize": 10, openedVial: {value: null, notRecorded: true}};
 
     childCoverageJSON = {facilityVisitId: 234,
       childCoverageLineItems: [
@@ -47,8 +45,6 @@ describe('Child Coverage Controller', function () {
         openedVialLineItem1,
         openedVialLineItem2,
         openedVialLineItem3,
-        openedVialLineItem4,
-        openedVialLineItem5
       ]};
 
     distributionService.distribution = {facilityDistributions: {1: {childCoverage: childCoverageJSON}, 2: {}}};
@@ -83,10 +79,8 @@ describe('Child Coverage Controller', function () {
   it('should set openedVialsMap in scope', function () {
     var openedVialMap = {
       'BCG': openedVialLineItem1,
-      'Polio10': openedVialLineItem2,
-      'Polio20': openedVialLineItem3,
-      'Penta1': openedVialLineItem4,
-      'Penta10': openedVialLineItem5
+      'Polio20': openedVialLineItem2,
+      'Penta10': openedVialLineItem3
     };
     expect(scope.openedVialMap).toEqual(openedVialMap);
   });
@@ -99,14 +93,6 @@ describe('Child Coverage Controller', function () {
   it('should return true if vaccination is not present in show cell list', function () {
     var isVisible = scope.hideCell(childCoverageJSON.childCoverageLineItems[2].vaccination);
     expect(isVisible).toBeTruthy();
-  });
-
-  it('should synchronize NR state of Polio10 with Polio20 and Penta1 with Penta10', function () {
-    childCoverageJSON.openedVialLineItems[2].openedVial.notRecorded = false;
-    childCoverageJSON.openedVialLineItems[4].openedVial.notRecorded = false;
-    scope.$apply();
-    expect(childCoverageJSON.openedVialLineItems[1].openedVial.notRecorded).toBeFalsy();
-    expect(childCoverageJSON.openedVialLineItems[3].openedVial.notRecorded).toBeFalsy();
   });
 
   it('should add value of healthCenter and outReach if not undefined', function () {
@@ -182,7 +168,7 @@ describe('Child Coverage Controller', function () {
 
   it('should not consider openedVial value in calculating wastage rate if undefined', function () {
     var productsForVaccination = {
-      products: ['Polio10', 'Polio20'],
+      products: ['Polio20'],
       vaccinations: ['Polio (Newborn)', 'Polio 1st dose', 'Polio 2nd dose', 'Polio 3rd dose'],
       rowSpan: 4
     };

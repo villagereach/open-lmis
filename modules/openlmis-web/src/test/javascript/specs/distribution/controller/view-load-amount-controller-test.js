@@ -18,9 +18,8 @@ describe('ViewLoadAmountController', function () {
     httpBackend = $httpBackend;
     program1 = {id: 1, name: 'Vaccine'};
     var programProducts = [
-      {product: {id: 1, name: 'polio10', productGroup: {name: 'polio'}}},
       {product: {id: 2, name: 'polio20', productGroup: {name: 'polio'}}},
-      {product: {id: 3, name: 'penta1', productGroup: {name: 'penta'}}},
+      {product: {id: 3, name: 'penta10', productGroup: {name: 'penta'}}},
       {product: {id: 4, name: 'blank', productGroup: {name: ''}}}
     ];
     facilities = [
@@ -60,7 +59,7 @@ describe('ViewLoadAmountController', function () {
   });
 
   it('should group program products of each facility by product group name', function () {
-    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].length).toEqual(2);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].length).toEqual(1);
     expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].length).toEqual(1);
   });
 
@@ -74,11 +73,10 @@ describe('ViewLoadAmountController', function () {
 
   it('should get all program products of all product groups in facility in order by product group name as an array and push blank to last', function () {
     var programProducts = scope.getProgramProducts(facilities[0]);
-    expect(programProducts.length).toEqual(4);
-    expect(programProducts[0].product.name).toEqual('penta1');
-    expect(programProducts[1].product.name).toEqual('polio10');
-    expect(programProducts[2].product.name).toEqual('polio20');
-    expect(programProducts[3].product.name).toEqual('blank');
+    expect(programProducts.length).toEqual(3);
+    expect(programProducts[0].product.name).toEqual('penta10');
+    expect(programProducts[1].product.name).toEqual('polio20');
+    expect(programProducts[2].product.name).toEqual('blank');
   });
 
 
