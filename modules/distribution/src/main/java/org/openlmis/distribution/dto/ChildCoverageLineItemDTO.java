@@ -46,6 +46,14 @@ public class ChildCoverageLineItemDTO extends BaseModel {
     return lineItem;
   }
 
+  /**
+   * This method checks if the provided input value is null and if so then empty Reading instance is returned.
+   * Otherwise the provided input is returned. This check is necessary here because the columns for 12-23 months
+   * are hidden on view and will have no value here.
+   *
+   * @param input Input value to be parsed
+   * @return Parsed Reading instance
+     */
   private Reading getSafely(Reading input) {
     return Optional.fromNullable(input).or(Reading.EMPTY);
   }
