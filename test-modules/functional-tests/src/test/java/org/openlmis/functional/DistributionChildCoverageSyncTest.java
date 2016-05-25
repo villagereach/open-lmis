@@ -638,7 +638,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     String facilityVisitId = dbWrapper.getAttributeFromTable("facility_visits", "id", "facilityId", facilityId);
     List<String> vaccinations = asList("BCG", "Polio (Newborn)", "Polio 1st dose", "Polio 2nd dose", "Polio 3rd dose",
             "Penta 1st dose", "Penta 2nd dose", "Penta 3rd dose", "PCV10 1st dose", "PCV10 2nd dose", "PCV10 3rd dose",
-            "IPV", "Measles", "VAA (Vaccin Anti-Amaril)");
+            "IPV", "Measles", "VAA");
 
     for (int i = 1; i <= 14; i++) {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
@@ -770,7 +770,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
 
     List<String> vaccinations = asList("BCG", "Polio (Newborn)", "Polio 1st dose", "Polio 2nd dose", "Polio 3rd dose",
             "Penta 1st dose", "Penta 2nd dose", "Penta 3rd dose", "PCV10 1st dose", "PCV10 2nd dose", "PCV10 3rd dose",
-            "IPV", "Measles", "VAA (Vaccin Anti-Amaril)");
+            "IPV", "Measles", "VAA");
 
     for (int i = 1; i <= 14; i++) {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
@@ -845,7 +845,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertEquals(childCoveragePage.getTextOfRegimenPCV10Dose3(), "PCV10 3rd dose");
     assertEquals(childCoveragePage.getTextOfRegimenIPV(), "IPV");
     assertEquals(childCoveragePage.getTextOfRegimenMeasles(), "Measles");
-    assertEquals(childCoveragePage.getTextOfRegimenVaccinAntiAmaril(), "VAA (Vaccin Anti-Amaril)");
+    assertEquals(childCoveragePage.getTextOfRegimenVaccinAntiAmaril(), "VAA");
   }
 
   private void insertRegimenProductMapping() throws SQLException {
@@ -862,7 +862,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("PCV10 3rd dose", "P10", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("IPV", "IPV", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Measles", "Measles", true);
-    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("VAA (Vaccin Anti-Amaril)", "VAA", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("VAA", "VAA", true);
   }
 
   @When("^I apply NR to healthCenter11Months for rowNumber \"([^\"]*)\"$")

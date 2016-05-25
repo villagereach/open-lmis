@@ -45,7 +45,7 @@ public class VaccinationChildCoverage extends VaccinationCoverage {
     List<String> validVaccinations = Collections.unmodifiableList(
       asList("BCG", "Polio (Newborn)", "Polio 1st dose", "Polio 2nd dose",
         "Polio 3rd dose", "Penta 1st dose", "Penta 2nd dose", "Penta 3rd dose",
-        "PCV10 1st dose", "PCV10 2nd dose", "PCV10 3rd dose", "IPV", "Measles", "VAA (Vaccin Anti-Amaril)"));
+        "PCV10 1st dose", "PCV10 2nd dose", "PCV10 3rd dose", "IPV", "Measles", "VAA"));
 
     createChildCoverageLineItems(facilityVisit, facility, targetGroupProducts, validVaccinations, period.getNumberOfMonths());
   }

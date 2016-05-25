@@ -61,7 +61,7 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     "PCV10 3rd dose": "label.vaccination.pcv10.third.dose",
     "Measles": "label.vaccination.measles",
     "IPV": "label.vaccination.ipv",
-    "VAA (Vaccin Anti-Amaril)": "label.vaccination.vaa"
+    "VAA": "label.vaccination.vaa"
   };
 
   $scope.productNamesMap = {
@@ -105,9 +105,9 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
       vaccinations: ['Measles'],
       rowSpan: 1
     },
-    "VAA (Vaccin Anti-Amaril)": {
+    "VAA": {
       products: ['VAA'],
-      vaccinations: ['VAA (Vaccin Anti-Amaril)'],
+      vaccinations: ['VAA'],
       rowSpan: 1
     }
   };

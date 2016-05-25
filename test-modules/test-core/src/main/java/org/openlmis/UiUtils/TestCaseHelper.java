@@ -693,7 +693,7 @@ public class TestCaseHelper {
 
     List<String> vaccinations = asList("BCG", "Polio (Newborn)", "Polio 1st dose", "Polio 2nd dose", "Polio 3rd dose",
             "Penta 1st dose", "Penta 2nd dose", "Penta 3rd dose", "PCV10 1st dose", "PCV10 2nd dose", "PCV10 3rd dose",
-            "IPV", "Measles", "VAA (Vaccin Anti-Amaril)");
+            "IPV", "Measles", "VAA");
 
     for (int i = 1; i <= 14; i++) {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);

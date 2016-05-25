@@ -61,7 +61,7 @@ public class ChildCoveragePage extends DistributionTab {
   @FindBy(how = ID, using = "colMeasles")
   private static WebElement regimenMeasles = null;
 
-  @FindBy(how = ID, using = "colVAA (Vaccin Anti-Amaril)")
+  @FindBy(how = ID, using = "colVAA")
   private static WebElement regimenVaccinAntiAmaril = null;
 
   @FindBy(how = ID, using = "vaccination")

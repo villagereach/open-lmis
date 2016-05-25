@@ -21,6 +21,6 @@ INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, chil
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('PCV10 3rd dose', 'P10', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('IPV', 'IPV', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Measles', 'Measles', TRUE);
-INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('VAA (Vaccin Anti-Amaril)', 'VAA', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('VAA', 'VAA', TRUE);
 
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Pregnant Women', 'Tetanus', FALSE);
