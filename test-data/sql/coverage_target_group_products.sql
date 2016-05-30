@@ -9,16 +9,18 @@
 --
 
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('BCG', 'BCG', TRUE);
-INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Polio (Newborn)', 'polio10dose', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Polio (Newborn)', 'polio20dose', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Polio 1st dose', 'polio20dose', TRUE);
-INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Polio 2nd dose', 'polio10dose', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Polio 2nd dose', 'polio20dose', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Polio 3rd dose', 'polio20dose', TRUE);
-INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Penta 1st dose', 'penta1', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Penta 1st dose', 'penta10', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Penta 2nd dose', 'penta10', TRUE);
-INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Penta 3rd dose', 'penta1', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Penta 3rd dose', 'penta10', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('PCV10 1st dose', 'P10', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('PCV10 2nd dose', 'P10', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('PCV10 3rd dose', 'P10', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('IPV', 'IPV', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Measles', 'Measles', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('VAA', 'VAA', TRUE);
 
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Pregnant Women', 'Tetanus', FALSE);

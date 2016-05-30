@@ -20,7 +20,7 @@ describe('Child coverage', function () {
       "outreach11Months": {value: undefined}, "healthCenter23Months": {value: undefined}, "outreach23Months": {value: undefined}};
 
     openedVialLineItem1 = {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: null, notRecorded: true}};
-    openedVialLineItem2 = {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {value: null, notRecorded: true}};
+    openedVialLineItem2 = {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {value: null, notRecorded: true}};
 
     childCoverage = new ChildCoverage(123, {
       childCoverageLineItems: [childCoverageLineItem1, childCoverageLineItem2],
@@ -67,7 +67,7 @@ describe('Child coverage', function () {
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10}
         ]
       });
       var status = emptyChildCoverage.computeStatus();
@@ -82,7 +82,7 @@ describe('Child coverage', function () {
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: undefined}},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {value: undefined}}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {value: undefined}}
         ]
       });
       var status = unfilledChildCoverage.computeStatus();
@@ -97,7 +97,7 @@ describe('Child coverage', function () {
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: undefined}},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {value: undefined}}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {value: undefined}}
         ]
       });
       var status = partiallyFilledChildCoverage.computeStatus();
@@ -111,7 +111,7 @@ describe('Child coverage', function () {
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: 21}},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {notRecorded: true}}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {notRecorded: true}}
         ]
       });
       var status = partiallyFilledChildCoverage.computeStatus();
@@ -126,7 +126,7 @@ describe('Child coverage', function () {
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: 21}},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {notRecorded: true}}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {notRecorded: true}}
         ]
       });
       var status = partiallyFilledChildCoverage.computeStatus();
@@ -137,11 +137,11 @@ describe('Child coverage', function () {
       var partiallyFilledChildCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
           {"id": 5, "facilityVisitId": 3, "vaccination": "BCG", healthCenter11Months: {notRecorded: true}, outreach11Months: {notRecorded: true}, healthCenter23Months: {notRecorded: true}, outreach23Months: {notRecorded: true}},
-          {"id": 26, "facilityVisitId": 3, "vaccination": "Polio10", healthCenter11Months: {notRecorded: true}, outreach11Months: {notRecorded: true}, healthCenter23Months: {notRecorded: true}, outreach23Months: {notRecorded: true}}
+          {"id": 26, "facilityVisitId": 3, "vaccination": "Polio20", healthCenter11Months: {notRecorded: true}, outreach11Months: {notRecorded: true}, healthCenter23Months: {notRecorded: true}, outreach23Months: {notRecorded: true}}
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {notRecorded: true}},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {notRecorded: true}}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {notRecorded: true}}
         ]
       });
       var status = partiallyFilledChildCoverage.computeStatus();
@@ -152,11 +152,11 @@ describe('Child coverage', function () {
       var partiallyFilledChildCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
           {"id": 5, "facilityVisitId": 3, "vaccination": "BCG", healthCenter11Months: {notRecorded: true}, outreach11Months: {notRecorded: true}, healthCenter23Months: {notRecorded: true}, outreach23Months: {notRecorded: true}},
-          {"id": 26, "facilityVisitId": 3, "vaccination": "Polio10", healthCenter11Months: {notRecorded: true}, outreach11Months: {notRecorded: true}, healthCenter23Months: {notRecorded: true}, outreach23Months: {notRecorded: true}}
+          {"id": 26, "facilityVisitId": 3, "vaccination": "Polio20", healthCenter11Months: {notRecorded: true}, outreach11Months: {notRecorded: true}, healthCenter23Months: {notRecorded: true}, outreach23Months: {notRecorded: true}}
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {}},
-          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {}}
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio20", "packSize": 10, openedVial: {}}
         ]
       });
       var status = partiallyFilledChildCoverage.computeStatus();

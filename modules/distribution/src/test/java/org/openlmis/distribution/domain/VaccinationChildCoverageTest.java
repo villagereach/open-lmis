@@ -50,7 +50,7 @@ public class VaccinationChildCoverageTest {
   }
 
   @Test
-  public void shouldCreateTwelveVaccinationChildCoverageLineItemsAndSevenOpenedVialLineItems() throws Exception {
+  public void shouldCreateFourteenVaccinationChildCoverageLineItemsAndSevenOpenedVialLineItems() throws Exception {
     TargetGroupProduct targetGroupProduct = new TargetGroupProduct("bcg", null, null);
     List<TargetGroupProduct> targetGroupProducts = asList(targetGroupProduct);
     ChildCoverageLineItem lineItem = new ChildCoverageLineItem();
@@ -66,12 +66,12 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(12));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(14));
     assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(7));
   }
 
   @Test
-  public void shouldCreateTwelveChildCoverageLineItemsWithVaccinationAsNullForInvalidVaccinationProduct() throws Exception {
+  public void shouldCreateFourteenChildCoverageLineItemsWithVaccinationAsNullForInvalidVaccinationProduct() throws Exception {
     TargetGroupProduct invalidVaccination = new TargetGroupProduct();
     invalidVaccination.setTargetGroupEntity("BCG1234");
     List<TargetGroupProduct> targetGroupProducts = asList(invalidVaccination);
@@ -89,7 +89,7 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, asList(productVial));
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(12));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(14));
     assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(7));
     assertTrue(vaccinationChildCoverage.getChildCoverageLineItems().get(0).getVaccination().equals("BCG"));
     verifyNew(ChildCoverageLineItem.class).withArguments(facilityVisit, facility, null, "BCG", 2);
@@ -116,17 +116,17 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(12));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(14));
     assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(7));
     assertTrue(vaccinationChildCoverage.getOpenedVialLineItems().get(0).getProductVialName().equals("BCG"));
     verifyNew(OpenedVialLineItem.class).withArguments(facilityVisit, facility, null, "BCG");
   }
 
   @Test
-  public void shouldCreate12ChildCoverageLineItemsAlthoughMoreThan12VaccinationProductsExist() throws Exception {
+  public void shouldCreate14ChildCoverageLineItemsAlthoughMoreThan14VaccinationProductsExist() throws Exception {
     List<TargetGroupProduct> targetGroupProducts = new ArrayList<>();
     TargetGroupProduct invalidVaccination;
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 15; i++) {
       invalidVaccination = new TargetGroupProduct();
       invalidVaccination.setTargetGroupEntity("invalid" + i);
       targetGroupProducts.add(invalidVaccination);
@@ -140,7 +140,7 @@ public class VaccinationChildCoverageTest {
     whenNew(OpenedVialLineItem.class).withAnyArguments().thenReturn(openedVialLineItem);
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(12));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(14));
     assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(7));
   }
 
@@ -148,7 +148,7 @@ public class VaccinationChildCoverageTest {
   public void shouldCreateOnlySevenOpenedVialLineItemsAlthoughMoreThanSevenProductVialsExist() throws Exception {
     List<ProductVial> productVials = new ArrayList<>();
     ProductVial productVial;
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 15; i++) {
       productVial = new ProductVial();
       productVial.setVial("invalid" + i);
       productVials.add(productVial);
@@ -163,7 +163,7 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(12));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(14));
     assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(7));
   }
 }
