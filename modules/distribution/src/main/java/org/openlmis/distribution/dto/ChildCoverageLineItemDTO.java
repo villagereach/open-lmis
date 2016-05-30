@@ -10,6 +10,7 @@
 
 package org.openlmis.distribution.dto;
 
+import com.google.common.base.Optional;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -36,12 +37,24 @@ public class ChildCoverageLineItemDTO extends BaseModel {
 
   public ChildCoverageLineItem transform() {
     ChildCoverageLineItem lineItem = new ChildCoverageLineItem();
-    lineItem.setHealthCenter11Months(healthCenter11Months.parsePositiveInt());
-    lineItem.setHealthCenter23Months(healthCenter23Months.parsePositiveInt());
-    lineItem.setOutreach11Months(outreach11Months.parsePositiveInt());
-    lineItem.setOutreach23Months(outreach23Months.parsePositiveInt());
+    lineItem.setHealthCenter11Months(getSafely(healthCenter11Months).parsePositiveInt());
+    lineItem.setHealthCenter23Months(getSafely(healthCenter23Months).parsePositiveInt());
+    lineItem.setOutreach11Months(getSafely(outreach11Months).parsePositiveInt());
+    lineItem.setOutreach23Months(getSafely(outreach23Months).parsePositiveInt());
     lineItem.setId(this.id);
     lineItem.setModifiedBy(this.modifiedBy);
     return lineItem;
+  }
+
+  /**
+   * This method checks if the provided input value is null and if so then empty Reading instance is returned.
+   * Otherwise the provided input is returned. This check is necessary here because the columns for 12-23 months
+   * are hidden on view and will have no value here.
+   *
+   * @param input Input value to be parsed
+   * @return Parsed Reading instance
+     */
+  private Reading getSafely(Reading input) {
+    return Optional.fromNullable(input).or(Reading.EMPTY);
   }
 }

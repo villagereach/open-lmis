@@ -52,7 +52,7 @@ ChildCoverage.prototype.computeStatus = function () {
     });
   }
 
-  validateLineItems(this.childCoverageLineItems, ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months']);
+  validateLineItems(this.childCoverageLineItems, ['healthCenter11Months', 'outreach11Months']);
   validateLineItems(this.openedVialLineItems, ['openedVial']);
 
   this.status = status;
