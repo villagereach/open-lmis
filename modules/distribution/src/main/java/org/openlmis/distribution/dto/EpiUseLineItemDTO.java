@@ -56,13 +56,14 @@ public class EpiUseLineItemDTO extends BaseModel {
       Integer lossFrozen = Optional.fromNullable(this.lossFrozen).or(EMPTY).parsePositiveInt();
       Integer lossExpired = Optional.fromNullable(this.lossExpired).or(EMPTY).parsePositiveInt();
       Integer lossOther = Optional.fromNullable(this.lossOther).or(EMPTY).parsePositiveInt();
+      Integer stockAtFirstOfMonth = Optional.fromNullable(this.stockAtFirstOfMonth).or(EMPTY).parsePositiveInt();
+      Integer stockAtEndOfMonth = Optional.fromNullable(this.stockAtEndOfMonth).or(EMPTY).parsePositiveInt();
+      Integer received = Optional.fromNullable(this.received).or(EMPTY).parsePositiveInt();
+      Integer distributed = Optional.fromNullable(this.distributed).or(EMPTY).parsePositiveInt();
+      String expirationDate = Optional.fromNullable(this.expirationDate).or(EMPTY).getEffectiveValue();
 
       EpiUseLineItem epiUseLineItem = new EpiUseLineItem(this.facilityVisitId, this.productGroup,
-      this.stockAtFirstOfMonth.parsePositiveInt(),
-      this.stockAtEndOfMonth.parsePositiveInt(),
-      this.received.parsePositiveInt(),
-      this.distributed.parsePositiveInt(),
-      this.expirationDate.getEffectiveValue(),
+      stockAtFirstOfMonth, stockAtEndOfMonth, received, distributed, expirationDate,
       numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, lossOther);
 
     epiUseLineItem.setId(this.id);
