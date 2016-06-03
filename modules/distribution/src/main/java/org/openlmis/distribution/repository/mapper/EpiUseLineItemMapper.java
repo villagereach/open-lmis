@@ -24,8 +24,10 @@ import java.util.List;
 public interface EpiUseLineItemMapper {
 
   @Insert({"INSERT INTO epi_use_line_items (facilityVisitId, productGroupId, productGroupName, stockAtFirstOfMonth, received, ",
-    "distributed, loss, stockAtEndOfMonth, expirationDate, createdBy, modifiedBy) VALUES (#{facilityVisitId}, #{productGroup.id}, #{productGroup.name}, #{stockAtFirstOfMonth},",
-    " #{received}, #{distributed}, #{loss}, #{stockAtEndOfMonth}, #{expirationDate}, #{createdBy}, #{modifiedBy})"})
+    "distributed, stockAtEndOfMonth, expirationDate, numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, " +
+    "lossOther, createdBy, modifiedBy) VALUES (#{facilityVisitId}, #{productGroup.id}, #{productGroup.name}, #{stockAtFirstOfMonth},",
+    " #{received}, #{distributed}, #{stockAtEndOfMonth}, #{expirationDate}, #{numberOfStockoutDays}, #{lossOverHeated}," +
+    " #{lossFrozen}, #{lossExpired}, #{lossOther}, #{createdBy}, #{modifiedBy})"})
   @Options(useGeneratedKeys = true)
   public void insertLineItem(EpiUseLineItem epiUseLineItem);
 
@@ -36,9 +38,10 @@ public interface EpiUseLineItemMapper {
   })
   public EpiUseLineItem getLineItemById(EpiUseLineItem epiUseLineItem);
 
-  @Update({"UPDATE epi_use_line_items SET received = #{received}, distributed = #{distributed}, loss = #{loss},",
+  @Update({"UPDATE epi_use_line_items SET received = #{received}, distributed = #{distributed},",
     "stockAtFirstOfMonth = #{stockAtFirstOfMonth}, stockAtEndOfMonth = #{stockAtEndOfMonth}, expirationDate = #{expirationDate},",
-    "modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
+    "numberOfStockoutDays = #{numberOfStockoutDays}, lossOverHeated = #{lossOverHeated}, lossFrozen = #{lossFrozen},",
+    "lossExpired = #{lossExpired}, lossOther = #{lossOther}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
   public void updateLineItem(EpiUseLineItem epiUseLineItem);
 
   @Select({"SELECT * FROM epi_use_line_items WHERE facilityVisitId = #{facilityVisitId} ORDER BY LOWER(productGroupName)"})

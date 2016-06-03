@@ -27,6 +27,13 @@ function EpiUseRowController($scope) {
     return getValue($scope.lineItem.stockAtFirstOfMonth) + getValue($scope.lineItem.received);
   };
 
+  $scope.getTotalLosses = function () {
+    if (!$scope.lineItem) {
+      return 0;
+    }
+    return getValue($scope.lineItem.lossOverHeated) + getValue($scope.lineItem.lossFrozen) + getValue($scope.lineItem.lossExpired) + getValue($scope.lineItem.lossOther);
+  };
+
   var getValue = function (object) {
     return (!isUndefined(object) && !isUndefined(object.value)) ? parseInt(object.value, 10) : 0;
   };
