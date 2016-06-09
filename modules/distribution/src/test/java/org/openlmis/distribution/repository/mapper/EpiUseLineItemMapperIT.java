@@ -146,7 +146,6 @@ public class EpiUseLineItemMapperIT {
 
     epiUseLineItem.setReceived(10);
     epiUseLineItem.setDistributed(11);
-    epiUseLineItem.setLoss(12);
     epiUseLineItem.setStockAtFirstOfMonth(13);
     epiUseLineItem.setStockAtEndOfMonth(14);
     epiUseLineItem.setExpirationDate("12/2010");
@@ -155,7 +154,6 @@ public class EpiUseLineItemMapperIT {
     EpiUseLineItem epiUseLineItemFromDB = mapper.getLineItemById(epiUseLineItem);
 
     assertThat(epiUseLineItem.getReceived(), is(epiUseLineItemFromDB.getReceived()));
-    assertThat(epiUseLineItem.getLoss(), is(epiUseLineItemFromDB.getLoss()));
     assertThat(epiUseLineItem.getDistributed(), is(epiUseLineItemFromDB.getDistributed()));
     assertThat(epiUseLineItem.getStockAtEndOfMonth(), is(epiUseLineItemFromDB.getStockAtEndOfMonth()));
     assertThat(epiUseLineItem.getStockAtFirstOfMonth(), is(epiUseLineItemFromDB.getStockAtFirstOfMonth()));
