@@ -30,6 +30,28 @@ function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
       if (isUndefined(_this[field])) {
         return true;
       }
+      if (field === 'monitoringDeviceType' || field === 'monitoringDeviceOtherType') {
+        if (_this.hasMonitoringDevice.notRecorded || (_this.hasMonitoringDevice.value && _this.hasMonitoringDevice.value !== 'Y')) {
+            return false;
+        }
+      }
+      if (field === 'problemOccurredDate' || field === 'problemReportedDate' ||
+        field === 'equipmentRepaired' || field === 'totalDaysCceUptime' ||
+        field === 'equipmentRepairedDate') {
+        if (_this.problemSinceLastTime.notRecorded || (_this.problemSinceLastTime.value && _this.problemSinceLastTime.value !== 'Y')) {
+            return false;
+        }
+      }
+      if (field === 'monitoringDeviceOtherType') {
+        if (_this.monitoringDeviceType.notRecorded || (_this.monitoringDeviceType.value && _this.monitoringDeviceType.value !== 'OTHER_MONITORING_DEVICE')) {
+            return false;
+        }
+      }
+      if (field === 'equipmentRepairedDate') {
+        if (_this.equipmentRepaired.notRecorded || (_this.equipmentRepaired.value && _this.equipmentRepaired.value !== 'Y')) {
+            return false;
+        }
+      }
       return (isUndefined(_this[field].value) && !_this[field].notRecorded);
     }
 

@@ -23,6 +23,7 @@ import org.openlmis.distribution.domain.MonitoringDeviceType;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 
+import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 import static org.openlmis.distribution.dto.Reading.EMPTY;
 
@@ -73,7 +74,12 @@ public class RefrigeratorReadingDTO extends BaseModel {
     }
 
     String hasMonitoringDevice = Optional.fromNullable(this.hasMonitoringDevice).or(EMPTY).getEffectiveValue();
-    MonitoringDeviceType monitoringDeviceType = null != this.monitoringDeviceType ? MonitoringDeviceType.valueOf(this.monitoringDeviceType.getEffectiveValue()) : null;
+    MonitoringDeviceType monitoringDeviceType = null;
+
+    if (null != this.monitoringDeviceType && isFalse(this.monitoringDeviceType.getNotRecorded())) {
+      monitoringDeviceType = MonitoringDeviceType.valueOf(this.monitoringDeviceType.getEffectiveValue());
+    }
+
     String monitoringDeviceOtherType = Optional.fromNullable(this.monitoringDeviceOtherType).or(EMPTY).getEffectiveValue();
     String temperatureReportingForm = Optional.fromNullable(this.temperatureReportingForm).or(EMPTY).getEffectiveValue();
     Integer highestTemperatureReported = Optional.fromNullable(this.highestTemperatureReported).or(EMPTY).parsePositiveInt();
