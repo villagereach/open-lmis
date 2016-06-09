@@ -226,6 +226,11 @@
                      ng-model="refrigeratorReading.hasMonitoringDevice.value"/>
               <label class="radio-label" for="hasMonitoringDeviceNo{{ $index }}"
                      openlmis-message="label.no"></label>
+              <input id="hasMonitoringDevice{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.hasMonitoringDevice.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="hasMonitoringDevice{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
             </div>
           </div>
           <div class="form-row clearfix" ng-show="refrigeratorReading.hasMonitoringDevice.value === 'Y'">
@@ -277,13 +282,6 @@
                             ng-show="refrigeratorReading.monitoringDeviceType.value === 'OTHER_MONITORING_DEVICE'"
                             ng-model="refrigeratorReading.monitoringDeviceOtherType.value"
                             maxlength="140">
-              </div>
-              <div class="form-row clearfix">
-                <input id="monitoringDeviceType{{$index}}" type="checkbox"
-                       ng-model="refrigeratorReading.monitoringDeviceType.notRecorded"
-                       not-recorded/>
-                <label class="checkbox-label" for="monitoringDeviceType{{$index}}"
-                       openlmis-message="label.not.recorded"></label>
               </div>
             </div>
           </div>
