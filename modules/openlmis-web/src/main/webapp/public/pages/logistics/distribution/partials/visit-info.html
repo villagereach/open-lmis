@@ -54,12 +54,15 @@
                    openlmis-message="label.was.stockouts"></label>
 
             <div>
-              <input id="stockoutsYes" type="radio" ng-model="facilityData.facilityVisit.stockouts.value"
-                     ng-value="true">
+              <input id="stockoutsYes" name="stockouts{{$index}}" type="radio" ng-model="facilityData.facilityVisit.stockouts.value" ng-value="true">
               <label for="stockoutsYes" class="radio-label" openlmis-message="label.yes"></label>
-              <input id="stockoutsNo" type="radio" ng-model="facilityData.facilityVisit.stockouts.value"
-                     ng-value="false">
+              <input id="stockoutsNo"  name="stockouts{{$index}}" type="radio" ng-model="facilityData.facilityVisit.stockouts.value" ng-value="false">
               <label for="stockoutsNo" class="radio-label" openlmis-message="label.no"></label>
+              <input id="stockouts{{$index}}" type="checkbox"
+                     ng-model="facilityData.facilityVisit.stockouts.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="stockouts{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
             </div>
           </div>
 
@@ -70,37 +73,37 @@
               </div>
 
               <div class="form-row clearfix">
-                <input id="coldChainEquipmentFailure{{ $index }}" type="checkbox"
+                <input id="coldChainEquipmentFailure{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
                        ng-model="facilityData.facilityVisit.stockoutCauses.coldChainEquipmentFailure"/>
                 <label class="checkbox-label" for="coldChainEquipmentFailure{{ $index }}"
                        openlmis-message="label.stockouts.select.cold.chain.equipment.failure"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="incorrectEstimationNeeds{{ $index }}" type="checkbox"
+                <input id="incorrectEstimationNeeds{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
                        ng-model="facilityData.facilityVisit.stockoutCauses.incorrectEstimationNeeds"/>
                 <label class="checkbox-label" for="incorrectEstimationNeeds{{ $index }}"
                        openlmis-message="label.stockouts.select.incorrect.estimation.needs"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="stockoutZonalWarehouse{{ $index }}" type="checkbox"
+                <input id="stockoutZonalWarehouse{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
                        ng-model="facilityData.facilityVisit.stockoutCauses.stockoutZonalWarehouse"/>
                 <label class="checkbox-label" for="stockoutZonalWarehouse{{ $index }}"
                        openlmis-message="label.stockouts.select.stockout.zonal.warehouse"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="deliveryNotOnTime{{ $index }}" type="checkbox"
+                <input id="deliveryNotOnTime{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
                        ng-model="facilityData.facilityVisit.stockoutCauses.deliveryNotOnTime"/>
                 <label class="checkbox-label" for="deliveryNotOnTime{{ $index }}"
                        openlmis-message="label.stockouts.select.delivery.not.on.time"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="productsTransferedAnotherFacility{{ $index }}" type="checkbox"
+                <input id="productsTransferedAnotherFacility{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
                        ng-model="facilityData.facilityVisit.stockoutCauses.productsTransferedAnotherFacility"/>
                 <label class="checkbox-label" for="productsTransferedAnotherFacility{{ $index }}"
                        openlmis-message="label.stockouts.select.products.transfered.another.facility"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="otherCause{{ $index }}" type="checkbox"
+                <input id="otherCause{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
                        ng-model="facilityData.facilityVisit.stockoutCauses.other"/>
                 <label class="checkbox-label" for="otherCause{{ $index }}"
                        openlmis-message="label.stockouts.select.other"></label>
@@ -113,6 +116,14 @@
                      ng-class="{'required-error': !facilityData.facilityVisit.stockoutCauses.stockoutCausesOther}">
               </input>
               </div>
+              <div class="form-row clearfix">
+                <input id="stockoutCauses{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.stockoutCausesNotRecorded"
+                       ng-click="facilityData.facilityVisit.stockoutCauses = {}"
+                       not-recorded/>
+                <label class="checkbox-label" for="stockoutCauses{{ $index }}"
+                       openlmis-message="label.not.recorded"></label>
+              </div>
             </div>
           </div>
 
@@ -121,12 +132,15 @@
                    openlmis-message="label.was.received"></label>
 
             <div>
-              <input id="receivedYes" type="radio" ng-model="facilityData.facilityVisit.received.value"
-                     ng-value="true">
+              <input id="receivedYes" type="radio" ng-model="facilityData.facilityVisit.received.value" ng-value="true" name="received{{$index}}">
               <label for="receivedYes" class="radio-label" openlmis-message="label.yes"></label>
-              <input id="receivedNo" type="radio" ng-model="facilityData.facilityVisit.received.value"
-                     ng-value="false">
+              <input id="receivedNo" type="radio" ng-model="facilityData.facilityVisit.received.value" ng-value="false" name="received{{$index}}">
               <label for="receivedNo" class="radio-label" openlmis-message="label.no"></label>
+              <input id="received{{$index}}" type="checkbox"
+                     ng-model="facilityData.facilityVisit.received.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="received{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
             </div>
           </div>
 
@@ -137,19 +151,19 @@
               </div>
 
               <div class="form-row clearfix">
-                <input id="anotherHealthFacility{{ $index }}" type="checkbox"
+                <input id="anotherHealthFacility{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
                        ng-model="facilityData.facilityVisit.receivedProducts.anotherHealthFacility"/>
                 <label class="checkbox-label" for="anotherHealthFacility{{ $index }}"
                        openlmis-message="label.received.select.another.health.facility"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="zonalWarehouse{{ $index }}" type="checkbox"
+                <input id="zonalWarehouse{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
                        ng-model="facilityData.facilityVisit.receivedProducts.zonalWarehouse"/>
                 <label class="checkbox-label" for="zonalWarehouse{{ $index }}"
                        openlmis-message="label.received.select.zonal.warehouse"></label>
               </div>
               <div class="form-row clearfix">
-                <input id="otherSource{{ $index }}" type="checkbox"
+                <input id="otherSource{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
                        ng-model="facilityData.facilityVisit.receivedProducts.other"/>
                 <label class="checkbox-label" for="otherSource{{ $index }}"
                        openlmis-message="label.received.select.other"></label>
@@ -161,6 +175,14 @@
                      maxlength="140"
                      ng-class="{'required-error': !facilityData.facilityVisit.receivedProducts.receivedProductsSourcesOther}">
               </input>
+              </div>
+              <div class="form-row clearfix">
+                <input id="receivedProducts{{ $index }}" type="checkbox"
+                       ng-model="facilityData.facilityVisit.receivedProductsNotRecorded"
+                       ng-click="facilityData.facilityVisit.receivedProducts = {}"
+                       not-recorded/>
+                <label class="checkbox-label" for="receivedProducts{{ $index }}"
+                       openlmis-message="label.not.recorded"></label>
               </div>
             </div>
           </div>
