@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
@@ -67,7 +68,15 @@ public class RefrigeratorReadingDTO extends BaseModel {
     refrigerator.setCreatedBy(this.createdBy);
     refrigerator.validate();
 
-    if ("N".equalsIgnoreCase(functioningCorrectly.getEffectiveValue())) {
+    Float temperature = Optional.fromNullable(this.temperature).or(EMPTY).parseFloat();
+    String functioningCorrectly = Optional.fromNullable(this.functioningCorrectly).or(EMPTY).getEffectiveValue();
+    Integer lowAlarmEvents = Optional.fromNullable(this.lowAlarmEvents).or(EMPTY).parsePositiveInt();
+    Integer highAlarmEvents = Optional.fromNullable(this.highAlarmEvents).or(EMPTY).parsePositiveInt();
+    String problemSinceLastTime = Optional.fromNullable(this.problemSinceLastTime).or(EMPTY).getEffectiveValue();
+    RefrigeratorProblem problems = Optional.fromNullable(this.problems).or(new RefrigeratorProblem());
+    String notes = Optional.fromNullable(this.notes).or(StringUtils.EMPTY);
+
+    if ("N".equalsIgnoreCase(functioningCorrectly)) {
       problems.validate();
     } else {
       problems = null;
@@ -91,16 +100,11 @@ public class RefrigeratorReadingDTO extends BaseModel {
     Integer totalDaysCceUptime = Optional.fromNullable(this.totalDaysCceUptime).or(EMPTY).parsePositiveInt();
 
     RefrigeratorReading reading = new RefrigeratorReading(this.refrigerator, this.facilityVisitId,
-      this.temperature.parseFloat(),
-      this.functioningCorrectly.getEffectiveValue(),
-      this.lowAlarmEvents.parsePositiveInt(),
-      this.highAlarmEvents.parsePositiveInt(),
-      this.problemSinceLastTime.getEffectiveValue(),
-      this.problems,
-      this.notes,
-      hasMonitoringDevice, monitoringDeviceType, monitoringDeviceOtherType, temperatureReportingForm,
-      highestTemperatureReported, lowestTemperatureReported, problemOccurredDate, problemReportedDate,
-      equipmentRepaired, equipmentRepairedDate, totalDaysCceUptime);
+      temperature, functioningCorrectly, lowAlarmEvents, highAlarmEvents, problemSinceLastTime,
+      problems, notes, hasMonitoringDevice, monitoringDeviceType, monitoringDeviceOtherType,
+      temperatureReportingForm, highestTemperatureReported, lowestTemperatureReported,
+      problemOccurredDate, problemReportedDate, equipmentRepaired, equipmentRepairedDate,
+      totalDaysCceUptime);
     reading.setCreatedBy(this.createdBy);
     reading.setModifiedBy(this.modifiedBy);
     return reading;
