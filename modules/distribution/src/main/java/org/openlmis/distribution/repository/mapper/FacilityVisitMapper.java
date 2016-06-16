@@ -20,7 +20,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.openlmis.distribution.domain.FacilityVisit;
-import org.openlmis.distribution.domain.ReceivedProducts;
+import org.openlmis.distribution.domain.AdditionalProductSources;
 import org.openlmis.distribution.domain.StockoutCauses;
 import org.springframework.stereotype.Repository;
 
@@ -44,11 +44,11 @@ public interface FacilityVisitMapper {
   @Options(useGeneratedKeys = true)
   void insertStockoutCauses(StockoutCauses stockoutCauses);
 
-  @Insert({"INSERT INTO received_products(facilityVisitId, anotherHealthFacility, zonalWarehouse, other, receivedProductsSourcesOther, createdBy, modifiedBy) ",
+  @Insert({"INSERT INTO additional_product_sources(facilityVisitId, anotherHealthFacility, zonalWarehouse, other, additionalProductSourcesOther, createdBy, modifiedBy) ",
           "VALUES (#{facilityVisitId}, COALESCE(#{anotherHealthFacility}, FALSE), COALESCE(#{zonalWarehouse}, FALSE), COALESCE(#{other}, FALSE),",
-          "#{receivedProductsSourcesOther}, #{createdBy}, #{modifiedBy})"})
+          "#{additionalProductSourcesOther}, #{createdBy}, #{modifiedBy})"})
   @Options(useGeneratedKeys = true)
-  void insertReceivedProducts(ReceivedProducts receivedProducts);
+  void insertAdditionalProductSources(AdditionalProductSources additionalProductSources);
 
   @Select("SELECT * FROM facility_visits WHERE distributionId = #{distributionId} AND facilityId = #{facilityId}")
   @Results({
@@ -60,7 +60,7 @@ public interface FacilityVisitMapper {
   public FacilityVisit getBy(@Param(value = "facilityId") Long facilityId, @Param(value = "distributionId") Long distributionId);
 
   @Update({"UPDATE facility_visits SET visited = #{visited}, visitDate = #{visitDate}, vehicleId = #{vehicleId}, ",
-    "stockouts = #{stockouts}, received = #{received}, stockCardsUpToDate = #{stockCardsUpToDate}, ",
+    "stockouts = #{stockouts}, hasAdditionalProductSources = #{hasAdditionalProductSources}, stockCardsUpToDate = #{stockCardsUpToDate}, ",
     "confirmedByName = #{confirmedBy.name}, confirmedByTitle = #{confirmedBy.title}, ",
     "verifiedByName = #{verifiedBy.name}, verifiedByTitle = #{verifiedBy.title}, ",
     "observations = #{observations}, synced = #{synced}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT," +
@@ -73,10 +73,10 @@ public interface FacilityVisitMapper {
           "other = COALESCE(#{other}, FALSE), stockoutCausesOther = #{stockoutCausesOther}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
   void updateStockoutCauses(StockoutCauses stockoutCauses);
 
-  @Update({"UPDATE received_products SET facilityVisitId = #{facilityVisitId}, anotherHealthFacility = COALESCE(#{anotherHealthFacility}, FALSE), ",
-          "zonalWarehouse = COALESCE(#{zonalWarehouse}, FALSE), other = COALESCE(#{other}, FALSE), receivedProductsSourcesOther = #{receivedProductsSourcesOther}, ",
+  @Update({"UPDATE additional_product_sources SET facilityVisitId = #{facilityVisitId}, anotherHealthFacility = COALESCE(#{anotherHealthFacility}, FALSE), ",
+          "zonalWarehouse = COALESCE(#{zonalWarehouse}, FALSE), other = COALESCE(#{other}, FALSE), additionalProductSourcesOther = #{additionalProductSourcesOther}, ",
           "modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
-  void updateReceivedProducts(ReceivedProducts receivedProducts);
+  void updateAdditionalProductSources(AdditionalProductSources additionalProductSources);
 
   @Select({"SELECT * FROM facility_visits WHERE id = #{id}"})
   public FacilityVisit getById(Long id);
@@ -91,6 +91,6 @@ public interface FacilityVisitMapper {
   @Select({"SELECT * FROM stockout_causes WHERE facilityVisitId = #{facilityVisitId}"})
   StockoutCauses getStockoutCausesByFacilityVisitId(Long facilityVisitId);
 
-  @Select({"SELECT * FROM received_products WHERE facilityVisitId = #{facilityVisitId}"})
-  ReceivedProducts getReceivedProductsByFacilityVisitId(Long facilityVisitId);
+  @Select({"SELECT * FROM additional_product_sources WHERE facilityVisitId = #{facilityVisitId}"})
+  AdditionalProductSources getAdditionalProductSourcesByFacilityVisitId(Long facilityVisitId);
 }

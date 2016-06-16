@@ -58,8 +58,8 @@ public class FacilityVisit extends BaseModel {
   private Boolean stockouts;
   private StockoutCauses stockoutCauses;
 
-  private Boolean received;
-  private ReceivedProducts receivedProducts;
+  private Boolean hasAdditionalProductSources;
+  private AdditionalProductSources additionalProductSources;
 
   private Boolean stockCardsUpToDate;
 
@@ -87,8 +87,8 @@ public class FacilityVisit extends BaseModel {
     this.visitDate = null;
     this.stockouts = null;
     this.stockoutCauses = null;
-    this.received = null;
-    this.receivedProducts = null;
+    this.hasAdditionalProductSources = null;
+    this.additionalProductSources = null;
     this.stockCardsUpToDate = null;
   }
 }

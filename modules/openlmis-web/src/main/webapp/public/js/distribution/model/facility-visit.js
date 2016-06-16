@@ -30,7 +30,7 @@ function FacilityVisit(facilityVisitJson) {
     }
 
     if (this.visited && this.visited.value) {
-      if (isEmpty(this.stockouts) || isEmpty(this.received) || isEmpty(this.stockCardsUpToDate)) {
+      if (isEmpty(this.stockouts) || isEmpty(this.hasAdditionalProductSources) || isEmpty(this.stockCardsUpToDate)) {
         return DistributionStatus.INCOMPLETE;
       }
 
@@ -55,20 +55,20 @@ function FacilityVisit(facilityVisitJson) {
         }
       }
 
-      if (this.received.value) {
-        if (isUndefined(this.receivedProducts)) {
+      if (this.hasAdditionalProductSources.value) {
+        if (isUndefined(this.additionalProductSources)) {
             return DistributionStatus.INCOMPLETE;
         }
 
         // if no source was selected
-        if (isUndefinedOrFalse(this.receivedProducts.anotherHealthFacility) &&
-          isUndefinedOrFalse(this.receivedProducts.zonalWarehouse) &&
-          isUndefinedOrFalse(this.receivedProducts.other)) {
+        if (isUndefinedOrFalse(this.additionalProductSources.anotherHealthFacility) &&
+          isUndefinedOrFalse(this.additionalProductSources.zonalWarehouse) &&
+          isUndefinedOrFalse(this.additionalProductSources.other)) {
           return DistributionStatus.INCOMPLETE;
         }
 
         // if selected other source but description is empty
-        if (this.receivedProducts.other === true && isBlank(this.receivedProducts.receivedProductsSourcesOther)) {
+        if (this.additionalProductSources.other === true && isBlank(this.additionalProductSources.additionalProductSourcesOther)) {
           return DistributionStatus.INCOMPLETE;
         }
       }

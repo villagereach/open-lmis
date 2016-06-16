@@ -16,10 +16,10 @@ import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPT
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = NON_EMPTY)
 @EqualsAndHashCode(callSuper = false)
-public class ReceivedProducts extends BaseModel {
+public class AdditionalProductSources extends BaseModel {
   Long facilityVisitId;
   Boolean anotherHealthFacility;
   Boolean zonalWarehouse;
   Boolean other;
-  String receivedProductsSourcesOther;
+  String additionalProductSourcesOther;
 }

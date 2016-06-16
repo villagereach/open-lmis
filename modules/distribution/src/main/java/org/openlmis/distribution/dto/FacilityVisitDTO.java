@@ -11,7 +11,7 @@ import org.openlmis.core.domain.BaseModel;
 import org.openlmis.distribution.domain.Facilitator;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.domain.ReasonForNotVisiting;
-import org.openlmis.distribution.domain.ReceivedProducts;
+import org.openlmis.distribution.domain.AdditionalProductSources;
 import org.openlmis.distribution.domain.StockoutCauses;
 
 import java.util.Date;
@@ -46,8 +46,8 @@ public class FacilityVisitDTO extends BaseModel {
     private Reading stockouts;
     private StockoutCauses stockoutCauses;
 
-    private Reading received;
-    private ReceivedProducts receivedProducts;
+    private Reading hasAdditionalProductSources;
+    private AdditionalProductSources additionalProductSources;
 
     private Reading stockCardsUpToDate;
 
@@ -63,8 +63,8 @@ public class FacilityVisitDTO extends BaseModel {
         Boolean synced = Optional.fromNullable(this.synced).or(Reading.EMPTY).parseBoolean();
         Boolean stockouts = Optional.fromNullable(this.stockouts).or(Reading.EMPTY).parseBoolean();
         StockoutCauses stockoutCauses = Optional.fromNullable(this.stockoutCauses).or(new StockoutCauses());
-        Boolean received = Optional.fromNullable(this.received).or(Reading.EMPTY).parseBoolean();
-        ReceivedProducts receivedProducts = Optional.fromNullable(this.receivedProducts).or(new ReceivedProducts());
+        Boolean hasAdditionalProductSources = Optional.fromNullable(this.hasAdditionalProductSources).or(Reading.EMPTY).parseBoolean();
+        AdditionalProductSources additionalProductSources = Optional.fromNullable(this.additionalProductSources).or(new AdditionalProductSources());
         Boolean stockCardsUpToDate = Optional.fromNullable(this.stockCardsUpToDate).or(Reading.EMPTY).parseBoolean();
 
         if (null != this.reasonForNotVisiting && isFalse(this.reasonForNotVisiting.getNotRecorded())) {
@@ -98,8 +98,8 @@ public class FacilityVisitDTO extends BaseModel {
         facilityVisit.setStockouts(stockouts);
         facilityVisit.setStockoutCauses(stockoutCauses);
 
-        facilityVisit.setReceived(received);
-        facilityVisit.setReceivedProducts(receivedProducts);
+        facilityVisit.setHasAdditionalProductSources(hasAdditionalProductSources);
+        facilityVisit.setAdditionalProductSources(additionalProductSources);
 
         facilityVisit.setStockCardsUpToDate(stockCardsUpToDate);
 

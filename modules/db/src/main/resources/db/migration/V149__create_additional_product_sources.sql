@@ -8,13 +8,13 @@
 -- You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
 --
 
-CREATE TABLE received_products (
+CREATE TABLE additional_product_sources (
   id                            SERIAL PRIMARY KEY,
   facilityVisitId               INTEGER REFERENCES facility_visits (id),
   anotherHealthFacility         BOOLEAN,
   zonalWarehouse                BOOLEAN,
   other                         BOOLEAN,
-  receivedProductsSourcesOther  VARCHAR(140),
+  additionalProductSourcesOther VARCHAR(140),
   createdBy                     INTEGER,
   createdDate                   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   modifiedBy                    INTEGER,

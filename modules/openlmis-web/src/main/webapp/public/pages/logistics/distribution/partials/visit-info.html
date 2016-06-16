@@ -132,9 +132,9 @@
                    openlmis-message="label.was.received"></label>
 
             <div>
-              <input id="receivedYes" type="radio" ng-model="facilityData.facilityVisit.received.value" ng-value="true" name="received{{$index}}">
+              <input id="receivedYes" type="radio" ng-model="facilityData.facilityVisit.hasAdditionalProductSources.value" ng-value="true" name="received{{$index}}">
               <label for="receivedYes" class="radio-label" openlmis-message="label.yes"></label>
-              <input id="receivedNo" type="radio" ng-model="facilityData.facilityVisit.received.value" ng-value="false" name="received{{$index}}">
+              <input id="receivedNo" type="radio" ng-model="facilityData.facilityVisit.hasAdditionalProductSources.value" ng-value="false" name="received{{$index}}">
               <label for="receivedNo" class="radio-label" openlmis-message="label.no"></label>
               <input id="received{{$index}}" type="checkbox"
                      ng-model="facilityData.facilityVisit.received.notRecorded"
@@ -144,7 +144,7 @@
             </div>
           </div>
 
-          <div class="form-row clearfix" ng-show="facilityData.facilityVisit.received.value === true">
+          <div class="form-row clearfix" ng-show="facilityData.facilityVisit.hasAdditionalProductSources.value === true">
             <div class="form-group received-form">
               <div class="form-row clearfix">
                 <label openlmis-message="label.received.select"></label>
@@ -152,34 +152,34 @@
 
               <div class="form-row clearfix">
                 <input id="anotherHealthFacility{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.receivedProducts.anotherHealthFacility"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.anotherHealthFacility"/>
                 <label class="checkbox-label" for="anotherHealthFacility{{ $index }}"
                        openlmis-message="label.received.select.another.health.facility"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="zonalWarehouse{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.receivedProducts.zonalWarehouse"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.zonalWarehouse"/>
                 <label class="checkbox-label" for="zonalWarehouse{{ $index }}"
                        openlmis-message="label.received.select.zonal.warehouse"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="otherSource{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.receivedProducts.other"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.other"/>
                 <label class="checkbox-label" for="otherSource{{ $index }}"
                        openlmis-message="label.received.select.other"></label>
               </div>
               <div class="form-row clearfix">
-              <input ng-model="facilityData.facilityVisit.receivedProducts.receivedProductsSourcesOther"
+              <input ng-model="facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther"
                      id="otherSourceInput"
-                     ng-show="facilityData.facilityVisit.receivedProducts.other === true"
+                     ng-show="facilityData.facilityVisit.additionalProductSources.other === true"
                      maxlength="140"
-                     ng-class="{'required-error': !facilityData.facilityVisit.receivedProducts.receivedProductsSourcesOther}">
+                     ng-class="{'required-error': !facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther}">
               </input>
               </div>
               <div class="form-row clearfix">
                 <input id="receivedProducts{{ $index }}" type="checkbox"
                        ng-model="facilityData.facilityVisit.receivedProductsNotRecorded"
-                       ng-click="facilityData.facilityVisit.receivedProducts = {}"
+                       ng-click="facilityData.facilityVisit.additionalProductSources = {}"
                        not-recorded/>
                 <label class="checkbox-label" for="receivedProducts{{ $index }}"
                        openlmis-message="label.not.recorded"></label>

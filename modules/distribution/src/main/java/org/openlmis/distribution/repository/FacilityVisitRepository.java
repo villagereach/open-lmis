@@ -13,7 +13,7 @@
 package org.openlmis.distribution.repository;
 
 import org.openlmis.distribution.domain.FacilityVisit;
-import org.openlmis.distribution.domain.ReceivedProducts;
+import org.openlmis.distribution.domain.AdditionalProductSources;
 import org.openlmis.distribution.domain.StockoutCauses;
 import org.openlmis.distribution.repository.mapper.FacilityVisitMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +74,7 @@ public class FacilityVisitRepository {
 
   private FacilityVisit retrieveDetails(FacilityVisit visit) {
     visit.setStockoutCauses(mapper.getStockoutCausesByFacilityVisitId(visit.getId()));
-    visit.setReceivedProducts(mapper.getReceivedProductsByFacilityVisitId(visit.getId()));
+    visit.setAdditionalProductSources(mapper.getAdditionalProductSourcesByFacilityVisitId(visit.getId()));
 
     return visit;
   }
@@ -106,26 +106,26 @@ public class FacilityVisitRepository {
       }
     }
 
-    ReceivedProducts receivedProducts = visit.getReceivedProducts();
+    AdditionalProductSources additionalProductSources = visit.getAdditionalProductSources();
 
-    if (null != receivedProducts) {
-      ReceivedProducts receivedProductsDB = mapper.getReceivedProductsByFacilityVisitId(visit.getId());
+    if (null != additionalProductSources) {
+      AdditionalProductSources additionalProductSourcesDB = mapper.getAdditionalProductSourcesByFacilityVisitId(visit.getId());
 
-      if (null == receivedProductsDB) {
-        receivedProducts.setFacilityVisitId(visit.getId());
-        receivedProducts.setCreatedBy(visit.getCreatedBy());
-        receivedProducts.setModifiedBy(visit.getModifiedBy());
+      if (null == additionalProductSourcesDB) {
+        additionalProductSources.setFacilityVisitId(visit.getId());
+        additionalProductSources.setCreatedBy(visit.getCreatedBy());
+        additionalProductSources.setModifiedBy(visit.getModifiedBy());
 
-        mapper.insertReceivedProducts(receivedProducts);
+        mapper.insertAdditionalProductSources(additionalProductSources);
       } else {
-        receivedProductsDB.setFacilityVisitId(receivedProducts.getFacilityVisitId());
-        receivedProductsDB.setAnotherHealthFacility(receivedProducts.getAnotherHealthFacility());
-        receivedProductsDB.setZonalWarehouse(receivedProducts.getZonalWarehouse());
-        receivedProductsDB.setOther(receivedProducts.getOther());
-        receivedProductsDB.setReceivedProductsSourcesOther(receivedProducts.getReceivedProductsSourcesOther());
-        receivedProductsDB.setModifiedBy(visit.getModifiedBy());
+        additionalProductSourcesDB.setFacilityVisitId(additionalProductSources.getFacilityVisitId());
+        additionalProductSourcesDB.setAnotherHealthFacility(additionalProductSources.getAnotherHealthFacility());
+        additionalProductSourcesDB.setZonalWarehouse(additionalProductSources.getZonalWarehouse());
+        additionalProductSourcesDB.setOther(additionalProductSources.getOther());
+        additionalProductSourcesDB.setAdditionalProductSourcesOther(additionalProductSources.getAdditionalProductSourcesOther());
+        additionalProductSourcesDB.setModifiedBy(visit.getModifiedBy());
 
-        mapper.updateReceivedProducts(receivedProductsDB);
+        mapper.updateAdditionalProductSources(additionalProductSourcesDB);
       }
     }
 

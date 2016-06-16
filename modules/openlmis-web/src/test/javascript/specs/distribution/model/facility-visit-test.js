@@ -34,7 +34,7 @@ describe('Facility Visit', function () {
   });
 
   it('should return complete if visit details valid', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, received: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
 
     var status = facilityVisit.computeStatus();
 
@@ -42,7 +42,7 @@ describe('Facility Visit', function () {
   });
 
   it('should return complete if visit details valid and observations not filled', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, received: {value: false}, stockCardsUpToDate: {value: false}});
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false}});
 
     var status = facilityVisit.computeStatus();
 
@@ -50,7 +50,7 @@ describe('Facility Visit', function () {
   });
 
   it('should retain its status', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, received: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
 
     facilityVisit.computeStatus();
 
@@ -70,7 +70,7 @@ describe('Facility Visit', function () {
   });
 
   it('should return is-complete if facility visited fully filled', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, received: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
 
     expect(facilityVisit.computeStatus()).toEqual(DistributionStatus.COMPLETE);
   });

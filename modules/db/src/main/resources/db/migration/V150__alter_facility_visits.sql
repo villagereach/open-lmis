@@ -9,5 +9,5 @@
 --
 
 ALTER TABLE facility_visits ADD COLUMN stockouts BOOLEAN;
-ALTER TABLE facility_visits ADD COLUMN received BOOLEAN;
+ALTER TABLE facility_visits ADD COLUMN hasAdditionalProductSources BOOLEAN;
 ALTER TABLE facility_visits ADD COLUMN stockCardsUpToDate BOOLEAN;
