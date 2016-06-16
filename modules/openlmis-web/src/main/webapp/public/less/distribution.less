@@ -487,6 +487,37 @@
       height: 85px;
     }
   }
+  input[type="checkbox"] {
+    margin: 0 2px 0 10px;
+    vertical-align: middle;
+  }
+  input[type="radio"] {
+    margin-top: 0px;
+    margin-right: 2px;
+  }
+  label {
+    display: inline;
+    &:first-child {
+      display: block;
+      font-weight: bold;
+    }
+  }
+  .radio-label {
+    margin-right: 24px;
+  }
+  .checkbox-label {
+    vertical-align: middle;
+    line-height: normal;
+  }
+  .received-form, .stockouts-form {
+    margin-top: 0;
+    .form-row {
+      margin: 0 0 5px;
+    }
+    #otherCauseInput, #otherSourceInput {
+      width: 550px;
+    }
+  }
   form {
     margin: 0;
   }
