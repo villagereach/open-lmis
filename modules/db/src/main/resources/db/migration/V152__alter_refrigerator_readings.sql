@@ -14,8 +14,8 @@ ALTER TABLE refrigerator_readings ADD COLUMN monitoringDeviceOtherType VARCHAR(1
 ALTER TABLE refrigerator_readings ADD COLUMN temperatureReportingForm VARCHAR(1);
 ALTER TABLE refrigerator_readings ADD COLUMN highestTemperatureReported NUMERIC(2);
 ALTER TABLE refrigerator_readings ADD COLUMN lowestTemperatureReported NUMERIC(2);
-ALTER TABLE refrigerator_readings ADD COLUMN problemOccurredDate VARCHAR(10);
-ALTER TABLE refrigerator_readings ADD COLUMN problemReportedDate VARCHAR(10);
+ALTER TABLE refrigerator_readings ADD COLUMN problemOccurredDate TIMESTAMP;
+ALTER TABLE refrigerator_readings ADD COLUMN problemReportedDate TIMESTAMP;
 ALTER TABLE refrigerator_readings ADD COLUMN equipmentRepaired VARCHAR(1);
-ALTER TABLE refrigerator_readings ADD COLUMN equipmentRepairedDate VARCHAR(10);
+ALTER TABLE refrigerator_readings ADD COLUMN equipmentRepairedDate TIMESTAMP;
 ALTER TABLE refrigerator_readings ADD COLUMN totalDaysCceUptime NUMERIC(2);

@@ -20,6 +20,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
 import org.openlmis.core.domain.Refrigerator;
 
+import java.util.Date;
+
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
 /**
@@ -52,10 +54,10 @@ public class RefrigeratorReading extends BaseModel {
   private String temperatureReportingForm;
   private Integer highestTemperatureReported;
   private Integer lowestTemperatureReported;
-  private String problemOccurredDate;
-  private String problemReportedDate;
+  private Date problemOccurredDate;
+  private Date problemReportedDate;
   private String equipmentRepaired;
-  private String equipmentRepairedDate;
+  private Date equipmentRepairedDate;
   private Integer totalDaysCceUptime;
 
   public RefrigeratorReading(Refrigerator refrigerator) {

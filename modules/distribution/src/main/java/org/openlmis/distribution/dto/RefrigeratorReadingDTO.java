@@ -24,6 +24,8 @@ import org.openlmis.distribution.domain.MonitoringDeviceType;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 
+import java.util.Date;
+
 import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 import static org.openlmis.distribution.dto.Reading.EMPTY;
@@ -93,10 +95,10 @@ public class RefrigeratorReadingDTO extends BaseModel {
     String temperatureReportingForm = Optional.fromNullable(this.temperatureReportingForm).or(EMPTY).getEffectiveValue();
     Integer highestTemperatureReported = Optional.fromNullable(this.highestTemperatureReported).or(EMPTY).parsePositiveInt();
     Integer lowestTemperatureReported = Optional.fromNullable(this.lowestTemperatureReported).or(EMPTY).parsePositiveInt();
-    String problemOccurredDate = Optional.fromNullable(this.problemOccurredDate).or(EMPTY).getEffectiveValue();
-    String problemReportedDate = Optional.fromNullable(this.problemReportedDate).or(EMPTY).getEffectiveValue();
+    Date problemOccurredDate = Optional.fromNullable(this.problemOccurredDate).or(EMPTY).parseDate();
+    Date problemReportedDate = Optional.fromNullable(this.problemReportedDate).or(EMPTY).parseDate();
     String equipmentRepaired = Optional.fromNullable(this.equipmentRepaired).or(EMPTY).getEffectiveValue();
-    String equipmentRepairedDate = Optional.fromNullable(this.equipmentRepairedDate).or(EMPTY).getEffectiveValue();
+    Date equipmentRepairedDate = Optional.fromNullable(this.equipmentRepairedDate).or(EMPTY).parseDate();
     Integer totalDaysCceUptime = Optional.fromNullable(this.totalDaysCceUptime).or(EMPTY).parsePositiveInt();
 
     RefrigeratorReading reading = new RefrigeratorReading(this.refrigerator, this.facilityVisitId,

@@ -17,6 +17,8 @@ import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 
+import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -51,7 +53,7 @@ public class RefrigeratorReadingDTOTest {
     Long facilityId = 2L;
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-      "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, "08/05/2016", "09/05/2016", "Y", "09/05/2016", 1);
+        "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
     RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", facilityId, true),
       facilityVisitId,
@@ -103,7 +105,7 @@ public class RefrigeratorReadingDTOTest {
     Long facilityId = 2L;
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-      "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, "08/05/2016", "09/05/2016", "Y", "09/05/2016", 1);
+        "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
     RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", facilityId, true),
       facilityVisitId,
@@ -179,7 +181,7 @@ public class RefrigeratorReadingDTOTest {
     RefrigeratorReading refrigeratorReading = refrigeratorReadingDTO.transform();
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-      "Y", 2, null, "N", null, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, "08/05/2016", "09/05/2016", "Y", "09/05/2016", 1);
+        "Y", 2, null, "N", null, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
     assertThat(refrigeratorReading, is(expectedReading));
     assertThat(refrigeratorReading.getProblem(), is(nullValue()));

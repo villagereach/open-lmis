@@ -100,7 +100,8 @@ public class Reading {
       return new Date(Long.parseLong(stringValue));
     } catch (NumberFormatException e) {
       try {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = stringValue.contains("/") ? "dd/MM/yyyy" : "yyyy-MM-dd";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setTimeZone(TimeZone.getDefault());
         return dateFormat.parse(stringValue);
       } catch (ParseException ex) {
