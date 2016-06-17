@@ -17,11 +17,14 @@ import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 
+import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.openlmis.distribution.domain.MonitoringDeviceType.OTHER_MONITORING_DEVICE;
 
 @Category(UnitTests.class)
 public class RefrigeratorReadingDTOTest {
@@ -35,11 +38,22 @@ public class RefrigeratorReadingDTOTest {
     Reading highAlarmEvents = new Reading("", true);
     Reading problemSinceLastTime = new Reading("Y", false);
     RefrigeratorProblem problems = new RefrigeratorProblem(3L, false, true, false, false, false, false, null);
+    Reading hasMonitoringDevice = new Reading("Y", false);
+    Reading monitoringDeviceType = new Reading("OTHER_MONITORING_DEVICE", false);
+    Reading monitoringDeviceOtherType = new Reading("some_other_device", false);
+    Reading temperatureReportingForm = new Reading("Y", false);
+    Reading highestTemperatureReported = new Reading("50", false);
+    Reading lowestTemperatureReported = new Reading("10", false);
+    Reading problemOccurredDate = new Reading("08/05/2016", false);
+    Reading problemReportedDate = new Reading("09/05/2016", false);
+    Reading equipmentRepaired = new Reading("Y", false);
+    Reading equipmentRepairedDate = new Reading("09/05/2016", false);
+    Reading totalDaysCceUptime = new Reading("1", false);
     String notes = "Notes";
     Long facilityId = 2L;
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-      "N", 2, null, "Y", problems, notes);
+        "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
     RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", facilityId, true),
       facilityVisitId,
@@ -49,7 +63,18 @@ public class RefrigeratorReadingDTOTest {
       highAlarmEvents,
       problemSinceLastTime,
       problems,
-      notes);
+      notes,
+      hasMonitoringDevice,
+      monitoringDeviceType,
+      monitoringDeviceOtherType,
+      temperatureReportingForm,
+      highestTemperatureReported,
+      lowestTemperatureReported,
+      problemOccurredDate,
+      problemReportedDate,
+      equipmentRepaired,
+      equipmentRepairedDate,
+      totalDaysCceUptime);
 
     RefrigeratorReading refrigeratorReading = refrigeratorReadingDTO.transform();
 
@@ -65,11 +90,22 @@ public class RefrigeratorReadingDTOTest {
     Reading highAlarmEvents = new Reading("", true);
     Reading problemSinceLastTime = new Reading("Y", false);
     RefrigeratorProblem problems = mock(RefrigeratorProblem.class);
+    Reading hasMonitoringDevice = new Reading("Y", false);
+    Reading monitoringDeviceType = new Reading("OTHER_MONITORING_DEVICE", false);
+    Reading monitoringDeviceOtherType = new Reading("some_other_device", false);
+    Reading temperatureReportingForm = new Reading("Y", false);
+    Reading highestTemperatureReported = new Reading("50", false);
+    Reading lowestTemperatureReported = new Reading("10", false);
+    Reading problemOccurredDate = new Reading("08/05/2016", false);
+    Reading problemReportedDate = new Reading("09/05/2016", false);
+    Reading equipmentRepaired = new Reading("Y", false);
+    Reading equipmentRepairedDate = new Reading("09/05/2016", false);
+    Reading totalDaysCceUptime = new Reading("1", false);
     String notes = "Notes";
     Long facilityId = 2L;
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-      "N", 2, null, "Y", problems, notes);
+        "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
     RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", facilityId, true),
       facilityVisitId,
@@ -79,7 +115,18 @@ public class RefrigeratorReadingDTOTest {
       highAlarmEvents,
       problemSinceLastTime,
       problems,
-      notes);
+      notes,
+      hasMonitoringDevice,
+      monitoringDeviceType,
+      monitoringDeviceOtherType,
+      temperatureReportingForm,
+      highestTemperatureReported,
+      lowestTemperatureReported,
+      problemOccurredDate,
+      problemReportedDate,
+      equipmentRepaired,
+      equipmentRepairedDate,
+      totalDaysCceUptime);
 
     RefrigeratorReading refrigeratorReading = refrigeratorReadingDTO.transform();
 
@@ -96,6 +143,17 @@ public class RefrigeratorReadingDTOTest {
     Reading highAlarmEvents = new Reading("", true);
     Reading problemSinceLastTime = new Reading("N", false);
     RefrigeratorProblem problems = new RefrigeratorProblem();
+    Reading hasMonitoringDevice = new Reading("Y", false);
+    Reading monitoringDeviceType = new Reading("OTHER_MONITORING_DEVICE", false);
+    Reading monitoringDeviceOtherType = new Reading("some_other_device", false);
+    Reading temperatureReportingForm = new Reading("Y", false);
+    Reading highestTemperatureReported = new Reading("50", false);
+    Reading lowestTemperatureReported = new Reading("10", false);
+    Reading problemOccurredDate = new Reading("08/05/2016", false);
+    Reading problemReportedDate = new Reading("09/05/2016", false);
+    Reading equipmentRepaired = new Reading("Y", false);
+    Reading equipmentRepairedDate = new Reading("09/05/2016", false);
+    Reading totalDaysCceUptime = new Reading("1", false);
     String notes = "Notes";
     Long facilityId = 2L;
 
@@ -107,12 +165,23 @@ public class RefrigeratorReadingDTOTest {
       highAlarmEvents,
       problemSinceLastTime,
       problems,
-      notes);
+      notes,
+      hasMonitoringDevice,
+      monitoringDeviceType,
+      monitoringDeviceOtherType,
+      temperatureReportingForm,
+      highestTemperatureReported,
+      lowestTemperatureReported,
+      problemOccurredDate,
+      problemReportedDate,
+      equipmentRepaired,
+      equipmentRepairedDate,
+      totalDaysCceUptime);
 
     RefrigeratorReading refrigeratorReading = refrigeratorReadingDTO.transform();
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-      "Y", 2, null, "N", null, notes);
+        "Y", 2, null, "N", null, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
     assertThat(refrigeratorReading, is(expectedReading));
     assertThat(refrigeratorReading.getProblem(), is(nullValue()));

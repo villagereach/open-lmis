@@ -57,37 +57,6 @@
           </div>
           <div class="form-row clearfix">
             <div class="form-cell">
-              <label openlmis-message="label.problem.last.visit"></label>
-
-              <input type="radio" id="problemSinceLastVisitYes{{ $index }}"
-                     name="problemSinceLastVisit{{$index}}"
-                     value="Y" ng-model="refrigeratorReading.problemSinceLastTime.value"/>
-              <label class="radio-label" for="problemSinceLastVisitYes{{ $index }}"
-                     openlmis-message="label.yes"></label>
-
-              <input type="radio" id="problemSinceLastVisitNo{{ $index }}"
-                     name="problemSinceLastVisit{{$index}}"
-                     value="N"
-                     ng-model="refrigeratorReading.problemSinceLastTime.value"/>
-              <label class="radio-label" for="problemSinceLastVisitNo{{ $index }}"
-                     openlmis-message="label.no"></label>
-
-              <input type="radio" id="problemSinceLastVisitDontKnow{{ $index }}"
-                     name="problemSinceLastVisit{{$index}}"
-                     value="D"
-                     ng-model="refrigeratorReading.problemSinceLastTime.value"/>
-              <label class="radio-label" for="problemSinceLastVisitDontKnow{{ $index }}"
-                     openlmis-message="label.dont.know"></label>
-
-              <input id="problemSinceLastVisit{{$index}}" type="checkbox"
-                     ng-model="refrigeratorReading.problemSinceLastTime.notRecorded"
-                     not-recorded ng-click="refrigeratorReading.problems=undefined"/>
-              <label class="checkbox-label" for="problemSinceLastVisit{{$index}}"
-                     openlmis-message="label.not.recorded"></label>
-            </div>
-          </div>
-          <div class="form-row clearfix">
-            <div class="form-cell">
               <label class="form-questions" openlmis-message="label.number.high.alarms"></label>
             <span class="position-relative">
               <input name="highAlarmEvent{{$index}}" type="number" min="0" max="999" step="1"
@@ -123,8 +92,42 @@
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>
-        </div>
-        <div class="form-group">
+          <div class="form-row clearfix">
+            <div class="form-cell">
+              <label class="form-questions" openlmis-message="label.number.highest.temperature"></label>
+            <span class="position-relative">
+              <input name="highestTemperatureEvent{{$index}}" type="number" min="0" max="99" step="1"
+                     ng-model="refrigeratorReading.highestTemperatureReported.value" numeric-validator="positiveInteger,2"
+                     error-holder="highestTemperatureError{{$index}}" class="right-justified" ng-trim="false"/>
+              <span id="highestTemperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
+                    style="display: none"></span>
+            </span>
+              <input id="highestTemperatureEvent{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.highestTemperatureReported.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="highestTemperatureEvent{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+
+            </div>
+          </div>
+          <div class="form-row clearfix">
+            <div class="form-cell">
+              <label class="form-questions" openlmis-message="label.number.lowest.temperature"></label>
+            <span class="position-relative">
+              <input name="lowestTemperatureEvent{{$index}}" type="number" min="0" max="99" step="1"
+                     ng-model="refrigeratorReading.lowestTemperatureReported.value" numeric-validator="positiveInteger,2"
+                     error-holder="lowestTemperatureError{{$index}}" class="right-justified" ng-trim="false"/>
+              <span id="lowestTemperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
+                    style="display: none"></span>
+            </span>
+              <input id="lowestTemperatureEvent{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.lowestTemperatureReported.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="lowestTemperatureEvent{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+
+            </div>
+          </div>
           <div class="form-row clearfix">
             <div class="form-cell">
               <label openlmis-message="label.refrigerator.working.correctly"></label>
@@ -203,6 +206,251 @@
                             maxlength="255"></textarea>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-row clearfix">
+            <div class="form-cell">
+              <label openlmis-message="label.has.monitoring.device"></label>
+
+              <input type="radio" id="hasMonitoringDeviceYes{{ $index }}"
+                     name="hasMonitoringDevice{{$index}}"
+                     value="Y" ng-model="refrigeratorReading.hasMonitoringDevice.value"/>
+              <label class="radio-label" for="hasMonitoringDeviceYes{{ $index }}"
+                     openlmis-message="label.yes"></label>
+
+              <input type="radio" id="hasMonitoringDeviceNo{{ $index }}"
+                     name="hasMonitoringDevice{{$index}}"
+                     value="N"
+                     ng-model="refrigeratorReading.hasMonitoringDevice.value"/>
+              <label class="radio-label" for="hasMonitoringDeviceNo{{ $index }}"
+                     openlmis-message="label.no"></label>
+              <input id="hasMonitoringDevice{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.hasMonitoringDevice.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="hasMonitoringDevice{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix" ng-show="refrigeratorReading.hasMonitoringDevice.value === 'Y'">
+            <div class="form-cell">
+              <label openlmis-message="label.monitoring.device.type"></label>
+
+              <div class="form-row clearfix">
+                <input id="logDevice{{ $index }}" type="radio"
+                       name="monitoringDeviceType{{$index}}"
+                       value="LOG_TAG"
+                       ng-model="refrigeratorReading.monitoringDeviceType.value"/>
+                <label class="checkbox-label" for="logDevice{{ $index }}"
+                       openlmis-message="msg.monitoringDeviceType.log"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="fridgeDevice{{ $index }}" type="radio"
+                       name="monitoringDeviceType{{$index}}"
+                       value="FRIDGE_TAG"
+                       ng-model="refrigeratorReading.monitoringDeviceType.value"/>
+                <label class="checkbox-label" for="fridgeDevice{{ $index }}"
+                       openlmis-message="msg.monitoringDeviceType.fridge"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="stemThermometerDevice{{ $index }}" type="radio"
+                       name="monitoringDeviceType{{$index}}"
+                       value="STEM_THERMOMETER"
+                       ng-model="refrigeratorReading.monitoringDeviceType.value"/>
+                <label class="checkbox-label" for="stemThermometerDevice{{ $index }}"
+                       openlmis-message="msg.monitoringDeviceType.stemThermometer"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="refrigeratorThermometerDevice{{ $index }}" type="radio"
+                       name="monitoringDeviceType{{$index}}"
+                       value="REFRIGERATOR_INTERNAL_THERMOMETER"
+                       ng-model="refrigeratorReading.monitoringDeviceType.value"/>
+                <label class="checkbox-label" for="refrigeratorThermometerDevice{{ $index }}"
+                       openlmis-message="msg.monitoringDeviceType.refrigeratorThermometer"></label>
+              </div>
+              <div class="form-row clearfix">
+                <input id="otherDevice{{ $index }}" type="radio"
+                       name="monitoringDeviceType{{$index}}"
+                       value="OTHER_MONITORING_DEVICE"
+                       ng-model="refrigeratorReading.monitoringDeviceType.value"/>
+                <label class="checkbox-label" for="otherDevice{{ $index }}"
+                       openlmis-message="msg.monitoringDeviceType.otherDevice"></label>
+              </div>
+              <div class="form-row clearfix">
+                  <input type="text" id="otherDeviceTextbox{{ $index }}"
+                            ng-show="refrigeratorReading.monitoringDeviceType.value === 'OTHER_MONITORING_DEVICE'"
+                            ng-model="refrigeratorReading.monitoringDeviceOtherType.value"
+                            maxlength="140">
+              </div>
+            </div>
+          </div>
+          <div class="form-row clearfix">
+            <div class="form-cell">
+              <label openlmis-message="label.temperature.reporting.form"></label>
+
+              <input type="radio" id="temperatureReportingFormYes{{ $index }}"
+                     name="temperatureReportingForm{{$index}}"
+                     value="Y" ng-model="refrigeratorReading.temperatureReportingForm.value"/>
+              <label class="radio-label" for="temperatureReportingFormYes{{ $index }}"
+                     openlmis-message="label.yes"></label>
+
+              <input type="radio" id="temperatureReportingFormNo{{ $index }}"
+                     name="temperatureReportingForm{{$index}}"
+                     value="N"
+                     ng-model="refrigeratorReading.temperatureReportingForm.value"/>
+              <label class="radio-label" for="hasMonitoringDeviceNo{{ $index }}"
+                     openlmis-message="label.no"></label>
+
+              <input id="temperatureReportingForm{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.temperatureReportingForm.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="temperatureReportingForm{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix">
+            <div class="form-cell">
+              <label openlmis-message="label.problem.last.visit"></label>
+
+              <input type="radio" id="problemSinceLastVisitYes{{ $index }}"
+                     name="problemSinceLastVisit{{$index}}"
+                     value="Y" ng-model="refrigeratorReading.problemSinceLastTime.value"/>
+              <label class="radio-label" for="problemSinceLastVisitYes{{ $index }}"
+                     openlmis-message="label.yes"></label>
+
+              <input type="radio" id="problemSinceLastVisitNo{{ $index }}"
+                     name="problemSinceLastVisit{{$index}}"
+                     value="N"
+                     ng-model="refrigeratorReading.problemSinceLastTime.value"/>
+              <label class="radio-label" for="problemSinceLastVisitNo{{ $index }}"
+                     openlmis-message="label.no"></label>
+
+              <input type="radio" id="problemSinceLastVisitDontKnow{{ $index }}"
+                     name="problemSinceLastVisit{{$index}}"
+                     value="D"
+                     ng-model="refrigeratorReading.problemSinceLastTime.value"/>
+              <label class="radio-label" for="problemSinceLastVisitDontKnow{{ $index }}"
+                     openlmis-message="label.dont.know"></label>
+
+              <input id="problemSinceLastVisit{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.problemSinceLastTime.notRecorded"
+                     not-recorded ng-click="refrigeratorReading.problems=undefined"/>
+              <label class="checkbox-label" for="problemSinceLastVisit{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix" ng-show="refrigeratorReading.problemSinceLastTime.value === 'Y'">
+            <div class="form-cell">
+              <label openlmis-message="label.problem.occurred.date"></label>
+            <span class="position-relative">
+              <input type="text" name="problemOccurredDate{{$index}}"
+                     ng-model="refrigeratorReading.problemOccurredDate.value"
+                     maxlength="10"
+                     date-validator="date" with-days="true" ng-trim="false" error-holder="problemOccurredDateError{{$index}}"
+                     class="right-justified"/>
+              <span class="rnr-form-error"
+                    id="problemOccurredDateError{{$index}}"
+                    style="display:none;"
+                    openlmis-message="error.invalid.full.date.format"></span>
+              </span>
+              <input id="problemOccurredDate{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.problemOccurredDate.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="problemOccurredDate{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix" ng-show="refrigeratorReading.problemSinceLastTime.value === 'Y'">
+            <div class="form-cell">
+              <label openlmis-message="label.problem.reported.date"></label>
+            <span class="position-relative">
+              <input type="text" name="problemReportedDate{{$index}}"
+                     ng-model="refrigeratorReading.problemReportedDate.value"
+                     maxlength="10"
+                     date-validator="date" with-days="true" ng-trim="false" error-holder="problemReportedDateError{{$index}}"
+                     class="right-justified"/>
+              <span class="rnr-form-error"
+                    id="problemReportedDateError{{$index}}"
+                    style="display:none;"
+                    openlmis-message="error.invalid.full.date.format"></span>
+              </span>
+              <input id="problemReportedDate{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.problemReportedDate.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="problemReportedDate{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix" ng-show="refrigeratorReading.problemSinceLastTime.value === 'Y'">
+            <div class="form-cell">
+              <label openlmis-message="label.equipment.repaired"></label>
+
+              <input type="radio" id="equipmentRepairedYes{{ $index }}"
+                     name="equipmentRepaired{{$index}}"
+                     value="Y" ng-model="refrigeratorReading.equipmentRepaired.value"/>
+              <label class="radio-label" for="equipmentRepairedYes{{ $index }}"
+                     openlmis-message="label.yes"></label>
+
+              <input type="radio" id="equipmentRepairedNo{{ $index }}"
+                     name="equipmentRepaired{{$index}}"
+                     value="N"
+                     ng-model="refrigeratorReading.equipmentRepaired.value"/>
+              <label class="radio-label" for="equipmentRepairedNo{{ $index }}"
+                     openlmis-message="label.no"></label>
+
+              <input type="radio" id="equipmentRepairedDontKnow{{ $index }}"
+                     name="equipmentRepaired{{$index}}"
+                     value="D"
+                     ng-model="refrigeratorReading.equipmentRepaired.value"/>
+              <label class="radio-label" for="equipmentRepairedDontKnow{{ $index }}"
+                     openlmis-message="label.dont.know"></label>
+
+              <input id="equipmentRepaired{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.equipmentRepaired.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="equipmentRepaired{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix" ng-show="refrigeratorReading.equipmentRepaired.value === 'Y'">
+            <div class="form-cell">
+              <label openlmis-message="label.equipment.repaired.date"></label>
+            <span class="position-relative">
+              <input type="text" name="equipmentRepairedDate{{$index}}"
+                     ng-model="refrigeratorReading.equipmentRepairedDate.value"
+                     maxlength="10"
+                     date-validator="date" with-days="true" ng-trim="false" error-holder="equipmentRepairedDateError{{$index}}"
+                     class="right-justified"/>
+              <span class="rnr-form-error"
+                    id="equipmentRepairedDateError{{$index}}"
+                    style="display:none;"
+                    openlmis-message="error.invalid.full.date.format"></span>
+              </span>
+              <input id="equipmentRepairedDate{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.equipmentRepairedDate.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="equipmentRepairedDate{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
+            </div>
+          </div>
+          <div class="form-row clearfix" ng-show="refrigeratorReading.problemSinceLastTime.value === 'Y'">
+            <div class="form-cell">
+              <label openlmis-message="label.total.days.cce.uptime"></label>
+            <span class="position-relative">
+              <input type="number" min="0" max="99" step="1" name="totalDaysCceUptime{{$index}}"
+                     ng-model="refrigeratorReading.totalDaysCceUptime.value"
+                     numeric-validator="positiveInteger,2" ng-trim="false" error-holder="totalDaysCceUptimeError{{$index}}"
+                     class="right-justified"/>
+              <span id="totalDaysCceUptimeError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
+                    style="display: none"></span>
+            </span>
+
+              <input id="totalDaysCceUptime{{$index}}" type="checkbox"
+                     ng-model="refrigeratorReading.totalDaysCceUptime.notRecorded"
+                     not-recorded/>
+              <label class="checkbox-label" for="totalDaysCceUptime{{$index}}"
+                     openlmis-message="label.not.recorded"></label>
             </div>
           </div>
           <div class="form-row clearfix">

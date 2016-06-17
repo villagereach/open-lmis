@@ -57,7 +57,11 @@ describe('RefrigeratorReading', function () {
 
   it('should return green status class if internal refrigerator form fields are completely filled', function () {
     refrigeratorReading = new RefrigeratorReading(facilityVisitId, {temperature: {value: 7}, functioningCorrectly: {value: 'Y'},
-      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6}, problemSinceLastTime: {notRecorded: true}});
+      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6}, problemSinceLastTime: {notRecorded: true},
+      hasMonitoringDevice: {value: 'N'}, monitoringDeviceType: {notRecorded: true}, monitoringDeviceOtherType: {notRecorded: true}, temperatureReportingForm: {notRecorded: true},
+      highestTemperatureReported: {notRecorded: true}, lowestTemperatureReported: {notRecorded: true}, problemOccurredDate: {notRecorded: true}, problemReportedDate: {notRecorded: true},
+      equipmentRepaired: {notRecorded: true}, equipmentRepairedDate: {notRecorded: true}, totalDaysCceUptime: {notRecorded: true}});
+
 
     var status = refrigeratorReading.computeStatus();
 
@@ -66,7 +70,10 @@ describe('RefrigeratorReading', function () {
 
   it('should return green status class if internal refrigerator form fields are completely filled', function () {
     refrigeratorReading = new RefrigeratorReading(facilityVisitId, {temperature: {value: 7}, functioningCorrectly: {value: 'Y'},
-      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6}, problemSinceLastTime: {notRecorded: true}});
+      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6}, problemSinceLastTime: {notRecorded: true},
+      hasMonitoringDevice: {value: 'N'}, monitoringDeviceType: {notRecorded: true}, monitoringDeviceOtherType: {notRecorded: true}, temperatureReportingForm: {notRecorded: true},
+      highestTemperatureReported: {notRecorded: true}, lowestTemperatureReported: {notRecorded: true}, problemOccurredDate: {notRecorded: true}, problemReportedDate: {notRecorded: true},
+      equipmentRepaired: {notRecorded: true}, equipmentRepairedDate: {notRecorded: true}, totalDaysCceUptime: {notRecorded: true}});
 
     var status = refrigeratorReading.computeStatus();
 
@@ -76,7 +83,10 @@ describe('RefrigeratorReading', function () {
   it('should return green status class if internal refrigerator form fields are completely filled, including notes, or NR flag set',
     function () {
       refrigeratorReading = new RefrigeratorReading(facilityVisitId, {temperature: {notRecorded: true}, functioningCorrectly: {value: 'Y'},
-        lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6, notRecorded: true}, problemSinceLastTime: {value: 'Y'}, problems: {other: true, otherProblemExplanation: 'eer'}});
+        lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6, notRecorded: true}, problemSinceLastTime: {value: 'Y'}, problems: {other: true, otherProblemExplanation: 'eer'},
+        hasMonitoringDevice: {value: 'N'}, monitoringDeviceType: {notRecorded: true}, monitoringDeviceOtherType: {notRecorded: true}, temperatureReportingForm: {notRecorded: true},
+        highestTemperatureReported: {notRecorded: true}, lowestTemperatureReported: {notRecorded: true}, problemOccurredDate: {notRecorded: true}, problemReportedDate: {notRecorded: true},
+        equipmentRepaired: {notRecorded: true}, equipmentRepairedDate: {notRecorded: true}, totalDaysCceUptime: {notRecorded: true}});
 
       var status = refrigeratorReading.computeStatus();
 
@@ -85,7 +95,10 @@ describe('RefrigeratorReading', function () {
 
   it('should return yellow status class if all fields filled but not even 1 problem selected', function () {
     refrigeratorReading = new RefrigeratorReading(facilityVisitId, {temperature: {notRecorded: true}, functioningCorrectly: {value: 'N'},
-      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6, notRecorded: true}, problemSinceLastTime: {value: 'N', notRecorded: false}});
+      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6, notRecorded: true}, problemSinceLastTime: {value: 'N', notRecorded: false},
+      hasMonitoringDevice: {value: 'N'}, monitoringDeviceType: {notRecorded: true}, monitoringDeviceOtherType: {notRecorded: true}, temperatureReportingForm: {notRecorded: true},
+      highestTemperatureReported: {notRecorded: true}, lowestTemperatureReported: {notRecorded: true}, problemOccurredDate: {notRecorded: true}, problemReportedDate: {notRecorded: true},
+      equipmentRepaired: {notRecorded: true}, equipmentRepairedDate: {notRecorded: true}, totalDaysCceUptime: {notRecorded: true}});
 
 
     var status = refrigeratorReading.computeStatus();
@@ -95,7 +108,10 @@ describe('RefrigeratorReading', function () {
 
   it('should return green status class if all fields filled and problems selected', function () {
     refrigeratorReading = new RefrigeratorReading(facilityVisitId, {temperature: {notRecorded: true}, functioningCorrectly: {value: 'N'},
-      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6, notRecorded: true}, problemSinceLastTime: {value: 'N'}});
+      lowAlarmEvents: {value: 3}, highAlarmEvents: {value: 6, notRecorded: true}, problemSinceLastTime: {value: 'N'},
+      hasMonitoringDevice: {value: 'N'}, monitoringDeviceType: {notRecorded: true}, monitoringDeviceOtherType: {notRecorded: true}, temperatureReportingForm: {notRecorded: true},
+      highestTemperatureReported: {notRecorded: true}, lowestTemperatureReported: {notRecorded: true}, problemOccurredDate: {notRecorded: true}, problemReportedDate: {notRecorded: true},
+      equipmentRepaired: {notRecorded: true}, equipmentRepairedDate: {notRecorded: true}, totalDaysCceUptime: {notRecorded: true}});
 
     refrigeratorReading.problems = {operatorError: true};
     var status = refrigeratorReading.computeStatus();
