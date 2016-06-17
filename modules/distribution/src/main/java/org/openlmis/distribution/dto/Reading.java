@@ -17,6 +17,11 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.exception.DataException;
 import org.openlmis.distribution.serializer.DistributionReadingDeSerializer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
@@ -74,5 +79,33 @@ public class Reading {
     }
 
     return Float.parseFloat(stringValue);
+  }
+
+  public Boolean parseBoolean() {
+    String stringValue = getEffectiveValue();
+    if (stringValue == null) {
+      return null;
+    }
+
+    return Boolean.parseBoolean(stringValue);
+  }
+
+  public Date parseDate() {
+    String stringValue = getEffectiveValue();
+    if (stringValue == null) {
+      return null;
+    }
+
+    try {
+      return new Date(Long.parseLong(stringValue));
+    } catch (NumberFormatException e) {
+      try {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        return dateFormat.parse(stringValue);
+      } catch (ParseException ex) {
+        throw new RuntimeException(ex);
+      }
+    }
   }
 }
