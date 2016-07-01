@@ -344,16 +344,10 @@
             <div class="form-cell">
               <label openlmis-message="label.problem.occurred.date"></label>
             <span class="position-relative">
-              <input type="text" name="problemOccurredDate{{$index}}"
+              <input type="text" name="problemOccurredDate{{$index}}" id="problemOccurredDate"
                      ng-model="refrigeratorReading.problemOccurredDate.value"
-                     maxlength="10"
-                     date-validator="date" with-days="true" ng-trim="false" error-holder="problemOccurredDateError{{$index}}"
-                     class="right-justified"/>
-              <span class="rnr-form-error"
-                    id="problemOccurredDateError{{$index}}"
-                    style="display:none;"
-                    openlmis-message="error.invalid.full.date.format"></span>
-              </span>
+                     ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
+                     ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemOccurredDate)}"/>
               <input id="problemOccurredDate{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemOccurredDate.notRecorded"
                      not-recorded/>
@@ -365,16 +359,10 @@
             <div class="form-cell">
               <label openlmis-message="label.problem.reported.date"></label>
             <span class="position-relative">
-              <input type="text" name="problemReportedDate{{$index}}"
+              <input type="text" name="problemReportedDate{{$index}}" id="problemReportedDate"
                      ng-model="refrigeratorReading.problemReportedDate.value"
-                     maxlength="10"
-                     date-validator="date" with-days="true" ng-trim="false" error-holder="problemReportedDateError{{$index}}"
-                     class="right-justified"/>
-              <span class="rnr-form-error"
-                    id="problemReportedDateError{{$index}}"
-                    style="display:none;"
-                    openlmis-message="error.invalid.full.date.format"></span>
-              </span>
+                     ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
+                     ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemReportedDate)}"/>
               <input id="problemReportedDate{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemReportedDate.notRecorded"
                      not-recorded/>
@@ -417,16 +405,10 @@
             <div class="form-cell">
               <label openlmis-message="label.equipment.repaired.date"></label>
             <span class="position-relative">
-              <input type="text" name="equipmentRepairedDate{{$index}}"
+              <input type="text" name="equipmentRepairedDate{{$index}}" id="equipmentRepairedDate"
                      ng-model="refrigeratorReading.equipmentRepairedDate.value"
-                     maxlength="10"
-                     date-validator="date" with-days="true" ng-trim="false" error-holder="equipmentRepairedDateError{{$index}}"
-                     class="right-justified"/>
-              <span class="rnr-form-error"
-                    id="equipmentRepairedDateError{{$index}}"
-                    style="display:none;"
-                    openlmis-message="error.invalid.full.date.format"></span>
-              </span>
+                     ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
+                     ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.equipmentRepairedDate)}"/>
               <input id="equipmentRepairedDate{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.equipmentRepairedDate.notRecorded"
                      not-recorded/>
