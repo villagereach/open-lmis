@@ -14,6 +14,14 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
 
   $scope.edit = {};
 
+  $scope.isEmpty = function (field) {
+    if (isUndefined(field)) {
+      return true;
+    }
+
+    return (isUndefined(field.value) && !field.notRecorded);
+  };
+
   $scope.setEdit = function (serialNum, index) {
     angular.forEach($scope.edit, function (value, key) {
       $scope.edit[key] = false;
