@@ -13,6 +13,9 @@ function VisitInfoController($scope, distributionService, $routeParams) {
   $scope.distributionReview = distributionService.distributionReview;
   $scope.selectedFacility = $routeParams.facility;
 
+  $scope.stockoutCausesNotRecorded = {};
+  $scope.receivedProductsNotRecorded = {};
+
   $scope.convertToDateObject = function (dateText) {
     var dateParts = dateText.split('/');
 
@@ -60,10 +63,28 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     visit.vehicleId = setApplicableField(visit.vehicleId);
     visit.visitDate = setApplicableField(visit.visitDate);
     visit.stockouts = setApplicableField(visit.stockouts);
-    visit.stockoutCauses = setApplicableField(visit.stockoutCauses);
+    $scope.clearStockoutCauses();
     visit.hasAdditionalProductSources = setApplicableField(visit.hasAdditionalProductSources);
-    visit.additionalProductSources = setApplicableField(visit.additionalProductSources);
+    scope.clearAdditionalProductSources();
     visit.stockCardsUpToDate = setApplicableField(visit.stockCardsUpToDate);
+  };
+
+  $scope.clearStockoutCauses = function () {
+  var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+  visit.stockoutCauses = setApplicableField(visit.stockoutCauses);
+  $.each(['coldChainEquipmentFailure','incorrectEstimationNeeds','stockoutZonalWarehouse','deliveryNotOnTime','productsTransferedAnotherFacility','other','stockoutCausesOther'], function (i, elem) {
+    visit.stockoutCauses[elem] = setApplicableField(visit.stockoutCauses[elem]);
+  });
+};
+
+  $scope.clearAdditionalProductSources = function () {
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+    visit.additionalProductSources = setApplicableField(visit.additionalProductSources);
+    $.each(['anotherHealthFacility','zonalWarehouse','other','additionalProductSourcesOther'], function (i, elem) {
+      visit.additionalProductSources[elem] = setApplicableField(visit.additionalProductSources[elem]);
+    });
   };
 
   function setApplicableField(field) {

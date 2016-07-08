@@ -118,8 +118,8 @@
               </div>
               <div class="form-row clearfix">
                 <input id="stockoutCauses{{ $index }}" type="checkbox"
-                       ng-model="facilityData.facilityVisit.stockoutCausesNotRecorded"
-                       ng-click="facilityData.facilityVisit.stockoutCauses = {}"
+                       ng-model="stockoutCausesNotRecorded.value"
+                       ng-click="clearStockoutCauses()"
                        not-recorded/>
                 <label class="checkbox-label" for="stockoutCauses{{ $index }}"
                        openlmis-message="label.not.recorded"></label>
@@ -178,8 +178,8 @@
               </div>
               <div class="form-row clearfix">
                 <input id="receivedProducts{{ $index }}" type="checkbox"
-                       ng-model="facilityData.facilityVisit.receivedProductsNotRecorded"
-                       ng-click="facilityData.facilityVisit.additionalProductSources = {}"
+                       ng-model="receivedProductsNotRecorded.value"
+                       ng-click="clearAdditionalProductSources()"
                        not-recorded/>
                 <label class="checkbox-label" for="receivedProducts{{ $index }}"
                        openlmis-message="label.not.recorded"></label>

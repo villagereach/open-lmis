@@ -10,6 +10,41 @@
 
 function FacilityVisit(facilityVisitJson) {
   $.extend(true, this, facilityVisitJson);
+
+  var _this = this;
+
+  if (isUndefined(_this.stockoutCauses)) {
+    _this.stockoutCauses = {};
+  }
+
+  if (isUndefined(_this.additionalProductSources)) {
+    _this.additionalProductSources = {};
+  }
+
+  if (isUndefined(_this.hasAdditionalProductSources)) {
+    _this.hasAdditionalProductSources = {};
+  }
+
+  if (isUndefined(_this.stockouts)) {
+    _this.stockouts = {};
+  }
+
+  if (isUndefined(_this.stockCardsUpToDate)) {
+    _this.stockCardsUpToDate = {};
+  }
+
+  $.each(['coldChainEquipmentFailure','incorrectEstimationNeeds','stockoutZonalWarehouse','deliveryNotOnTime','productsTransferedAnotherFacility','other','stockoutCausesOther'], function (i, elem) {
+    if (isUndefined(_this.stockoutCauses[elem])) {
+        _this.stockoutCauses[elem] = { value: undefined, notRecorded: undefined };
+    }
+  });
+
+  $.each(['anotherHealthFacility','zonalWarehouse','other','additionalProductSourcesOther'], function (i, elem) {
+    if (isUndefined(_this.additionalProductSources[elem])) {
+        _this.stockoutCauses[elem] = { value: undefined, notRecorded: undefined };
+    }
+  });
+
   var mandatoryList = ['visitDate'];
 
   function isEmpty(field) {
