@@ -74,46 +74,46 @@
 
               <div class="form-row clearfix">
                 <input id="coldChainEquipmentFailure{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.coldChainEquipmentFailure"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.coldChainEquipmentFailure.value"/>
                 <label class="checkbox-label" for="coldChainEquipmentFailure{{ $index }}"
                        openlmis-message="label.stockouts.select.cold.chain.equipment.failure"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="incorrectEstimationNeeds{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.incorrectEstimationNeeds"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.incorrectEstimationNeeds.value"/>
                 <label class="checkbox-label" for="incorrectEstimationNeeds{{ $index }}"
                        openlmis-message="label.stockouts.select.incorrect.estimation.needs"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="stockoutZonalWarehouse{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.stockoutZonalWarehouse"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.stockoutZonalWarehouse.value"/>
                 <label class="checkbox-label" for="stockoutZonalWarehouse{{ $index }}"
                        openlmis-message="label.stockouts.select.stockout.zonal.warehouse"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="deliveryNotOnTime{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.deliveryNotOnTime"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.deliveryNotOnTime.value"/>
                 <label class="checkbox-label" for="deliveryNotOnTime{{ $index }}"
                        openlmis-message="label.stockouts.select.delivery.not.on.time"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="productsTransferedAnotherFacility{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.productsTransferedAnotherFacility"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.productsTransferedAnotherFacility.value"/>
                 <label class="checkbox-label" for="productsTransferedAnotherFacility{{ $index }}"
                        openlmis-message="label.stockouts.select.products.transfered.another.facility"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="otherCause{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.other"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.other.value"/>
                 <label class="checkbox-label" for="otherCause{{ $index }}"
                        openlmis-message="label.stockouts.select.other"></label>
               </div>
               <div class="form-row clearfix">
-              <input ng-model="facilityData.facilityVisit.stockoutCauses.stockoutCausesOther"
+              <input ng-model="facilityData.facilityVisit.stockoutCauses.stockoutCausesOther.value"
                      id="otherCauseInput" type="text"
-                     ng-show="facilityData.facilityVisit.stockoutCauses.other === true"
+                     ng-show="facilityData.facilityVisit.stockoutCauses.other.value === true"
                      maxlength="140"
-                     ng-class="{'required-error': !facilityData.facilityVisit.stockoutCauses.stockoutCausesOther}">
+                     ng-class="{'required-error': !facilityData.facilityVisit.stockoutCauses.stockoutCausesOther.value}">
               </input>
               </div>
               <div class="form-row clearfix">
@@ -152,28 +152,28 @@
 
               <div class="form-row clearfix">
                 <input id="anotherHealthFacility{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.additionalProductSources.anotherHealthFacility"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.anotherHealthFacility.value"/>
                 <label class="checkbox-label" for="anotherHealthFacility{{ $index }}"
                        openlmis-message="label.received.select.another.health.facility"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="zonalWarehouse{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.additionalProductSources.zonalWarehouse"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.zonalWarehouse.value"/>
                 <label class="checkbox-label" for="zonalWarehouse{{ $index }}"
                        openlmis-message="label.received.select.zonal.warehouse"></label>
               </div>
               <div class="form-row clearfix">
                 <input id="otherSource{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.additionalProductSources.other"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.other.value"/>
                 <label class="checkbox-label" for="otherSource{{ $index }}"
                        openlmis-message="label.received.select.other"></label>
               </div>
               <div class="form-row clearfix">
               <input ng-model="facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther"
                      id="otherSourceInput" type="text"
-                     ng-show="facilityData.facilityVisit.additionalProductSources.other === true"
+                     ng-show="facilityData.facilityVisit.additionalProductSources.other.value === true"
                      maxlength="140"
-                     ng-class="{'required-error': !facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther}">
+                     ng-class="{'required-error': !facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther.value}">
               </input>
               </div>
               <div class="form-row clearfix">

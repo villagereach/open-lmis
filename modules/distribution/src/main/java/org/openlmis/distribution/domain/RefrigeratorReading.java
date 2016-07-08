@@ -105,6 +105,17 @@ public class RefrigeratorReading extends BaseModel {
     dto.setProblemSinceLastTime(new Reading(problemSinceLastTime));
     dto.setProblems(problem.transform());
     dto.setNotes(new Reading(notes));
+    dto.setHasMonitoringDevice(new Reading(hasMonitoringDevice));
+    dto.setMonitoringDeviceType(new Reading(monitoringDeviceType));
+    dto.setMonitoringDeviceOtherType(new Reading(monitoringDeviceOtherType));
+    dto.setTemperatureReportingForm(new Reading(temperatureReportingForm));
+    dto.setHighestTemperatureReported(new Reading(highestTemperatureReported));
+    dto.setLowestTemperatureReported(new Reading(lowestTemperatureReported));
+    dto.setProblemOccurredDate(new Reading(problemOccurredDate, "yyyy-MM-dd"));
+    dto.setProblemReportedDate(new Reading(problemReportedDate, "yyyy-MM-dd"));
+    dto.setEquipmentRepaired(new Reading(equipmentRepaired));
+    dto.setEquipmentRepairedDate(new Reading(equipmentRepairedDate, "yyyy-MM-dd"));
+    dto.setTotalDaysCceUptime(new Reading(totalDaysCceUptime));
 
     return dto;
   }

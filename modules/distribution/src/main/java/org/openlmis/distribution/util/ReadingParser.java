@@ -6,6 +6,7 @@ import org.openlmis.distribution.domain.AdultCoverageLineItem;
 import org.openlmis.distribution.domain.ChildCoverageLineItem;
 import org.openlmis.distribution.domain.EpiInventoryLineItem;
 import org.openlmis.distribution.domain.EpiUseLineItem;
+import org.openlmis.distribution.domain.MonitoringDeviceType;
 import org.openlmis.distribution.domain.OpenedVialLineItem;
 import org.openlmis.distribution.domain.ReasonForNotVisiting;
 import org.openlmis.distribution.domain.RefrigeratorReading;
@@ -35,13 +36,19 @@ public final class ReadingParser {
     POSITIVE_INTS.put(EpiUseLineItem.class, "stockAtFirstOfMonth");
     POSITIVE_INTS.put(EpiUseLineItem.class, "stockAtEndOfMonth");
     POSITIVE_INTS.put(EpiUseLineItem.class, "received");
-    POSITIVE_INTS.put(EpiUseLineItem.class, "loss");
+    POSITIVE_INTS.put(EpiUseLineItem.class, "lossOverHeated");
+    POSITIVE_INTS.put(EpiUseLineItem.class, "lossFrozen");
+    POSITIVE_INTS.put(EpiUseLineItem.class, "lossExpired");
+    POSITIVE_INTS.put(EpiUseLineItem.class, "lossOther");
     POSITIVE_INTS.put(EpiUseLineItem.class, "distributed");
 
     POSITIVE_INTS.put(OpenedVialLineItem.class, "openedVials");
 
     POSITIVE_INTS.put(RefrigeratorReading.class, "lowAlarmEvents");
     POSITIVE_INTS.put(RefrigeratorReading.class, "highAlarmEvents");
+    POSITIVE_INTS.put(RefrigeratorReading.class, "highestTemperatureReported");
+    POSITIVE_INTS.put(RefrigeratorReading.class, "lowestTemperatureReported");
+    POSITIVE_INTS.put(RefrigeratorReading.class, "totalDaysCceUptime");
 
     POSITIVE_INTS.put(VaccinationFullCoverage.class, "femaleHealthCenter");
     POSITIVE_INTS.put(VaccinationFullCoverage.class, "femaleOutreach");
@@ -73,6 +80,10 @@ public final class ReadingParser {
 
     if (propertyType.isAssignableFrom(ReasonForNotVisiting.class)) {
       return (T) property.parseReasonForNotVisiting();
+    }
+
+    if (propertyType.isAssignableFrom(MonitoringDeviceType.class)) {
+      return (T) property.parseMonitoringDeviceType();
     }
 
     if (propertyType.isAssignableFrom(Integer.class)) {

@@ -55,7 +55,7 @@ public class FacilityDistributionEditHandlerTest {
     line1.setStockAtFirstOfMonth(10);
     line1.setStockAtEndOfMonth(3);
     line1.setReceived(3);
-    line1.setLoss(1);
+    line1.setLossOther(1);
     line1.setDistributed(3);
     line1.setExpirationDate("06/2016");
 
@@ -65,7 +65,7 @@ public class FacilityDistributionEditHandlerTest {
     line2.setStockAtFirstOfMonth(10);
     line2.setStockAtEndOfMonth(9);
     line2.setReceived(1);
-    line2.setLoss(0);
+    line2.setLossFrozen(0);
     line2.setDistributed(0);
     line2.setExpirationDate("06/2016");
 

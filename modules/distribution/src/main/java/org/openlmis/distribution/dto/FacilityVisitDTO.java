@@ -18,10 +18,8 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
-import org.openlmis.distribution.domain.AdditionalProductSources;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.domain.ReasonForNotVisiting;
-import org.openlmis.distribution.domain.StockoutCauses;
 
 import java.util.Date;
 
@@ -37,6 +35,7 @@ public class FacilityVisitDTO extends BaseModel {
 
     private Long distributionId;
     private Long facilityId;
+    private Long facilityCatchmentPopulation;
 
     private FacilitatorDTO confirmedBy;
     private FacilitatorDTO verifiedBy;
@@ -52,10 +51,10 @@ public class FacilityVisitDTO extends BaseModel {
     private Reading synced;
 
     private Reading stockouts;
-    private StockoutCauses stockoutCauses;
+    private StockoutCausesDTO stockoutCauses;
 
     private Reading hasAdditionalProductSources;
-    private AdditionalProductSources additionalProductSources;
+    private AdditionalProductSourcesDTO additionalProductSources;
 
     private Reading stockCardsUpToDate;
 
@@ -71,9 +70,9 @@ public class FacilityVisitDTO extends BaseModel {
         String otherReasonDescription = Reading.safeRead(this.otherReasonDescription).getEffectiveValue();
         Boolean synced = Reading.safeRead(this.synced).parseBoolean();
         Boolean stockouts = Reading.safeRead(this.stockouts).parseBoolean();
-        StockoutCauses stockoutCauses = Optional.fromNullable(this.stockoutCauses).or(new StockoutCauses());
+        StockoutCausesDTO stockoutCauses = Optional.fromNullable(this.stockoutCauses).or(new StockoutCausesDTO());
         Boolean hasAdditionalProductSources = Reading.safeRead(this.hasAdditionalProductSources).parseBoolean();
-        AdditionalProductSources additionalProductSources = Optional.fromNullable(this.additionalProductSources).or(new AdditionalProductSources());
+        AdditionalProductSourcesDTO additionalProductSources = Optional.fromNullable(this.additionalProductSources).or(new AdditionalProductSourcesDTO());
         Boolean stockCardsUpToDate = Reading.safeRead(this.stockCardsUpToDate).parseBoolean();
 
         FacilityVisit facilityVisit = new FacilityVisit();
@@ -101,10 +100,10 @@ public class FacilityVisitDTO extends BaseModel {
         facilityVisit.setSynced(synced);
 
         facilityVisit.setStockouts(stockouts);
-        facilityVisit.setStockoutCauses(stockoutCauses);
+        facilityVisit.setStockoutCauses(stockoutCauses.transform());
 
         facilityVisit.setHasAdditionalProductSources(hasAdditionalProductSources);
-        facilityVisit.setAdditionalProductSources(additionalProductSources);
+        facilityVisit.setAdditionalProductSources(additionalProductSources.transform());
 
         facilityVisit.setStockCardsUpToDate(stockCardsUpToDate);
 

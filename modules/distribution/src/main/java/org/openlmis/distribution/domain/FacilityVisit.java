@@ -89,15 +89,18 @@ public class FacilityVisit extends BaseModel {
     this.vehicleId = null;
     this.visitDate = null;
     this.stockouts = null;
-    this.stockoutCauses = null;
+    this.stockoutCauses = new StockoutCauses();
     this.hasAdditionalProductSources = null;
-    this.additionalProductSources = null;
+    this.additionalProductSources = new AdditionalProductSources();
     this.stockCardsUpToDate = null;
   }
 
   public FacilityVisitDTO transform() {
     Facilitator confirmedBy = Optional.fromNullable(this.confirmedBy).or(new Facilitator());
     Facilitator verifiedBy = Optional.fromNullable(this.verifiedBy).or(new Facilitator());
+
+    StockoutCauses stockoutCauses = Optional.fromNullable(this.stockoutCauses).or(new StockoutCauses());
+    AdditionalProductSources additionalProductSources = Optional.fromNullable(this.additionalProductSources).or(new AdditionalProductSources());
 
     FacilityVisitDTO dto = new FacilityVisitDTO();
     dto.setId(id);
@@ -117,6 +120,12 @@ public class FacilityVisit extends BaseModel {
     dto.setReasonForNotVisiting(new Reading(reasonForNotVisiting));
     dto.setOtherReasonDescription(new Reading(otherReasonDescription));
     dto.setSynced(new Reading(synced));
+    dto.setStockouts(new Reading(stockouts));
+    dto.setStockoutCauses(stockoutCauses.transform());
+    dto.setHasAdditionalProductSources(new Reading(hasAdditionalProductSources));
+    dto.setAdditionalProductSources(additionalProductSources.transform());
+
+    dto.setStockCardsUpToDate(new Reading(stockCardsUpToDate));
 
     setNotRecorded(dto.getConfirmedBy().getName());
     setNotRecorded(dto.getConfirmedBy().getTitle());
@@ -129,6 +138,7 @@ public class FacilityVisit extends BaseModel {
     setNotRecorded(dto.getReasonForNotVisiting());
     setNotRecorded(dto.getOtherReasonDescription());
     setNotRecorded(dto.getSynced());
+    setNotRecorded(dto.getStockCardsUpToDate());
 
     return dto;
   }

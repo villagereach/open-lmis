@@ -1,5 +1,6 @@
 package org.openlmis.web.util;
 
+import org.openlmis.distribution.domain.AdditionalProductSources;
 import org.openlmis.distribution.domain.AdultCoverageLineItem;
 import org.openlmis.distribution.domain.ChildCoverageLineItem;
 import org.openlmis.distribution.domain.EpiInventoryLineItem;
@@ -10,6 +11,7 @@ import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.domain.OpenedVialLineItem;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
+import org.openlmis.distribution.domain.StockoutCauses;
 import org.openlmis.distribution.dto.DistributionRefrigeratorsDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.dto.Reading;
@@ -217,6 +219,14 @@ public class FacilityDistributionEditHandler {
     if (null == propertyValue) {
       if (bean instanceof FacilityVisit && ("confirmedBy".equals(propertyName) || "verifiedBy".equals(propertyName))) {
         return new Facilitator();
+      }
+
+      if (bean instanceof FacilityVisit && ("stockoutCauses".equals(propertyName))) {
+        return new StockoutCauses();
+      }
+
+      if (bean instanceof FacilityVisit && ("additionalProductSources".equals(propertyName))) {
+        return new AdditionalProductSources();
       }
 
       if (bean instanceof RefrigeratorReading && "problem".equals(propertyName)) {

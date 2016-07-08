@@ -45,6 +45,7 @@ public class EpiInventoryLineItemDTO extends BaseModel {
   private Long programProductId;
   private String productCode;
   private String productName;
+  private Integer productPackSize;
   private Integer productDisplayOrder;
 
   public EpiInventoryLineItemDTO(Long facilityVisitId, Reading existingQuantity, Reading spoiledQuantity, Reading deliveredQuantity) {

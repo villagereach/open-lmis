@@ -15,6 +15,8 @@ public final class UIMapping {
   static {
     DATA_SCREEN_MAPPING.put("FacilityVisit", "label.visit.information");
     DATA_SCREEN_MAPPING.put("Facilitator", "label.visit.information");
+    DATA_SCREEN_MAPPING.put("StockoutCauses", "label.visit.information");
+    DATA_SCREEN_MAPPING.put("AdditionalProductSources", "label.visit.information");
 
     DATA_SCREEN_MAPPING.put("EpiInventoryLineItem", "label.epi.inventory");
 
@@ -43,9 +45,27 @@ public final class UIMapping {
     FIELD_MAPPING.put("FacilityVisit", "otherReasonDescription", "label.description");
     FIELD_MAPPING.put("FacilityVisit", "confirmedBy", "label.confirmed.by");
     FIELD_MAPPING.put("FacilityVisit", "verifiedBy", "label.verified.by");
+    FIELD_MAPPING.put("FacilityVisit", "stockouts", "label.was.stockouts");
+    FIELD_MAPPING.put("FacilityVisit", "stockoutCauses", "label.stockouts.select");
+    FIELD_MAPPING.put("FacilityVisit", "hasAdditionalProductSources", "label.was.received");
+    FIELD_MAPPING.put("FacilityVisit", "additionalProductSources", "label.received.select");
+    FIELD_MAPPING.put("FacilityVisit", "stockCardsUpToDate", "label.was.stock.cards.up.to.date");
 
     FIELD_MAPPING.put("Facilitator", "name", "label.name");
     FIELD_MAPPING.put("Facilitator", "title", "label.title");
+
+    FIELD_MAPPING.put("AdditionalProductSources", "anotherHealthFacility", "label.received.select.another.health.facility");
+    FIELD_MAPPING.put("AdditionalProductSources", "zonalWarehouse", "label.received.select.zonal.warehouse");
+    FIELD_MAPPING.put("AdditionalProductSources", "other", "label.received.select.other");
+    FIELD_MAPPING.put("AdditionalProductSources", "additionalProductSourcesOther", "label.received.select.other");
+
+    FIELD_MAPPING.put("StockoutCauses", "coldChainEquipmentFailure", "label.stockouts.select.cold.chain.equipment.failure");
+    FIELD_MAPPING.put("StockoutCauses", "incorrectEstimationNeeds", "label.stockouts.select.incorrect.estimation.needs");
+    FIELD_MAPPING.put("StockoutCauses", "stockoutZonalWarehouse", "label.stockouts.select.stockout.zonal.warehouse");
+    FIELD_MAPPING.put("StockoutCauses", "deliveryNotOnTime", "label.stockouts.select.delivery.not.on.time");
+    FIELD_MAPPING.put("StockoutCauses", "productsTransferedAnotherFacility", "label.stockouts.select.products.transfered.another.facility");
+    FIELD_MAPPING.put("StockoutCauses", "other", "label.stockouts.select.other");
+    FIELD_MAPPING.put("StockoutCauses", "stockoutCausesOther", "label.stockouts.select.other");
 
     FIELD_MAPPING.put("EpiInventoryLineItem", "existingQuantity", "label.ideal.quantity");
     FIELD_MAPPING.put("EpiInventoryLineItem", "spoiledQuantity", "label.existing.quantity");
@@ -57,6 +77,17 @@ public final class UIMapping {
     FIELD_MAPPING.put("RefrigeratorReading", "highAlarmEvents", "label.number.high.alarms");
     FIELD_MAPPING.put("RefrigeratorReading", "problemSinceLastTime", "label.problem.last.visit");
     FIELD_MAPPING.put("RefrigeratorReading", "notes", "label.notes");
+    FIELD_MAPPING.put("RefrigeratorReading", "hasMonitoringDevice", "label.has.monitoring.device");
+    FIELD_MAPPING.put("RefrigeratorReading", "monitoringDeviceType", "label.monitoring.device.type");
+    FIELD_MAPPING.put("RefrigeratorReading", "monitoringDeviceOtherType", "msg.monitoringDeviceType.otherDevice");
+    FIELD_MAPPING.put("RefrigeratorReading", "temperatureReportingForm", "label.temperature.reporting.form");
+    FIELD_MAPPING.put("RefrigeratorReading", "highestTemperatureReported", "label.number.highest.temperature");
+    FIELD_MAPPING.put("RefrigeratorReading", "lowestTemperatureReported", "label.number.lowest.temperature");
+    FIELD_MAPPING.put("RefrigeratorReading", "problemOccurredDate", "label.problem.occurred.date");
+    FIELD_MAPPING.put("RefrigeratorReading", "problemReportedDate", "label.problem.reported.date");
+    FIELD_MAPPING.put("RefrigeratorReading", "equipmentRepaired", "label.equipment.repaired");
+    FIELD_MAPPING.put("RefrigeratorReading", "equipmentRepairedDate", "label.equipment.repaired.date");
+    FIELD_MAPPING.put("RefrigeratorReading", "totalDaysCceUptime", "label.total.days.cce.uptime");
 
     FIELD_MAPPING.put("RefrigeratorProblem", "operatorError", "label.operator.error");
     FIELD_MAPPING.put("RefrigeratorProblem", "burnerProblem", "label.burner.problem");
@@ -69,9 +100,13 @@ public final class UIMapping {
     FIELD_MAPPING.put("EpiUseLineItem", "stockAtFirstOfMonth", "header.epi.use.startingStock");
     FIELD_MAPPING.put("EpiUseLineItem", "stockAtEndOfMonth", "header.epi.use.endingStock");
     FIELD_MAPPING.put("EpiUseLineItem", "received", "header.epi.use.received");
-    FIELD_MAPPING.put("EpiUseLineItem", "loss", "header.epi.use.loss");
+    FIELD_MAPPING.put("EpiUseLineItem", "lossOverHeated", "header.epi.use.lossOverHeated");
+    FIELD_MAPPING.put("EpiUseLineItem", "lossFrozen", "header.epi.use.lossFrozen");
+    FIELD_MAPPING.put("EpiUseLineItem", "lossExpired", "header.epi.use.lossExpired");
+    FIELD_MAPPING.put("EpiUseLineItem", "lossOther", "header.epi.use.lossOther");
     FIELD_MAPPING.put("EpiUseLineItem", "distributed", "eader.epi.use.distributed");
     FIELD_MAPPING.put("EpiUseLineItem", "expirationDate", "description.column.expiration.date");
+    FIELD_MAPPING.put("EpiUseLineItem", "numberOfStockoutDays", "header.epi.use.numberOfStockoutDays");
 
     FIELD_MAPPING.put("VaccinationFullCoverage", "femaleHealthCenter", "label.coverage.health.center");
     FIELD_MAPPING.put("VaccinationFullCoverage", "femaleOutreach", "label.coverage.outreach");

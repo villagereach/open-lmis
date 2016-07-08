@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
+import org.openlmis.distribution.dto.Reading;
+import org.openlmis.distribution.dto.StockoutCausesDTO;
 
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
@@ -25,4 +27,23 @@ public class StockoutCauses extends BaseModel {
   Boolean productsTransferedAnotherFacility;
   Boolean other;
   String stockoutCausesOther;
+
+  public StockoutCausesDTO transform() {
+    StockoutCausesDTO dto = new StockoutCausesDTO();
+    dto.setId(id);
+    dto.setCreatedBy(createdBy);
+    dto.setCreatedDate(createdDate);
+    dto.setModifiedBy(modifiedBy);
+    dto.setModifiedDate(modifiedDate);
+    dto.setFacilityVisitId(facilityVisitId);
+    dto.setColdChainEquipmentFailure(new Reading(coldChainEquipmentFailure));
+    dto.setIncorrectEstimationNeeds(new Reading(incorrectEstimationNeeds));
+    dto.setStockoutZonalWarehouse(new Reading(stockoutZonalWarehouse));
+    dto.setDeliveryNotOnTime(new Reading(deliveryNotOnTime));
+    dto.setProductsTransferedAnotherFacility(new Reading(productsTransferedAnotherFacility));
+    dto.setOther(new Reading(other));
+    dto.setStockoutCausesOther(new Reading(stockoutCausesOther));
+
+    return dto;
+  }
 }

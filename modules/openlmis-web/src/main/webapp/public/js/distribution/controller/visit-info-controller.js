@@ -59,6 +59,11 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     visit.verifiedBy = setApplicableField(visit.verifiedBy);
     visit.vehicleId = setApplicableField(visit.vehicleId);
     visit.visitDate = setApplicableField(visit.visitDate);
+    visit.stockouts = setApplicableField(visit.stockouts);
+    visit.stockoutCauses = setApplicableField(visit.stockoutCauses);
+    visit.hasAdditionalProductSources = setApplicableField(visit.hasAdditionalProductSources);
+    visit.additionalProductSources = setApplicableField(visit.additionalProductSources);
+    visit.stockCardsUpToDate = setApplicableField(visit.stockCardsUpToDate);
   };
 
   function setApplicableField(field) {

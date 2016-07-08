@@ -126,6 +126,7 @@ public class RefrigeratorReadingDTOTest {
     Long facilityId = 2L;
 
     doReturn(problem).when(problems).transform();
+    doReturn(problems).when(problem).transform();
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
         "N", 2, null, "Y", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
@@ -205,9 +206,9 @@ public class RefrigeratorReadingDTOTest {
     RefrigeratorReading refrigeratorReading = refrigeratorReadingDTO.transform();
 
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", facilityId, true), facilityVisitId, 32.4F,
-        "Y", 2, null, "N", null, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
+        "Y", 2, null, "N", problems, notes, "Y", OTHER_MONITORING_DEVICE, "some_other_device", "Y", 50, 10, new Date(116, 4, 8), new Date(116, 4, 9), "Y", new Date(116, 4, 9), 1);
 
-    assertThat(refrigeratorReading, is(expectedReading));
+    assertThat(refrigeratorReading, is(equalTo(expectedReading)));
     assertThat(refrigeratorReading.getProblem(), is(equalTo(problems)));
 
     assertThat(problems.getOperatorError(), is(nullValue()));

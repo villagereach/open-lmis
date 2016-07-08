@@ -50,23 +50,22 @@
                                 <span ng-bind="lineItem.productName"></span>
                                 <!-- <span>PackSize: {{lineItem.productPackSize}}</span> -->
                             </td>
-                            <td id="idealQuantityByPackSize{{ $index }}" class="col-ideal-quantity">
-                <span ng-show="(lineItem.idealQuantityByPackSize === 0) || (lineItem.idealQuantityByPackSize)"
-                      ng-bind="lineItem.idealQuantityByPackSize"></span>
-                                <span ng-hide="(lineItem.idealQuantityByPackSize === 0) || (lineItem.idealQuantityByPackSize)">--</span>
-              </td>
+                            <td id="idealQuantity{{ $index }}" class="col-ideal-quantity">
+                                <span ng-show="(lineItem.idealQuantity === 0) || (lineItem.idealQuantity)" ng-bind="lineItem.idealQuantity"></span>
+                                <span ng-hide="(lineItem.idealQuantity === 0) || (lineItem.idealQuantity)">--</span>
+                            </td>
               <td class="col-existing-quantity">
                 <div>
                   <span class="position-relative">
                     <input id="existingQuantity{{ $index }}" type="number" ng-model="lineItem.existingQuantity.value"
                            name="existingQuantityNR{{$index}}" ng-trim=false
-                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           numeric-validator="nonNegativeIntegerMultiple,7,{{lineItem.productPackSize}}" min="0" max="9999999" step="{{ lineItem.productPackSize }}"
                            error-holder="existingQuantityError{{$index}}"
                            ng-class="{'required-error': !facilityData.isDisabled('epi-inventory', distributionReview) && !(lineItem.existingQuantity.value.hasValue() || lineItem.existingQuantity.notRecorded)}"/>
-                    <span id="existingQuantityError{{$index}}"
-                          class="rnr-form-error"
-                          openlmis-message="error.number.only"
-                          style="display: none"></span>
+                      <span id="existingQuantityError{{$index}}" class="rnr-form-error" style="display: none">
+                            <span openlmis-message="error.not.multiple.of.packsize"></span>
+                            ({{lineItem.productPackSize}}).
+                        </span>
                   </span>
                 </div>
                 <input id="existingQuantityNR{{$index}}" type="checkbox"
@@ -80,13 +79,13 @@
                   <span class="position-relative">
                     <input id="deliveredQuantity{{ $index }}" type="number" ng-model="lineItem.deliveredQuantity.value"
                            name="deliveredQuantityNR{{ $index }}" ng-trim=false
-                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           numeric-validator="nonNegativeIntegerMultiple,7,{{lineItem.productPackSize}}" min="0" max="9999999" step="{{ lineItem.productPackSize }}"
                            error-holder="deliveredQuantityError{{$index}}"
                            ng-class="{'required-error': !facilityData.isDisabled('epi-inventory', distributionReview) && !lineItem.deliveredQuantity.value.hasValue()}"/>
-                    <span id="deliveredQuantityError{{$index}}"
-                          class="rnr-form-error"
-                          openlmis-message="error.number.only"
-                          style="display: none"></span>
+                    <span id="deliveredQuantityError{{$index}}" class="rnr-form-error" style="display: none">
+                          <span openlmis-message="error.not.multiple.of.packsize"></span>
+                            ({{lineItem.productPackSize}}).
+                      </span>
                   </span>
                 </div>
               </td>
@@ -96,12 +95,13 @@
                     <input id="spoiledQuantity{{ $index }}" type="number"
                            ng-model="lineItem.spoiledQuantity.value"
                            name="spoiledQuantityNR{{ $index }}" ng-trim=false
-                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           numeric-validator="nonNegativeIntegerMultiple,7,{{lineItem.productPackSize}}" min="0" max="9999999" step="{{ lineItem.productPackSize }}"
                            error-holder="spoiledQuantityError{{$index}}"
                            ng-class="{'required-error': !facilityData.isDisabled('epi-inventory', distributionReview) && !(lineItem.spoiledQuantity.value.hasValue() || lineItem.spoiledQuantity.notRecorded)}"/>
-                    <span id="spoiledQuantityError{{$index}}" class="rnr-form-error"
-                          openlmis-message="error.number.only"
-                          style="display: none"></span>
+                    <span id="spoiledQuantityError{{$index}}" class="rnr-form-error" style="display: none">
+                        <span openlmis-message="error.not.multiple.of.packsize"></span>
+                          ({{lineItem.productPackSize}}).
+                    </span>
                   </span>
                 </div>
                 <input id="spoiledQuantityNR{{ $index }}" type="checkbox"

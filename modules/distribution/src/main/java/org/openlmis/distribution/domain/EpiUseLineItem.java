@@ -65,9 +65,13 @@ public class EpiUseLineItem extends BaseModel {
     dto.setStockAtFirstOfMonth(new Reading(stockAtFirstOfMonth));
     dto.setStockAtEndOfMonth(new Reading(stockAtEndOfMonth));
     dto.setReceived(new Reading(received));
-    dto.setLoss(new Reading(loss));
     dto.setDistributed(new Reading(distributed));
     dto.setExpirationDate(new Reading(expirationDate));
+    dto.setNumberOfStockoutDays(new Reading(numberOfStockoutDays));
+    dto.setLossOverHeated(new Reading(lossOverHeated));
+    dto.setLossFrozen(new Reading(lossFrozen));
+    dto.setLossExpired(new Reading(lossExpired));
+    dto.setLossOther(new Reading(lossOther));
 
     return dto;
   }

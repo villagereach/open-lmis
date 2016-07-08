@@ -1,6 +1,7 @@
 package org.openlmis.web.service;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.openlmis.distribution.domain.AdditionalProductSources;
 import org.openlmis.distribution.domain.AdultCoverageLineItem;
 import org.openlmis.distribution.domain.ChildCoverageLineItem;
 import org.openlmis.distribution.domain.EpiInventoryLineItem;
@@ -10,6 +11,7 @@ import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.domain.OpenedVialLineItem;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
+import org.openlmis.distribution.domain.StockoutCauses;
 import org.openlmis.distribution.domain.VaccinationFullCoverage;
 import org.openlmis.distribution.service.DistributionRefrigeratorsService;
 import org.openlmis.distribution.service.EpiInventoryService;
@@ -60,23 +62,46 @@ public class FacilityDistributionEditService {
         db = facilityVisitService.getById(dataScreenId);
         break;
       case "Facilitator":
+      case "StockoutCauses":
+      case "AdditionalProductSources":
         db = facilityVisitService.getById(detail.getParentDataScreenId());
         if (db != null) {
           FacilityVisit visit = (FacilityVisit) db;
+          boolean facilitator = false;
+          boolean stockoutCauses = false;
+          boolean additionalProductSources = false;
 
           switch (detail.getParentProperty()) {
             case "confirmedBy":
               db = visit.getConfirmedBy();
+              facilitator = true;
               break;
             case "verifiedBy":
               db = visit.getVerifiedBy();
+              facilitator = true;
+              break;
+            case "stockoutCauses":
+              db = visit.getStockoutCauses();
+              stockoutCauses = true;
+              break;
+            case "additionalProductSources":
+              db = visit.getAdditionalProductSources();
+              additionalProductSources = true;
               break;
             default:
               throw new IllegalStateException("Unknown property in FacilityVisit: " + detail.getParentProperty());
           }
 
-          if (null == db) {
+          if (null == db && facilitator) {
             db = new Facilitator();
+          }
+
+          if (null == db && stockoutCauses) {
+            db = new StockoutCauses();
+          }
+
+          if (null == db && additionalProductSources) {
+            db = new AdditionalProductSources();
           }
         } else {
           throw new IllegalStateException("Can't find facility visit with id: " + detail.getParentDataScreenId());
@@ -145,7 +170,27 @@ public class FacilityDistributionEditService {
       } else {
         throw new IllegalStateException("Can't find facility visit with id: " + detail.getParentDataScreenId());
       }
-    } else if (db instanceof EpiInventoryLineItem) {
+    } else if (db instanceof StockoutCauses) {
+      StockoutCauses stockoutCauses = (StockoutCauses) db;
+      FacilityVisit visit = facilityVisitService.getById(detail.getParentDataScreenId());
+
+      if (visit != null) {
+        visit.setStockoutCauses(stockoutCauses);
+        facilityVisitService.save(visit);
+      } else {
+        throw new IllegalStateException("Can't find facility visit with id: " + detail.getParentDataScreenId());
+      }
+    }else if (db instanceof AdditionalProductSources) {
+      AdditionalProductSources additionalProductSources = (AdditionalProductSources) db;
+      FacilityVisit visit = facilityVisitService.getById(detail.getParentDataScreenId());
+
+      if (visit != null) {
+        visit.setAdditionalProductSources(additionalProductSources);
+        facilityVisitService.save(visit);
+      } else {
+        throw new IllegalStateException("Can't find facility visit with id: " + detail.getParentDataScreenId());
+      }
+    }else if (db instanceof EpiInventoryLineItem) {
       epiInventoryService.save((EpiInventoryLineItem) db);
     } else if (db instanceof RefrigeratorReading) {
       distributionRefrigeratorsService.saveReading((RefrigeratorReading) db);
