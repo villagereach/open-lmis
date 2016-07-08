@@ -25,6 +25,14 @@ describe('Facility Visit', function () {
     expect(status).toEqual(DistributionStatus.INCOMPLETE);
   });
 
+  it('should return incomplete if verified By Name not present', function () {
+    var facilityVisit = new FacilityVisit({visited: {value: true}, observations: {value:"blah blah blah"}, verifiedBy: {name: {value: ''}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
+
+    var status = facilityVisit.computeStatus();
+
+    expect(status).toEqual(DistributionStatus.INCOMPLETE);
+  });
+
   it('should return empty if visit details is undefined', function () {
     var facilityVisit = new FacilityVisit();
 
@@ -42,7 +50,8 @@ describe('Facility Visit', function () {
   });
 
   it('should return complete if visit details valid and observations not filled', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false}});
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false},
+      verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
 
     var status = facilityVisit.computeStatus();
 
@@ -73,6 +82,12 @@ describe('Facility Visit', function () {
     var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}, stockouts: {value: false}, hasAdditionalProductSources: {value: false}, stockCardsUpToDate: {value: false}, observations: {value:"blah blah blah"}, verifiedBy: {name: 'Pint', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
 
     expect(facilityVisit.computeStatus()).toEqual(DistributionStatus.COMPLETE);
+  });
+
+  it('should return is-incomplete if visit info filled but observation data not filled', function () {
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: '2016-06-10'}});
+
+    expect(facilityVisit.computeStatus()).toEqual(DistributionStatus.INCOMPLETE);
   });
 
   it('should return incomplete if not visited but no reason provided fields filled', function () {

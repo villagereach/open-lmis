@@ -17,7 +17,10 @@ function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
     'equipmentRepaired', 'equipmentRepairedDate', 'totalDaysCceUptime'
   ];
 
-  RefrigeratorReading.prototype.computeStatus = function () {
+  RefrigeratorReading.prototype.computeStatus = function (review) {
+    if (review) {
+      return DistributionStatus.SYNCED;
+    }
 
     var statusClass = DistributionStatus.COMPLETE;
     var _this = this;
@@ -78,13 +81,13 @@ function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
       else {
         var hasAtLeastOneProblem = _.find(_.values(_this.problems),
           function (problemValue) {
-            return problemValue === true;
+            return problemValue && problemValue.value === true;
           });
 
         if (!_this.problems || !hasAtLeastOneProblem)
           statusClass = DistributionStatus.INCOMPLETE;
 
-        if (hasAtLeastOneProblem && _this.problems.other && !_this.problems.otherProblemExplanation) {
+        if (hasAtLeastOneProblem && !isEmpty(_this.problems.other) && isEmpty(_this.problems.otherProblemExplanation)) {
           statusClass = DistributionStatus.INCOMPLETE;
         }
       }

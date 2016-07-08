@@ -34,7 +34,11 @@ function FullCoverage(facilityVisitId, fullCoverage) {
     return false;
   };
 
-  FullCoverage.prototype.computeStatus = function () {
+  FullCoverage.prototype.computeStatus = function (review) {
+    if (review) {
+      return DistributionStatus.SYNCED;
+    }
+
     var _this = this;
     var status;
 

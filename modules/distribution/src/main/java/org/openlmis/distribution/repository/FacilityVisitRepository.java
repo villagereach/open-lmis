@@ -131,4 +131,8 @@ public class FacilityVisitRepository {
 
     mapper.update(visit);
   }
+
+  public List<FacilityVisit> getByDistributionId(Long distributionId) {
+    return mapper.getByDistributionId(distributionId);
+  }
 }

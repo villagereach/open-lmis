@@ -10,11 +10,14 @@
 
 package org.openlmis.distribution.dto;
 
+import com.google.common.base.Optional;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.exception.DataException;
+import org.openlmis.distribution.domain.MonitoringDeviceType;
+import org.openlmis.distribution.domain.ReasonForNotVisiting;
 import org.openlmis.distribution.serializer.DistributionReadingDeSerializer;
 
 import java.text.ParseException;
@@ -36,18 +39,55 @@ import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPT
 @JsonDeserialize(using = DistributionReadingDeSerializer.class)
 @JsonSerialize(include = NON_EMPTY)
 public class Reading {
-  public static final Reading EMPTY = new Reading();
+  static final Reading EMPTY = new Reading();
 
-  private String value;
+  public static Reading safeRead(Reading reading) {
+    return Optional.fromNullable(reading).or(EMPTY);
+  }
+
+  private Reading original;
+  private Object value;
   private Boolean notRecorded;
 
-  public Reading(String value, Boolean notRecorded) {
+  public Reading(Object value, Boolean notRecorded) {
+    this(null, value, notRecorded);
+  }
+
+  public Reading(Reading original, Object value, Boolean notRecorded) {
+    this.original = original;
     this.value = value;
-    this.notRecorded = ((isBlank(value)) && (!notRecorded)) ? true : notRecorded;
+
+    if (value instanceof String) {
+      this.notRecorded = ((isBlank((String) value)) && (!notRecorded)) ? true : notRecorded;
+    } else {
+      this.notRecorded = ((null == value) && (!notRecorded)) ? true : notRecorded;
+    }
+  }
+
+  public Reading(Date date, String format) {
+    if (null == date) {
+      notRecorded = true;
+    } else {
+      value = new SimpleDateFormat(format).format(date);
+      notRecorded = false;
+    }
+
+    original = new Reading(value, notRecorded);
+  }
+
+  public Reading(Object obj) {
+    if (null == obj) {
+      notRecorded = true;
+    } else {
+      value = obj;
+      notRecorded = false;
+    }
+
+    original = new Reading(value, notRecorded);
   }
 
   public String getEffectiveValue() {
-    return (notRecorded == null || !notRecorded) ? value : null;
+    return (notRecorded == null || !notRecorded) ? (null != value ? value.toString() : null) : null;
   }
 
   public Integer parsePositiveInt() {
@@ -109,4 +149,23 @@ public class Reading {
       }
     }
   }
+
+  public ReasonForNotVisiting parseReasonForNotVisiting() {
+    String stringValue = getEffectiveValue();
+    if (stringValue == null) {
+      return null;
+    }
+
+    return ReasonForNotVisiting.valueOf(stringValue);
+  }
+
+  public MonitoringDeviceType parseMonitoringDeviceType() {
+    String stringValue = getEffectiveValue();
+    if (stringValue == null) {
+      return null;
+    }
+
+    return MonitoringDeviceType.valueOf(stringValue);
+  }
+
 }

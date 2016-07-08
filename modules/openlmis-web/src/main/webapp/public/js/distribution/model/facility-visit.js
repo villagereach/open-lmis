@@ -24,7 +24,11 @@ function FacilityVisit(facilityVisitJson) {
     return isUndefined(value) || value.length === 0;
   }
 
-  FacilityVisit.prototype.computeStatus = function () {
+  FacilityVisit.prototype.computeStatus = function (review) {
+    if (review) {
+      return DistributionStatus.SYNCED;
+    }
+
     if (isEmpty(this.visited)) {
       return DistributionStatus.EMPTY;
     }
@@ -89,7 +93,7 @@ function FacilityVisit(facilityVisitJson) {
 
     function validateFields(fieldName) {
       if (['observations', 'visitDate'].indexOf(fieldName) != -1) return !isEmpty(_this[fieldName]);
-      return !(isUndefined(_this[fieldName].name) || isUndefined(_this[fieldName].title));
+      return !(isEmpty(_this[fieldName].name) || isEmpty(_this[fieldName].title));
     }
 
     function isValid(fieldName) {

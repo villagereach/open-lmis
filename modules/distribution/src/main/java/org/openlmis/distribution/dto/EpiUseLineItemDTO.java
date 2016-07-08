@@ -25,8 +25,8 @@ import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPT
 import static org.openlmis.distribution.dto.Reading.EMPTY;
 
 /**
- *  DTO for EpiUseLineItem. It contains facilityVisitId and
- *  client side representation of EpiUseLineItem attributes.
+ * DTO for EpiUseLineItem. It contains facilityVisitId and
+ * client side representation of EpiUseLineItem attributes.
  */
 
 @Data
@@ -51,18 +51,18 @@ public class EpiUseLineItemDTO extends BaseModel {
   private Reading lossOther;
 
   public EpiUseLineItem transform() {
-      Integer numberOfStockoutDays = Optional.fromNullable(this.numberOfStockoutDays).or(EMPTY).parsePositiveInt();
-      Integer lossOverHeated = Optional.fromNullable(this.lossOverHeated).or(EMPTY).parsePositiveInt();
-      Integer lossFrozen = Optional.fromNullable(this.lossFrozen).or(EMPTY).parsePositiveInt();
-      Integer lossExpired = Optional.fromNullable(this.lossExpired).or(EMPTY).parsePositiveInt();
-      Integer lossOther = Optional.fromNullable(this.lossOther).or(EMPTY).parsePositiveInt();
-      Integer stockAtFirstOfMonth = Optional.fromNullable(this.stockAtFirstOfMonth).or(EMPTY).parsePositiveInt();
-      Integer stockAtEndOfMonth = Optional.fromNullable(this.stockAtEndOfMonth).or(EMPTY).parsePositiveInt();
-      Integer received = Optional.fromNullable(this.received).or(EMPTY).parsePositiveInt();
-      Integer distributed = Optional.fromNullable(this.distributed).or(EMPTY).parsePositiveInt();
-      String expirationDate = Optional.fromNullable(this.expirationDate).or(EMPTY).getEffectiveValue();
+    Integer numberOfStockoutDays = Reading.safeRead(this.numberOfStockoutDays).parsePositiveInt();
+    Integer lossOverHeated = Reading.safeRead(this.lossOverHeated).parsePositiveInt();
+    Integer lossFrozen = Reading.safeRead(this.lossFrozen).parsePositiveInt();
+    Integer lossExpired = Reading.safeRead(this.lossExpired).parsePositiveInt();
+    Integer lossOther = Reading.safeRead(this.lossOther).parsePositiveInt();
+    Integer stockAtFirstOfMonth = Reading.safeRead(this.stockAtFirstOfMonth).parsePositiveInt();
+    Integer stockAtEndOfMonth = Reading.safeRead(this.stockAtEndOfMonth).parsePositiveInt();
+    Integer received = Reading.safeRead(this.received).parsePositiveInt();
+    Integer distributed = Reading.safeRead(this.distributed).parsePositiveInt();
+    String expirationDate = Reading.safeRead(this.expirationDate).getEffectiveValue();
 
-      EpiUseLineItem epiUseLineItem = new EpiUseLineItem(this.facilityVisitId, this.productGroup,
+    EpiUseLineItem epiUseLineItem = new EpiUseLineItem(this.facilityVisitId, this.productGroup,
       stockAtFirstOfMonth, stockAtEndOfMonth, received, distributed, expirationDate,
       numberOfStockoutDays, lossOverHeated, lossFrozen, lossExpired, lossOther);
 

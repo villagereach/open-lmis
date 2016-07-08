@@ -113,7 +113,7 @@ describe('RefrigeratorReading', function () {
       highestTemperatureReported: {notRecorded: true}, lowestTemperatureReported: {notRecorded: true}, problemOccurredDate: {notRecorded: true}, problemReportedDate: {notRecorded: true},
       equipmentRepaired: {notRecorded: true}, equipmentRepairedDate: {notRecorded: true}, totalDaysCceUptime: {notRecorded: true}});
 
-    refrigeratorReading.problems = {operatorError: true};
+    refrigeratorReading.problems = {operatorError: {value: true}};
     var status = refrigeratorReading.computeStatus();
 
     expect(status).toEqual(DistributionStatus.COMPLETE);

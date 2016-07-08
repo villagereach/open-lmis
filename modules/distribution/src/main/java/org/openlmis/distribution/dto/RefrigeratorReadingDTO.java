@@ -51,8 +51,8 @@ public class RefrigeratorReadingDTO extends BaseModel {
   Reading lowAlarmEvents;
   Reading highAlarmEvents;
   Reading problemSinceLastTime;
-  RefrigeratorProblem problems;
-  String notes;
+  RefrigeratorProblemDTO problems;
+  Reading notes;
   Reading hasMonitoringDevice;
   Reading monitoringDeviceType;
   Reading monitoringDeviceOtherType;
@@ -70,36 +70,31 @@ public class RefrigeratorReadingDTO extends BaseModel {
     refrigerator.setCreatedBy(this.createdBy);
     refrigerator.validate();
 
-    Float temperature = Optional.fromNullable(this.temperature).or(EMPTY).parseFloat();
-    String functioningCorrectly = Optional.fromNullable(this.functioningCorrectly).or(EMPTY).getEffectiveValue();
-    Integer lowAlarmEvents = Optional.fromNullable(this.lowAlarmEvents).or(EMPTY).parsePositiveInt();
-    Integer highAlarmEvents = Optional.fromNullable(this.highAlarmEvents).or(EMPTY).parsePositiveInt();
-    String problemSinceLastTime = Optional.fromNullable(this.problemSinceLastTime).or(EMPTY).getEffectiveValue();
-    RefrigeratorProblem problems = Optional.fromNullable(this.problems).or(new RefrigeratorProblem());
-    String notes = Optional.fromNullable(this.notes).or(StringUtils.EMPTY);
+    Float temperature = Reading.safeRead(this.temperature).parseFloat();
+    String functioningCorrectly = Reading.safeRead(this.functioningCorrectly).getEffectiveValue();
+    Integer lowAlarmEvents = Reading.safeRead(this.lowAlarmEvents).parsePositiveInt();
+    Integer highAlarmEvents = Reading.safeRead(this.highAlarmEvents).parsePositiveInt();
+    String problemSinceLastTime = Reading.safeRead(this.problemSinceLastTime).getEffectiveValue();
+    RefrigeratorProblem problems = Optional.fromNullable(this.problems).or(new RefrigeratorProblemDTO()).transform();
+    String notes = Reading.safeRead(this.notes).getEffectiveValue();
 
     if ("N".equalsIgnoreCase(functioningCorrectly)) {
       problems.validate();
     } else {
-      problems = null;
+      problems = new RefrigeratorProblem(id);
     }
 
-    String hasMonitoringDevice = Optional.fromNullable(this.hasMonitoringDevice).or(EMPTY).getEffectiveValue();
-    MonitoringDeviceType monitoringDeviceType = null;
-
-    if (null != this.monitoringDeviceType && isFalse(this.monitoringDeviceType.getNotRecorded())) {
-      monitoringDeviceType = MonitoringDeviceType.valueOf(this.monitoringDeviceType.getEffectiveValue());
-    }
-
-    String monitoringDeviceOtherType = Optional.fromNullable(this.monitoringDeviceOtherType).or(EMPTY).getEffectiveValue();
-    String temperatureReportingForm = Optional.fromNullable(this.temperatureReportingForm).or(EMPTY).getEffectiveValue();
-    Integer highestTemperatureReported = Optional.fromNullable(this.highestTemperatureReported).or(EMPTY).parsePositiveInt();
-    Integer lowestTemperatureReported = Optional.fromNullable(this.lowestTemperatureReported).or(EMPTY).parsePositiveInt();
-    Date problemOccurredDate = Optional.fromNullable(this.problemOccurredDate).or(EMPTY).parseDate();
-    Date problemReportedDate = Optional.fromNullable(this.problemReportedDate).or(EMPTY).parseDate();
-    String equipmentRepaired = Optional.fromNullable(this.equipmentRepaired).or(EMPTY).getEffectiveValue();
-    Date equipmentRepairedDate = Optional.fromNullable(this.equipmentRepairedDate).or(EMPTY).parseDate();
-    Integer totalDaysCceUptime = Optional.fromNullable(this.totalDaysCceUptime).or(EMPTY).parsePositiveInt();
+    String hasMonitoringDevice = Reading.safeRead(this.hasMonitoringDevice).getEffectiveValue();
+    MonitoringDeviceType monitoringDeviceType = Reading.safeRead(this.monitoringDeviceType).parseMonitoringDeviceType();
+    String monitoringDeviceOtherType = Reading.safeRead(this.monitoringDeviceOtherType).getEffectiveValue();
+    String temperatureReportingForm = Reading.safeRead(this.temperatureReportingForm).getEffectiveValue();
+    Integer highestTemperatureReported = Reading.safeRead(this.highestTemperatureReported).parsePositiveInt();
+    Integer lowestTemperatureReported = Reading.safeRead(this.lowestTemperatureReported).parsePositiveInt();
+    Date problemOccurredDate = Reading.safeRead(this.problemOccurredDate).parseDate();
+    Date problemReportedDate = Reading.safeRead(this.problemReportedDate).parseDate();
+    String equipmentRepaired = Reading.safeRead(this.equipmentRepaired).getEffectiveValue();
+    Date equipmentRepairedDate = Reading.safeRead(this.equipmentRepairedDate).parseDate();
+    Integer totalDaysCceUptime = Reading.safeRead(this.totalDaysCceUptime).parsePositiveInt();
 
     RefrigeratorReading reading = new RefrigeratorReading(this.refrigerator, this.facilityVisitId,
       temperature, functioningCorrectly, lowAlarmEvents, highAlarmEvents, problemSinceLastTime,

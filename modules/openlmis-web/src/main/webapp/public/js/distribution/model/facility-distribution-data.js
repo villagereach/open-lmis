@@ -27,7 +27,11 @@ function FacilityDistribution(facilityDistribution) {
   // all fields will get NR value
   this.fullCoverage.setNotRecorded();
 
-  FacilityDistribution.prototype.computeStatus = function () {
+  FacilityDistribution.prototype.computeStatus = function (review) {
+    if (review) {
+      this.status = DistributionStatus.SYNCED;
+      return this.status;
+    }
 
     var forms = [this.epiUse, this.refrigerators, this.facilityVisit, this.epiInventory, this.fullCoverage, this.childCoverage, this.adultCoverage];
     var overallStatus;
@@ -54,10 +58,15 @@ function FacilityDistribution(facilityDistribution) {
 
   };
 
-  FacilityDistribution.prototype.isDisabled = function (tabName) {
+  FacilityDistribution.prototype.isDisabled = function (tabName, review) {
+    if (review) {
+      return !review.editMode[this.facilityId][tabName || review.currentScreen];
+    }
+
     if ([DistributionStatus.SYNCED, DistributionStatus.DUPLICATE].indexOf(this.status) != -1) {
       return true;
     }
+
     return ((this.facilityVisit.visited && this.facilityVisit.visited.value === false) && ["refrigerators", "epi-inventory", "epi-use"].indexOf(tabName) != -1);
   };
 
