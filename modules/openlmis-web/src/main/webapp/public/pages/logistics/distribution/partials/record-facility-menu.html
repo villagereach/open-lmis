@@ -37,7 +37,7 @@
         <span id="epiUseTabLabel" openlmis-message="label.epi.use"></span>
       </a>
     </li>
-    <li id="coverageStatus" ng-class="[distributionData.fullCoverage.computeStatus(distributionReview), isSelected('full-coverage')]">
+    <li id="coverageStatus" ng-class="[distributionData.fullCoverage.computeStatus(distributionReview), isSelected('full-coverage')]" ng-if="distributionData.fullCoverage.isActive()">
       <a id="coverageTab" href="" ng-click="changeRoute('full-coverage')">
         <span id="coverageTabIcon" class="status-icon"></span>
         <span id="coverageTabLabel" openlmis-message="label.coverage.full"></span>
