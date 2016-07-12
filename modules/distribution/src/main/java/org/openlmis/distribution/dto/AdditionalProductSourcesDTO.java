@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
 import org.openlmis.distribution.domain.AdditionalProductSources;
 
+import static org.apache.commons.lang.BooleanUtils.isTrue;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
 @Data
@@ -23,6 +24,7 @@ public class AdditionalProductSourcesDTO extends BaseModel {
   Reading zonalWarehouse;
   Reading other;
   Reading additionalProductSourcesOther;
+  Boolean notRecorded;
 
   public AdditionalProductSources transform() {
     Boolean anotherHealthFacility = Reading.safeRead(this.anotherHealthFacility).parseBoolean();
@@ -37,10 +39,13 @@ public class AdditionalProductSourcesDTO extends BaseModel {
     sources.setModifiedBy(modifiedBy);
     sources.setModifiedDate(modifiedDate);
     sources.setFacilityVisitId(facilityVisitId);
-    sources.setAnotherHealthFacility(anotherHealthFacility);
-    sources.setZonalWarehouse(zonalWarehouse);
-    sources.setOther(other);
-    sources.setAdditionalProductSourcesOther(additionalProductSourcesOther);
+
+    if (isTrue(notRecorded)) {
+      sources.setAnotherHealthFacility(anotherHealthFacility);
+      sources.setZonalWarehouse(zonalWarehouse);
+      sources.setOther(other);
+      sources.setAdditionalProductSourcesOther(additionalProductSourcesOther);
+    }
 
     return sources;
   }

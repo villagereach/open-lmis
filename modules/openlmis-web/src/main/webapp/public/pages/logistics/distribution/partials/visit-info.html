@@ -118,7 +118,7 @@
               </div>
               <div class="form-row clearfix">
                 <input id="stockoutCauses{{ $index }}" type="checkbox"
-                       ng-model="stockoutCausesNotRecorded.value"
+                       ng-model="facilityData.facilityVisit.stockoutCauses.notRecorded"
                        ng-click="clearStockoutCauses()"
                        not-recorded/>
                 <label class="checkbox-label" for="stockoutCauses{{ $index }}"
@@ -137,7 +137,7 @@
               <input id="receivedNo" type="radio" ng-model="facilityData.facilityVisit.hasAdditionalProductSources.value" ng-value="false" name="received{{$index}}">
               <label for="receivedNo" class="radio-label" openlmis-message="label.no"></label>
               <input id="received{{$index}}" type="checkbox"
-                     ng-model="facilityData.facilityVisit.received.notRecorded"
+                     ng-model="facilityData.facilityVisit.hasAdditionalProductSources.notRecorded"
                      not-recorded/>
               <label class="checkbox-label" for="received{{$index}}"
                      openlmis-message="label.not.recorded"></label>
@@ -169,7 +169,7 @@
                        openlmis-message="label.received.select.other"></label>
               </div>
               <div class="form-row clearfix">
-              <input ng-model="facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther"
+              <input ng-model="facilityData.facilityVisit.additionalProductSources.additionalProductSourcesOther.value"
                      id="otherSourceInput" type="text"
                      ng-show="facilityData.facilityVisit.additionalProductSources.other.value === true"
                      maxlength="140"
@@ -178,7 +178,7 @@
               </div>
               <div class="form-row clearfix">
                 <input id="receivedProducts{{ $index }}" type="checkbox"
-                       ng-model="receivedProductsNotRecorded.value"
+                       ng-model="facilityData.facilityVisit.additionalProductSources.notRecorded"
                        ng-click="clearAdditionalProductSources()"
                        not-recorded/>
                 <label class="checkbox-label" for="receivedProducts{{ $index }}"

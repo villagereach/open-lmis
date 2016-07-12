@@ -72,7 +72,10 @@ function VisitInfoController($scope, distributionService, $routeParams) {
   $scope.clearStockoutCauses = function () {
   var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
 
-  visit.stockoutCauses = setApplicableField(visit.stockoutCauses);
+  if (!visit.stockoutCauses) {
+    visit.stockoutCauses = {};
+  }
+
   $.each(['coldChainEquipmentFailure','incorrectEstimationNeeds','stockoutZonalWarehouse','deliveryNotOnTime','productsTransferedAnotherFacility','other','stockoutCausesOther'], function (i, elem) {
     visit.stockoutCauses[elem] = setApplicableField(visit.stockoutCauses[elem]);
   });
@@ -81,7 +84,10 @@ function VisitInfoController($scope, distributionService, $routeParams) {
   $scope.clearAdditionalProductSources = function () {
     var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
 
-    visit.additionalProductSources = setApplicableField(visit.additionalProductSources);
+    if (!visit.additionalProductSources) {
+      visit.additionalProductSources = {};
+    }
+
     $.each(['anotherHealthFacility','zonalWarehouse','other','additionalProductSourcesOther'], function (i, elem) {
       visit.additionalProductSources[elem] = setApplicableField(visit.additionalProductSources[elem]);
     });

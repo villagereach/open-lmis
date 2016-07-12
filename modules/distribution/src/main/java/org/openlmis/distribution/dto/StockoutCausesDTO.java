@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
 import org.openlmis.distribution.domain.StockoutCauses;
 
+import static org.apache.commons.lang.BooleanUtils.isTrue;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
 @Data
@@ -26,6 +27,7 @@ public class StockoutCausesDTO extends BaseModel {
   Reading productsTransferedAnotherFacility;
   Reading other;
   Reading stockoutCausesOther;
+  Boolean notRecorded;
 
   public StockoutCauses transform() {
     Boolean coldChainEquipmentFailure = Reading.safeRead(this.coldChainEquipmentFailure).parseBoolean();
@@ -43,13 +45,16 @@ public class StockoutCausesDTO extends BaseModel {
     stockoutCauses.setModifiedBy(modifiedBy);
     stockoutCauses.setModifiedDate(modifiedDate);
     stockoutCauses.setFacilityVisitId(facilityVisitId);
-    stockoutCauses.setColdChainEquipmentFailure(coldChainEquipmentFailure);
-    stockoutCauses.setIncorrectEstimationNeeds(incorrectEstimationNeeds);
-    stockoutCauses.setStockoutZonalWarehouse(stockoutZonalWarehouse);
-    stockoutCauses.setDeliveryNotOnTime(deliveryNotOnTime);
-    stockoutCauses.setProductsTransferedAnotherFacility(productsTransferedAnotherFacility);
-    stockoutCauses.setOther(other);
-    stockoutCauses.setStockoutCausesOther(stockoutCausesOther);
+
+    if (isTrue(notRecorded)) {
+      stockoutCauses.setColdChainEquipmentFailure(coldChainEquipmentFailure);
+      stockoutCauses.setIncorrectEstimationNeeds(incorrectEstimationNeeds);
+      stockoutCauses.setStockoutZonalWarehouse(stockoutZonalWarehouse);
+      stockoutCauses.setDeliveryNotOnTime(deliveryNotOnTime);
+      stockoutCauses.setProductsTransferedAnotherFacility(productsTransferedAnotherFacility);
+      stockoutCauses.setOther(other);
+      stockoutCauses.setStockoutCausesOther(stockoutCausesOther);
+    }
     
     return stockoutCauses;
   }

@@ -51,12 +51,12 @@ function FacilityVisit(facilityVisitJson) {
     return !field || (isUndefined(field.value) && !field.notRecorded);
   }
 
-  function isUndefinedOrFalse(value) {
-    return isUndefined(value) || value === false;
+  function isEmptyOrFalse(field) {
+    return isEmpty(field) || field.value === false;
   }
 
-  function isBlank(value) {
-    return isUndefined(value) || value.length === 0;
+  function isBlank(field) {
+    return isEmpty(field) || (field.value && field.value.length === 0);
   }
 
   FacilityVisit.prototype.computeStatus = function (review) {
@@ -79,17 +79,18 @@ function FacilityVisit(facilityVisitJson) {
         }
 
         // if no cause was selected
-        if (isUndefinedOrFalse(this.stockoutCauses.coldChainEquipmentFailure) &&
-          isUndefinedOrFalse(this.stockoutCauses.incorrectEstimationNeeds) &&
-          isUndefinedOrFalse(this.stockoutCauses.stockoutZonalWarehouse) &&
-          isUndefinedOrFalse(this.stockoutCauses.deliveryNotOnTime) &&
-          isUndefinedOrFalse(this.stockoutCauses.productsTransferedAnotherFacility) &&
-          isUndefinedOrFalse(this.stockoutCauses.other)) {
+        if (isEmptyOrFalse(this.stockoutCauses.coldChainEquipmentFailure) &&
+          isEmptyOrFalse(this.stockoutCauses.incorrectEstimationNeeds) &&
+          isEmptyOrFalse(this.stockoutCauses.stockoutZonalWarehouse) &&
+          isEmptyOrFalse(this.stockoutCauses.deliveryNotOnTime) &&
+          isEmptyOrFalse(this.stockoutCauses.productsTransferedAnotherFacility) &&
+          isEmptyOrFalse(this.stockoutCauses.other) &&
+          !this.stockoutCauses.notRecorded) {
           return DistributionStatus.INCOMPLETE;
         }
 
         // if selected other cause but description is empty
-        if (this.stockoutCauses.other === true && isBlank(this.stockoutCauses.stockoutCausesOther)) {
+        if (this.stockoutCauses.other.value === true && isBlank(this.stockoutCauses.stockoutCausesOther)) {
           return DistributionStatus.INCOMPLETE;
         }
       }
@@ -100,14 +101,15 @@ function FacilityVisit(facilityVisitJson) {
         }
 
         // if no source was selected
-        if (isUndefinedOrFalse(this.additionalProductSources.anotherHealthFacility) &&
-          isUndefinedOrFalse(this.additionalProductSources.zonalWarehouse) &&
-          isUndefinedOrFalse(this.additionalProductSources.other)) {
+        if (isEmptyOrFalse(this.additionalProductSources.anotherHealthFacility) &&
+          isEmptyOrFalse(this.additionalProductSources.zonalWarehouse) &&
+          isEmptyOrFalse(this.additionalProductSources.other) &&
+          !this.additionalProductSources.notRecorded) {
           return DistributionStatus.INCOMPLETE;
         }
 
         // if selected other source but description is empty
-        if (this.additionalProductSources.other === true && isBlank(this.additionalProductSources.additionalProductSourcesOther)) {
+        if (this.additionalProductSources.other.value === true && isBlank(this.additionalProductSources.additionalProductSourcesOther)) {
           return DistributionStatus.INCOMPLETE;
         }
       }
