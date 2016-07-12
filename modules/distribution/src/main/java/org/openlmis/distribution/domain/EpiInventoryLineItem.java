@@ -77,6 +77,7 @@ public class EpiInventoryLineItem extends BaseModel {
     dto.setProgramProductId(programProductId);
     dto.setProductCode(productCode);
     dto.setProductName(productName);
+    dto.setProductPackSize(productPackSize);
     dto.setProductDisplayOrder(productDisplayOrder);
 
     return dto;
