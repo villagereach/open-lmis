@@ -26,18 +26,18 @@ public class AdditionalProductSources extends BaseModel {
   String additionalProductSourcesOther;
 
   public AdditionalProductSourcesDTO transform() {
-    AdditionalProductSourcesDTO sources = new AdditionalProductSourcesDTO();
-    sources.setId(id);
-    sources.setCreatedBy(createdBy);
-    sources.setCreatedDate(createdDate);
-    sources.setModifiedBy(modifiedBy);
-    sources.setModifiedDate(modifiedDate);
-    sources.setFacilityVisitId(facilityVisitId);
-    sources.setAnotherHealthFacility(new Reading(anotherHealthFacility));
-    sources.setZonalWarehouse(new Reading(zonalWarehouse));
-    sources.setOther(new Reading(other));
-    sources.setAdditionalProductSourcesOther(new Reading(additionalProductSourcesOther));
+    AdditionalProductSourcesDTO dto = new AdditionalProductSourcesDTO();
+    dto.setId(id);
+    dto.setCreatedBy(createdBy);
+    dto.setCreatedDate(createdDate);
+    dto.setModifiedBy(modifiedBy);
+    dto.setModifiedDate(modifiedDate);
+    dto.setFacilityVisitId(facilityVisitId);
+    dto.setAnotherHealthFacility(new Reading(anotherHealthFacility));
+    dto.setZonalWarehouse(new Reading(zonalWarehouse));
+    dto.setOther(new Reading(other));
+    dto.setAdditionalProductSourcesOther(new Reading(additionalProductSourcesOther));
 
-    return sources;
+    return dto;
   }
 }
