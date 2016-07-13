@@ -27,6 +27,8 @@ import org.openlmis.distribution.dto.Reading;
 
 import java.util.Date;
 
+import static org.apache.commons.lang.BooleanUtils.isFalse;
+import static org.apache.commons.lang.BooleanUtils.isTrue;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
 /**
@@ -124,7 +126,6 @@ public class FacilityVisit extends BaseModel {
     dto.setStockoutCauses(stockoutCauses.transform());
     dto.setHasAdditionalProductSources(new Reading(hasAdditionalProductSources));
     dto.setAdditionalProductSources(additionalProductSources.transform());
-
     dto.setStockCardsUpToDate(new Reading(stockCardsUpToDate));
 
     setNotRecorded(dto.getConfirmedBy().getName());
@@ -138,7 +139,45 @@ public class FacilityVisit extends BaseModel {
     setNotRecorded(dto.getReasonForNotVisiting());
     setNotRecorded(dto.getOtherReasonDescription());
     setNotRecorded(dto.getSynced());
+    setNotRecorded(dto.getStockouts());
+
+    setNotRecorded(dto.getStockoutCauses().getColdChainEquipmentFailure());
+    setNotRecorded(dto.getStockoutCauses().getIncorrectEstimationNeeds());
+    setNotRecorded(dto.getStockoutCauses().getStockoutZonalWarehouse());
+    setNotRecorded(dto.getStockoutCauses().getDeliveryNotOnTime());
+    setNotRecorded(dto.getStockoutCauses().getProductsTransferedAnotherFacility());
+    setNotRecorded(dto.getStockoutCauses().getOther());
+    setNotRecorded(dto.getStockoutCauses().getStockoutCausesOther());
+
+    setNotRecorded(dto.getHasAdditionalProductSources());
+    setNotRecorded(dto.getAdditionalProductSources().getAnotherHealthFacility());
+    setNotRecorded(dto.getAdditionalProductSources().getZonalWarehouse());
+    setNotRecorded(dto.getAdditionalProductSources().getOther());
+    setNotRecorded(dto.getAdditionalProductSources().getAdditionalProductSourcesOther());
     setNotRecorded(dto.getStockCardsUpToDate());
+
+    if (isTrue(stockouts)) {
+      if (isFalse(stockoutCauses.coldChainEquipmentFailure)
+              && isFalse(stockoutCauses.incorrectEstimationNeeds)
+              && isFalse(stockoutCauses.stockoutZonalWarehouse)
+              && isFalse(stockoutCauses.deliveryNotOnTime)
+              && isFalse(stockoutCauses.productsTransferedAnotherFacility)
+              && isFalse(stockoutCauses.other)) {
+        dto.getStockoutCauses().setNotRecorded(true);
+      } else {
+        dto.getStockoutCauses().setNotRecorded(null);
+      }
+    }
+
+    if (isTrue(hasAdditionalProductSources)) {
+      if (isFalse(additionalProductSources.anotherHealthFacility)
+              && isFalse(additionalProductSources.zonalWarehouse)
+              && isFalse(additionalProductSources.other)) {
+        dto.getAdditionalProductSources().setNotRecorded(true);
+      } else {
+        dto.getAdditionalProductSources().setNotRecorded(null);
+      }
+    }
 
     return dto;
   }

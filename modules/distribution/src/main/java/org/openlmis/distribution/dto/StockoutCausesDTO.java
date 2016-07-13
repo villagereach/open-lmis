@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
 import org.openlmis.distribution.domain.StockoutCauses;
 
-import static org.apache.commons.lang.BooleanUtils.isTrue;
+import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
 @Data
@@ -30,14 +30,6 @@ public class StockoutCausesDTO extends BaseModel {
   Boolean notRecorded;
 
   public StockoutCauses transform() {
-    Boolean coldChainEquipmentFailure = Reading.safeRead(this.coldChainEquipmentFailure).parseBoolean();
-    Boolean incorrectEstimationNeeds = Reading.safeRead(this.incorrectEstimationNeeds).parseBoolean();
-    Boolean stockoutZonalWarehouse = Reading.safeRead(this.stockoutZonalWarehouse).parseBoolean();
-    Boolean deliveryNotOnTime = Reading.safeRead(this.deliveryNotOnTime).parseBoolean();
-    Boolean productsTransferedAnotherFacility = Reading.safeRead(this.productsTransferedAnotherFacility).parseBoolean();
-    Boolean other = Reading.safeRead(this.other).parseBoolean();
-    String stockoutCausesOther = Reading.safeRead(this.stockoutCausesOther).getEffectiveValue();
-    
     StockoutCauses stockoutCauses = new StockoutCauses();
     stockoutCauses.setId(id);
     stockoutCauses.setCreatedBy(createdBy);
@@ -46,7 +38,15 @@ public class StockoutCausesDTO extends BaseModel {
     stockoutCauses.setModifiedDate(modifiedDate);
     stockoutCauses.setFacilityVisitId(facilityVisitId);
 
-    if (isTrue(notRecorded)) {
+    if (isFalse(notRecorded)) {
+      Boolean coldChainEquipmentFailure = Reading.safeRead(this.coldChainEquipmentFailure).parseBoolean();
+      Boolean incorrectEstimationNeeds = Reading.safeRead(this.incorrectEstimationNeeds).parseBoolean();
+      Boolean stockoutZonalWarehouse = Reading.safeRead(this.stockoutZonalWarehouse).parseBoolean();
+      Boolean deliveryNotOnTime = Reading.safeRead(this.deliveryNotOnTime).parseBoolean();
+      Boolean productsTransferedAnotherFacility = Reading.safeRead(this.productsTransferedAnotherFacility).parseBoolean();
+      Boolean other = Reading.safeRead(this.other).parseBoolean();
+      String stockoutCausesOther = Reading.safeRead(this.stockoutCausesOther).getEffectiveValue();
+
       stockoutCauses.setColdChainEquipmentFailure(coldChainEquipmentFailure);
       stockoutCauses.setIncorrectEstimationNeeds(incorrectEstimationNeeds);
       stockoutCauses.setStockoutZonalWarehouse(stockoutZonalWarehouse);

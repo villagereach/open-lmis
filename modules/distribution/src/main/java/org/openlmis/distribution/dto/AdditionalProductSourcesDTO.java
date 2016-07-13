@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
 import org.openlmis.distribution.domain.AdditionalProductSources;
 
-import static org.apache.commons.lang.BooleanUtils.isTrue;
+import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
 
 @Data
@@ -27,11 +27,6 @@ public class AdditionalProductSourcesDTO extends BaseModel {
   Boolean notRecorded;
 
   public AdditionalProductSources transform() {
-    Boolean anotherHealthFacility = Reading.safeRead(this.anotherHealthFacility).parseBoolean();
-    Boolean zonalWarehouse = Reading.safeRead(this.zonalWarehouse).parseBoolean();
-    Boolean other = Reading.safeRead(this.other).parseBoolean();
-    String additionalProductSourcesOther = Reading.safeRead(this.additionalProductSourcesOther).getEffectiveValue();
-
     AdditionalProductSources sources = new AdditionalProductSources();
     sources.setId(id);
     sources.setCreatedBy(createdBy);
@@ -40,7 +35,12 @@ public class AdditionalProductSourcesDTO extends BaseModel {
     sources.setModifiedDate(modifiedDate);
     sources.setFacilityVisitId(facilityVisitId);
 
-    if (isTrue(notRecorded)) {
+    if (isFalse(notRecorded)) {
+      Boolean anotherHealthFacility = Reading.safeRead(this.anotherHealthFacility).parseBoolean();
+      Boolean zonalWarehouse = Reading.safeRead(this.zonalWarehouse).parseBoolean();
+      Boolean other = Reading.safeRead(this.other).parseBoolean();
+      String additionalProductSourcesOther = Reading.safeRead(this.additionalProductSourcesOther).getEffectiveValue();
+
       sources.setAnotherHealthFacility(anotherHealthFacility);
       sources.setZonalWarehouse(zonalWarehouse);
       sources.setOther(other);
