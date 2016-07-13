@@ -70,16 +70,26 @@ function VisitInfoController($scope, distributionService, $routeParams) {
   };
 
   $scope.clearStockoutCauses = function () {
-  var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
 
-  if (!visit.stockoutCauses) {
-    visit.stockoutCauses = {};
+    if (!visit.stockoutCauses) {
+      visit.stockoutCauses = {};
+    }
+
+    $.each(['coldChainEquipmentFailure','incorrectEstimationNeeds','stockoutZonalWarehouse','deliveryNotOnTime','productsTransferedAnotherFacility','other','stockoutCausesOther'], function (i, elem) {
+      visit.stockoutCauses[elem] = setApplicableField(visit.stockoutCauses[elem]);
+    });
+  };
+
+  $scope.clearStockoutCausesOther = function () {
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+    if (!visit.stockoutCauses) {
+      visit.stockoutCauses = {};
+
+      visit.stockoutCauses.stockoutCausesOther = setApplicableField(visit.stockoutCauses.stockoutCausesOther);
+    }
   }
-
-  $.each(['coldChainEquipmentFailure','incorrectEstimationNeeds','stockoutZonalWarehouse','deliveryNotOnTime','productsTransferedAnotherFacility','other','stockoutCausesOther'], function (i, elem) {
-    visit.stockoutCauses[elem] = setApplicableField(visit.stockoutCauses[elem]);
-  });
-};
 
   $scope.clearAdditionalProductSources = function () {
     var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
@@ -92,6 +102,16 @@ function VisitInfoController($scope, distributionService, $routeParams) {
       visit.additionalProductSources[elem] = setApplicableField(visit.additionalProductSources[elem]);
     });
   };
+
+  $scope.clearAdditionalProductSourcesOther = function () {
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+    if (!visit.additionalProductSources) {
+      visit.additionalProductSources = {};
+
+      visit.additionalProductSources.additionalProductSourcesOther = setApplicableField(visit.additionalProductSources.additionalProductSourcesOther);
+    }
+  }
 
   function setApplicableField(field) {
     if (isUndefined(field)) {

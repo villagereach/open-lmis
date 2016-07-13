@@ -104,7 +104,8 @@
               </div>
               <div class="form-row clearfix">
                 <input id="otherCause{{ $index }}" type="checkbox" name="stockoutCauses{{ $index }}"
-                       ng-model="facilityData.facilityVisit.stockoutCauses.other.value"/>
+                       ng-model="facilityData.facilityVisit.stockoutCauses.other.value"
+                       ng-click="clearStockoutCausesOther()"/>
                 <label class="checkbox-label" for="otherCause{{ $index }}"
                        openlmis-message="label.stockouts.select.other"></label>
               </div>
@@ -164,7 +165,8 @@
               </div>
               <div class="form-row clearfix">
                 <input id="otherSource{{ $index }}" type="checkbox" name="receivedProducts{{ $index }}"
-                       ng-model="facilityData.facilityVisit.additionalProductSources.other.value"/>
+                       ng-model="facilityData.facilityVisit.additionalProductSources.other.value"
+                       ng-click="clearAdditionalProductSourcesOther()"/>
                 <label class="checkbox-label" for="otherSource{{ $index }}"
                        openlmis-message="label.received.select.other"></label>
               </div>
@@ -214,13 +216,11 @@
                 <label openlmis-message="label.name" for="verifiedByName"></label>
                 <input type="text" maxlength="50"
                        ng-model="facilityData.facilityVisit.verifiedBy.name.value"
-                       id="verifiedByName"
-                       ng-class="{'required-error': !facilityData.facilityVisit.verifiedBy.name.value}"/>
+                       id="verifiedByName"/>
                 <label openlmis-message="label.title" for="verifiedByTitle"></label>
                 <input type="text" maxlength="50"
                        ng-model="facilityData.facilityVisit.verifiedBy.title.value"
-                       id="verifiedByTitle"
-                       ng-class="{'required-error': !facilityData.facilityVisit.verifiedBy.title.value}"/>
+                       id="verifiedByTitle"/>
               </div>
             </div>
 
@@ -232,13 +232,11 @@
                 <label openlmis-message="label.name" for="confirmedByName"></label>
                 <input type="text" maxlength="50"
                        ng-model="facilityData.facilityVisit.confirmedBy.name.value"
-                       id="confirmedByName"
-                       ng-class="{'required-error': !facilityData.facilityVisit.confirmedBy.name.value}"/>
+                       id="confirmedByName"/>
                 <label openlmis-message="label.title" for="confirmedByTitle"></label>
                 <input type="text" maxlength="50"
                        ng-model="facilityData.facilityVisit.confirmedBy.title.value"
-                       id="confirmedByTitle"
-                       ng-class="{'required-error': !facilityData.facilityVisit.confirmedBy.title.value}"/>
+                       id="confirmedByTitle"/>
               </div>
             </div>
           </div>

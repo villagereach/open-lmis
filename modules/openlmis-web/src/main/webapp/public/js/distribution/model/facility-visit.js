@@ -55,6 +55,10 @@ function FacilityVisit(facilityVisitJson) {
     return isEmpty(field) || field.value === false;
   }
 
+  function isTrue(field) {
+    return !isEmpty(field) && field.value && field.value === true;
+  }
+
   function isBlank(field) {
     return isEmpty(field) || (field.value && field.value.length === 0);
   }
@@ -90,7 +94,7 @@ function FacilityVisit(facilityVisitJson) {
         }
 
         // if selected other cause but description is empty
-        if (this.stockoutCauses.other.value === true && isBlank(this.stockoutCauses.stockoutCausesOther)) {
+        if (isTrue(this.stockoutCauses.other) && isBlank(this.stockoutCauses.stockoutCausesOther)) {
           return DistributionStatus.INCOMPLETE;
         }
       }
@@ -109,7 +113,7 @@ function FacilityVisit(facilityVisitJson) {
         }
 
         // if selected other source but description is empty
-        if (this.additionalProductSources.other.value === true && isBlank(this.additionalProductSources.additionalProductSourcesOther)) {
+        if (isTrue(this.additionalProductSources.other) && isBlank(this.additionalProductSources.additionalProductSourcesOther)) {
           return DistributionStatus.INCOMPLETE;
         }
       }
