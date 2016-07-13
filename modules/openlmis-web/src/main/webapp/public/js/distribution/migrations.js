@@ -17,14 +17,20 @@ var migrationFunc = function (event) {
     });
   };
 
+  console.log("Old database version: " + event.oldVersion);
+
   if (!event.oldVersion || event.oldVersion < 4) {
     //TODO remove drop database logic before release
     dropDatastores();
+    console.log('Drop datastores');
+
     createDistributionStore();
+    console.log('Create distribution store');
   }
 
-  if (!event.oldVersion || event.oldVersion < 5) {
+  if (!event.oldVersion || event.oldVersion < 7) {
     createReviewStore();
+    console.log('Create review store');
   }
 
   function createDistributionStore() {
