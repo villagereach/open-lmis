@@ -89,7 +89,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
 
       visit.stockoutCauses.stockoutCausesOther = setApplicableField(visit.stockoutCauses.stockoutCausesOther);
     }
-  }
+  };
 
   $scope.clearAdditionalProductSources = function () {
     var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
@@ -111,7 +111,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
 
       visit.additionalProductSources.additionalProductSourcesOther = setApplicableField(visit.additionalProductSources.additionalProductSourcesOther);
     }
-  }
+  };
 
   function setApplicableField(field) {
     if (isUndefined(field)) {
