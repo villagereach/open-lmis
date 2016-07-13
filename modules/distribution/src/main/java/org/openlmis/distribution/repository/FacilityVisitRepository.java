@@ -133,6 +133,6 @@ public class FacilityVisitRepository {
   }
 
   public List<FacilityVisit> getByDistributionId(Long distributionId) {
-    return mapper.getByDistributionId(distributionId);
+    return retrieveDetails(mapper.getByDistributionId(distributionId));
   }
 }
