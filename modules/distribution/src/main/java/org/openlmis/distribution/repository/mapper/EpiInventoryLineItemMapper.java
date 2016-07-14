@@ -34,8 +34,9 @@ public interface EpiInventoryLineItemMapper {
   @Select({"SELECT eili.*, products.packsize AS productPackSize FROM epi_inventory_line_items eili LEFT JOIN products ON(eili.productcode = products.code) WHERE facilityVisitId = #{facilityVisitId} ORDER BY productDisplayOrder, LOWER(productCode)"})
   List<EpiInventoryLineItem> getLineItemsBy(Long facilityVisitId);
 
+  //Note that UPDATE doesn't set packSize.
   @Update({"UPDATE epi_inventory_line_items SET spoiledQuantity = #{spoiledQuantity}, deliveredQuantity = #{deliveredQuantity},",
-    "existingQuantity = #{existingQuantity}, packSize = #{productPackSize}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
+          "existingQuantity = #{existingQuantity}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
   void updateLineItem(EpiInventoryLineItem lineItem);
 
   @Select({"SELECT * FROM epi_inventory_line_items WHERE id = #{id}"})
