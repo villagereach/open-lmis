@@ -65,7 +65,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     visit.stockouts = setApplicableField(visit.stockouts);
     $scope.clearStockoutCauses();
     visit.hasAdditionalProductSources = setApplicableField(visit.hasAdditionalProductSources);
-    scope.clearAdditionalProductSources();
+    $scope.clearAdditionalProductSources();
     visit.stockCardsUpToDate = setApplicableField(visit.stockCardsUpToDate);
   };
 
