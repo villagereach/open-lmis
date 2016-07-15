@@ -124,6 +124,9 @@ public class ReviewDataService {
   @Value("${distribution.edit.province.level}")
   private Integer distributionEditProvinceLevel;
 
+  @Value("#{new java.text.SimpleDateFormat(\"yyyy-MM-dd\").parse(\"${distribution.cutoff.date}\")}")
+  private Date distributionCutoffDate;
+
   public ReviewDataFilters getFilters() {
     List<Program> programs = programService.getAll();
     List<GeographicZone> geographicZones = facilityService.searchByLevelNumber(distributionEditProvinceLevel);
@@ -215,7 +218,10 @@ public class ReviewDataService {
 
     distribution.setFacilityDistributions(facilityDistributionMap);
 
-    return distribution.transform();
+    DistributionDTO dto = distribution.transform();
+    dto.setCutoff(!isAfter(dto.getCreatedDate()));
+
+    return dto;
   }
 
   @Transactional
@@ -255,7 +261,10 @@ public class ReviewDataService {
     facilityDistributions = facilityDistributionService.getData(distribution);
     distribution.setFacilityDistributions(facilityDistributions);
 
-    results.setDistribution(distribution.transform());
+    DistributionDTO dto = distribution.transform();
+    dto.setCutoff(!isAfter(dto.getCreatedDate()));
+
+    results.setDistribution(dto);
 
     return results;
   }
@@ -273,7 +282,9 @@ public class ReviewDataService {
     facilityDistributions = facilityDistributionService.getData(distribution);
     distribution.setFacilityDistributions(facilityDistributions);
 
-    return distribution.transform();
+    DistributionDTO dto = distribution.transform();
+    dto.setCutoff(!isAfter(dto.getCreatedDate()));
+    return dto;
   }
 
   public File getHistoryAsCSV(Long distributionId) throws IOException {
@@ -514,6 +525,10 @@ public class ReviewDataService {
   private boolean isEligibility(Date syncDate) {
     Days days = Days.daysBetween(new DateTime(syncDate), DateTime.now());
     return days.getDays() <= eligibilityEdit;
+  }
+
+  private boolean isAfter(Date createdDate) {
+    return new DateTime(createdDate).isAfter(new DateTime(distributionCutoffDate));
   }
 
   private static final class PeriodPredicate implements Predicate<ProcessingPeriod> {

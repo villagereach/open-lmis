@@ -19,7 +19,6 @@ import org.openlmis.core.domain.DeliveryZone;
 import org.openlmis.core.domain.ProcessingPeriod;
 import org.openlmis.core.domain.Program;
 import org.openlmis.distribution.domain.DistributionStatus;
-import org.openlmis.distribution.domain.FacilityDistribution;
 
 import java.util.Map;
 
@@ -41,6 +40,8 @@ public class DistributionDTO extends BaseModel {
   ProcessingPeriod period;
   DistributionStatus status;
   Map<Long, FacilityDistributionDTO> facilityDistributions;
+
+  private boolean cutoff;
 
   @SuppressWarnings("unused")
   public String getZpp() {

@@ -49,13 +49,15 @@
         <span id="cannotSyncLegendIcon" class="status-icon"></span>
         <span id="cannotSyncLegendLabel" openlmis-message="label.distribution.legend.cannot.synchronize"></span>
       </span>
-      <button class="btn btn-primary" ng-if="hasPermission('EDIT_SYNCHRONIZED_DATA') && distributionReview.edit && facilitySelected" ng-click="toggleEditMode()">
-        <span ng-if="!distributionReview.editMode[facilitySelected.facilityId][distributionReview.currentScreen]" openlmis-message="button.edit"></span>
-        <span ng-if="distributionReview.editMode[facilitySelected.facilityId][distributionReview.currentScreen]" openlmis-message="button.cancel"></span>
-      </button>
-      <button class="btn btn-primary" ng-if="hasPermission('EDIT_SYNCHRONIZED_DATA') && distributionReview.edit && facilitySelected" ng-disabled="!distributionReview.editMode[facilitySelected.facilityId][distributionReview.currentScreen]" ng-click="sync()">
-        <span openlmis-message="button.sync"></span>
-      </button>
+      <span ng-if="!(distributionReview.currentScreen === 'epi-inventory' && distribution.cutoff)">
+        <button class="btn btn-primary" ng-if="hasPermission('EDIT_SYNCHRONIZED_DATA') && distributionReview.edit && facilitySelected" ng-click="toggleEditMode()">
+          <span ng-if="!distributionReview.editMode[facilitySelected.facilityId][distributionReview.currentScreen]" openlmis-message="button.edit"></span>
+          <span ng-if="distributionReview.editMode[facilitySelected.facilityId][distributionReview.currentScreen]" openlmis-message="button.cancel"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="hasPermission('EDIT_SYNCHRONIZED_DATA') && distributionReview.edit && facilitySelected" ng-disabled="!distributionReview.editMode[facilitySelected.facilityId][distributionReview.currentScreen]" ng-click="sync()">
+          <span openlmis-message="button.sync"></span>
+        </button>
+      </span>
         </div>
     </div>
     <div class="info-box">
