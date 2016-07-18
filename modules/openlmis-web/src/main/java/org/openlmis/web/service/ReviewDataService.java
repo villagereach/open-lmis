@@ -293,27 +293,29 @@ public class ReviewDataService {
   public File getHistoryAsCSV(Long distributionId) throws IOException {
     String fileName = "history_" + distributionId;
     File tmp = File.createTempFile(fileName, ".csv");
-    Writer outputStreamWriter = new OutputStreamWriter(new FileOutputStream(tmp), StandardCharsets.UTF_8);
-    outputStreamWriter.write('\uFEFF'); // BOM for UTF-*
 
-    try (ICsvMapWriter writer = new CsvMapWriter(outputStreamWriter, CsvPreference.STANDARD_PREFERENCE)) {
-      String[] header = getHeader();
-      writer.writeHeader(header);
+    try (Writer outputStreamWriter = new OutputStreamWriter(new FileOutputStream(tmp), StandardCharsets.UTF_8)) {
+      outputStreamWriter.write('\uFEFF');
 
-      List<DistributionsEditHistory> history = distributionService.getHistory(distributionId);
+      try (ICsvMapWriter writer = new CsvMapWriter(outputStreamWriter, CsvPreference.STANDARD_PREFERENCE)) {
+        String[] header = getHeader();
+        writer.writeHeader(header);
 
-      for (DistributionsEditHistory item : history) {
-        Map<String, Object> record = new HashMap<>();
-        record.put(header[0], item.getDistrict());
-        record.put(header[1], item.getFacility().getName());
-        record.put(header[2], item.getDataScreen());
-        record.put(header[3], item.getEditedItem());
-        record.put(header[4], item.getOriginalValue());
-        record.put(header[5], item.getNewValue());
-        record.put(header[6], item.getEditedDatetime());
-        record.put(header[7], item.getEditedBy().getUserName());
+        List<DistributionsEditHistory> history = distributionService.getHistory(distributionId);
 
-        writer.write(record, header);
+        for (DistributionsEditHistory item : history) {
+          Map<String, Object> record = new HashMap<>();
+          record.put(header[0], item.getDistrict());
+          record.put(header[1], item.getFacility().getName());
+          record.put(header[2], item.getDataScreen());
+          record.put(header[3], item.getEditedItem());
+          record.put(header[4], item.getOriginalValue());
+          record.put(header[5], item.getNewValue());
+          record.put(header[6], item.getEditedDatetime());
+          record.put(header[7], item.getEditedBy().getUserName());
+
+          writer.write(record, header);
+        }
       }
     }
 
