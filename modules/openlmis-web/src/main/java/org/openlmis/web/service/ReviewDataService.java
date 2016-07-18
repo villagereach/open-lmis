@@ -58,6 +58,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -290,8 +293,10 @@ public class ReviewDataService {
   public File getHistoryAsCSV(Long distributionId) throws IOException {
     String fileName = "history_" + distributionId;
     File tmp = File.createTempFile(fileName, ".csv");
+    Writer outputStreamWriter = new OutputStreamWriter(new FileOutputStream(tmp), StandardCharsets.UTF_8);
+    outputStreamWriter.write('\uFEFF'); // BOM for UTF-*
 
-    try (ICsvMapWriter writer = new CsvMapWriter(new FileWriter(tmp), CsvPreference.STANDARD_PREFERENCE)) {
+    try (ICsvMapWriter writer = new CsvMapWriter(outputStreamWriter, CsvPreference.STANDARD_PREFERENCE)) {
       String[] header = getHeader();
       writer.writeHeader(header);
 
