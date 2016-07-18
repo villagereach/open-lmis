@@ -295,7 +295,7 @@ public class ReviewDataService {
     File tmp = File.createTempFile(fileName, ".csv");
 
     try (Writer outputStreamWriter = new OutputStreamWriter(new FileOutputStream(tmp), StandardCharsets.UTF_8)) {
-      outputStreamWriter.write('\uFEFF');
+      outputStreamWriter.write('\uFEFF'); // BOM for UTF-*
 
       try (ICsvMapWriter writer = new CsvMapWriter(outputStreamWriter, CsvPreference.STANDARD_PREFERENCE)) {
         String[] header = getHeader();
