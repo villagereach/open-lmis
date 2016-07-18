@@ -344,7 +344,7 @@
             <div class="form-cell">
               <label openlmis-message="label.problem.occurred.date"></label>
             <span class="position-relative">
-              <input type="text" name="problemOccurredDate{{$index}}" id="problemOccurredDate"
+              <input type="text" name="problemOccurredDateCalendar{{$index}}" id="problemOccurredDateCalendar{{ $index }}"
                      ng-model="refrigeratorReading.problemOccurredDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemOccurredDate)}"/>
@@ -359,7 +359,7 @@
             <div class="form-cell">
               <label openlmis-message="label.problem.reported.date"></label>
             <span class="position-relative">
-              <input type="text" name="problemReportedDate{{$index}}" id="problemReportedDate"
+              <input type="text" name="problemReportedDateCalendar{{$index}}" id="problemReportedDateCalendar{{ $index }}"
                      ng-model="refrigeratorReading.problemReportedDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemReportedDate)}"/>
@@ -405,7 +405,7 @@
             <div class="form-cell">
               <label openlmis-message="label.equipment.repaired.date"></label>
             <span class="position-relative">
-              <input type="text" name="equipmentRepairedDate{{$index}}" id="equipmentRepairedDate"
+              <input type="text" name="equipmentRepairedDateCalendar{{$index}}" id="equipmentRepairedDateCalendar{{ $index }}"
                      ng-model="refrigeratorReading.equipmentRepairedDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.equipmentRepairedDate)}"/>
