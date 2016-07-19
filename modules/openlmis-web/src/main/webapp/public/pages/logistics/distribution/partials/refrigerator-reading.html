@@ -102,6 +102,8 @@
               <span id="highestTemperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
                     style="display: none"></span>
             </span>
+              &deg;
+              <span openlmis-message="label.celcius.symbol"></span>
               <input id="highestTemperatureEvent{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.highestTemperatureReported.notRecorded"
                      not-recorded/>
@@ -120,6 +122,8 @@
               <span id="lowestTemperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
                     style="display: none"></span>
             </span>
+              &deg;
+              <span openlmis-message="label.celcius.symbol"></span>
               <input id="lowestTemperatureEvent{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.lowestTemperatureReported.notRecorded"
                      not-recorded/>
