@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
@@ -26,9 +25,7 @@ import org.openlmis.distribution.domain.RefrigeratorReading;
 
 import java.util.Date;
 
-import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
-import static org.openlmis.distribution.dto.Reading.EMPTY;
 
 /**
  *  This DTO contains facilityVisitId, Refrigerator entity, Refrigerator Problem entity and client side
@@ -88,8 +85,8 @@ public class RefrigeratorReadingDTO extends BaseModel {
     MonitoringDeviceType monitoringDeviceType = Reading.safeRead(this.monitoringDeviceType).parseMonitoringDeviceType();
     String monitoringDeviceOtherType = Reading.safeRead(this.monitoringDeviceOtherType).getEffectiveValue();
     String temperatureReportingForm = Reading.safeRead(this.temperatureReportingForm).getEffectiveValue();
-    Integer highestTemperatureReported = Reading.safeRead(this.highestTemperatureReported).parsePositiveInt();
-    Integer lowestTemperatureReported = Reading.safeRead(this.lowestTemperatureReported).parsePositiveInt();
+    Float highestTemperatureReported = Reading.safeRead(this.highestTemperatureReported).parseFloat();
+    Float lowestTemperatureReported = Reading.safeRead(this.lowestTemperatureReported).parseFloat();
     Date problemOccurredDate = Reading.safeRead(this.problemOccurredDate).parseDate();
     Date problemReportedDate = Reading.safeRead(this.problemReportedDate).parseDate();
     String equipmentRepaired = Reading.safeRead(this.equipmentRepaired).getEffectiveValue();

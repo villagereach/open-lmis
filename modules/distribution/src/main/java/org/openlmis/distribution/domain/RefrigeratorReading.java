@@ -55,8 +55,8 @@ public class RefrigeratorReading extends BaseModel {
   private MonitoringDeviceType monitoringDeviceType;
   private String monitoringDeviceOtherType;
   private String temperatureReportingForm;
-  private Integer highestTemperatureReported;
-  private Integer lowestTemperatureReported;
+  private Float highestTemperatureReported;
+  private Float lowestTemperatureReported;
   private Date problemOccurredDate;
   private Date problemReportedDate;
   private String equipmentRepaired;
