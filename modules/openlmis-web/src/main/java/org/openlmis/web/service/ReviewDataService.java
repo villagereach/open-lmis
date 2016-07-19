@@ -260,15 +260,6 @@ public class ReviewDataService {
       results = new FacilityDistributionEditResults(replacement.getFacilityId());
     }
 
-    distribution = distributionService.getFullSyncedDistribution(distribution);
-    facilityDistributions = facilityDistributionService.getData(distribution);
-    distribution.setFacilityDistributions(facilityDistributions);
-
-    DistributionDTO dto = distribution.transform();
-    dto.setCutoff(!isAfter(dto.getCreatedDate()));
-
-    results.setDistribution(dto);
-
     return results;
   }
 
