@@ -88,7 +88,7 @@ public class DistributionRefrigeratorsRepository {
     }
   }
 
-  public RefrigeratorReading getByRefrigeratorIdAndSerialNumber(Long refrigeratorId, String serialNumber, Long facilityVisitId) {
-    return mapper.getByRefrigeratorIdAndSerialNumber(refrigeratorId, serialNumber, facilityVisitId);
+  public RefrigeratorReading getByRefrigeratorIdAndFacilityVisitId(Long refrigeratorId, Long facilityVisitId) {
+    return mapper.getByRefrigeratorIdAndFacilityVisitId(refrigeratorId, facilityVisitId);
   }
 }

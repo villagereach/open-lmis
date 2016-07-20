@@ -13,7 +13,11 @@ function Refrigerators(facilityVisitId, refrigerators) {
   $.extend(true, this, refrigerators);
 
   var _this = this;
-  this.facilityVisitId = facilityVisitId;
+
+  if (!this.facilityVisitId) {
+    this.facilityVisitId = facilityVisitId;
+  }
+
   this.initReadings = [];
 
   if (!this.readings) {

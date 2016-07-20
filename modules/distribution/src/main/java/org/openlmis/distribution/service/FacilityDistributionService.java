@@ -168,13 +168,24 @@ public class FacilityDistributionService {
       @Override
       public Object transform(Object o) {
         Refrigerator refrigerator = (Refrigerator) o;
+        RefrigeratorReading reading;
 
         if (null == facilityVisitId) {
-          return new RefrigeratorReading(refrigerator);
+          reading = new RefrigeratorReading(refrigerator);
+        } else {
+          reading = distributionRefrigeratorsService.getByRefrigeratorIdAndFacilityVisitId(refrigerator.getId(), facilityVisitId);
+
+          if (null == reading) {
+            reading = new RefrigeratorReading(refrigerator);
+            reading.setFacilityVisitId(facilityVisitId);
+            distributionRefrigeratorsService.saveReading(reading);
+
+            reading.setProblem(new RefrigeratorProblem(reading.getId()));
+            distributionRefrigeratorsService.saveProblem(reading.getProblem());
+          }
         }
 
-        RefrigeratorReading reading = distributionRefrigeratorsService.getByRefrigeratorIdAndSerialNumber(refrigerator.getId(), refrigerator.getSerialNumber(), facilityVisitId);
-        return null == reading ? new RefrigeratorReading(refrigerator) : reading;
+        return reading;
       }
     });
   }

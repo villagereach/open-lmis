@@ -88,7 +88,7 @@ public interface DistributionRefrigeratorsMapper {
   @Select({"SELECT * FROM refrigerator_problems where id = #{id}"})
   RefrigeratorProblem getProblem(Long id);
 
-  @Select({"SELECT RR.* FROM refrigerator_readings RR INNER JOIN refrigerators R ON RR.refrigeratorId = R.id WHERE RR.refrigeratorId = #{refrigeratorId} AND R.serialNumber = #{serialNumber} AND facilityVisitId = #{facilityVisitId}"})
+  @Select({"SELECT RR.* FROM refrigerator_readings RR INNER JOIN refrigerators R ON RR.refrigeratorId = R.id WHERE RR.refrigeratorId = #{refrigeratorId} AND facilityVisitId = #{facilityVisitId}"})
   @Results(value = {
           @Result(column = "refrigeratorId", property = "refrigerator.id"),
           @Result(column = "refrigeratorSerialNumber", property = "refrigerator.serialNumber"),
@@ -97,5 +97,5 @@ public interface DistributionRefrigeratorsMapper {
           @Result(column = "id", property = "id"),
           @Result(column = "id", property = "problem", javaType = RefrigeratorProblem.class, one = @One(select = "getProblemByReadingId")),
   })
-  RefrigeratorReading getByRefrigeratorIdAndSerialNumber(@Param("refrigeratorId") Long refrigeratorId, @Param("serialNumber") String serialNumber, @Param("facilityVisitId") Long facilityVisitId);
+  RefrigeratorReading getByRefrigeratorIdAndFacilityVisitId(@Param("refrigeratorId") Long refrigeratorId, @Param("facilityVisitId") Long facilityVisitId);
 }
