@@ -1,6 +1,5 @@
 CREATE ROLE reporting_role;
  
-GRANT SELECT ON TABLE facility_visits_report TO reporting_role;
 GRANT SELECT ON TABLE facility_visits TO reporting_role;
 GRANT SELECT ON TABLE facilities TO reporting_role;
 GRANT SELECT ON TABLE geographic_zones TO reporting_role;
