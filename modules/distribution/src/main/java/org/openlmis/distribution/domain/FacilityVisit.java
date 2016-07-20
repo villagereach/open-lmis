@@ -30,6 +30,7 @@ import java.util.Date;
 import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.apache.commons.lang.BooleanUtils.isTrue;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
+import static org.openlmis.distribution.dto.Reading.notRecorded;
 
 /**
  * FacilityVisit represents an entity which keeps track of whether facility was visited or not. If visited then
@@ -128,33 +129,33 @@ public class FacilityVisit extends BaseModel {
     dto.setAdditionalProductSources(additionalProductSources.transform());
     dto.setStockCardsUpToDate(new Reading(stockCardsUpToDate));
 
-    setNotRecorded(dto.getConfirmedBy().getName());
-    setNotRecorded(dto.getConfirmedBy().getTitle());
-    setNotRecorded(dto.getVerifiedBy().getName());
-    setNotRecorded(dto.getVerifiedBy().getTitle());
-    setNotRecorded(dto.getObservations());
-    setNotRecorded(dto.getVisitDate());
-    setNotRecorded(dto.getVisited());
-    setNotRecorded(dto.getVehicleId());
-    setNotRecorded(dto.getReasonForNotVisiting());
-    setNotRecorded(dto.getOtherReasonDescription());
-    setNotRecorded(dto.getSynced());
-    setNotRecorded(dto.getStockouts());
+    notRecorded(dto.getConfirmedBy().getName());
+    notRecorded(dto.getConfirmedBy().getTitle());
+    notRecorded(dto.getVerifiedBy().getName());
+    notRecorded(dto.getVerifiedBy().getTitle());
+    notRecorded(dto.getObservations());
+    notRecorded(dto.getVisitDate());
+    notRecorded(dto.getVisited());
+    notRecorded(dto.getVehicleId());
+    notRecorded(dto.getReasonForNotVisiting());
+    notRecorded(dto.getOtherReasonDescription());
+    notRecorded(dto.getSynced());
+    notRecorded(dto.getStockouts());
 
-    setNotRecorded(dto.getStockoutCauses().getColdChainEquipmentFailure());
-    setNotRecorded(dto.getStockoutCauses().getIncorrectEstimationNeeds());
-    setNotRecorded(dto.getStockoutCauses().getStockoutZonalWarehouse());
-    setNotRecorded(dto.getStockoutCauses().getDeliveryNotOnTime());
-    setNotRecorded(dto.getStockoutCauses().getProductsTransferedAnotherFacility());
-    setNotRecorded(dto.getStockoutCauses().getOther());
-    setNotRecorded(dto.getStockoutCauses().getStockoutCausesOther());
+    notRecorded(dto.getStockoutCauses().getColdChainEquipmentFailure());
+    notRecorded(dto.getStockoutCauses().getIncorrectEstimationNeeds());
+    notRecorded(dto.getStockoutCauses().getStockoutZonalWarehouse());
+    notRecorded(dto.getStockoutCauses().getDeliveryNotOnTime());
+    notRecorded(dto.getStockoutCauses().getProductsTransferedAnotherFacility());
+    notRecorded(dto.getStockoutCauses().getOther());
+    notRecorded(dto.getStockoutCauses().getStockoutCausesOther());
 
-    setNotRecorded(dto.getHasAdditionalProductSources());
-    setNotRecorded(dto.getAdditionalProductSources().getAnotherHealthFacility());
-    setNotRecorded(dto.getAdditionalProductSources().getZonalWarehouse());
-    setNotRecorded(dto.getAdditionalProductSources().getOther());
-    setNotRecorded(dto.getAdditionalProductSources().getAdditionalProductSourcesOther());
-    setNotRecorded(dto.getStockCardsUpToDate());
+    notRecorded(dto.getHasAdditionalProductSources());
+    notRecorded(dto.getAdditionalProductSources().getAnotherHealthFacility());
+    notRecorded(dto.getAdditionalProductSources().getZonalWarehouse());
+    notRecorded(dto.getAdditionalProductSources().getOther());
+    notRecorded(dto.getAdditionalProductSources().getAdditionalProductSourcesOther());
+    notRecorded(dto.getStockCardsUpToDate());
 
     if (isTrue(stockouts)) {
       if (isFalse(stockoutCauses.coldChainEquipmentFailure)
@@ -182,17 +183,4 @@ public class FacilityVisit extends BaseModel {
     return dto;
   }
 
-  private void setNotRecorded(Reading reading) {
-    if (null == reading) {
-      return;
-    }
-
-    reading.setNotRecorded(false);
-
-    if (null == reading.getOriginal()) {
-      return;
-    }
-
-    reading.getOriginal().setNotRecorded(false);
-  }
 }

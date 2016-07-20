@@ -21,6 +21,7 @@ import org.openlmis.distribution.domain.StockoutCauses;
 import org.openlmis.distribution.dto.DistributionRefrigeratorsDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.dto.Reading;
+import org.openlmis.distribution.dto.RefrigeratorProblemDTO;
 import org.openlmis.distribution.dto.RefrigeratorReadingDTO;
 import org.openlmis.distribution.repository.DistributionRefrigeratorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +174,7 @@ public class FacilityDistributionEditHandler {
 
       if (isDTO(replacementClass, replacementPropertyName)) {
         originalProperty = removeNullReference(original, originalPropertyName, originalProperty);
+        replacementProperty = removeNullReference(replacement, replacementPropertyName, replacementProperty);
 
         if (originalProperty instanceof List) {
           if (parent instanceof FacilityDistribution && original instanceof DistributionRefrigerators && replacement instanceof DistributionRefrigeratorsDTO) {
@@ -254,6 +256,11 @@ public class FacilityDistributionEditHandler {
       if (bean instanceof RefrigeratorReading && "problem".equals(propertyName)) {
         RefrigeratorReading refrigeratorReading = (RefrigeratorReading) bean;
         return new RefrigeratorProblem(refrigeratorReading.getId());
+      }
+
+      if (bean instanceof RefrigeratorReadingDTO && "problems".equals(propertyName)) {
+        RefrigeratorReadingDTO refrigeratorReadingDTO = (RefrigeratorReadingDTO) bean;
+        return  new RefrigeratorProblemDTO(refrigeratorReadingDTO.getId());
       }
 
       if (bean instanceof DistributionRefrigeratorsDTO && "readings".equals(propertyName)) {

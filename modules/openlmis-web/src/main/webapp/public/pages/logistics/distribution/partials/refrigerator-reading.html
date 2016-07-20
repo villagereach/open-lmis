@@ -9,7 +9,7 @@
   -->
 
 <form auto-save="distribution" object-store="distributions"
-      disable-form="{{isFormDisabled(distributionReview)}}">
+      disable-form="{{isFormDisabled()}}">
 <div class="row-fluid" ng-class="refrigeratorReading.computeStatus(distributionReview)">
   <div class="span1 status-cell">
     <span class="status-icon"></span>
@@ -39,7 +39,7 @@
             <div class="form-cell">
               <label openlmis-message="label.refrigerator.temperature"></label>
             <span class="position-relative">
-              <input type="number" min="-999.9" max="999.9" step="0.1" name="temperature{{$index}}"
+              <input type="number" min="-999.9" max="999.9" step="0.1" name="temperature{{$index}}" lang="en"
                      ng-model="refrigeratorReading.temperature.value" numeric-validator="numericValue,3,1"
                      error-holder="temperatureError{{$index}}" class="right-justified"  ng-trim="false"/>
               <span id="temperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
@@ -96,7 +96,7 @@
             <div class="form-cell">
               <label class="form-questions" openlmis-message="label.number.highest.temperature"></label>
             <span class="position-relative">
-              <input name="highestTemperatureEvent{{$index}}" type="number" min="-999.9" max="999.9" step="0.1"
+              <input name="highestTemperatureEvent{{$index}}" type="number" min="-999.9" max="999.9" step="0.1" lang="en"
                      ng-model="refrigeratorReading.highestTemperatureReported.value" numeric-validator="numericValue,3,1"
                      error-holder="highestTemperatureError{{$index}}" class="right-justified" ng-trim="false"/>
               <span id="highestTemperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
@@ -116,7 +116,7 @@
             <div class="form-cell">
               <label class="form-questions" openlmis-message="label.number.lowest.temperature"></label>
             <span class="position-relative">
-              <input name="lowestTemperatureEvent{{$index}}" type="number" min="-999.9" max="999.9" step="0.1"
+              <input name="lowestTemperatureEvent{{$index}}" type="number" min="-999.9" max="999.9" step="0.1" lang="en"
                      ng-model="refrigeratorReading.lowestTemperatureReported.value" numeric-validator="numericValue,3,1"
                      error-holder="lowestTemperatureError{{$index}}" class="right-justified" ng-trim="false"/>
               <span id="lowestTemperatureError{{$index}}" class="rnr-form-error" openlmis-message="error.number.only"
@@ -199,7 +199,7 @@
                 </div>
                 <div class="form-row clearfix">
                   <input id="other{{ $index }}" type="checkbox"
-                         ng-click="refrigeratorReading.problems.otherProblemExplanation = refrigeratorReading.problems.other.value ? refrigeratorReading.problems.otherProblemExplanation : undefined"
+                         ng-click="setOtherProblemExplanation(refrigeratorReading)"
                          ng-model="refrigeratorReading.problems.other.value"/>
                   <label class="checkbox-label" for="other{{ $index }}"
                          openlmis-message="label.other"></label>
@@ -340,7 +340,7 @@
 
               <input id="problemSinceLastVisit{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemSinceLastTime.notRecorded"
-                     not-recorded ng-click="refrigeratorReading.problems=undefined"/>
+                     not-recorded/>
               <label class="checkbox-label" for="problemSinceLastVisit{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
@@ -353,10 +353,10 @@
                      ng-model="refrigeratorReading.problemOccurredDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemOccurredDate)}"/>
-              <input id="problemOccurredDate{{$index}}" type="checkbox"
+              <input id="problemOccurredDateCalendar{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemOccurredDate.notRecorded"
                      not-recorded/>
-              <label class="checkbox-label" for="problemOccurredDate{{$index}}"
+              <label class="checkbox-label" for="problemOccurredDateCalendar{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>
@@ -368,10 +368,10 @@
                      ng-model="refrigeratorReading.problemReportedDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemReportedDate)}"/>
-              <input id="problemReportedDate{{$index}}" type="checkbox"
+              <input id="problemReportedDateCalendar{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemReportedDate.notRecorded"
                      not-recorded/>
-              <label class="checkbox-label" for="problemReportedDate{{$index}}"
+              <label class="checkbox-label" for="problemReportedDateCalendar{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>
@@ -414,10 +414,10 @@
                      ng-model="refrigeratorReading.equipmentRepairedDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.equipmentRepairedDate)}"/>
-              <input id="equipmentRepairedDate{{$index}}" type="checkbox"
+              <input id="equipmentRepairedDateCalendar{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.equipmentRepairedDate.notRecorded"
                      not-recorded/>
-              <label class="checkbox-label" for="equipmentRepairedDate{{$index}}"
+              <label class="checkbox-label" for="equipmentRepairedDateCalendar{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>

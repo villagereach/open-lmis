@@ -58,13 +58,16 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
     $scope.addRefrigeratorModal = $scope.isDuplicateSerialNumber = undefined;
   };
 
-  $scope.isFormDisabled = function (review) {
-    if (review) {
-      return !review.editMode[$routeParams.facility][review.currentScreen];
+  $scope.isFormDisabled = function () {
+    if ($scope.distributionReview) {
+      return !$scope.distributionReview.editMode[$routeParams.facility][$scope.distributionReview.currentScreen];
     }
 
-    return ($scope.distribution.facilityDistributions[$scope.selectedFacilityId].status === DistributionStatus.SYNCED) ||
-        ($scope.distribution.facilityDistributions[$scope.selectedFacilityId].facilityVisit.visited.value === false);
+    var facilityDistribution = $scope.distribution.facilityDistributions[$scope.selectedFacilityId];
+    var status = facilityDistribution.status;
+    var facilityVisit = facilityDistribution.facilityVisit;
+
+    return (status === DistributionStatus.SYNCED) || (facilityVisit && facilityVisit.visited && facilityVisit.visited.value === false);
   };
 
   $scope.showDeleteRefrigeratorConfirmationModel = function (serialNumberToDelete) {
@@ -95,5 +98,25 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
         scrollTop: utils.parseIntWithBaseTen($('#' + idSent).offset().top) + 'px'
       }, 'fast');
     }, 0);
+  };
+
+  function setApplicableField(field) {
+    if (isUndefined(field)) {
+        return {type: 'reading'};
+    }
+
+    if (isUndefined(field.original)) {
+        return {type: 'reading'};
+    }
+
+    return { original: field.original, type: 'reading' };
+  }
+
+  $scope.setOtherProblemExplanation = function (refrigeratorReading) {
+    if (refrigeratorReading.problems.other.value) {
+      refrigeratorReading.problems.otherProblemExplanation = refrigeratorReading.problems.otherProblemExplanation;
+    } else {
+      refrigeratorReading.problems.otherProblemExplanation = setApplicableField(refrigeratorReading.problems.otherProblemExplanation);
+    }
   };
 }
