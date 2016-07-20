@@ -99,4 +99,24 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
       }, 'fast');
     }, 0);
   };
+
+  function setApplicableField(field) {
+    if (isUndefined(field)) {
+        return {type: 'reading'};
+    }
+
+    if (isUndefined(field.original)) {
+        return {type: 'reading'};
+    }
+
+    return { original: field.original, type: 'reading' };
+  }
+
+  $scope.setOtherProblemExplanation = function (refrigeratorReading) {
+    if (refrigeratorReading.problems.other.value) {
+      refrigeratorReading.problems.otherProblemExplanation = refrigeratorReading.problems.otherProblemExplanation;
+    } else {
+      refrigeratorReading.problems.otherProblemExplanation = setApplicableField(refrigeratorReading.problems.otherProblemExplanation);
+    }
+  };
 }

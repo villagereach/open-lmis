@@ -199,7 +199,7 @@
                 </div>
                 <div class="form-row clearfix">
                   <input id="other{{ $index }}" type="checkbox"
-                         ng-click="refrigeratorReading.problems.otherProblemExplanation = refrigeratorReading.problems.other.value ? refrigeratorReading.problems.otherProblemExplanation : undefined"
+                         ng-click="setOtherProblemExplanation(refrigeratorReading)"
                          ng-model="refrigeratorReading.problems.other.value"/>
                   <label class="checkbox-label" for="other{{ $index }}"
                          openlmis-message="label.other"></label>
@@ -353,10 +353,10 @@
                      ng-model="refrigeratorReading.problemOccurredDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemOccurredDate)}"/>
-              <input id="problemOccurredDate{{$index}}" type="checkbox"
+              <input id="problemOccurredDateCalendar{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemOccurredDate.notRecorded"
                      not-recorded/>
-              <label class="checkbox-label" for="problemOccurredDate{{$index}}"
+              <label class="checkbox-label" for="problemOccurredDateCalendar{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>
@@ -368,10 +368,10 @@
                      ng-model="refrigeratorReading.problemReportedDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.problemReportedDate)}"/>
-              <input id="problemReportedDate{{$index}}" type="checkbox"
+              <input id="problemReportedDateCalendar{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.problemReportedDate.notRecorded"
                      not-recorded/>
-              <label class="checkbox-label" for="problemReportedDate{{$index}}"
+              <label class="checkbox-label" for="problemReportedDateCalendar{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>
@@ -414,10 +414,10 @@
                      ng-model="refrigeratorReading.equipmentRepairedDate.value"
                      ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}"
                      ui-date-format="yy-mm-dd" readonly ng-class="{'required-error': isEmpty(refrigeratorReading.equipmentRepairedDate)}"/>
-              <input id="equipmentRepairedDate{{$index}}" type="checkbox"
+              <input id="equipmentRepairedDateCalendar{{$index}}" type="checkbox"
                      ng-model="refrigeratorReading.equipmentRepairedDate.notRecorded"
                      not-recorded/>
-              <label class="checkbox-label" for="equipmentRepairedDate{{$index}}"
+              <label class="checkbox-label" for="equipmentRepairedDateCalendar{{$index}}"
                      openlmis-message="label.not.recorded"></label>
             </div>
           </div>
