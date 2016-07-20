@@ -23,6 +23,7 @@ import org.openlmis.distribution.dto.RefrigeratorProblemDTO;
 
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
+import static org.openlmis.distribution.dto.Reading.notRecorded;
 
 /**
  *  RefrigeratorProblem represents an entity which keeps track of the problems recorded for particular
@@ -71,6 +72,14 @@ public class RefrigeratorProblem extends BaseModel {
     dto.setThermostatSetting(new Reading(thermostatSetting));
     dto.setOther(new Reading(other));
     dto.setOtherProblemExplanation(new Reading(otherProblemExplanation));
+
+    notRecorded(dto.getOperatorError());
+    notRecorded(dto.getBurnerProblem());
+    notRecorded(dto.getGasLeakage());
+    notRecorded(dto.getEgpFault());
+    notRecorded(dto.getThermostatSetting());
+    notRecorded(dto.getOther());
+    notRecorded(dto.getOtherProblemExplanation());
 
     return dto;
   }

@@ -40,10 +40,13 @@ public interface DistributionRefrigeratorsMapper {
   @Options(useGeneratedKeys = true)
   void insertReading(RefrigeratorReading refrigeratorReading);
 
-  @Update({"UPDATE refrigerator_readings SET temperature = #{temperature}, functioningCorrectly = #{functioningCorrectly}, lowAlarmEvents = #{lowAlarmEvents},",
-    "highAlarmEvents = #{highAlarmEvents}, problemSinceLastTime = #{problemSinceLastTime}, notes = #{notes}, facilityVisitId = #{facilityVisitId},",
-    "refrigeratorId = #{refrigerator.id}, refrigeratorSerialNumber = #{refrigerator.serialNumber}, refrigeratorBrand = #{refrigerator.brand}, refrigeratorModel = #{refrigerator.model},",
-    "modifiedBy = #{modifiedBy}, modifiedDate=DEFAULT WHERE id = #{id}"})
+  @Update({"UPDATE refrigerator_readings SET temperature = #{temperature}, functioningCorrectly = #{functioningCorrectly}, lowAlarmEvents = #{lowAlarmEvents}, ",
+    "highAlarmEvents = #{highAlarmEvents}, problemSinceLastTime = #{problemSinceLastTime}, notes = #{notes}, hasMonitoringDevice = #{hasMonitoringDevice}, ",
+    "monitoringDeviceType = #{monitoringDeviceType}, monitoringDeviceOtherType = #{monitoringDeviceOtherType}, temperatureReportingForm = #{temperatureReportingForm}, ",
+    "highestTemperatureReported = #{highestTemperatureReported}, lowestTemperatureReported = #{lowestTemperatureReported}, problemOccurredDate = #{problemOccurredDate}, ",
+    "problemReportedDate = #{problemReportedDate}, equipmentRepaired = #{equipmentRepaired}, equipmentRepairedDate = #{equipmentRepairedDate}, ",
+    "totalDaysCceUptime = #{totalDaysCceUptime}, facilityVisitId = #{facilityVisitId}, refrigeratorId = #{refrigerator.id}, refrigeratorSerialNumber = #{refrigerator.serialNumber}, ",
+    "refrigeratorBrand = #{refrigerator.brand}, refrigeratorModel = #{refrigerator.model}, modifiedBy = #{modifiedBy}, modifiedDate=DEFAULT WHERE id = #{id}"})
   void updateReading(RefrigeratorReading refrigeratorReading);
 
   @Insert({"INSERT INTO refrigerator_problems(readingId, operatorError, burnerProblem, gasLeakage, egpFault, thermostatSetting, other, otherProblemExplanation, createdBy, modifiedBy) ",

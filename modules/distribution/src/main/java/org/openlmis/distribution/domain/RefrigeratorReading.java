@@ -119,6 +119,8 @@ public class RefrigeratorReading extends BaseModel {
     dto.setTotalDaysCceUptime(new Reading(totalDaysCceUptime));
 
     notRecorded(dto.getNotes());
+    notRecorded(dto.getMonitoringDeviceType());
+    notRecorded(dto.getMonitoringDeviceOtherType());
 
     return dto;
   }
