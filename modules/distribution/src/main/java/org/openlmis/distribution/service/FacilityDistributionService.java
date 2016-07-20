@@ -192,29 +192,29 @@ public class FacilityDistributionService {
 
   public Map<Long, FacilityDistribution> get(Distribution distribution) {
     List<FacilityVisit> unSyncedFacilities = facilityVisitService.getUnSyncedFacilities(distribution.getId());
-    return getFacilityDistributions(distribution, unSyncedFacilities);
+    return getFacilityDistributions(distribution, unSyncedFacilities, false);
   }
 
   public Map<Long, FacilityDistribution> getData(Distribution distribution) {
     List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId());
-    return getFacilityDistributions(distribution, visits);
+    return getFacilityDistributions(distribution, visits, true);
   }
 
-  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits) {
+  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits, boolean withFacilityVisitId) {
     Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
 
     for (FacilityVisit facilityVisit : facilityVisits) {
-      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution));
+      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution, withFacilityVisitId));
     }
 
     return facilityDistributions;
   }
 
-  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution) {
+  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution, boolean withFacilityVisitId) {
     EpiUse epiUse = epiUseService.getBy(facilityVisit.getId());
 
     List<Refrigerator> refrigerators = refrigeratorService.getRefrigeratorsForADeliveryZoneAndProgram(distribution.getDeliveryZone().getId(), distribution.getProgram().getId());
-    DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, facilityVisit.getId()));
+    DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, withFacilityVisitId ? facilityVisit.getId() : null));
 
     Facility facility = facilityService.getById(facilityVisit.getFacilityId());
 
