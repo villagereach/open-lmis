@@ -26,6 +26,7 @@ import org.openlmis.distribution.dto.RefrigeratorReadingDTO;
 import java.util.Date;
 
 import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPTY;
+import static org.openlmis.distribution.dto.Reading.notRecorded;
 
 /**
  *  RefrigeratorReading represents an entity which keeps track of performance and operating issues of a refrigerator.
@@ -116,6 +117,8 @@ public class RefrigeratorReading extends BaseModel {
     dto.setEquipmentRepaired(new Reading(equipmentRepaired));
     dto.setEquipmentRepairedDate(new Reading(equipmentRepairedDate, "yyyy-MM-dd"));
     dto.setTotalDaysCceUptime(new Reading(totalDaysCceUptime));
+
+    notRecorded(dto.getNotes());
 
     return dto;
   }
