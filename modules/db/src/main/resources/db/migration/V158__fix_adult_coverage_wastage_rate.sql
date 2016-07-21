@@ -8,5 +8,14 @@
 -- You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
 --
 
-ALTER TABLE refrigerator_readings ALTER COLUMN highestTemperatureReported TYPE NUMERIC(3, 1);
-ALTER TABLE refrigerator_readings ALTER COLUMN lowestTemperatureReported TYPE NUMERIC(3, 1);
+/*
+See SIIL-5 and SIIL-34. This change fixes a problem that kept packSize from being included within
+adultCoverage.openedVialLineItems entries, and which thereby precluded WastageRates from being calculated.
+This problem has been a recurring one, and the fix seems appropriate to include within a SQL migration
+script because our Java hardcodes the value of “Tetanus.” The change made below is thus code related as much
+or more than configuration-related.
+*/
+
+UPDATE coverage_product_vials
+SET vial = 'Tetanus'
+WHERE vial = 'TT2';
