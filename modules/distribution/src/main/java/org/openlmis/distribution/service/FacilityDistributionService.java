@@ -168,42 +168,53 @@ public class FacilityDistributionService {
       @Override
       public Object transform(Object o) {
         Refrigerator refrigerator = (Refrigerator) o;
+        RefrigeratorReading reading;
 
         if (null == facilityVisitId) {
-          return new RefrigeratorReading(refrigerator);
+          reading = new RefrigeratorReading(refrigerator);
+        } else {
+          reading = distributionRefrigeratorsService.getByRefrigeratorIdAndFacilityVisitId(refrigerator.getId(), facilityVisitId);
+
+          if (null == reading) {
+            reading = new RefrigeratorReading(refrigerator);
+            reading.setFacilityVisitId(facilityVisitId);
+            distributionRefrigeratorsService.saveReading(reading);
+
+            reading.setProblem(new RefrigeratorProblem(reading.getId()));
+            distributionRefrigeratorsService.saveProblem(reading.getProblem());
+          }
         }
 
-        RefrigeratorReading reading = distributionRefrigeratorsService.getByRefrigeratorIdAndSerialNumber(refrigerator.getId(), refrigerator.getSerialNumber(), facilityVisitId);
-        return null == reading ? new RefrigeratorReading(refrigerator) : reading;
+        return reading;
       }
     });
   }
 
   public Map<Long, FacilityDistribution> get(Distribution distribution) {
     List<FacilityVisit> unSyncedFacilities = facilityVisitService.getUnSyncedFacilities(distribution.getId());
-    return getFacilityDistributions(distribution, unSyncedFacilities);
+    return getFacilityDistributions(distribution, unSyncedFacilities, false);
   }
 
   public Map<Long, FacilityDistribution> getData(Distribution distribution) {
     List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId());
-    return getFacilityDistributions(distribution, visits);
+    return getFacilityDistributions(distribution, visits, true);
   }
 
-  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits) {
+  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits, boolean withFacilityVisitId) {
     Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
 
     for (FacilityVisit facilityVisit : facilityVisits) {
-      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution));
+      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution, withFacilityVisitId));
     }
 
     return facilityDistributions;
   }
 
-  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution) {
+  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution, boolean withFacilityVisitId) {
     EpiUse epiUse = epiUseService.getBy(facilityVisit.getId());
 
     List<Refrigerator> refrigerators = refrigeratorService.getRefrigeratorsForADeliveryZoneAndProgram(distribution.getDeliveryZone().getId(), distribution.getProgram().getId());
-    DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, facilityVisit.getId()));
+    DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, withFacilityVisitId ? facilityVisit.getId() : null));
 
     Facility facility = facilityService.getById(facilityVisit.getFacilityId());
 

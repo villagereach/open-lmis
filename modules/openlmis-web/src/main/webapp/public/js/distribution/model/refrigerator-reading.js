@@ -102,9 +102,14 @@ function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
   init.call(this);
 
   function init() {
-    this.facilityVisitId = facilityVisitId;
-    var _this = this;
+
     $.extend(true, this, refrigeratorReading);
+
+    if (!this.facilityVisitId) {
+      this.facilityVisitId = facilityVisitId;
+    }
+
+    var _this = this;
     $(fieldList).each(function (i, fieldName) {
       _this[fieldName] = _this[fieldName] || {};
 
