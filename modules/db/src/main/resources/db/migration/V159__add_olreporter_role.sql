@@ -1,3 +1,6 @@
+DROP ROLE IF EXISTS reporting_role;
+DROP USER IF EXISTS olreporter;
+
 CREATE ROLE reporting_role;
  
 GRANT SELECT ON TABLE facility_visits TO reporting_role;
