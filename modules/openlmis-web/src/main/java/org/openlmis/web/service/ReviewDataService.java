@@ -56,7 +56,6 @@ import org.supercsv.prefs.CsvPreference;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -79,7 +78,7 @@ public class ReviewDataService {
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
   private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
   private static final String[] HEADER = {
-      "label.distribution.history.header.district", "label.distribution.history.header.facility",
+      "label.province", "label.distribution.history.header.facility",
       "label.distribution.history.header.data.screen", "label.distribution.history.header.edited.item",
       "label.distribution.history.header.old.value", "label.distribution.history.header.new.value",
       "label.distribution.history.header.edited.date", "label.distribution.history.header.edited.by"
