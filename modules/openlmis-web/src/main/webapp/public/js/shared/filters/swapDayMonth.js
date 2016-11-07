@@ -8,6 +8,6 @@ app.filter('swapDayMonth', function()
         } catch(e) {
             return input;
         }
-    }
+    };
 
 });
