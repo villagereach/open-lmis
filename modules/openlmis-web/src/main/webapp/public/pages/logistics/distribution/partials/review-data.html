@@ -126,13 +126,13 @@
             <td>{{item.province}}</td>
             <td>{{item.deliveryZone.name}}</td>
             <td>{{item.period.name}}</td>
-            <td>{{item.initiated}}</td>
+            <td>{{item.initiated | swapDayMonth}}</td>
             <td>
-              <span ng-if="item.synchronized">{{item.synchronized}}</span>
+              <span ng-if="item.synchronized">{{item.synchronized | swapDayMonth}}</span>
               <span ng-if="!item.synchronized" openlmis-message="label.not.available"></span>
             </td>
-            <td>{{item.lastViewed}}</td>
-            <td>{{item.lastEdited}}</td>
+            <td>{{item.lastViewed | swapDayMonth}}</td>
+            <td>{{item.lastEdited | swapDayMonth}}</td>
             <td>{{item.editedBy}}</td>
             <td>
               <a ng-if="item.edit" ng-click="cacheData(item, 'edit')" style="cursor: pointer;">

@@ -28,6 +28,8 @@ CACHE:
 /public/js/shared/directives/fade-out.js
 /public/js/shared/directives/fixed-table-header.js
 
+/public/js/shared/filters/swapDayMonth.js
+
 /public/css/app.css
 /public/js/shared/services/services.js
 /public/js/shared/services/message-service.js
