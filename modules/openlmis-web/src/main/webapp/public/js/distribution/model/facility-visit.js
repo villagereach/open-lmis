@@ -16,6 +16,14 @@ function FacilityVisit(facilityVisitJson) {
     return !field || (isUndefined(field.value) && !field.notRecorded);
   }
 
+  function isUndefinedOrFalse(value) {
+    return isUndefined(value) || value === false;
+  }
+
+  function isBlank(value) {
+    return isUndefined(value) || value.length === 0;
+  }
+
   FacilityVisit.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
@@ -26,6 +34,35 @@ function FacilityVisit(facilityVisitJson) {
     }
 
     if (this.visited && this.visited.value) {
+      if (isEmpty(this.numberOfOutreachVisitsPlanned) || isEmpty(this.numberOfOutreachVisitsCompleted)) {
+        return DistributionStatus.INCOMPLETE;
+      }
+
+      if (isEmpty(this.numberOfMotorbikesAtHU) || isEmpty(this.numberOfFunctioningMotorbikes) ||
+        isEmpty(this.numberOfMotorizedVehiclesWithProblems) || isEmpty(this.numberOfDaysWithLimitedTransport)) {
+          return DistributionStatus.INCOMPLETE;
+      }
+
+      if (isUndefinedOrFalse(this.motorbikeProblemsNotRecorded)) {
+        if (isUndefined(this.motorbikeProblems)) {
+          return DistributionStatus.INCOMPLETE;
+        }
+
+        // if no problem was selected
+        if (isUndefinedOrFalse(this.motorbikeProblems.lackOfFundingForFuel) &&
+          isUndefinedOrFalse(this.motorbikeProblems.repairsSchedulingProblem) &&
+          isUndefinedOrFalse(this.motorbikeProblems.lackOfFundingForRepairs) &&
+          isUndefinedOrFalse(this.motorbikeProblems.missingParts) &&
+          isUndefinedOrFalse(this.motorbikeProblems.other)) {
+            return DistributionStatus.INCOMPLETE;
+        }
+
+        // if selected other problem but description is empty
+        if (this.motorbikeProblems.other === true && isBlank(this.motorbikeProblems.motorbikeProblemOther)) {
+          return DistributionStatus.INCOMPLETE;
+        }
+      }
+
       var visitedObservationStatus = computeStatusForObservation.call(this);
       return visitedObservationStatus === DistributionStatus.EMPTY ? DistributionStatus.INCOMPLETE : visitedObservationStatus;
     }
