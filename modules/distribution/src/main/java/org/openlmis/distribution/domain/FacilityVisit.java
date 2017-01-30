@@ -96,12 +96,13 @@ public class FacilityVisit extends BaseModel {
     this.numberOfFunctioningMotorbikes = null;
     this.numberOfMotorizedVehiclesWithProblems = null;
     this.numberOfDaysWithLimitedTransport = null;
-    this.motorbikeProblems = null;
+    this.motorbikeProblems = new MotorbikeProblems();
   }
 
   public FacilityVisitDTO transform() {
     Facilitator confirmedBy = Optional.fromNullable(this.confirmedBy).or(new Facilitator());
     Facilitator verifiedBy = Optional.fromNullable(this.verifiedBy).or(new Facilitator());
+    MotorbikeProblems motorbikeProblems = Optional.fromNullable(this.motorbikeProblems).or(new MotorbikeProblems());
 
     FacilityVisitDTO dto = new FacilityVisitDTO();
     dto.setId(id);
@@ -127,7 +128,7 @@ public class FacilityVisit extends BaseModel {
     dto.setNumberOfFunctioningMotorbikes(new Reading(numberOfFunctioningMotorbikes));
     dto.setNumberOfMotorizedVehiclesWithProblems(new Reading(numberOfMotorizedVehiclesWithProblems));
     dto.setNumberOfDaysWithLimitedTransport(new Reading(numberOfDaysWithLimitedTransport));
-    dto.setMotorbikeProblems(Optional.fromNullable(motorbikeProblems).or(new MotorbikeProblems()));
+    dto.setMotorbikeProblems(motorbikeProblems.transform());
 
     notRecorded(dto.getConfirmedBy().getName());
     notRecorded(dto.getConfirmedBy().getTitle());
