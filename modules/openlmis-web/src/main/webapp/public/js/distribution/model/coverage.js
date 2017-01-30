@@ -13,6 +13,9 @@ function FullCoverage(facilityVisitId, fullCoverage) {
   $.extend(true, this, fullCoverage);
   this.facilityVisitId = facilityVisitId;
 
+  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
+    this.notRecordedApplied = false;
+  }
   var fieldList = ['femaleHealthCenterReading', 'femaleMobileBrigadeReading', 'maleHealthCenterReading', 'maleMobileBrigadeReading'];
 
   function init() {
@@ -61,7 +64,8 @@ function FullCoverage(facilityVisitId, fullCoverage) {
   FullCoverage.prototype.setNotRecorded = function () {
     var _this = this;
     $(fieldList).each(function (j, fieldName) {
-      _this[fieldName].notRecorded = true;
+      _this[fieldName].notRecorded = !_this.notRecordedApplied;
     });
+    this.notRecordedApplied = !this.notRecordedApplied;
   };
 }

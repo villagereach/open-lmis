@@ -12,6 +12,10 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   $.extend(true, this, childCoverageJSON);
   this.facilityVisitId = facilityVisitId;
 
+  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
+    this.notRecordedApplied = false;
+  }
+
   $(this.childCoverageLineItems).each(function (index, lineItem) {
     lineItem.healthCenter23Months = lineItem.healthCenter23Months || {};
     lineItem.outreach23Months = lineItem.outreach23Months || {};
@@ -67,25 +71,31 @@ ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncSta
   return this.status;
 };
 
-function setNotRecorded(field) {
-  if (field) {
-    delete field.value;
-    field.notRecorded = true;
+function setNotRecorded(field, notRecordedApplied) {
+  if(!notRecordedApplied) {
+    if (field) {
+      delete field.value;
+      field.notRecorded = true;
 
-    return field;
+      return field;
+    } else {
+      return {notRecorded: true};
+    }
   } else {
-    return {notRecorded: true};
+    return {notRecorded: false};
   }
 }
 
 ChildCoverage.prototype.setNotRecorded = function () {
+  var _this = this;
   this.childCoverageLineItems.forEach(function (lineItem) {
-    lineItem.healthCenter11Months = setNotRecorded(lineItem.healthCenter11Months);
-    lineItem.healthCenter23Months = setNotRecorded(lineItem.healthCenter23Months);
-    lineItem.outreach11Months = setNotRecorded(lineItem.outreach11Months);
-    lineItem.outreach23Months = setNotRecorded(lineItem.outreach23Months);
+    lineItem.healthCenter11Months = setNotRecorded(lineItem.healthCenter11Months, _this.notRecordedApplied);
+    lineItem.healthCenter23Months = setNotRecorded(lineItem.healthCenter23Months, _this.notRecordedApplied);
+    lineItem.outreach11Months = setNotRecorded(lineItem.outreach11Months, _this.notRecordedApplied);
+    lineItem.outreach23Months = setNotRecorded(lineItem.outreach23Months, _this.notRecordedApplied);
   });
   this.openedVialLineItems.forEach(function (lineItem) {
-    lineItem.openedVial = setNotRecorded(lineItem.openedVial);
+    lineItem.openedVial = setNotRecorded(lineItem.openedVial, _this.notRecordedApplied);
   });
+  this.notRecordedApplied = !this.notRecordedApplied;
 };

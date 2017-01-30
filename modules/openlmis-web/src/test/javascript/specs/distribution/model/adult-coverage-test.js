@@ -228,13 +228,31 @@ describe('Adult coverage', function () {
     it("should set not recorded for all four attributes", function () {
       var adultCoverageLineItem = new AdultCoverageLineItem({"id": 5, "facilityVisitId": 3, "demographicGroup": "Pregnant Women", "healthCenterTetanus1": {value: 1},
         "outreachTetanus1": {value: undefined}, "healthCenterTetanus2To5": {value: 3}, "outreachTetanus2To5": {value: undefined}});
-
-      adultCoverageLineItem.setNotRecorded();
+      var adultCoverage = new AdultCoverage(123, {
+        adultCoverageLineItems: [adultCoverageLineItem]
+      });
+      adultCoverage.notRecordedApplied = false;
+      adultCoverageLineItem.setNotRecorded(adultCoverage);
 
       expect(adultCoverageLineItem.healthCenterTetanus1.notRecorded).toBeTruthy();
       expect(adultCoverageLineItem.outreachTetanus1.notRecorded).toBeTruthy();
       expect(adultCoverageLineItem.healthCenterTetanus2To5.notRecorded).toBeTruthy();
       expect(adultCoverageLineItem.outreachTetanus2To5.notRecorded).toBeTruthy();
+    });
+
+    it("should clear not recorded from all four attributes", function () {
+      var adultCoverageLineItem = new AdultCoverageLineItem({"id": 5, "facilityVisitId": 3, "demographicGroup": "Pregnant Women", "healthCenterTetanus1": {value: 1},
+        "outreachTetanus1": {value: undefined}, "healthCenterTetanus2To5": {value: 3}, "outreachTetanus2To5": {value: undefined}});
+      var adultCoverage = new AdultCoverage(123, {
+        adultCoverageLineItems: [adultCoverageLineItem]
+      });
+      adultCoverage.notRecordedApplied = true;
+      adultCoverageLineItem.setNotRecorded(adultCoverage);
+
+      expect(adultCoverageLineItem.healthCenterTetanus1.notRecorded).not.toBeTruthy();
+      expect(adultCoverageLineItem.outreachTetanus1.notRecorded).not.toBeTruthy();
+      expect(adultCoverageLineItem.healthCenterTetanus2To5.notRecorded).not.toBeTruthy();
+      expect(adultCoverageLineItem.outreachTetanus2To5.notRecorded).not.toBeTruthy();
     });
   });
 
