@@ -82,6 +82,7 @@ describe('EPI Use', function () {
         received: {value: 80}, stockAtEndOfMonth: {value: 200}, loss: {value: 50}
       }
     ]});
+    epiUse.notRecordedApplied = false;
 
     epiUse.setNotRecorded();
 
@@ -91,6 +92,28 @@ describe('EPI Use', function () {
     expect(epiUse.lineItems[0].distributed.notRecorded).toBeTruthy();
     expect(epiUse.lineItems[0].loss.notRecorded).toBeTruthy();
     expect(epiUse.lineItems[0].expirationDate.notRecorded).toBeTruthy();
+
+    expect(epiUse.notRecordedApplied).toBeTruthy();
+  });
+
+  it('should set all NR flags to false', function () {
+    var epiUse = new EpiUse({lineItems: [
+      {expirationDate: {value: '11/2012'}, stockAtFirstOfMonth: {notRecorded: true}, distributed: {value: 100},
+        received: {value: 80}, stockAtEndOfMonth: {value: 200}, loss: {value: 50}
+      }
+    ]});
+    epiUse.notRecordedApplied = true;
+
+    epiUse.setNotRecorded();
+
+    expect(epiUse.lineItems[0].expirationDate.notRecorded).not.toBeTruthy();
+    expect(epiUse.lineItems[0].stockAtEndOfMonth.notRecorded).not.toBeTruthy();
+    expect(epiUse.lineItems[0].stockAtFirstOfMonth.notRecorded).not.toBeTruthy();
+    expect(epiUse.lineItems[0].distributed.notRecorded).not.toBeTruthy();
+    expect(epiUse.lineItems[0].loss.notRecorded).not.toBeTruthy();
+    expect(epiUse.lineItems[0].expirationDate.notRecorded).not.toBeTruthy();
+
+    expect(epiUse.notRecordedApplied).not.toBeTruthy();
   });
 
   it('should set status as complete if facility is not visited', function () {

@@ -12,6 +12,9 @@ function EpiUse(epiUse) {
 
   var DATE_REGEXP = /^(0[1-9]|1[012])[/]((2)\d\d\d)$/;
   var fieldList = ['stockAtFirstOfMonth', 'received', 'distributed', 'loss', 'stockAtEndOfMonth', 'expirationDate', 'numberOfStockoutDays'];
+  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
+    this.notRecordedApplied = false;
+  }
 
   function init() {
     $.extend(true, this, epiUse);
@@ -25,11 +28,20 @@ function EpiUse(epiUse) {
   init.call(this);
 
   EpiUse.prototype.setNotRecorded = function () {
-    $(this.lineItems).each(function (i, lineItem) {
-      $(fieldList).each(function (j, fieldName) {
-        lineItem[fieldName].notRecorded = true;
+    if(!this.notRecordedApplied) {
+      $(this.lineItems).each(function (i, lineItem) {
+        $(fieldList).each(function (j, fieldName) {
+          lineItem[fieldName].notRecorded = true;
+        });
       });
-    });
+    } else {
+      $(this.lineItems).each(function (i, lineItem) {
+        $(fieldList).each(function (j, fieldName) {
+          lineItem[fieldName].notRecorded = false;
+        });
+      });
+    }
+    this.notRecordedApplied = !this.notRecordedApplied;
   };
 
   EpiUse.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
