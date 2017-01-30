@@ -10,6 +10,11 @@
 
 function EpiInventory(epiInventory) {
   $.extend(true, this, epiInventory);
+
+  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
+    this.notRecordedApplied = false;
+  }
+
   $(this.lineItems).each(function (index, lineItem) {
     lineItem.existingQuantity = this.existingQuantity || {};
     lineItem.spoiledQuantity = this.spoiledQuantity || {};
@@ -18,10 +23,18 @@ function EpiInventory(epiInventory) {
   var mandatoryFields = ['existingQuantity', 'deliveredQuantity', 'spoiledQuantity'];
 
   EpiInventory.prototype.setNotRecorded = function () {
-    $(this.lineItems).each(function (index, lineItem) {
-      lineItem.existingQuantity.notRecorded = true;
-      lineItem.spoiledQuantity.notRecorded = true;
-    });
+    if(!this.notRecordedApplied) {
+      $(this.lineItems).each(function (index, lineItem) {
+        lineItem.existingQuantity.notRecorded = true;
+        lineItem.spoiledQuantity.notRecorded = true;
+      });
+    } else {
+       $(this.lineItems).each(function (index, lineItem) {
+         lineItem.existingQuantity.notRecorded = false;
+         lineItem.spoiledQuantity.notRecorded = false;
+       });
+    }
+    this.notRecordedApplied = !this.notRecordedApplied;
   };
 
   function isValid(lineItem, field) {

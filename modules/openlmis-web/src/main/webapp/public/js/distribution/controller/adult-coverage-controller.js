@@ -40,7 +40,13 @@ function AdultCoverageController($scope, $routeParams, distributionService) {
   $scope.applyNRAll = function () {
     distributionService.applyNR(function () {
       $scope.adultCoverage.setNotRecorded();
-    });
+    }, false);
+  };
+
+  $scope.clearNRAll = function () {
+    distributionService.applyNR(function () {
+      $scope.adultCoverage.setNotRecorded();
+    }, true);
   };
 
   $scope.getFormattedPercent = function (number) {

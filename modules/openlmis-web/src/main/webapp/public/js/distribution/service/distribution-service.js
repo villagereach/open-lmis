@@ -12,13 +12,16 @@ distributionModule.service('distributionService', function ($dialog, SharedDistr
 
   var _this = this;
 
-  this.applyNR = function (applyFunc) {
+  this.applyNR = function (applyFunc, nrApplied) {
     var dialogOpts = {
       id: "distributionInitiated",
       header: 'label.apply.nr.all',
       body: 'message.apply.nr'
     };
-
+    if(nrApplied) {
+      dialogOpts.header = 'label.clear.nr.all';
+      dialogOpts.body =  'message.clear.nr';
+    }
     var callback = function () {
       return function (result) {
         if (!result) return;

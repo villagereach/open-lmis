@@ -13,10 +13,17 @@ function EPIInventoryController($scope, $routeParams, distributionService) {
   $scope.distribution = distributionService.distribution;
   $scope.distributionReview = distributionService.distributionReview;
   $scope.selectedFacilityId = $routeParams.facility;
+  $scope.epiInventory = $scope.distribution.facilityDistributions[$routeParams.facility].epiInventory;
 
   $scope.applyNRAll = function() {
     distributionService.applyNR(function() {
-      $scope.distribution.facilityDistributions[$routeParams.facility].epiInventory.setNotRecorded();
-    });
+      $scope.epiInventory.setNotRecorded();
+    }, false);
+  };
+
+  $scope.clearNRAll = function () {
+    distributionService.applyNR(function () {
+      $scope.epiInventory.setNotRecorded();
+    }, true);
   };
 }

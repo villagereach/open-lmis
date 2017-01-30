@@ -19,8 +19,9 @@
       <h3>
         <span id="epiUsePageHeader" openlmis-message="header.epi.use"></span>
         <input id="epiUseApplyNrAll" type="button" ng-click="applyNRAll()"
-               class="pull-right btn"
-               openlmis-message="button.apply.nr.all"/>
+               class="pull-right btn" openlmis-message="button.apply.nr.all" ng-if="!epiUse.notRecordedApplied"/>
+        <input id="epiUseClearNRFromAll" type="button" ng-click="clearNRAll()" class="pull-right btn"
+               openlmis-message="button.clear.nr.all" ng-if="epiUse.notRecordedApplied"/>
       </h3>
 
       <div class="clearfix"></div>

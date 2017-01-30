@@ -65,11 +65,26 @@ describe('epi inventory', function () {
     var epiInventory = new EpiInventory({lineItems: [
       {existingQuantity: {notRecorded: false}, deliveredQuantity: {value: 1}, spoiledQuantity: {value: 1, notRecorded: false}}
     ]});
+    epiInventory.notRecordedApplied = false;
 
     var status = epiInventory.setNotRecorded();
 
     expect(epiInventory.lineItems[0].existingQuantity.notRecorded).toBeTruthy();
     expect(epiInventory.lineItems[0].spoiledQuantity.notRecorded).toBeTruthy();
+    expect(epiInventory.notRecordedApplied).toBeTruthy();
+  });
+
+  it('should set all NR flags to false', function () {
+    var epiInventory = new EpiInventory({lineItems: [
+      {existingQuantity: {notRecorded: false}, deliveredQuantity: {value: 1}, spoiledQuantity: {value: 1, notRecorded: false}}
+    ]});
+    epiInventory.notRecordedApplied = true;
+
+    epiInventory.setNotRecorded();
+
+    expect(epiInventory.lineItems[0].existingQuantity.notRecorded).not.toBeTruthy();
+    expect(epiInventory.lineItems[0].spoiledQuantity.notRecorded).not.toBeTruthy();
+    expect(epiInventory.notRecordedApplied).not.toBeTruthy();
   });
 
 });
