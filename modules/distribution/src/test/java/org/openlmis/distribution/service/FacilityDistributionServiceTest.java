@@ -340,7 +340,7 @@ public class FacilityDistributionServiceTest {
     FacilityDistribution facilityDistribution = new FacilityDistribution();
     whenNew(FacilityDistribution.class).withArguments(facilityVisit, epiUse, distributionRefrigerators, epiInventory, vaccinationFullCoverage, vaccinationChildCoverage, vaccinationAdultCoverage).thenReturn(facilityDistribution);
 
-    Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.get(distribution);
+    Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.get(distribution, true);
 
     assertThat(facilityDistributionMap.size(), is(1));
     assertThat(facilityDistributionMap.get(facilityVisit.getFacilityId()), is(facilityDistribution));
