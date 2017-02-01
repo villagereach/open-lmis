@@ -149,7 +149,7 @@ public class ReviewDataService {
     List<SynchronizedDistribution> list = new ArrayList<>();
 
     for (Distribution distribution : distributions) {
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution);
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, false);
       Iterator<Map.Entry<Long, FacilityDistribution>> iterator = facilityDistributionMap.entrySet().iterator();
 
       if (!iterator.hasNext()) {
@@ -211,7 +211,7 @@ public class ReviewDataService {
     Distribution distribution = distributionService.getFullSyncedDistribution(arg);
     distributionService.insertEditInProgress(userId, distribution.getId());
 
-    Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution);
+    Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, true);
 
     distribution.setFacilityDistributions(facilityDistributionMap);
 
@@ -226,7 +226,7 @@ public class ReviewDataService {
 
     Distribution distribution = distributionService.getBy(distributionId);
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution);
+    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, true);
     distribution.setFacilityDistributions(facilityDistributions);
 
     if (facilityDistributionEditHandler.modified(replacement)) {
@@ -257,14 +257,14 @@ public class ReviewDataService {
   public DistributionDTO update(Long distributionId, Long facilityId, FacilityDistributionEditDetail detail, Long userId) {
     Distribution distribution = distributionService.getBy(distributionId);
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution);
+    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, true);
     distribution.setFacilityDistributions(facilityDistributions);
 
     facilityDistributionEditService.save(detail);
     createHistory(userId, distribution, detail, facilityId);
 
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    facilityDistributions = facilityDistributionService.getData(distribution);
+    facilityDistributions = facilityDistributionService.getData(distribution, true);
     distribution.setFacilityDistributions(facilityDistributions);
 
     return distribution.transform();
@@ -318,7 +318,7 @@ public class ReviewDataService {
       Distribution distribution = distributionService.getBy(distributionId);
       distribution = distributionService.getFullSyncedDistribution(distribution);
 
-      Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution);
+      Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, false);
       Iterator<Map.Entry<Long, FacilityDistribution>> iterator = facilityDistributions.entrySet().iterator();
 
       if (!iterator.hasNext()) {

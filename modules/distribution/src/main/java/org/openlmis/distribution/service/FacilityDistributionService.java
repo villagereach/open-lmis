@@ -179,41 +179,45 @@ public class FacilityDistributionService {
     });
   }
 
-  public Map<Long, FacilityDistribution> get(Distribution distribution) {
+  public Map<Long, FacilityDistribution> get(Distribution distribution, Boolean readScreensData) {
     List<FacilityVisit> unSyncedFacilities = facilityVisitService.getUnSyncedFacilities(distribution.getId());
-    return getFacilityDistributions(distribution, unSyncedFacilities);
+    return getFacilityDistributions(distribution, unSyncedFacilities, readScreensData);
   }
 
-  public Map<Long, FacilityDistribution> getData(Distribution distribution) {
+  public Map<Long, FacilityDistribution> getData(Distribution distribution, Boolean readScreensData) {
     List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId());
-    return getFacilityDistributions(distribution, visits);
+    return getFacilityDistributions(distribution, visits, readScreensData);
   }
 
-  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits) {
+  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits, Boolean readScreensData) {
     Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
 
     for (FacilityVisit facilityVisit : facilityVisits) {
-      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution));
+      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution, readScreensData));
     }
 
     return facilityDistributions;
   }
 
-  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution) {
-    EpiUse epiUse = epiUseService.getBy(facilityVisit.getId());
+  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution, Boolean readScreensData) {
+    FacilityDistribution facilityDistribution = new FacilityDistribution();
 
-    List<Refrigerator> refrigerators = refrigeratorService.getRefrigeratorsForADeliveryZoneAndProgram(distribution.getDeliveryZone().getId(), distribution.getProgram().getId());
-    DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, facilityVisit.getId()));
+    if (readScreensData) {
+      EpiUse epiUse = epiUseService.getBy(facilityVisit.getId());
 
+      List<Refrigerator> refrigerators = refrigeratorService.getRefrigeratorsForADeliveryZoneAndProgram(distribution.getDeliveryZone().getId(), distribution.getProgram().getId());
+      DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, facilityVisit.getId()));
+
+      EpiInventory epiInventory = epiInventoryService.getBy(facilityVisit.getId());
+      VaccinationFullCoverage coverage = vaccinationCoverageService.getFullCoverageBy(facilityVisit.getId());
+      VaccinationChildCoverage childCoverage = vaccinationCoverageService.getChildCoverageBy(facilityVisit.getId());
+      VaccinationAdultCoverage adultCoverage = vaccinationCoverageService.getAdultCoverageBy(facilityVisit.getId());
+
+      facilityDistribution = new FacilityDistribution(facilityVisit, epiUse, distributionRefrigerators, epiInventory, coverage,
+              childCoverage, adultCoverage);
+    }
     Facility facility = facilityService.getById(facilityVisit.getFacilityId());
 
-    EpiInventory epiInventory = epiInventoryService.getBy(facilityVisit.getId());
-    VaccinationFullCoverage coverage = vaccinationCoverageService.getFullCoverageBy(facilityVisit.getId());
-    VaccinationChildCoverage childCoverage = vaccinationCoverageService.getChildCoverageBy(facilityVisit.getId());
-    VaccinationAdultCoverage adultCoverage = vaccinationCoverageService.getAdultCoverageBy(facilityVisit.getId());
-
-    FacilityDistribution facilityDistribution = new FacilityDistribution(facilityVisit, epiUse, distributionRefrigerators, epiInventory, coverage,
-      childCoverage, adultCoverage);
     facilityDistribution.setFacility(facility);
     return facilityDistribution;
   }
