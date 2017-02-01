@@ -186,8 +186,10 @@ function RecordFacilityDataController($scope, $location, $route, $routeParams, d
       var promises = [];
 
       $.each($scope.distribution.facilityDistributions, function (ignore, facilityDistribution) {
-        var promise = $http.post(url, facilityDistribution).success(onSuccess).error(onError);
-        promises.push(promise);
+        if (modified(facilityDistribution)) {
+          var promise = $http.post(url, facilityDistribution).success(onSuccess).error(onError);
+          promises.push(promise);
+        }
       });
 
       $q.all(promises).then(function () {
