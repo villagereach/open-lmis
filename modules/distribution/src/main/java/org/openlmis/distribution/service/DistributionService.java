@@ -79,7 +79,7 @@ public class DistributionService {
         insertEditInProgress(userId, distribution.getId());
       }
 
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution);
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, true);
 
       distribution.setFacilityDistributions(facilityDistributionMap);
 
