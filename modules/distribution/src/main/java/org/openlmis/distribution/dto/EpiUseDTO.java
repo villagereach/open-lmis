@@ -38,6 +38,7 @@ import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPT
 public class EpiUseDTO extends BaseModel {
 
   List<EpiUseLineItemDTO> lineItems = new ArrayList<>();
+  private Boolean notRecordedApplied;
 
   public EpiUse transform() {
     List<EpiUseLineItem> epiUseLineItems = new ArrayList<>();
@@ -48,6 +49,6 @@ public class EpiUseDTO extends BaseModel {
       epiUseLineItems.add(epiUseLineItemDTO.transform());
     }
 
-    return new EpiUse(epiUseLineItems);
+    return new EpiUse(epiUseLineItems, this.notRecordedApplied);
   }
 }

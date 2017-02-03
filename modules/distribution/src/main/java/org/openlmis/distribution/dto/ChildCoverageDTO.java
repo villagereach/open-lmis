@@ -36,6 +36,7 @@ public class ChildCoverageDTO extends BaseModel {
 
   private List<ChildCoverageLineItemDTO> childCoverageLineItems = new ArrayList<>();
   private List<OpenedVialLineItemDTO> openedVialLineItems = new ArrayList<>();
+  private Boolean notRecordedApplied;
 
   public VaccinationChildCoverage transform() {
     VaccinationChildCoverage childCoverage = new VaccinationChildCoverage();
@@ -53,6 +54,7 @@ public class ChildCoverageDTO extends BaseModel {
 
     childCoverage.setChildCoverageLineItems(childCoverageLineItems);
     childCoverage.setOpenedVialLineItems(openedVialLineItems);
+    childCoverage.setNotRecordedApplied(this.notRecordedApplied);
     return childCoverage;
   }
 }

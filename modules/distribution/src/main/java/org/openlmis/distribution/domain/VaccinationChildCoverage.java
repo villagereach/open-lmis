@@ -91,7 +91,7 @@ public class VaccinationChildCoverage extends VaccinationCoverage {
 
     dto.setChildCoverageLineItems(childCoverageLineItems);
     dto.setOpenedVialLineItems(openedVialLineItems);
-
+    dto.setNotRecordedApplied(this.notRecordedApplied);
     return dto;
   }
 }

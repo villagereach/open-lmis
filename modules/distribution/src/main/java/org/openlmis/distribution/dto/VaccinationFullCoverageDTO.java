@@ -39,6 +39,7 @@ public class VaccinationFullCoverageDTO extends BaseModel {
   private Reading femaleMobileBrigadeReading;
   private Reading maleHealthCenterReading;
   private Reading maleMobileBrigadeReading;
+  private Boolean notRecordedApplied;
 
   public VaccinationFullCoverage transform() {
     Integer femaleHealthCenter = Reading.safeRead(this.femaleHealthCenterReading).parsePositiveInt();
@@ -49,7 +50,8 @@ public class VaccinationFullCoverageDTO extends BaseModel {
     VaccinationFullCoverage vaccinationFullCoverage = new VaccinationFullCoverage(this.facilityVisitId, femaleHealthCenter,
         femaleOutreach,
         maleHealthCenter,
-        maleOutreach);
+        maleOutreach,
+        this.notRecordedApplied);
     vaccinationFullCoverage.setModifiedBy(this.modifiedBy);
     vaccinationFullCoverage.setCreatedBy(this.createdBy);
 

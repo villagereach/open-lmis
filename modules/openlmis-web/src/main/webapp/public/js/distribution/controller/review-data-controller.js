@@ -109,12 +109,12 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
       if (!distributionService.isCached(distribution)) {
         $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error(onFailure);
       } else {
-        sachedDistribution = distributionService.get(distribution);
+        cachedDistribution = distributionService.get(distribution);
 
-        if (SharedDistributions.isReview(sachedDistribution)) {
-            goTo(sachedDistribution);
+        if (SharedDistributions.isReview(cachedDistribution)) {
+            goTo(cachedDistribution);
         } else {
-            distributionService.deleteDistribution(sachedDistribution.id);
+            distributionService.deleteDistribution(cachedDistribution.id);
             $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error(onFailure);
         }
       }

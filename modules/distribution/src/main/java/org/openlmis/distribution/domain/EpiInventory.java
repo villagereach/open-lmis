@@ -33,6 +33,11 @@ import java.util.List;
 public class EpiInventory {
 
   private List<EpiInventoryLineItem> lineItems = new ArrayList<>();
+  private Boolean notRecordedApplied;
+
+  public EpiInventory(List<EpiInventoryLineItem> lineItems) {
+    this.lineItems = lineItems;
+  }
 
   public EpiInventory(FacilityVisit facilityVisit, Facility facility, Distribution distribution) {
 
@@ -54,6 +59,7 @@ public class EpiInventory {
     }
 
     dto.setLineItems(lineItems);
+    dto.setNotRecordedApplied(this.notRecordedApplied);
 
     return dto;
   }
