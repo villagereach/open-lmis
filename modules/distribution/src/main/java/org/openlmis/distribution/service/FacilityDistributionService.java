@@ -208,17 +208,7 @@ public class FacilityDistributionService {
     return getFacilityDistributions(distribution, visits, readScreensData);
   }
 
-  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits, Boolean readScreensData) {
-    Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
-
-    for (FacilityVisit facilityVisit : facilityVisits) {
-      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution, readScreensData));
-    }
-
-    return facilityDistributions;
-  }
-
-  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution, Boolean readScreensData) {
+  public FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution, Boolean readScreensData) {
     FacilityDistribution facilityDistribution = new FacilityDistribution();
 
     if (readScreensData) {
@@ -241,6 +231,7 @@ public class FacilityDistributionService {
     return facilityDistribution;
   }
 
+
   private FacilityVisit createFacilityVisitData(Facility facility, Distribution distribution, DistributionDTO previousDistribution) {
     FacilityVisit facilityVisit = new FacilityVisit(facility, distribution);
     if (previousDistribution != null) {
@@ -253,5 +244,15 @@ public class FacilityDistributionService {
     }
 
     return facilityVisit;
+  }
+
+  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits, Boolean readScreensData) {
+    Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
+
+    for (FacilityVisit facilityVisit : facilityVisits) {
+      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution, readScreensData));
+    }
+
+    return facilityDistributions;
   }
 }
