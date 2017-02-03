@@ -28,7 +28,7 @@ public class VaccinationFullCoverageDTOTest {
     Reading maleMobileBrigadeReading = mock(Reading.class);
     Reading maleHealthCenterReading = mock(Reading.class);
 
-    VaccinationFullCoverageDTO vaccinationFullCoverageDTO = new VaccinationFullCoverageDTO(facilityVisitId, femaleHealthCenterReading, femaleMobileBrigadeReading, maleHealthCenterReading, maleMobileBrigadeReading);
+    VaccinationFullCoverageDTO vaccinationFullCoverageDTO = new VaccinationFullCoverageDTO(facilityVisitId, femaleHealthCenterReading, femaleMobileBrigadeReading, maleHealthCenterReading, maleMobileBrigadeReading, null);
     vaccinationFullCoverageDTO.transform();
 
     verify(femaleHealthCenterReading).parsePositiveInt();

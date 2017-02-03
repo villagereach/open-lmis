@@ -40,6 +40,11 @@ import java.util.Set;
 public class EpiUse {
 
   private List<EpiUseLineItem> lineItems = new ArrayList<>();
+  private Boolean notRecordedApplied;
+
+  public EpiUse(List<EpiUseLineItem> lineItems) {
+    this.lineItems = lineItems;
+  }
 
   public EpiUse(Facility facility, FacilityVisit facilityVisit) {
 
@@ -72,6 +77,7 @@ public class EpiUse {
     }
 
     dto.setLineItems(lineItems);
+    dto.setNotRecordedApplied(this.notRecordedApplied);
 
     return dto;
   }

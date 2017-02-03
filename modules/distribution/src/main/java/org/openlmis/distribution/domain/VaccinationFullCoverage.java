@@ -34,6 +34,7 @@ public class VaccinationFullCoverage extends BaseModel {
   private Integer femaleOutreach;
   private Integer maleHealthCenter;
   private Integer maleOutreach;
+  private Boolean notRecordedApplied;
 
   public VaccinationFullCoverage(Integer femaleHealthCenterReading, Integer femaleMobileBrigadeReading, Integer maleHealthCenterReading, Integer maleMobileBrigadeReading) {
     this.femaleHealthCenter = femaleHealthCenterReading;
@@ -54,6 +55,7 @@ public class VaccinationFullCoverage extends BaseModel {
     dto.setFemaleMobileBrigadeReading(new Reading(femaleOutreach));
     dto.setMaleHealthCenterReading(new Reading(maleHealthCenter));
     dto.setMaleMobileBrigadeReading(new Reading(maleOutreach));
+    dto.setNotRecordedApplied(this.notRecordedApplied);
 
     return dto;
   }

@@ -17,6 +17,7 @@ import org.openlmis.distribution.domain.Distribution;
 import org.openlmis.distribution.domain.DistributionEdit;
 import org.openlmis.distribution.domain.DistributionStatus;
 import org.openlmis.distribution.domain.DistributionsEditHistory;
+import org.openlmis.distribution.domain.NotRecordedForms;
 import org.openlmis.distribution.repository.mapper.DistributionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -115,5 +116,15 @@ public class DistributionRepository {
     mapper.insertHistory(history);
   }
 
+  public void insertNotRecorded(NotRecordedForms notRecordedForms) {
+    mapper.insertNotRecorded(notRecordedForms);
+  }
 
+  public void updateNotRecorded(NotRecordedForms notRecordedForms) {
+    mapper.updateNotRecorded(notRecordedForms);
+  }
+
+  public NotRecordedForms getNotRecorded(Long facilityVisitId) {
+    return mapper.getNotRecordedForms(facilityVisitId);
+  }
 }

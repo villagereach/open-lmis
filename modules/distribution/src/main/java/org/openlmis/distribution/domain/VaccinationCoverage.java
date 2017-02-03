@@ -22,6 +22,8 @@ public class VaccinationCoverage {
 
   protected List<OpenedVialLineItem> openedVialLineItems = new ArrayList<>();
 
+  protected Boolean notRecordedApplied;
+
   public VaccinationCoverage(FacilityVisit facilityVisit,
                              Facility facility, List<ProductVial> productVials,
                              List<String> validProductVials) {

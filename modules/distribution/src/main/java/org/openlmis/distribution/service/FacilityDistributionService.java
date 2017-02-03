@@ -21,6 +21,7 @@ import org.openlmis.core.service.FacilityService;
 import org.openlmis.core.service.MessageService;
 import org.openlmis.core.service.RefrigeratorService;
 import org.openlmis.distribution.domain.*;
+import org.openlmis.distribution.repository.DistributionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,9 @@ public class FacilityDistributionService {
   @Autowired
   private VaccinationCoverageService vaccinationCoverageService;
 
+  @Autowired
+  private NotRecordedService notRecordedService;
+
   public Map<Long, FacilityDistribution> createFor(Distribution distribution) {
     Long deliveryZoneId = distribution.getDeliveryZone().getId();
     Long programId = distribution.getProgram().getId();
@@ -86,8 +90,9 @@ public class FacilityDistributionService {
     filterProductVials(productVials, childProductVials, adultProductVials);
 
     for (Facility facility : facilities) {
-      facilityDistributions.put(facility.getId(), createDistributionData(facility, distribution, distributionRefrigerators, childrenTargetGroupProducts,
-        adultTargetGroupProducts, childProductVials, adultProductVials));
+      FacilityDistribution facilityDistribution = createDistributionData(facility, distribution, distributionRefrigerators, childrenTargetGroupProducts,
+          adultTargetGroupProducts, childProductVials, adultProductVials);
+      facilityDistributions.put(facility.getId(), facilityDistribution);
     }
 
     return facilityDistributions;
@@ -144,6 +149,7 @@ public class FacilityDistributionService {
 
   public FacilityDistribution save(FacilityDistribution facilityDistribution) {
     facilityVisitService.save(facilityDistribution.getFacilityVisit());
+    notRecordedService.saveInformationAboutNotRecordedForms(facilityDistribution);
     if (facilityDistribution.getFacilityVisit().getVisited()) {
       epiInventoryService.save(facilityDistribution.getEpiInventory());
       distributionRefrigeratorsService.save(facilityDistribution.getFacilityVisit().getFacilityId(), facilityDistribution.getRefrigerators());
