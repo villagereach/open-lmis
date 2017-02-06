@@ -66,13 +66,13 @@ describe('RefrigeratorController', function () {
   });
 
   it('should set duplicate serial number if serial number already exists', function () {
-    scope.newRefrigeratorReading = {refrigerator: {serialNumber: "Abc"}};
+    scope.refrigeratorReading = {refrigerator: {serialNumber: "Abc"}};
     scope.addRefrigeratorToStore();
     expect(scope.isDuplicateSerialNumber).toBeTruthy();
   });
 
   it('should add new refrigerator if serial number does not exist', function () {
-    scope.newRefrigeratorReading = {refrigerator: {serialNumber: "Abcc"}};
+    scope.refrigeratorReading = {refrigerator: {serialNumber: "Abcc"}};
     spyOn(IndexedDB, 'put').andCallThrough();
 
     scope.addRefrigeratorToStore();

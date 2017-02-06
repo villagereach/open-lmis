@@ -28,26 +28,48 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
     }
   };
 
-  $scope.showRefrigeratorModal = function () {
+  $scope.showRefrigeratorModal = function (editMode, serialNumber) {
+    $scope.editMode = editMode;
     $scope.addRefrigeratorModal = true;
-    $scope.newRefrigeratorReading = null;
+    $scope.refrigeratorReading = null;
+    if (editMode) {
+      var existingRefrigeratorReading = $scope.findRefrigeratorReading(serialNumber);
+      if (existingRefrigeratorReading) {
+        $scope.refrigeratorReading = {
+          refrigerator: {
+            serialNumber: existingRefrigeratorReading.refrigerator.serialNumber,
+            brand: existingRefrigeratorReading.refrigerator.brand,
+            model: existingRefrigeratorReading.refrigerator.model,
+            type: existingRefrigeratorReading.refrigerator.type
+          }
+        };
+      }
+    }
     $scope.isDuplicateSerialNumber = false;
   };
 
   $scope.addRefrigeratorToStore = function () {
-    var exists = _.find($scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.readings,
-      function (reading) {
-        return reading.refrigerator.serialNumber.toLowerCase() === $scope.newRefrigeratorReading.refrigerator.serialNumber.toLowerCase();
-      });
-    if (exists) {
+    var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber);
+    if (existing) {
       $scope.isDuplicateSerialNumber = true;
       return;
     }
-    $scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.addReading(angular.copy($scope.newRefrigeratorReading));
+    $scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.addReading(angular.copy($scope.refrigeratorReading));
 
     IndexedDB.put('distributions', $scope.distribution);
 
     $scope.addRefrigeratorModal = $scope.isDuplicateSerialNumber = undefined;
+  };
+
+  $scope.updateRefrigeratorInStore = function () {
+    var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber);
+    existing.refrigerator.brand = $scope.refrigeratorReading.refrigerator.brand;
+    existing.refrigerator.model = $scope.refrigeratorReading.refrigerator.model;
+    existing.refrigerator.type = $scope.refrigeratorReading.refrigerator.type;
+
+    IndexedDB.put('distributions', $scope.distribution);
+
+    $scope.addRefrigeratorModal = $scope.editMode = undefined;
   };
 
   $scope.isFormDisabled = function () {
@@ -90,5 +112,12 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
         scrollTop: utils.parseIntWithBaseTen($('#' + idSent).offset().top) + 'px'
       }, 'fast');
     }, 0);
+  };
+
+  $scope.findRefrigeratorReading = function (serialNumber) {
+    return _.find($scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.readings,
+      function (reading) {
+        return reading.refrigerator.serialNumber.toLowerCase() === serialNumber.toLowerCase();
+      });
   };
 }

@@ -24,9 +24,9 @@ import java.util.List;
 public interface RefrigeratorMapper {
 
   @Insert({"INSERT INTO refrigerators",
-    "(brand, model, serialNumber, facilityId, enabled, createdBy, modifiedBy)",
+    "(brand, model, serialNumber, type, facilityId, enabled, createdBy, modifiedBy)",
     "VALUES",
-    "(#{brand}, #{model}, #{serialNumber}, #{facilityId}, #{enabled}, #{createdBy}, #{modifiedBy})"})
+    "(#{brand}, #{model}, #{serialNumber}, #{type}, #{facilityId}, #{enabled}, #{createdBy}, #{modifiedBy})"})
   @Options(useGeneratedKeys = true)
   void insert(Refrigerator refrigerator);
 
@@ -40,7 +40,7 @@ public interface RefrigeratorMapper {
     "AND PS.programId = #{programId}  AND DZM.deliveryZoneId = #{deliveryZoneId} order by F.name, RF.serialNumber"})
   List<Refrigerator> getRefrigeratorsForADeliveryZoneAndProgram(@Param("deliveryZoneId") Long deliveryZoneId, @Param("programId") Long programId);
 
-  @Update({"UPDATE refrigerators SET brand = #{brand}, model = #{model}, enabled = #{enabled}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
+  @Update({"UPDATE refrigerators SET brand = #{brand}, model = #{model}, type = #{type}, enabled = #{enabled}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})
   void update(Refrigerator refrigerator);
 
   @Select({"SELECT * FROM refrigerators WHERE facilityId = #{facilityId}"})
