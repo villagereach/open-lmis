@@ -584,7 +584,7 @@ public class DistributionAdultCoverageSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void testShouldVerifyFacilityStatusAndApplyNrToAllSync() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "F10");
+    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "Type", "F10");
     dbWrapper.insertProductGroup("PG-1");
     dbWrapper.insertProductWithGroup("Product5", "ProductName5", "PG-1", true);
     dbWrapper.insertProgramProduct("Product5", "VACCINES", "10", "true");

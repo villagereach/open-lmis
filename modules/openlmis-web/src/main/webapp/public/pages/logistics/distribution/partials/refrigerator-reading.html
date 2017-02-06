@@ -14,15 +14,18 @@
   <div class="span1 status-cell">
     <span class="status-icon"></span>
   </div>
-  <div class="span3" ng-bind="refrigeratorReading.refrigerator.serialNumber"></div>
-  <div class="span2" ng-bind="refrigeratorReading.refrigerator.brand"></div>
-    <div class="span3" ng-bind="refrigeratorReading.refrigerator.model"></div>
+  <div class="span2" ng-bind="refrigeratorReading.refrigerator.serialNumber"></div>
+  <div class="span3" ng-bind="refrigeratorReading.refrigerator.brand"></div>
+  <div class="span3" ng-bind="refrigeratorReading.refrigerator.model"></div>
+  <div class="span3" ng-bind="refrigeratorReading.refrigerator.type"></div>
     <div class="span3">
     <span class="pull-right">
       <a id="editReading{{$index}}" href="" class="btn btn-small btn-primary"
          ng-click="setEdit(refrigeratorReading.refrigerator.serialNumber, $index)"
          ng-hide="edit[refrigeratorReading.refrigerator.serialNumber]"
          openlmis-message="button.show"></a>
+      <input type="button" class="btn btn-small btn-primary" openlmis-message="button.edit"
+             ng-click="showRefrigeratorModal(true, refrigeratorReading.refrigerator.serialNumber)"/>
       <input type="button" class="btn btn-small btn-danger" openlmis-message="button.delete"
              ng-click="showDeleteRefrigeratorConfirmationModel(refrigeratorReading.refrigerator.serialNumber)"/>
     </span>

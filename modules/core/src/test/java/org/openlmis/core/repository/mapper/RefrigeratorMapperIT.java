@@ -106,24 +106,24 @@ public class RefrigeratorMapperIT {
 
   @Test
   public void shouldGetAllInDeliveryZoneAndOrderByGeographicZoneParentAndFacilityName() {
-    Refrigerator disabledRefrigerator = new Refrigerator("SAM1", "AUO1", "SAM1", facility.getId(), false);
+    Refrigerator disabledRefrigerator = new Refrigerator("SAM1", "AUO1", "SAM1", "Type", facility.getId(), false);
     disabledRefrigerator.setCreatedBy(1L);
     disabledRefrigerator.setModifiedBy(1L);
 
     mapper.insert(disabledRefrigerator);
 
-    Refrigerator enabledRefrigerator1 = new Refrigerator("SAM3", "AUO3", "SAM3", facility.getId(), true);
+    Refrigerator enabledRefrigerator1 = new Refrigerator("SAM3", "AUO3", "SAM3", "Type", facility.getId(), true);
     enabledRefrigerator1.setCreatedBy(1L);
     enabledRefrigerator1.setModifiedBy(1L);
     mapper.insert(enabledRefrigerator1);
 
-    Refrigerator enabledRefrigerator2 = new Refrigerator("SAM2", "AUO2", "SAM2", facility.getId(), true);
+    Refrigerator enabledRefrigerator2 = new Refrigerator("SAM2", "AUO2", "SAM2", "Type", facility.getId(), true);
     enabledRefrigerator2.setCreatedBy(1L);
     enabledRefrigerator2.setModifiedBy(1L);
     mapper.insert(enabledRefrigerator2);
 
     Facility inactiveFacility = insertMemberFacility(deliveryZone, program, "F10B", "facility", 10l, false);
-    Refrigerator refrigeratorForInactiveFacility = new Refrigerator("SAM4", "AUO4", "SAM4", inactiveFacility.getId(), true);
+    Refrigerator refrigeratorForInactiveFacility = new Refrigerator("SAM4", "AUO4", "SAM4", "Type", inactiveFacility.getId(), true);
     refrigeratorForInactiveFacility.setCreatedBy(1L);
     refrigeratorForInactiveFacility.setModifiedBy(1L);
     mapper.insert(refrigeratorForInactiveFacility);
@@ -144,7 +144,7 @@ public class RefrigeratorMapperIT {
     Long createdBy = 1L;
     User someUser = make(a(defaultUser, with(UserBuilder.facilityId, facility.getId()), with(UserBuilder.active, true), with(restrictLogin, true)));
     userMapper.insert(someUser);
-    Refrigerator refrigerator = new Refrigerator("SAM", "AUO", "SAM1", facility.getId(), true);
+    Refrigerator refrigerator = new Refrigerator("SAM", "AUO", "SAM1", "Type", facility.getId(), true);
     refrigerator.setCreatedBy(createdBy);
     refrigerator.setModifiedBy(createdBy);
 
@@ -164,7 +164,7 @@ public class RefrigeratorMapperIT {
 
   @Test
   public void shouldGetRefrigeratorsByFacilityId() {
-    Refrigerator refrigerator = new Refrigerator("SAM", "AUO", "SAM1", facility.getId(), true);
+    Refrigerator refrigerator = new Refrigerator("SAM", "AUO", "SAM1", "Type", facility.getId(), true);
     refrigerator.setCreatedBy(1L);
     refrigerator.setModifiedBy(1L);
 
@@ -177,7 +177,7 @@ public class RefrigeratorMapperIT {
 
   @Test
   public void shouldDisableAllRefrigeratorsForAFacility() throws Exception {
-    Refrigerator refrigerator = new Refrigerator("SAM", "AUO", "SAM1", facility.getId(), true);
+    Refrigerator refrigerator = new Refrigerator("SAM", "AUO", "SAM1", "Type", facility.getId(), true);
     refrigerator.setCreatedBy(1L);
     refrigerator.setModifiedBy(1L);
     mapper.insert(refrigerator);

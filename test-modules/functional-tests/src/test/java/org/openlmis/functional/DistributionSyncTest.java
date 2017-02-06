@@ -79,7 +79,7 @@ public class DistributionSyncTest extends TestCaseHelper {
     dbWrapper.insertProgramProduct("Product5", distributionTestData.get(VACCINES_PROGRAM), "10", "false");
     dbWrapper.insertProgramProduct("Product6", distributionTestData.get(VACCINES_PROGRAM), "10", "true");
 
-    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "F10");
+    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "Type", "F10");
     dbWrapper.updateFieldValue("facilities", "active", "true", "code", "F10");
     dbWrapper.updateFieldValue("facilities", "enabled", "true", "code", "F10");
     dbWrapper.updateFieldValue("programs", "active", "true", "code", "VACCINES");
@@ -227,7 +227,7 @@ public class DistributionSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void shouldCheckAlreadySyncedFacilities() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "F11");
+    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "Type", "F11");
     HomePage homePage = loginPage.loginAs(distributionTestData.get(USER), distributionTestData.get(PASSWORD));
     initiateDistribution(distributionTestData.get(FIRST_DELIVERY_ZONE_NAME), distributionTestData.get(VACCINES_PROGRAM));
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(distributionTestData.get(FIRST_FACILITY_CODE));
@@ -686,7 +686,7 @@ public class DistributionSyncTest extends TestCaseHelper {
     dbWrapper.updateFieldValue("facilities", "catchmentPopulation", "0", "code", distributionTestData.get(SECOND_FACILITY_CODE));
     String actualFacilityCatchmentPopulationForFacility2 = dbWrapper.getAttributeFromTable("facilities", "catchmentPopulation", "code", distributionTestData.get(SECOND_FACILITY_CODE));
 
-    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "F11");
+    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "Type", "F11");
     HomePage homePage = loginPage.loginAs(distributionTestData.get(USER), distributionTestData.get(PASSWORD));
     initiateDistribution(distributionTestData.get(FIRST_DELIVERY_ZONE_NAME), distributionTestData.get(VACCINES_PROGRAM));
 
@@ -752,7 +752,7 @@ public class DistributionSyncTest extends TestCaseHelper {
     verifyEpiInventoryDataInDatabase(null, null, null, "Product6", distributionTestData.get(FIRST_FACILITY_CODE));
     verifyEpiInventoryDataInDatabase(null, null, null, "P11", distributionTestData.get(FIRST_FACILITY_CODE));
     verifyRefrigeratorReadingsNullInDatabase("GNR7878", distributionTestData.get(FIRST_FACILITY_CODE));
-    verifyRefrigeratorsDataInDatabase(distributionTestData.get(FIRST_FACILITY_CODE), "GNR7878", "LG", "800L", "t");
+    verifyRefrigeratorsDataInDatabase(distributionTestData.get(FIRST_FACILITY_CODE), "GNR7878", "LG", "800L", "Type", "t");
     verifyAdultCoverageDataNullInDatabase(distributionTestData.get(FIRST_FACILITY_CODE));
 
     verifyEpiUseDataInDatabase(null, null, null, null, null, null, "PG1", distributionTestData.get(SECOND_FACILITY_CODE));
@@ -762,7 +762,7 @@ public class DistributionSyncTest extends TestCaseHelper {
     verifyEpiInventoryDataInDatabase(null, null, null, "Product6", distributionTestData.get(SECOND_FACILITY_CODE));
     verifyEpiInventoryDataInDatabase(null, null, null, "P11", distributionTestData.get(SECOND_FACILITY_CODE));
     verifyRefrigeratorReadingsNullInDatabase("GNR7878", distributionTestData.get(SECOND_FACILITY_CODE));
-    verifyRefrigeratorsDataInDatabase(distributionTestData.get(SECOND_FACILITY_CODE), "GNR7878", "LG", "800L", "t");
+    verifyRefrigeratorsDataInDatabase(distributionTestData.get(SECOND_FACILITY_CODE), "GNR7878", "LG", "800L", "Type", "t");
     verifyAdultCoverageDataNullInDatabase(distributionTestData.get(SECOND_FACILITY_CODE));
 
     assertNull(expectedFacilityCatchmentPopulationForFacility1);
@@ -895,7 +895,7 @@ public class DistributionSyncTest extends TestCaseHelper {
     refrigeratorPage.clickOKButton();
 
     refrigeratorPage.clickAddNew();
-    refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876");
+    refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876", "Type");
 
     refrigeratorPage.clickShowForRefrigerator(1);
     refrigeratorPage.enterValueInRefrigeratorTemperature("3", 1);
@@ -938,7 +938,7 @@ public class DistributionSyncTest extends TestCaseHelper {
     refrigeratorPage.clickOKButton();
 
     refrigeratorPage.clickAddNew();
-    refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876");
+    refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876", "Type");
 
     ChildCoveragePage childCoveragePage = refrigeratorPage.navigateToChildCoverage();
     childCoveragePage.applyNRToAll();
@@ -979,7 +979,7 @@ public class DistributionSyncTest extends TestCaseHelper {
 
   private void verifySyncedDataInDatabaseWhenFacilityUnvisited(String facilityCode) throws SQLException {
     verifyRefrigeratorReadingsNullInDatabase("GNR7878", facilityCode);
-    verifyRefrigeratorsDataInDatabase(facilityCode, "GNR7878", "LG", "800L", "t");
+    verifyRefrigeratorsDataInDatabase(facilityCode, "GNR7878", "LG", "800L", "Type", "t");
 
     verifyEpiUseDataInDatabase(null, null, null, null, null, null, "PG1", facilityCode);
 

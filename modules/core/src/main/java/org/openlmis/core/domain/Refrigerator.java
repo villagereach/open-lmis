@@ -35,6 +35,7 @@ public class Refrigerator extends BaseModel {
   private String brand;
   private String serialNumber;
   private String model;
+  private String type;
   private Long facilityId;
   private Boolean enabled;
 
