@@ -8,8 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.core.repository;
-
+package org.openlmis.distribution.service;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,40 +16,47 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openlmis.core.domain.Refrigerator;
-import org.openlmis.core.repository.mapper.RefrigeratorMapper;
+import org.openlmis.distribution.domain.Refrigerator;
+import org.openlmis.distribution.repository.RefrigeratorRepository;
 import org.openlmis.db.categories.UnitTests;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Category(UnitTests.class)
 @RunWith(MockitoJUnitRunner.class)
-public class RefrigeratorRepositoryTest {
-
-  @Mock
-  RefrigeratorMapper mapper;
+public class RefrigeratorServiceTest {
 
   @InjectMocks
+  RefrigeratorService service;
+
+  @Mock
   RefrigeratorRepository repository;
 
   @Test
-  public void shouldGetRefrigeratorsForDeliveryZoneAndProgram() throws Exception {
+  public void shouldGetRefrigeratorsForADeliveryZoneAndProgram() throws Exception {
+    service.getRefrigeratorsForADeliveryZoneAndProgram(1L, 1L);
 
-    Long deliveryZoneId = 1L;
-    Long programId = 1L;
-    List<Refrigerator> refrigerators = new ArrayList<>();
-    when(mapper.getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId)).thenReturn(refrigerators);
-
-    List<Refrigerator> resultRefrigerators = repository.getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId);
-
-    assertThat(resultRefrigerators, is(refrigerators));
-    verify(mapper).getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId);
+    verify(repository).getRefrigeratorsForADeliveryZoneAndProgram(1L, 1L);
   }
+
+  @Test
+  public void shouldInsertRefrigeratorIfDoesNotExists() {
+    Refrigerator refrigerator = new Refrigerator("SerialNumber");
+
+    service.save(refrigerator);
+
+    verify(repository).insert(refrigerator);
+  }
+
+  @Test
+  public void shouldUpdateRefrigeratorIfAlreadyExists() {
+    Refrigerator refrigerator = mock(Refrigerator.class);
+    when(refrigerator.getId()).thenReturn(1L);
+
+    service.save(refrigerator);
+
+    verify(repository).update(refrigerator);
+  }
+
 
 }

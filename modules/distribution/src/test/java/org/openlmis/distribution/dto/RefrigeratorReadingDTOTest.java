@@ -12,7 +12,7 @@ package org.openlmis.distribution.dto;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.openlmis.core.domain.Refrigerator;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
@@ -44,7 +44,7 @@ public class RefrigeratorReadingDTOTest {
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true), facilityVisitId, 32.4F,
       "N", 2, null, "Y", problems, "Notes");
 
-    RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true),
+    RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true).transform(),
       facilityVisitId,
       temperature,
       functioningCorrectly,
@@ -93,7 +93,7 @@ public class RefrigeratorReadingDTOTest {
     RefrigeratorReading expectedReading = new RefrigeratorReading(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true), facilityVisitId, 32.4F,
       "N", 2, null, "Y", problems, notes);
 
-    RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true),
+    RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true).transform(),
       facilityVisitId,
       temperature,
       functioningCorrectly,
@@ -122,7 +122,7 @@ public class RefrigeratorReadingDTOTest {
     String notes = "Notes";
     Long facilityId = 2L;
 
-    RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true),
+    RefrigeratorReadingDTO refrigeratorReadingDTO = new RefrigeratorReadingDTO(new Refrigerator("brand", "model", "serial number", "Type", facilityId, true).transform(),
       facilityVisitId,
       temperature,
       functioningCorrectly,

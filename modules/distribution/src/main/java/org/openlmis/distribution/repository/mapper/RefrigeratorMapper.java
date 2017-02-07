@@ -8,10 +8,10 @@
  *  You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.core.repository.mapper;
+package org.openlmis.distribution.repository.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.openlmis.core.domain.Refrigerator;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

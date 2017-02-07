@@ -18,6 +18,7 @@ public final class UIMapping {
 
     DATA_SCREEN_MAPPING.put("EpiInventoryLineItem", "label.epi.inventory");
 
+    DATA_SCREEN_MAPPING.put("Refrigerator", "label.refrigerators");
     DATA_SCREEN_MAPPING.put("RefrigeratorReading", "label.refrigerators");
     DATA_SCREEN_MAPPING.put("RefrigeratorProblem", "label.refrigerators");
 
@@ -50,6 +51,11 @@ public final class UIMapping {
     FIELD_MAPPING.put("EpiInventoryLineItem", "existingQuantity", "label.ideal.quantity");
     FIELD_MAPPING.put("EpiInventoryLineItem", "spoiledQuantity", "label.existing.quantity");
     FIELD_MAPPING.put("EpiInventoryLineItem", "deliveredQuantity", "label.delivered.quantity");
+
+    FIELD_MAPPING.put("Refrigerator", "serialNumber", "label.refrigerator.serial.number");
+    FIELD_MAPPING.put("Refrigerator", "brand", "label.refrigerator.brand");
+    FIELD_MAPPING.put("Refrigerator", "model", "label.refrigerator.model");
+    FIELD_MAPPING.put("Refrigerator", "type", "label.refrigerator.type");
 
     FIELD_MAPPING.put("RefrigeratorReading", "temperature", "label.refrigerator.temperature");
     FIELD_MAPPING.put("RefrigeratorReading", "functioningCorrectly", "label.refrigerator.working.correctly");

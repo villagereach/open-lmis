@@ -3,8 +3,8 @@ package org.openlmis.web.util;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
-import org.openlmis.core.domain.Refrigerator;
-import org.openlmis.core.service.RefrigeratorService;
+import org.openlmis.distribution.domain.Refrigerator;
+import org.openlmis.distribution.service.RefrigeratorService;
 import org.openlmis.distribution.domain.AdultCoverageLineItem;
 import org.openlmis.distribution.domain.ChildCoverageLineItem;
 import org.openlmis.distribution.domain.DistributionRefrigerators;
@@ -338,7 +338,7 @@ public class FacilityDistributionEditHandler {
 
     @Override
     public boolean apply(@Nullable RefrigeratorReadingDTO input) {
-      return null != input && input.getRefrigerator().getSerialNumber().equals(serialNumber);
+      return null != input && Reading.safeRead(input.getRefrigerator().getSerialNumber()).getEffectiveValue().equals(serialNumber);
     }
 
   }

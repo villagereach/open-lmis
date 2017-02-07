@@ -49,7 +49,7 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
   };
 
   $scope.addRefrigeratorToStore = function () {
-    var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber);
+    var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber.value);
     if (existing) {
       $scope.isDuplicateSerialNumber = true;
       return;
@@ -62,7 +62,7 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
   };
 
   $scope.updateRefrigeratorInStore = function () {
-    var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber);
+    var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber.value);
     existing.refrigerator.brand = $scope.refrigeratorReading.refrigerator.brand;
     existing.refrigerator.model = $scope.refrigeratorReading.refrigerator.model;
     existing.refrigerator.type = $scope.refrigeratorReading.refrigerator.type;
@@ -97,7 +97,7 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
         $scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.readings =
           _.reject($scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.readings,
             function (refrigeratorReading) {
-              return serialNumberToDelete == refrigeratorReading.refrigerator.serialNumber;
+              return serialNumberToDelete == refrigeratorReading.refrigerator.serialNumber.value;
             });
         IndexedDB.put('distributions', $scope.distribution);
       };
@@ -117,7 +117,7 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
   $scope.findRefrigeratorReading = function (serialNumber) {
     return _.find($scope.distribution.facilityDistributions[$scope.selectedFacilityId].refrigerators.readings,
       function (reading) {
-        return reading.refrigerator.serialNumber.toLowerCase() === serialNumber.toLowerCase();
+        return reading.refrigerator.serialNumber.value.toLowerCase() === serialNumber.toLowerCase();
       });
   };
 }

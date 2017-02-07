@@ -21,6 +21,7 @@ import org.openlmis.db.categories.IntegrationTests;
 import org.openlmis.distribution.builder.DistributionBuilder;
 import org.openlmis.distribution.domain.Distribution;
 import org.openlmis.distribution.domain.FacilityVisit;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 import org.springframework.beans.factory.annotation.Autowired;
