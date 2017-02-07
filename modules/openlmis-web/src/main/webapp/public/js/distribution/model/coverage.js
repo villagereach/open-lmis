@@ -13,13 +13,12 @@ function FullCoverage(facilityVisitId, fullCoverage) {
   $.extend(true, this, fullCoverage);
   this.facilityVisitId = facilityVisitId;
 
-  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
-    this.notRecordedApplied = false;
-  }
   var fieldList = ['femaleHealthCenterReading', 'femaleMobileBrigadeReading', 'maleHealthCenterReading', 'maleMobileBrigadeReading'];
 
   function init() {
     var _this = this;
+    var countNotNR = 0;
+    var countNR = 0;
     $(fieldList).each(function (i, fieldName) {
       if (!isUndefined(fullCoverage)) {
         _this[fieldName] = fullCoverage[fieldName] || {};
@@ -27,7 +26,18 @@ function FullCoverage(facilityVisitId, fullCoverage) {
       else {
         _this[fieldName] = {fieldName: {}};
       }
+      if(isUndefined(_this[fieldName]) || _this[fieldName].notRecorded === false) {
+          countNotNR++;
+      }
+      else if(_this[fieldName].notRecorded === true) {
+          countNR++;
+      }
     });
+    if(countNR > countNotNR) {
+       _this.notRecordedApplied = true;
+    } else {
+       _this.notRecordedApplied = false;
+    }
   }
 
   init.call(this);

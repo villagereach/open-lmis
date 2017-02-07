@@ -12,17 +12,27 @@ function EpiUse(epiUse) {
 
   var DATE_REGEXP = /^(0[1-9]|1[012])[/]((2)\d\d\d)$/;
   var fieldList = ['stockAtFirstOfMonth', 'received', 'distributed', 'loss', 'stockAtEndOfMonth', 'expirationDate', 'numberOfStockoutDays'];
-  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
-    this.notRecordedApplied = false;
-  }
 
   function init() {
     $.extend(true, this, epiUse);
+    var countNotNR = 0;
+    var countNR = 0;
     $(this.lineItems).each(function (i, lineItem) {
       $(fieldList).each(function (i, fieldName) {
         lineItem[fieldName] = lineItem[fieldName] || {};
+        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+            countNotNR++;
+        }
+        else if(lineItem[fieldName].notRecorded === true) {
+            countNR++;
+        }
       });
     });
+    if(countNR > countNotNR) {
+       this.notRecordedApplied = true;
+    } else {
+       this.notRecordedApplied = false;
+    }
   }
 
   init.call(this);

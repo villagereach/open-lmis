@@ -12,10 +12,6 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   $.extend(true, this, childCoverageJSON);
   this.facilityVisitId = facilityVisitId;
 
-  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
-    this.notRecordedApplied = false;
-  }
-
   $(this.childCoverageLineItems).each(function (index, lineItem) {
     lineItem.healthCenter23Months = lineItem.healthCenter23Months || {};
     lineItem.outreach23Months = lineItem.outreach23Months || {};
@@ -24,6 +20,38 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   $(this.openedVialLineItems).each(function (index, lineItem) {
     lineItem.openedVial = lineItem.openedVial || {};
   });
+
+  var mandatoryFields = ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months'];
+
+  function init() {
+    var countNotNR = 0;
+    var countNR = 0;
+    $(this.childCoverageLineItems).each(function (i, lineItem) {
+      $(mandatoryFields).each(function (i, fieldName) {
+        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+            countNotNR++;
+        }
+        else if(lineItem[fieldName].notRecorded === true) {
+            countNR++;
+        }
+      });
+    });
+    $(this.openedVialLineItems).each(function (i, lineItem) {
+      if(isUndefined(lineItem.openedVial) || lineItem.openedVial.notRecorded === false) {
+          countNotNR++;
+      }
+      else if(lineItem.openedVial.notRecorded === true) {
+          countNR++;
+      }
+    });
+    if(countNR > countNotNR) {
+       this.notRecordedApplied = true;
+    } else {
+       this.notRecordedApplied = false;
+    }
+  }
+
+  init.call(this);
 }
 
 ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
@@ -71,31 +99,35 @@ ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncSta
   return this.status;
 };
 
-function setNotRecorded(field, notRecordedApplied) {
+function setNotRecordedChild(field, notRecordedApplied) {
   if(!notRecordedApplied) {
     if (field) {
       delete field.value;
       field.notRecorded = true;
-
       return field;
     } else {
       return {notRecorded: true};
     }
   } else {
-    return {notRecorded: false};
+    if (field) {
+      field.notRecorded = false;
+      return field;
+    } else {
+      return {notRecorded: false};
+    }
   }
 }
 
 ChildCoverage.prototype.setNotRecorded = function () {
   var _this = this;
   this.childCoverageLineItems.forEach(function (lineItem) {
-    lineItem.healthCenter11Months = setNotRecorded(lineItem.healthCenter11Months, _this.notRecordedApplied);
-    lineItem.healthCenter23Months = setNotRecorded(lineItem.healthCenter23Months, _this.notRecordedApplied);
-    lineItem.outreach11Months = setNotRecorded(lineItem.outreach11Months, _this.notRecordedApplied);
-    lineItem.outreach23Months = setNotRecorded(lineItem.outreach23Months, _this.notRecordedApplied);
+    lineItem.healthCenter11Months = setNotRecordedChild(lineItem.healthCenter11Months, _this.notRecordedApplied);
+    lineItem.healthCenter23Months = setNotRecordedChild(lineItem.healthCenter23Months, _this.notRecordedApplied);
+    lineItem.outreach11Months = setNotRecordedChild(lineItem.outreach11Months, _this.notRecordedApplied);
+    lineItem.outreach23Months = setNotRecordedChild(lineItem.outreach23Months, _this.notRecordedApplied);
   });
   this.openedVialLineItems.forEach(function (lineItem) {
-    lineItem.openedVial = setNotRecorded(lineItem.openedVial, _this.notRecordedApplied);
+    lineItem.openedVial = setNotRecordedChild(lineItem.openedVial, _this.notRecordedApplied);
   });
   this.notRecordedApplied = !this.notRecordedApplied;
 };
