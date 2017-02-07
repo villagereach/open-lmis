@@ -11,16 +11,35 @@
 function EpiInventory(epiInventory) {
   $.extend(true, this, epiInventory);
 
-  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
-    this.notRecordedApplied = false;
-  }
-
   $(this.lineItems).each(function (index, lineItem) {
     lineItem.existingQuantity = this.existingQuantity || {};
     lineItem.spoiledQuantity = this.spoiledQuantity || {};
   });
 
   var mandatoryFields = ['existingQuantity', 'deliveredQuantity', 'spoiledQuantity'];
+  var nrFields = ['existingQuantity', 'spoiledQuantity'];
+
+  function init() {
+    var countNotNR = 0;
+    var countNR = 0;
+    $(this.lineItems).each(function (i, lineItem) {
+      $(nrFields).each(function (i, fieldName) {
+        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+            countNotNR++;
+        }
+        else if(lineItem[fieldName].notRecorded === true) {
+            countNR++;
+        }
+      });
+    });
+    if(countNR > countNotNR) {
+       this.notRecordedApplied = true;
+    } else {
+       this.notRecordedApplied = false;
+    }
+  }
+
+  init.call(this);
 
   EpiInventory.prototype.setNotRecorded = function () {
     if(!this.notRecordedApplied) {

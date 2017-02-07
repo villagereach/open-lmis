@@ -13,10 +13,6 @@ function AdultCoverage(facilityVisitId, adultCoverageJSON) {
   this.facilityVisitId = facilityVisitId;
   var _this = this;
 
-  if(this.notRecordedApplied === null || this.notRecordedApplied === undefined) {
-    this.notRecordedApplied = false;
-  }
-
   $(this.adultCoverageLineItems).each(function (i, lineItem) {
     _this.adultCoverageLineItems[i] = new AdultCoverageLineItem(lineItem);
   });
@@ -24,6 +20,38 @@ function AdultCoverage(facilityVisitId, adultCoverageJSON) {
   $(this.openedVialLineItems).each(function (i, lineItem) {
     _this.openedVialLineItems[i] = new OpenedVialLineItem(lineItem);
   });
+
+  var fieldList = ['healthCenterTetanus1', 'outreachTetanus1', 'healthCenterTetanus2To5', 'outreachTetanus2To5'];
+
+  function init() {
+    var countNotNR = 0;
+    var countNR = 0;
+    $(this.adultCoverageLineItems).each(function (i, lineItem) {
+      $(fieldList).each(function (i, fieldName) {
+        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+            countNotNR++;
+        }
+        else if(lineItem[fieldName].notRecorded === true) {
+            countNR++;
+        }
+      });
+    });
+    $(this.openedVialLineItems).each(function (i, lineItem) {
+      if(isUndefined(lineItem.openedVial) || lineItem.openedVial.notRecorded === false) {
+          countNotNR++;
+      }
+      else if(lineItem.openedVial.notRecorded === true) {
+          countNR++;
+      }
+    });
+    if(countNR > countNotNR) {
+       this.notRecordedApplied = true;
+    } else {
+       this.notRecordedApplied = false;
+    }
+  }
+
+  init.call(this);
 }
 
 AdultCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
