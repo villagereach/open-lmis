@@ -8,7 +8,7 @@
  *  You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.core.repository.mapper;
+package org.openlmis.distribution.repository.mapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,21 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openlmis.core.builder.*;
 import org.openlmis.core.domain.*;
+import org.openlmis.core.repository.mapper.DeliveryZoneMapper;
+import org.openlmis.core.repository.mapper.DeliveryZoneMemberMapper;
+import org.openlmis.core.repository.mapper.DeliveryZoneProgramScheduleMapper;
+import org.openlmis.core.repository.mapper.FacilityMapper;
+import org.openlmis.core.repository.mapper.ProcessingScheduleMapper;
+import org.openlmis.core.repository.mapper.ProgramMapper;
+import org.openlmis.core.repository.mapper.ProgramSupportedMapper;
+import org.openlmis.core.repository.mapper.RequisitionGroupMapper;
+import org.openlmis.core.repository.mapper.RequisitionGroupMemberMapper;
+import org.openlmis.core.repository.mapper.RoleAssignmentMapper;
+import org.openlmis.core.repository.mapper.RoleRightsMapper;
+import org.openlmis.core.repository.mapper.SupervisoryNodeMapper;
+import org.openlmis.core.repository.mapper.UserMapper;
 import org.openlmis.db.categories.IntegrationTests;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

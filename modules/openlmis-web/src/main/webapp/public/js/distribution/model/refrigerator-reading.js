@@ -11,6 +11,7 @@
 function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
 
   var fieldList = ['temperature', 'functioningCorrectly', 'lowAlarmEvents', 'highAlarmEvents', 'problemSinceLastTime'];
+  var refrigeratorFieldList = ['serialNumber', 'brand', 'model', 'type'];
 
   RefrigeratorReading.prototype.computeStatus = function (review) {
     if (review) {
@@ -85,6 +86,20 @@ function RefrigeratorReading(facilityVisitId, refrigeratorReading) {
         _this[fieldName].type = 'reading';
       }
     });
+
+    _this.refrigerator = _this.refrigerator || {};
+    $(refrigeratorFieldList).each(function (i, fieldName) {
+      _this.refrigerator[fieldName] = _this.refrigerator[fieldName] || {};
+
+      if (typeof _this.refrigerator[fieldName] === 'string') {
+        var value = _this.refrigerator[fieldName];
+        _this.refrigerator[fieldName] = {
+          type: "reading",
+          value: value
+        };
+      }
+    });
+
     this.computeStatus();
   }
 }

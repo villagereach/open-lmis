@@ -9,6 +9,7 @@ import org.openlmis.distribution.domain.Facilitator;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.domain.MotorbikeProblems;
 import org.openlmis.distribution.domain.OpenedVialLineItem;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 import org.openlmis.distribution.domain.VaccinationFullCoverage;
@@ -99,6 +100,15 @@ public class FacilityDistributionEditService {
       case "EpiInventoryLineItem":
         db = epiInventoryService.getById(dataScreenId);
         break;
+      case "Refrigerator":
+        db = distributionRefrigeratorsService.getReading(detail.getParentDataScreenId());
+        if (db != null) {
+          RefrigeratorReading refrigeratorReading = (RefrigeratorReading) db;
+          db = refrigeratorReading.getRefrigerator();
+        } else {
+          db = new Refrigerator();
+        }
+        break;
       case "RefrigeratorReading":
         db = distributionRefrigeratorsService.getReading(dataScreenId);
         break;
@@ -171,6 +181,16 @@ public class FacilityDistributionEditService {
       }
     } else if (db instanceof EpiInventoryLineItem) {
       epiInventoryService.save((EpiInventoryLineItem) db);
+    } else if (db instanceof Refrigerator) {
+      Refrigerator refrigerator = (Refrigerator) db;
+      RefrigeratorReading reading = distributionRefrigeratorsService.getReading(detail.getParentDataScreenId());
+
+      if (reading != null) {
+        reading.setRefrigerator(refrigerator);
+        distributionRefrigeratorsService.saveReading(reading);
+      } else {
+        throw new IllegalStateException("Can't find refrigerator reading with id: " + detail.getParentDataScreenId());
+      }
     } else if (db instanceof RefrigeratorReading) {
       distributionRefrigeratorsService.saveReading((RefrigeratorReading) db);
     } else if (db instanceof RefrigeratorProblem) {

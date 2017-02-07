@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
-import org.openlmis.core.domain.Refrigerator;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 
@@ -37,7 +37,7 @@ import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPT
 @EqualsAndHashCode(callSuper = false)
 public class RefrigeratorReadingDTO extends BaseModel {
 
-  Refrigerator refrigerator;
+  RefrigeratorDTO refrigerator;
   //Readings
   Long facilityVisitId;
   Reading temperature;
@@ -69,7 +69,7 @@ public class RefrigeratorReadingDTO extends BaseModel {
       problem = new RefrigeratorProblem(id);
     }
 
-    RefrigeratorReading reading = new RefrigeratorReading(this.refrigerator, this.facilityVisitId,
+    RefrigeratorReading reading = new RefrigeratorReading(this.refrigerator.transform(), this.facilityVisitId,
             temperature, functioningCorrectly, lowAlarmEvents, highAlarmEvents, problemSinceLastTime,
             problem, notes);
     reading.setCreatedBy(this.createdBy);

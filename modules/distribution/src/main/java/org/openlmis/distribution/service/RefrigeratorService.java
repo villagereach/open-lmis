@@ -8,43 +8,43 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.core.repository;
+package org.openlmis.distribution.service;
 
-
-import org.openlmis.core.domain.Refrigerator;
-import org.openlmis.core.repository.mapper.RefrigeratorMapper;
+import org.openlmis.distribution.domain.Refrigerator;
+import org.openlmis.distribution.repository.RefrigeratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * RefrigeratorRepository is Repository class for Refrigerator related database operations.
+ * Exposes the services for handling Refrigerator entity.
  */
 
-@Repository
-public class RefrigeratorRepository {
+@Service
+public class RefrigeratorService {
 
   @Autowired
-  RefrigeratorMapper mapper;
+  RefrigeratorRepository repository;
 
   public List<Refrigerator> getRefrigeratorsForADeliveryZoneAndProgram(Long deliveryZoneId, Long programId) {
-    return mapper.getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId);
-  }
-
-  public void update(Refrigerator refrigerator) {
-    mapper.update(refrigerator);
-  }
-
-  public List<Refrigerator> getAllBy(Long facilityId) {
-    return mapper.getAllBy(facilityId);
-  }
-
-  public void insert(Refrigerator refrigerator) {
-    mapper.insert(refrigerator);
+    return repository.getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId);
   }
 
   public void disableAllFor(Long facilityId) {
-    mapper.disableAllFor(facilityId);
+    repository.disableAllFor(facilityId);
   }
+
+  public List<Refrigerator> getAllBy(Long facilityId) {
+    return repository.getAllBy(facilityId);
+  }
+
+  public void save(Refrigerator refrigerator) {
+    if (refrigerator.getId() == null) {
+      repository.insert(refrigerator);
+    } else {
+      repository.update(refrigerator);
+    }
+  }
+
 }

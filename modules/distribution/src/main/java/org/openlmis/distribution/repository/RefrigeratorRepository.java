@@ -8,43 +8,43 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.core.service;
+package org.openlmis.distribution.repository;
 
-import org.openlmis.core.domain.Refrigerator;
-import org.openlmis.core.repository.RefrigeratorRepository;
+
+import org.openlmis.distribution.domain.Refrigerator;
+import org.openlmis.distribution.repository.mapper.RefrigeratorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * Exposes the services for handling Refrigerator entity.
+ * RefrigeratorRepository is Repository class for Refrigerator related database operations.
  */
 
-@Service
-public class RefrigeratorService {
+@Repository
+public class RefrigeratorRepository {
 
   @Autowired
-  RefrigeratorRepository repository;
+  RefrigeratorMapper mapper;
 
   public List<Refrigerator> getRefrigeratorsForADeliveryZoneAndProgram(Long deliveryZoneId, Long programId) {
-    return repository.getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId);
+    return mapper.getRefrigeratorsForADeliveryZoneAndProgram(deliveryZoneId, programId);
   }
 
-  public void disableAllFor(Long facilityId) {
-    repository.disableAllFor(facilityId);
+  public void update(Refrigerator refrigerator) {
+    mapper.update(refrigerator);
   }
 
   public List<Refrigerator> getAllBy(Long facilityId) {
-    return repository.getAllBy(facilityId);
+    return mapper.getAllBy(facilityId);
   }
 
-  public void save(Refrigerator refrigerator) {
-    if (refrigerator.getId() == null) {
-      repository.insert(refrigerator);
-    } else {
-      repository.update(refrigerator);
-    }
+  public void insert(Refrigerator refrigerator) {
+    mapper.insert(refrigerator);
   }
 
+  public void disableAllFor(Long facilityId) {
+    mapper.disableAllFor(facilityId);
+  }
 }

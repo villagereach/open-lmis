@@ -22,7 +22,6 @@ import org.openlmis.core.domain.*;
 import org.openlmis.core.exception.DataException;
 import org.openlmis.core.service.FacilityService;
 import org.openlmis.core.service.MessageService;
-import org.openlmis.core.service.RefrigeratorService;
 import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.*;
 import org.powermock.core.classloader.annotations.PrepareForTest;
