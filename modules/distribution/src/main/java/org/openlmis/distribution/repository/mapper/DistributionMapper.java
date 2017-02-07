@@ -16,7 +16,6 @@ import org.openlmis.distribution.domain.Distribution;
 import org.openlmis.distribution.domain.DistributionEdit;
 import org.openlmis.distribution.domain.DistributionStatus;
 import org.openlmis.distribution.domain.DistributionsEditHistory;
-import org.openlmis.distribution.domain.NotRecordedForms;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -177,20 +176,4 @@ public interface DistributionMapper {
                   one = @One(select = "org.openlmis.core.repository.mapper.UserMapper.getById"))
   })
   DistributionsEditHistory getLastHistory(Long distributionId);
-
-  @Select({"SELECT * FROM not_recorded_forms WHERE facilityVisitId = #{facilityVisitId} LIMIT 1"})
-  NotRecordedForms getNotRecordedForms(Long facilityVisitId);
-
-  @Update({"UPDATE not_recorded_forms SET " +
-      "epiUseNotRecorded = #{epiUseNotRecorded}, epiInventoryNotRecorded = #{epiInventoryNotRecorded}, " +
-      "childCoverageNotRecorded = #{childCoverageNotRecorded}, fullCoverageNotRecorded = #{fullCoverageNotRecorded}, " +
-      "adultCoverageNotRecorded = #{adultCoverageNotRecorded} " +
-      "WHERE facilityVisitId = #{facilityVisitId}"})
-  void updateNotRecorded(NotRecordedForms notRecordedForms);
-
-  @Insert({"INSERT INTO not_recorded_forms (facilityVisitId, epiUseNotRecorded, epiInventoryNotRecorded, " +
-      "childCoverageNotRecorded, fullCoverageNotRecorded, adultCoverageNotRecorded) VALUES",
-      "(#{facilityVisitId}, #{epiUseNotRecorded}, #{epiInventoryNotRecorded}, #{childCoverageNotRecorded}, " +
-          "#{fullCoverageNotRecorded}, #{adultCoverageNotRecorded})"})
-  void insertNotRecorded(NotRecordedForms notRecordedForms);
 }

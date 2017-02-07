@@ -115,15 +115,5 @@ public class DistributionRepository {
     mapper.insertHistory(history);
   }
 
-  public void insertNotRecorded(NotRecordedForms notRecordedForms) {
-    mapper.insertNotRecorded(notRecordedForms);
-  }
 
-  public void updateNotRecorded(NotRecordedForms notRecordedForms) {
-    mapper.updateNotRecorded(notRecordedForms);
-  }
-
-  public NotRecordedForms getNotRecorded(Long facilityVisitId) {
-    return mapper.getNotRecordedForms(facilityVisitId);
-  }
 }

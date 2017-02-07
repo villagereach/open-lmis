@@ -39,7 +39,6 @@ import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.service.DistributionService;
 import org.openlmis.distribution.service.FacilityDistributionService;
 import org.openlmis.distribution.service.FacilityVisitService;
-import org.openlmis.distribution.service.NotRecordedService;
 import org.openlmis.distribution.util.EditedItemUI;
 import org.openlmis.web.model.ReviewDataFilter;
 import org.openlmis.web.model.ReviewDataFilters;
@@ -120,9 +119,6 @@ public class ReviewDataService {
 
   @Autowired
   private FacilityDistributionEditHandler facilityDistributionEditHandler;
-
-  @Autowired
-  private NotRecordedService notRecordedService;
 
   @Value("${eligibility.edit}")
   private Long eligibilityEdit;
@@ -222,7 +218,7 @@ public class ReviewDataService {
 
     Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, true);
 
-    notRecordedService.applyNotRecordedInformationToForms(facilityDistributionMap);
+
     distribution.setFacilityDistributions(facilityDistributionMap);
 
     return distribution.transform();

@@ -79,9 +79,6 @@ public class FacilityDistributionService {
   private VaccinationCoverageService vaccinationCoverageService;
 
   @Autowired
-  private NotRecordedService notRecordedService;
-
-  @Autowired
   private DistributionService distributionService;
 
   public Map<Long, FacilityDistribution> createFor(Distribution distribution) {
@@ -166,7 +163,7 @@ public class FacilityDistributionService {
 
   public FacilityDistribution save(FacilityDistribution facilityDistribution) {
     facilityVisitService.save(facilityDistribution.getFacilityVisit());
-    notRecordedService.saveInformationAboutNotRecordedForms(facilityDistribution);
+
     if (facilityDistribution.getFacilityVisit().getVisited()) {
       epiInventoryService.save(facilityDistribution.getEpiInventory());
       distributionRefrigeratorsService.save(facilityDistribution.getFacilityVisit().getFacilityId(), facilityDistribution.getRefrigerators());

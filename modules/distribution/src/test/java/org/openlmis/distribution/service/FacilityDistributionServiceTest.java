@@ -73,9 +73,6 @@ public class FacilityDistributionServiceTest {
   private MessageService messageService;
 
   @Mock
-  private NotRecordedService notRecordedService;
-
-  @Mock
   private DistributionService distributionService;
 
   @InjectMocks

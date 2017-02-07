@@ -36,7 +36,6 @@ public class AdultCoverageDTO extends BaseModel{
 
   private List<AdultCoverageLineItemDTO> adultCoverageLineItems = new ArrayList<>();
   private List<OpenedVialLineItemDTO> openedVialLineItems = new ArrayList<>();
-  private Boolean notRecordedApplied;
 
   public VaccinationAdultCoverage transform() {
     VaccinationAdultCoverage adultCoverage = new VaccinationAdultCoverage();
@@ -54,7 +53,6 @@ public class AdultCoverageDTO extends BaseModel{
 
     adultCoverage.setAdultCoverageLineItems(adultCoverageLineItems);
     adultCoverage.setOpenedVialLineItems(openedVialLineItems);
-    adultCoverage.setNotRecordedApplied(this.notRecordedApplied);
     return adultCoverage;
   }
 }

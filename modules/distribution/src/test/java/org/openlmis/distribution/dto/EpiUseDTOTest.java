@@ -32,7 +32,7 @@ public class EpiUseDTOTest {
     Long modifiedBy = 2L;
     EpiUseLineItemDTO epiUseLineItemDTO = mock(EpiUseLineItemDTO.class);
     List<EpiUseLineItemDTO> epiUseLineItemDTOList = asList(epiUseLineItemDTO);
-    EpiUseDTO epiUseDTO = new EpiUseDTO(epiUseLineItemDTOList, null);
+    EpiUseDTO epiUseDTO = new EpiUseDTO(epiUseLineItemDTOList);
     epiUseDTO.setModifiedBy(modifiedBy);
     EpiUseLineItem epiUseLineItem = new EpiUseLineItem();
     when(epiUseLineItemDTO.transform()).thenReturn(epiUseLineItem);
