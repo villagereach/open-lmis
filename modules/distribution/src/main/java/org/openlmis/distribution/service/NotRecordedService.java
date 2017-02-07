@@ -40,13 +40,11 @@ public class NotRecordedService {
     for(Map.Entry<Long, FacilityDistribution> entry : facilityDistributionMap.entrySet()) {
       FacilityDistribution facilityDistribution = entry.getValue();
       NotRecordedForms notRecordedForms = repository.getNotRecorded(facilityDistribution.getFacilityVisit().getId());
-      if(notRecordedForms != null) {
-        facilityDistribution.getAdultCoverage().setNotRecordedApplied(notRecordedForms.getAdultCoverageNotRecorded());
-        facilityDistribution.getChildCoverage().setNotRecordedApplied(notRecordedForms.getChildCoverageNotRecorded());
-        facilityDistribution.getFullCoverage().setNotRecordedApplied(notRecordedForms.getFullCoverageNotRecorded());
-        facilityDistribution.getEpiInventory().setNotRecordedApplied(notRecordedForms.getEpiInventoryNotRecorded());
-        facilityDistribution.getEpiUse().setNotRecordedApplied(notRecordedForms.getEpiUseNotRecorded());
-      }
+      facilityDistribution.getAdultCoverage().setNotRecordedApplied(notRecordedForms.getAdultCoverageNotRecorded());
+      facilityDistribution.getChildCoverage().setNotRecordedApplied(notRecordedForms.getChildCoverageNotRecorded());
+      facilityDistribution.getFullCoverage().setNotRecordedApplied(notRecordedForms.getFullCoverageNotRecorded());
+      facilityDistribution.getEpiInventory().setNotRecordedApplied(notRecordedForms.getEpiInventoryNotRecorded());
+      facilityDistribution.getEpiUse().setNotRecordedApplied(notRecordedForms.getEpiUseNotRecorded());
     }
   }
 

@@ -73,9 +73,6 @@ public class DistributionServiceTest {
   @Mock
   ProgramService programService;
 
-  @Mock
-  NotRecordedService notRecordedService;
-
   @Test
   public void shouldCreateDistribution() {
     Distribution distribution = new Distribution();

@@ -53,9 +53,6 @@ public class DistributionService {
   @Autowired
   DistributionRepository repository;
 
-  @Autowired
-  private NotRecordedService notRecordedService;
-
   @Transactional
   public Distribution create(Distribution distribution) {
     Distribution savedDistribution = repository.create(distribution);
@@ -83,7 +80,6 @@ public class DistributionService {
       }
 
       Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, true);
-      notRecordedService.applyNotRecordedInformationToForms(facilityDistributionMap);
 
       distribution.setFacilityDistributions(facilityDistributionMap);
 
