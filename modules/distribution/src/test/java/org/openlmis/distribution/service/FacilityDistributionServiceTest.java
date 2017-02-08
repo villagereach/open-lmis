@@ -71,6 +71,9 @@ public class FacilityDistributionServiceTest {
   @Mock
   private MessageService messageService;
 
+  @Mock
+  private DistributionService distributionService;
+
   @InjectMocks
   FacilityDistributionService facilityDistributionService;
 
@@ -100,7 +103,7 @@ public class FacilityDistributionServiceTest {
     when(vaccinationCoverageService.getProductVials()).thenReturn(productVials);
 
     doReturn(facilityDistribution).when(spyFacilityDistributionService).createDistributionData(facility, distribution,
-      refrigerators, emptyTargetGroupProductList, emptyTargetGroupProductList, productVials, productVials);
+      refrigerators, emptyTargetGroupProductList, emptyTargetGroupProductList, productVials, productVials, null);
 
     Map<Long, FacilityDistribution> facilityDistributionDataMap = spyFacilityDistributionService.createFor(distribution);
 
@@ -154,7 +157,7 @@ public class FacilityDistributionServiceTest {
       childTargetGroupProducts, adultTargetGroupProducts, asList(childProductVial), asList(adultProductVial)).thenReturn(mock(FacilityDistribution.class));
 
     FacilityDistribution distributionData = facilityDistributionService.createDistributionData(facility, distribution, refrigerators,
-      childTargetGroupProducts, adultTargetGroupProducts, asList(childProductVial), asList(adultProductVial));
+      childTargetGroupProducts, adultTargetGroupProducts, asList(childProductVial), asList(adultProductVial), null);
 
     verify(epiUseService).save(distributionData.getEpiUse());
     verify(facilityVisitService).save(facilityVisit);
@@ -182,7 +185,7 @@ public class FacilityDistributionServiceTest {
     when(distributionData.getEpiInventory()).thenReturn(epiInventory);
 
     facilityDistributionService.createDistributionData(facility, distribution, refrigerators, childTargetGroupProducts,
-      adultTargetGroupProducts, productVials, productVials);
+      adultTargetGroupProducts, productVials, productVials, null);
 
     verify(epiInventoryService).save(epiInventory);
   }
@@ -208,9 +211,9 @@ public class FacilityDistributionServiceTest {
     when(vaccinationCoverageService.getProductVials()).thenReturn(productVials);
 
     doReturn(facilityDistribution1).when(service).createDistributionData(facility1, distribution, refrigerators,
-      emptyTargetGroupProductList, emptyTargetGroupProductList, productVials, productVials);
+      emptyTargetGroupProductList, emptyTargetGroupProductList, productVials, productVials, null);
     doReturn(facilityDistribution2).when(service).createDistributionData(facility2, distribution, refrigerators,
-      emptyTargetGroupProductList, emptyTargetGroupProductList, productVials, productVials);
+      emptyTargetGroupProductList, emptyTargetGroupProductList, productVials, productVials, null);
 
     Map<Long, FacilityDistribution> facilityDistributions = service.createFor(distribution);
 
@@ -237,7 +240,7 @@ public class FacilityDistributionServiceTest {
       emptyTargetGroupProductList, emptyTargetGroupProductList, null, null).thenReturn(expectedFacilityDistribution);
 
     FacilityDistribution facilityDistribution = facilityDistributionService.createDistributionData(facility, distribution,
-      refrigerators, emptyTargetGroupProductList, emptyTargetGroupProductList, null, null);
+      refrigerators, emptyTargetGroupProductList, emptyTargetGroupProductList, null, null, null);
 
     verifyNew(FacilityDistribution.class).withArguments(facilityVisit, facility, distribution, asList(facilityRefReading),
       emptyTargetGroupProductList, emptyTargetGroupProductList, null, null);

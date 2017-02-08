@@ -19,6 +19,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
 import org.openlmis.distribution.domain.FacilityVisit;
+import org.openlmis.distribution.domain.MotorbikeProblems;
 import org.openlmis.distribution.domain.ReasonForNotVisiting;
 
 import java.util.Date;
@@ -40,6 +41,7 @@ public class FacilityVisitDTO extends BaseModel {
   private FacilitatorDTO confirmedBy;
   private FacilitatorDTO verifiedBy;
   private Reading observations;
+  private Reading priorObservations;
 
   private Reading visitDate;
 
@@ -50,16 +52,33 @@ public class FacilityVisitDTO extends BaseModel {
 
   private Reading synced;
 
+  private Reading numberOfOutreachVisitsPlanned;
+  private Reading numberOfOutreachVisitsCompleted;
+  private Reading numberOfMotorbikesAtHU;
+  private Reading numberOfFunctioningMotorbikes;
+  private Reading numberOfMotorizedVehiclesWithProblems;
+  private Reading numberOfDaysWithLimitedTransport;
+
+  private MotorbikeProblemsDTO motorbikeProblems;
+
   public FacilityVisit transform() {
     FacilitatorDTO confirmedBy = Optional.fromNullable(this.confirmedBy).or(new FacilitatorDTO());
     FacilitatorDTO verifiedBy = Optional.fromNullable(this.verifiedBy).or(new FacilitatorDTO());
     String observations = Reading.safeRead(this.observations).getEffectiveValue();
+    String priorObservations = Reading.safeRead(this.priorObservations).getEffectiveValue();
     Date visitDate = Reading.safeRead(this.visitDate).parseDate();
     Boolean visited = Reading.safeRead(this.visited).parseBoolean();
     String vehicleId = Reading.safeRead(this.vehicleId).getEffectiveValue();
     ReasonForNotVisiting reasonForNotVisiting = Reading.safeRead(this.reasonForNotVisiting).parseReasonForNotVisiting();
     String otherReasonDescription = Reading.safeRead(this.otherReasonDescription).getEffectiveValue();
     Boolean synced = Reading.safeRead(this.synced).parseBoolean();
+    Integer numberOfOutreachVisitsPlanned = Reading.safeRead(this.numberOfOutreachVisitsPlanned).parsePositiveInt();
+    Integer numberOfOutreachVisitsCompleted = Reading.safeRead(this.numberOfOutreachVisitsCompleted).parsePositiveInt();
+    Integer numberOfMotorbikesAtHU = Reading.safeRead(this.numberOfMotorbikesAtHU).parsePositiveInt();
+    Integer numberOfFunctioningMotorbikes = Reading.safeRead(this.numberOfFunctioningMotorbikes).parsePositiveInt();
+    Integer numberOfMotorizedVehiclesWithProblems = Reading.safeRead(this.numberOfMotorizedVehiclesWithProblems).parsePositiveInt();
+    Integer numberOfDaysWithLimitedTransport = Reading.safeRead(this.numberOfDaysWithLimitedTransport).parsePositiveInt();
+    MotorbikeProblemsDTO motorbikeProblems = Optional.fromNullable(this.motorbikeProblems).or(new MotorbikeProblemsDTO());
 
     FacilityVisit facilityVisit = new FacilityVisit();
 
@@ -75,6 +94,7 @@ public class FacilityVisitDTO extends BaseModel {
     facilityVisit.setConfirmedBy(confirmedBy.transform());
     facilityVisit.setVerifiedBy(verifiedBy.transform());
     facilityVisit.setObservations(observations);
+    facilityVisit.setPriorObservations(priorObservations);
 
     facilityVisit.setVisitDate(visitDate);
 
@@ -85,7 +105,15 @@ public class FacilityVisitDTO extends BaseModel {
 
     facilityVisit.setSynced(synced);
 
+    facilityVisit.setNumberOfOutreachVisitsPlanned(numberOfOutreachVisitsPlanned);
+    facilityVisit.setNumberOfOutreachVisitsCompleted(numberOfOutreachVisitsCompleted);
+    facilityVisit.setNumberOfMotorbikesAtHU(numberOfMotorbikesAtHU);
+    facilityVisit.setNumberOfFunctioningMotorbikes(numberOfFunctioningMotorbikes);
+    facilityVisit.setNumberOfMotorizedVehiclesWithProblems(numberOfMotorizedVehiclesWithProblems);
+    facilityVisit.setNumberOfDaysWithLimitedTransport(numberOfDaysWithLimitedTransport);
+
+    facilityVisit.setMotorbikeProblems(motorbikeProblems.transform());
+
     return facilityVisit;
   }
-
 }
