@@ -167,15 +167,20 @@ function setNotRecorded(field, notRecordedApplied) {
       return {notRecorded: true};
     }
   } else {
-    return {notRecorded: false};
+    if (field) {
+      field.notRecorded = false;
+      return field;
+    } else {
+      return {notRecorded: false};
+    }
   }
 }
 
 AdultCoverageLineItem.prototype.setNotRecorded = function (_this) {
   this.healthCenterTetanus1 = setNotRecorded(this.healthCenterTetanus1, _this.notRecordedApplied);
   this.outreachTetanus1 = setNotRecorded(this.outreachTetanus1, _this.notRecordedApplied);
-  this.healthCenterTetanus2To5 = setNotRecorded( this.healthCenterTetanus2To5m, _this.notRecordedApplied);
-  this.outreachTetanus2To5 = setNotRecorded(this.outreachTetanus2To5m, _this.notRecordedApplied);
+  this.healthCenterTetanus2To5 = setNotRecorded( this.healthCenterTetanus2To5, _this.notRecordedApplied);
+  this.outreachTetanus2To5 = setNotRecorded(this.outreachTetanus2To5, _this.notRecordedApplied);
 };
 
 AdultCoverageLineItem.prototype.totalTetanus1 = function () {

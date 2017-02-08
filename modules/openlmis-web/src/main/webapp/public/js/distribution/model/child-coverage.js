@@ -99,31 +99,35 @@ ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncSta
   return this.status;
 };
 
-function setNotRecorded(field, notRecordedApplied) {
+function setNotRecordedChild(field, notRecordedApplied) {
   if(!notRecordedApplied) {
     if (field) {
       delete field.value;
       field.notRecorded = true;
-
       return field;
     } else {
       return {notRecorded: true};
     }
   } else {
-    return {notRecorded: false};
+    if (field) {
+      field.notRecorded = false;
+      return field;
+    } else {
+      return {notRecorded: false};
+    }
   }
 }
 
 ChildCoverage.prototype.setNotRecorded = function () {
   var _this = this;
   this.childCoverageLineItems.forEach(function (lineItem) {
-    lineItem.healthCenter11Months = setNotRecorded(lineItem.healthCenter11Months, _this.notRecordedApplied);
-    lineItem.healthCenter23Months = setNotRecorded(lineItem.healthCenter23Months, _this.notRecordedApplied);
-    lineItem.outreach11Months = setNotRecorded(lineItem.outreach11Months, _this.notRecordedApplied);
-    lineItem.outreach23Months = setNotRecorded(lineItem.outreach23Months, _this.notRecordedApplied);
+    lineItem.healthCenter11Months = setNotRecordedChild(lineItem.healthCenter11Months, _this.notRecordedApplied);
+    lineItem.healthCenter23Months = setNotRecordedChild(lineItem.healthCenter23Months, _this.notRecordedApplied);
+    lineItem.outreach11Months = setNotRecordedChild(lineItem.outreach11Months, _this.notRecordedApplied);
+    lineItem.outreach23Months = setNotRecordedChild(lineItem.outreach23Months, _this.notRecordedApplied);
   });
   this.openedVialLineItems.forEach(function (lineItem) {
-    lineItem.openedVial = setNotRecorded(lineItem.openedVial, _this.notRecordedApplied);
+    lineItem.openedVial = setNotRecordedChild(lineItem.openedVial, _this.notRecordedApplied);
   });
   this.notRecordedApplied = !this.notRecordedApplied;
 };
