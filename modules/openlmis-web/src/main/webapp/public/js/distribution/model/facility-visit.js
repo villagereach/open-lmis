@@ -43,6 +43,10 @@ function FacilityVisit(facilityVisitJson) {
           return DistributionStatus.INCOMPLETE;
       }
 
+      if (isEmpty(this.technicalStaff)) {
+        return DistributionStatus.INCOMPLETE;
+      }
+
       if (isUndefined(this.motorbikeProblems)) {
         return DistributionStatus.INCOMPLETE;
       }
