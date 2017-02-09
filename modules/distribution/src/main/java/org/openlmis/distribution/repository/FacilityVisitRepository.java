@@ -54,6 +54,10 @@ public class FacilityVisitRepository {
     return mapper.getUnsyncedFacilityCountForDistribution(distributionId);
   }
 
+  public List<FacilityVisit> getByDistributionId(Long distributionId) {
+    return retrieveDetails(mapper.getByDistributionId(distributionId));
+  }
+
   public FacilityVisit save(FacilityVisit facilityVisit) {
     if (facilityVisit.getId() == null) {
       mapper.insert(facilityVisit);
@@ -61,11 +65,6 @@ public class FacilityVisitRepository {
       updateWithDetails(facilityVisit);
     }
     return facilityVisit;
-  }
-
-
-  public List<FacilityVisit> getByDistributionId(Long distributionId) {
-    return retrieveDetails(mapper.getByDistributionId(distributionId));
   }
 
   private List<FacilityVisit> retrieveDetails(List<FacilityVisit> visits) {
@@ -110,4 +109,5 @@ public class FacilityVisitRepository {
 
     mapper.update(visit);
   }
+
 }

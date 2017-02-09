@@ -28,8 +28,7 @@ describe('Facility Visit', function () {
   it('should return incomplete if verified By Name not present', function () {
     var facilityVisit = new FacilityVisit({visited: {value: true}, numberOfOutreachVisitsPlanned: {value: 1}, numberOfOutreachVisitsCompleted: {value: 1},
                                            numberOfMotorbikesAtHU: {value: 10}, numberOfFunctioningMotorbikes: {value: 10}, numberOfMotorizedVehiclesWithProblems: {value: 0},
-                                           numberOfDaysWithLimitedTransport: {value: 0}, observations: {value: "blah blah blah"}, verifiedBy: {name: {value: ''}, title: {value: 'title'}},
-                                           confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
+                                           numberOfDaysWithLimitedTransport: {value: 0}, observations: "blah blah blah", verifiedBy: {name: '', title: 'title'}, confirmedBy: {name: 'something', title: 'title'}});
 
     var status = facilityVisit.computeStatus();
 
@@ -45,10 +44,10 @@ describe('Facility Visit', function () {
   });
 
   it('should return complete if visit details valid', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: "2014-08-07"}, numberOfOutreachVisitsPlanned: {value: 1}, numberOfOutreachVisitsCompleted: {value: 1},
+    var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: new Date()}, numberOfOutreachVisitsPlanned: {value: 1}, numberOfOutreachVisitsCompleted: {value: 1},
                                            numberOfMotorbikesAtHU: {value: 10}, numberOfFunctioningMotorbikes: {value: 10}, numberOfMotorizedVehiclesWithProblems: {value: 0},
                                            numberOfDaysWithLimitedTransport: {value: 0}, motorbikeProblems: {lackOfFundingForFuel: {value: true}}, observations: {value:"blah blah blah"},
-                                           verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
+                                           technicalStaff: {value: 0}, verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
 
     var status = facilityVisit.computeStatus();
 
@@ -59,7 +58,7 @@ describe('Facility Visit', function () {
     var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: new Date()}, numberOfOutreachVisitsPlanned: {value: 1}, numberOfOutreachVisitsCompleted: {value: 1},
                                            numberOfMotorbikesAtHU: {value: 10}, numberOfFunctioningMotorbikes: {value: 10}, numberOfMotorizedVehiclesWithProblems: {value: 0},
                                            numberOfDaysWithLimitedTransport: {value: 0}, motorbikeProblems: {lackOfFundingForFuel: {value: true}},
-                                           verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
+                                           technicalStaff: {value: 0}, verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
 
     var status = facilityVisit.computeStatus();
 
@@ -70,7 +69,7 @@ describe('Facility Visit', function () {
     var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: new Date()}, numberOfOutreachVisitsPlanned: {value: 1}, numberOfOutreachVisitsCompleted: {value: 1},
                                            numberOfMotorbikesAtHU: {value: 10}, numberOfFunctioningMotorbikes: {value: 10}, numberOfMotorizedVehiclesWithProblems: {value: 0},
                                            numberOfDaysWithLimitedTransport: {value: 0}, motorbikeProblems: {lackOfFundingForFuel: {value: true}}, observations: "blah blah blah",
-                                           verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
+                                           technicalStaff: {value: 0}, verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
 
     facilityVisit.computeStatus();
 
@@ -93,7 +92,7 @@ describe('Facility Visit', function () {
     var facilityVisit = new FacilityVisit({visited: {value: true}, visitDate: {value: new Date()}, numberOfOutreachVisitsPlanned: {value: 1}, numberOfOutreachVisitsCompleted: {value: 1},
                                            numberOfMotorbikesAtHU: {value: 10}, numberOfFunctioningMotorbikes: {value: 10}, numberOfMotorizedVehiclesWithProblems: {value: 0},
                                            numberOfDaysWithLimitedTransport: {value: 0}, motorbikeProblems: {lackOfFundingForFuel: {value: true}}, observations: "blah blah blah",
-                                           verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
+                                           technicalStaff: {value: 0}, verifiedBy: {name: {value: 'Pint'}, title: {value: 'title'}}, confirmedBy: {name: {value: 'something'}, title: {value: 'title'}}});
 
     expect(facilityVisit.computeStatus()).toEqual(DistributionStatus.COMPLETE);
   });

@@ -20,6 +20,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
   };
 
   $scope.startDate = $scope.convertToDateObject($scope.distribution.period.stringStartDate);
+  $scope.endDate = $scope.convertToDateObject($scope.distribution.period.stringEndDate);
 
   $scope.reasons = {
     badWeather: "ROAD_IMPASSABLE",
@@ -39,6 +40,11 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     }
 
     return [true, ""];
+  };
+
+  $scope.isCurrentPeriod = function () {
+    var now = new Date();
+    return $scope.startDate <= now && $scope.endDate >= now;
   };
 
   $scope.clearMotorbikeProblems = function () {
@@ -67,6 +73,20 @@ function VisitInfoController($scope, distributionService, $routeParams) {
         visit.priorObservations = {
           type: "reading",
           value: visit.priorObservations
+        };
+      }
+
+      if (typeof visit.technicalStaff === 'number') {
+        visit.technicalStaff = {
+          type: "reading",
+          value: visit.technicalStaff
+        };
+      }
+
+      if (!$scope.isCurrentPeriod() && (!visit.technicalStaff || !visit.technicalStaff.value)) {
+        visit.technicalStaff = {
+          type: "reading",
+          value: 0
         };
       }
       visit.reasonForNotVisiting = setApplicableField(visit.reasonForNotVisiting);

@@ -21,6 +21,7 @@ import static org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_EMPT
 @JsonSerialize(include = NON_EMPTY)
 @EqualsAndHashCode(callSuper = false)
 public class FacilitatorDTO {
+
   private Reading name;
   private Reading title;
 

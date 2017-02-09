@@ -26,8 +26,8 @@ import java.util.List;
 @Repository
 public interface FacilityVisitMapper {
 
-  @Insert({"INSERT INTO facility_visits (distributionId, facilityId, facilityCatchmentPopulation, priorObservations, createdBy, modifiedBy)",
-    "VALUES (#{distributionId}, #{facilityId}, #{facilityCatchmentPopulation}, #{priorObservations}, #{createdBy}, #{modifiedBy})"})
+  @Insert({"INSERT INTO facility_visits (distributionId, facilityId, facilityCatchmentPopulation, priorObservations, technicalStaff, createdBy, modifiedBy)",
+    "VALUES (#{distributionId}, #{facilityId}, #{facilityCatchmentPopulation}, #{priorObservations}, #{technicalStaff}, #{createdBy}, #{modifiedBy})"})
   @Options(useGeneratedKeys = true)
   public void insert(FacilityVisit facilityVisit);
 
@@ -52,8 +52,9 @@ public interface FacilityVisitMapper {
     "numberOfMotorizedVehiclesWithProblems = #{numberOfMotorizedVehiclesWithProblems}, numberOfDaysWithLimitedTransport = #{numberOfDaysWithLimitedTransport}, ",
     "confirmedByName = #{confirmedBy.name}, confirmedByTitle = #{confirmedBy.title}, ",
     "verifiedByName = #{verifiedBy.name}, verifiedByTitle = #{verifiedBy.title}, ",
-    "observations = #{observations}, priorObservations = #{priorObservations}, synced = #{synced}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT," +
-      "reasonForNotVisiting = #{reasonForNotVisiting}, otherReasonDescription = #{otherReasonDescription} WHERE id = #{id}"})
+    "observations = #{observations}, priorObservations = #{priorObservations}, technicalStaff = #{technicalStaff}, ",
+    "synced = #{synced}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT,",
+    "reasonForNotVisiting = #{reasonForNotVisiting}, otherReasonDescription = #{otherReasonDescription} WHERE id = #{id}"})
   public void update(FacilityVisit facilityVisit);
 
   @Update({"UPDATE motorbike_problems SET facilityVisitId = #{facilityVisitId}, lackOfFundingForFuel = COALESCE(#{lackOfFundingForFuel}, FALSE), ",
@@ -79,6 +80,9 @@ public interface FacilityVisitMapper {
   @Select({"SELECT count(*) FROM facility_visits WHERE distributionId = #{distributionId} AND synced = false"})
   Integer getUnsyncedFacilityCountForDistribution(Long distributionId);
 
+  @Select({"SELECT * FROM motorbike_problems WHERE facilityVisitId = #{facilityVisitId}"})
+  MotorbikeProblems getMotorbikeProblemsByFacilityVisitId(Long facilityVisitId);
+
   @Select("SELECT * FROM facility_visits WHERE distributionId = #{distributionId}")
   @Results({
           @Result(property = "verifiedBy.name", column = "verifiedByName"),
@@ -87,7 +91,4 @@ public interface FacilityVisitMapper {
           @Result(property = "confirmedBy.title", column = "confirmedByTitle")
   })
   List<FacilityVisit> getByDistributionId(Long distributionId);
-
-  @Select({"SELECT * FROM motorbike_problems WHERE facilityVisitId = #{facilityVisitId}"})
-  MotorbikeProblems getMotorbikeProblemsByFacilityVisitId(Long facilityVisitId);
 }
