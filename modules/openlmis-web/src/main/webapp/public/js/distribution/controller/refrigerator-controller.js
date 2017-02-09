@@ -37,10 +37,10 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
       if (existingRefrigeratorReading) {
         $scope.refrigeratorReading = {
           refrigerator: {
-            serialNumber: existingRefrigeratorReading.refrigerator.serialNumber,
-            brand: existingRefrigeratorReading.refrigerator.brand,
-            model: existingRefrigeratorReading.refrigerator.model,
-            type: existingRefrigeratorReading.refrigerator.type
+            serialNumber: { value: existingRefrigeratorReading.refrigerator.serialNumber.value },
+            brand: { value: existingRefrigeratorReading.refrigerator.brand.value },
+            model: { value: existingRefrigeratorReading.refrigerator.model.value },
+            type: { value: existingRefrigeratorReading.refrigerator.type.value }
           }
         };
       }
@@ -70,6 +70,11 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
     IndexedDB.put('distributions', $scope.distribution);
 
     $scope.addRefrigeratorModal = $scope.editMode = undefined;
+  };
+
+  $scope.updateRefrigeratorReadingStatus = function (refrigeratorReading) {
+    refrigeratorReading.computeStatus();
+    $scope.edit[refrigeratorReading.refrigerator.serialNumber.value] = false;
   };
 
   $scope.isFormDisabled = function () {
