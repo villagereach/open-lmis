@@ -76,19 +76,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
         };
       }
 
-      if (typeof visit.technicalStaff === 'number') {
-        visit.technicalStaff = {
-          type: "reading",
-          value: visit.technicalStaff
-        };
-      }
-
-      if (!visit.technicalStaff || !visit.technicalStaff.value) {
-        visit.technicalStaff = {
-          type: "reading",
-          value: 0
-        };
-      }
+      setApplicableVisitInfoForTechnicalStaff(visit);
       visit.reasonForNotVisiting = setApplicableField(visit.reasonForNotVisiting);
       visit.otherReasonDescription = setApplicableField(visit.otherReasonDescription);
       return;
@@ -125,5 +113,24 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     }
 
     return { original: field.original, type: 'reading' };
+  }
+
+  function setApplicableVisitInfoForTechnicalStaff(visit) {
+    if (typeof visit.technicalStaff === 'number') {
+      visit.technicalStaff = {
+        type: "reading",
+        defaultValue: visit.technicalStaff,
+        value: visit.technicalStaff
+      };
+    }
+
+    if (!visit.technicalStaff || !visit.technicalStaff.value) {
+      visit.technicalStaff = {
+        type: "reading",
+        value: 0
+      };
+    } else if (visit.technicalStaff.defaultValue) {
+      visit.technicalStaff.value = visit.technicalStaff.defaultValue;
+    }
   }
 }
