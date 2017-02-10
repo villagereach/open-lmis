@@ -83,7 +83,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
         };
       }
 
-      if (!$scope.isCurrentPeriod() && (!visit.technicalStaff || !visit.technicalStaff.value)) {
+      if (!visit.technicalStaff || !visit.technicalStaff.value) {
         visit.technicalStaff = {
           type: "reading",
           value: 0
