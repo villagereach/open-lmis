@@ -63,9 +63,9 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
 
   $scope.updateRefrigeratorInStore = function () {
     var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber.value);
-    existing.refrigerator.brand = $scope.refrigeratorReading.refrigerator.brand;
-    existing.refrigerator.model = $scope.refrigeratorReading.refrigerator.model;
-    existing.refrigerator.type = $scope.refrigeratorReading.refrigerator.type;
+    existing.refrigerator.brand.value = $scope.refrigeratorReading.refrigerator.brand.value;
+    existing.refrigerator.model.value = $scope.refrigeratorReading.refrigerator.model.value;
+    existing.refrigerator.type.value = $scope.refrigeratorReading.refrigerator.type.value;
 
     IndexedDB.put('distributions', $scope.distribution);
 
