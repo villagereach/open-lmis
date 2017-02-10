@@ -122,15 +122,19 @@ function VisitInfoController($scope, distributionService, $routeParams) {
         defaultValue: visit.technicalStaff,
         value: visit.technicalStaff
       };
-    }
-
-    if (!visit.technicalStaff || !visit.technicalStaff.value) {
+    } else if (!visit.technicalStaff || !visit.technicalStaff.value) {
       visit.technicalStaff = {
+        original: {
+          type: "reading",
+          value: 0
+        },
         type: "reading",
         value: 0
       };
     } else if (visit.technicalStaff.defaultValue) {
       visit.technicalStaff.value = visit.technicalStaff.defaultValue;
+    } else if ($scope.isCurrentPeriod()) {
+      visit.technicalStaff = setApplicableField(visit.technicalStaff);
     }
   }
 }
