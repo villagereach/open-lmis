@@ -39,6 +39,7 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.columns = {
     vaccination: "label.child.vaccination.doses",
     targetGroup: "label.coverage.target.Group",
+    sex: "label.coverage.sex",
     childrenAgeGroup0To11: "label.children.age.group.zero.eleven.months",
     childrenAgeGroup12To23: "label.children.age.group.twelve.twenty.three.months",
     categoryOneHealthCenter: "label.coverage.health.center",
@@ -112,9 +113,49 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     return getValue(obj1) + getValue(obj2);
   };
 
+  $scope.getTotal11 = function (lineItem) {
+      if(!$scope.isOutdatedDistribution(lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months,
+          lineItem.healthCenter11Months)) {
+          lineItem.healthCenter11Months =
+        {
+          value: $scope.getTotal(lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months)
+        };
+      }
+      if(!$scope.isOutdatedDistribution(lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months,
+              lineItem.outreach11Months)) {
+        lineItem.outreach11Months =
+        {
+          value: $scope.getTotal(lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months)
+        };
+      }
+    return $scope.getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months);
+  };
+
+  $scope.getTotal23 = function (lineItem) {
+    if(!$scope.isOutdatedDistribution(lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months,
+        lineItem.healthCenter23Months)) {
+      lineItem.healthCenter23Months =
+      {
+        value: $scope.getTotal(lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months)
+      };
+    }
+    if(!$scope.isOutdatedDistribution(lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months,
+            lineItem.outreach23Months)) {
+      lineItem.outreach23Months =
+      {
+        value: $scope.getTotal(lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months)
+      };
+    }
+    return $scope.getTotal(lineItem.outreach23Months, lineItem.healthCenter23Months);
+  };
+
+  $scope.isOutdatedDistribution = function (maleField, femaleField, totalField) {
+    return (isUndefined(maleField) && isUndefined(femaleField) && !isUndefined(totalField));
+  };
+
   $scope.getTotalVaccinations = function (childCoverageLineItem) {
-    return $scope.getTotal(childCoverageLineItem.healthCenter11Months, childCoverageLineItem.outreach11Months) +
-      $scope.getTotal(childCoverageLineItem.healthCenter23Months, childCoverageLineItem.outreach23Months);
+    return $scope.getTotal11(childCoverageLineItem) +
+      $scope.getTotal23(childCoverageLineItem);
   };
 
   $scope.calculateCoverageRate = function (total, targetGroup) {
