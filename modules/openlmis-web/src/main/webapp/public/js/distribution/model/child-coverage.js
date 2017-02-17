@@ -13,21 +13,26 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   this.facilityVisitId = facilityVisitId;
 
   $(this.childCoverageLineItems).each(function (index, lineItem) {
-    lineItem.healthCenter23Months = lineItem.healthCenter23Months || {};
-    lineItem.outreach23Months = lineItem.outreach23Months || {};
+    lineItem.maleHealthCenter23Months = lineItem.maleHealthCenter23Months || {};
+    lineItem.maleOutreach23Months = lineItem.maleOutreach23Months || {};
+    lineItem.femaleHealthCenter23Months = lineItem.femaleHealthCenter23Months || {};
+    lineItem.femaleOutreach23Months = lineItem.femaleOutreach23Months || {};
   });
 
   $(this.openedVialLineItems).each(function (index, lineItem) {
     lineItem.openedVial = lineItem.openedVial || {};
   });
 
-  var mandatoryFields = ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months'];
+  this.isOutdatedDistribution = checkIfIsOutdatedDistribution.call(this);
+  this.mandatoryFields = getMandatoryFields.call(this);
+  init.call(this);
 
   function init() {
     var countNotNR = 0;
     var countNR = 0;
+    var fields = this.mandatoryFields;
     $(this.childCoverageLineItems).each(function (i, lineItem) {
-      $(mandatoryFields).each(function (i, fieldName) {
+      $(fields).each(function (i, fieldName) {
         if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
             countNotNR++;
         }
@@ -51,83 +56,129 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     }
   }
 
-  init.call(this);
-}
-
-ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
-  if (review && !ignoreSyncStatus) {
-    return DistributionStatus.SYNCED;
+  function getMandatoryFields() {
+    if(this.isOutdatedDistribution) {
+      return ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months'];
+    } else {
+      return ['maleHealthCenter11Months', 'femaleHealthCenter11Months',
+         'maleOutreach11Months', 'femaleOutreach11Months', 'maleHealthCenter23Months', 'femaleHealthCenter23Months',
+         'maleOutreach23Months', 'femaleOutreach23Months'];
+    }
   }
 
-  var status;
+  function isEmpty(obj) {
+    return (isUndefined(obj) || (isUndefined(obj.value) && !obj.notRecorded));
+  }
 
-  var isValid = function (field) {
-    if (!field)
-      return false;
-    return !(isUndefined(field.value) && !field.notRecorded);
+  function maleFemaleFieldsNotPresent(maleField, femaleField, totalField) {
+    return (isEmpty(maleField) && isEmpty(femaleField) && !isEmpty(totalField));
+  }
+
+  function checkIfIsOutdatedDistribution() {
+    outdated = true;
+    $(this.childCoverageLineItems).each(function (index, lineItem) {
+      if(!maleFemaleFieldsNotPresent(lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months,
+          lineItem.healthCenter11Months)) {
+        outdated = false;
+        return;
+      }
+      if(!maleFemaleFieldsNotPresent(lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months,
+          lineItem.healthCenter23Months)) {
+        outdated = false;
+        return;
+      }
+      if(!maleFemaleFieldsNotPresent(lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months,
+          lineItem.outreach11Months)) {
+        outdated = false;
+        return;
+      }
+      if(!maleFemaleFieldsNotPresent(lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months,
+          lineItem.outreach23Months)) {
+        outdated = false;
+        return;
+      }
+    });
+    return outdated;
+  }
+
+  ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+    if (review && !ignoreSyncStatus) {
+      return DistributionStatus.SYNCED;
+    }
+
+    var status;
+
+    var isValid = function (field) {
+      if (!field)
+        return false;
+      return !(isUndefined(field.value) && !field.notRecorded);
+    };
+
+    function validateLineItems(lineItems, mandatoryFields) {
+      $(lineItems).each(function (index, lineItem) {
+        $(mandatoryFields).each(function (index, field) {
+          if (lineItem.vaccination === 'Polio (Newborn)' &&
+              mandatoryFields.slice(mandatoryFields.length / 2, mandatoryFields.length).indexOf(field) !== -1)
+            return true;
+          if (lineItem.vaccination === 'IPV' &&
+              mandatoryFields.slice(mandatoryFields.length / 2, mandatoryFields.length).indexOf(field) !== -1)
+            return true;
+          if (lineItem.vaccination === 'Sarampo 2a dose' &&
+              mandatoryFields.slice(0, mandatoryFields.length / 2).indexOf(field) !== -1)
+            return true;
+          if ((status === DistributionStatus.COMPLETE || !status) && isValid(lineItem[field])) {
+            status = DistributionStatus.COMPLETE;
+            return true;
+          } else if ((status === DistributionStatus.EMPTY || !status) && !isValid(lineItem[field])) {
+            status = DistributionStatus.EMPTY;
+            return true;
+          } else if ((status === DistributionStatus.EMPTY && isValid(lineItem[field])) || (status === DistributionStatus.COMPLETE && !isValid(lineItem[field]))) {
+            status = DistributionStatus.INCOMPLETE;
+            return false;
+          }
+          return true;
+        });
+        return status !== DistributionStatus.INCOMPLETE;
+      });
+    }
+
+    validateLineItems(this.childCoverageLineItems, this.mandatoryFields);
+    validateLineItems(this.openedVialLineItems, ['openedVial']);
+
+    this.status = status;
+    return this.status;
   };
 
-  function validateLineItems(lineItems, mandatoryFields) {
-    $(lineItems).each(function (index, lineItem) {
-      $(mandatoryFields).each(function (index, field) {
-        if (lineItem.vaccination === 'Polio (Newborn)' && ['healthCenter23Months', 'outreach23Months'].indexOf(field) !== -1)
-          return true;
-        if (lineItem.vaccination === 'IPV' && ['healthCenter23Months', 'outreach23Months'].indexOf(field) !== -1)
-          return true;
-        if (lineItem.vaccination === 'Sarampo 2a dose' && ['healthCenter11Months', 'outreach11Months'].indexOf(field) !== -1)
-          return true;
-        if ((status === DistributionStatus.COMPLETE || !status) && isValid(lineItem[field])) {
-          status = DistributionStatus.COMPLETE;
-          return true;
-        } else if ((status === DistributionStatus.EMPTY || !status) && !isValid(lineItem[field])) {
-          status = DistributionStatus.EMPTY;
-          return true;
-        } else if ((status === DistributionStatus.EMPTY && isValid(lineItem[field])) || (status === DistributionStatus.COMPLETE && !isValid(lineItem[field]))) {
-          status = DistributionStatus.INCOMPLETE;
-          return false;
-        }
-        return true;
+  function setNotRecordedChild(field, notRecordedApplied) {
+    if(!notRecordedApplied) {
+      if (field) {
+        delete field.value;
+        field.notRecorded = true;
+        return field;
+      } else {
+        return {notRecorded: true};
+      }
+    } else {
+      if (field) {
+        field.notRecorded = false;
+        return field;
+      } else {
+        return {notRecorded: false};
+      }
+    }
+  }
+
+  ChildCoverage.prototype.setNotRecorded = function () {
+    var _this = this;
+    fields = this.mandatoryFields;
+    this.childCoverageLineItems.forEach(function (lineItem) {
+      $(fields).each(function (index, field) {
+        lineItem[field] = setNotRecordedChild(lineItem[field], _this.notRecordedApplied);
       });
-      return status !== DistributionStatus.INCOMPLETE;
     });
-  }
-
-  validateLineItems(this.childCoverageLineItems, ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months']);
-  validateLineItems(this.openedVialLineItems, ['openedVial']);
-
-  this.status = status;
-  return this.status;
-};
-
-function setNotRecordedChild(field, notRecordedApplied) {
-  if(!notRecordedApplied) {
-    if (field) {
-      delete field.value;
-      field.notRecorded = true;
-      return field;
-    } else {
-      return {notRecorded: true};
-    }
-  } else {
-    if (field) {
-      field.notRecorded = false;
-      return field;
-    } else {
-      return {notRecorded: false};
-    }
-  }
+    this.openedVialLineItems.forEach(function (lineItem) {
+      lineItem.openedVial = setNotRecordedChild(lineItem.openedVial, _this.notRecordedApplied);
+    });
+    this.notRecordedApplied = !this.notRecordedApplied;
+  };
 }
-
-ChildCoverage.prototype.setNotRecorded = function () {
-  var _this = this;
-  this.childCoverageLineItems.forEach(function (lineItem) {
-    lineItem.healthCenter11Months = setNotRecordedChild(lineItem.healthCenter11Months, _this.notRecordedApplied);
-    lineItem.healthCenter23Months = setNotRecordedChild(lineItem.healthCenter23Months, _this.notRecordedApplied);
-    lineItem.outreach11Months = setNotRecordedChild(lineItem.outreach11Months, _this.notRecordedApplied);
-    lineItem.outreach23Months = setNotRecordedChild(lineItem.outreach23Months, _this.notRecordedApplied);
-  });
-  this.openedVialLineItems.forEach(function (lineItem) {
-    lineItem.openedVial = setNotRecordedChild(lineItem.openedVial, _this.notRecordedApplied);
-  });
-  this.notRecordedApplied = !this.notRecordedApplied;
-};

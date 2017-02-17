@@ -19,6 +19,14 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     return (!isUndefined(obj)) ? ((!isUndefined(obj.value)) ? parseInt(obj.value, 10) : 0) : 0;
   };
 
+  var isEmpty = function (obj) {
+    return (isUndefined(obj) || (isUndefined(obj.value) && !obj.notRecorded));
+  };
+
+  var isNotRecorded = function (obj) {
+    return (!isUndefined(obj) && obj.notRecorded);
+  };
+
   var syncNR = function (product1, product2) {
     if (!isUndefined($scope.openedVialMap[product2].openedVial) && !isUndefined($scope.openedVialMap[product1].openedVial))
       $scope.openedVialMap[product1].openedVial.notRecorded = $scope.openedVialMap[product2].openedVial.notRecorded;
@@ -32,6 +40,17 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     return map;
   };
 
+  var calculateTotalCoverageForGenderFields = function (maleField, femaleField) {
+    var totalField = {};
+    if(isNotRecorded(maleField) && isNotRecorded(femaleField)) {
+      totalField.notRecorded = true;
+    } else if(!isEmpty(maleField) || !isEmpty(femaleField)) {
+      totalField.value = $scope.getTotal(maleField, femaleField);
+      totalField.notRecorded = false;
+    }
+    return totalField;
+  };
+
   $scope.childCoverage.childCoverageLineItems = _.sortBy($scope.childCoverage.childCoverageLineItems, 'displayOrder');
   $scope.childCoverageMap = convertListToMap($scope.childCoverage.childCoverageLineItems, 'vaccination');
   $scope.openedVialMap = convertListToMap($scope.childCoverage.openedVialLineItems, 'productVialName');
@@ -39,6 +58,7 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.columns = {
     vaccination: "label.child.vaccination.doses",
     targetGroup: "label.coverage.target.Group",
+    sex: "label.coverage.sex",
     childrenAgeGroup0To11: "label.children.age.group.zero.eleven.months",
     childrenAgeGroup12To23: "label.children.age.group.twelve.twenty.three.months",
     categoryOneHealthCenter: "label.coverage.health.center",
@@ -112,9 +132,28 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     return getValue(obj1) + getValue(obj2);
   };
 
+  $scope.getTotal11 = function (lineItem) {
+    if(!$scope.childCoverage.isOutdatedDistribution) {
+      lineItem.healthCenter11Months = calculateTotalCoverageForGenderFields(
+        lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months, lineItem.healthCenter11Months);
+      lineItem.outreach11Months = calculateTotalCoverageForGenderFields(
+        lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months, lineItem.outreach11Months);
+    }
+    return $scope.getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months);
+  };
+
+  $scope.getTotal23 = function (lineItem) {
+    if(!$scope.childCoverage.isOutdatedDistribution) {
+      lineItem.healthCenter23Months = calculateTotalCoverageForGenderFields(
+        lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months, lineItem.healthCenter23Months);
+      lineItem.outreach23Months = calculateTotalCoverageForGenderFields(
+        lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months, lineItem.outreach23Months);
+    }
+    return $scope.getTotal(lineItem.outreach23Months, lineItem.healthCenter23Months);
+  };
+
   $scope.getTotalVaccinations = function (childCoverageLineItem) {
-    return $scope.getTotal(childCoverageLineItem.healthCenter11Months, childCoverageLineItem.outreach11Months) +
-      $scope.getTotal(childCoverageLineItem.healthCenter23Months, childCoverageLineItem.outreach23Months);
+    return $scope.getTotal11(childCoverageLineItem) + $scope.getTotal23(childCoverageLineItem);
   };
 
   $scope.calculateCoverageRate = function (total, targetGroup) {
