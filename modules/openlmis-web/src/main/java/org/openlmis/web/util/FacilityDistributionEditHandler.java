@@ -186,7 +186,7 @@ public class FacilityDistributionEditHandler {
           originalProperty = removeNullReference(original, originalPropertyName, originalProperty);
           replacementProperty = removeNullReference(replacement, replacementPropertyName, replacementProperty);
 
-          if (originalProperty instanceof List)
+          if (originalProperty instanceof List) {
             if (parent instanceof FacilityDistribution && original instanceof DistributionRefrigerators && replacement instanceof DistributionRefrigeratorsDTO) {
               checkRefrigerators(results, (FacilityDistribution) parent, (DistributionRefrigerators) original, (DistributionRefrigeratorsDTO) replacement);
             } else if (original instanceof VaccinationChildCoverage && replacement instanceof ChildCoverageDTO) {
@@ -194,11 +194,12 @@ public class FacilityDistributionEditHandler {
             } else {
               List originalList = (List) originalProperty;
               List replacementList = (List) replacementProperty;
+
               for (int i = 0; i < originalList.size(); ++i) {
                 checkProperties(results, original, originalPropertyName, originalList.get(i), replacementList.get(i));
               }
             }
-          else {
+          } else {
             checkProperties(results, original, originalPropertyName, originalProperty, replacementProperty);
           }
         }
