@@ -37,7 +37,7 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   }
 
   function isEmpty(obj) {
-    return (isUndefined(obj) || (isUndefined(obj.value) && !obj.notRecorded));
+    return (isUndefined(obj) || isUndefined(obj.value));
   }
 
   function maleFemaleFieldsNotPresent(maleField, femaleField, totalField) {
@@ -45,26 +45,26 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   }
 
   function checkIfIsOutdatedDistribution() {
-    outdated = true;
+    outdated = false;
     $(this.childCoverageLineItems).each(function (index, lineItem) {
-      if(!maleFemaleFieldsNotPresent(lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months,
+      if(maleFemaleFieldsNotPresent(lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months,
           lineItem.healthCenter11Months)) {
-        outdated = false;
+        outdated = true;
         return;
       }
-      if(!maleFemaleFieldsNotPresent(lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months,
+      if(maleFemaleFieldsNotPresent(lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months,
           lineItem.healthCenter23Months)) {
-        outdated = false;
+        outdated = true;
         return;
       }
-      if(!maleFemaleFieldsNotPresent(lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months,
+      if(maleFemaleFieldsNotPresent(lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months,
           lineItem.outreach11Months)) {
-        outdated = false;
+        outdated = true;
         return;
       }
-      if(!maleFemaleFieldsNotPresent(lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months,
+      if(maleFemaleFieldsNotPresent(lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months,
           lineItem.outreach23Months)) {
-        outdated = false;
+        outdated = true;
         return;
       }
     });
