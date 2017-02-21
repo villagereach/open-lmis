@@ -40,10 +40,13 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     return map;
   };
 
-  var calculateTotalCoverageForGenderFields = function (maleField, femaleField) {
-    var totalField = {};
+  var calculateTotalCoverageForGenderFields = function (totalField, maleField, femaleField) {
+    if(isUndefined(totalField)) {
+      totalField = {};
+    }
     if(isNotRecorded(maleField) && isNotRecorded(femaleField)) {
       totalField.notRecorded = true;
+      totalField.value = undefined;
     } else if(!isEmpty(maleField) || !isEmpty(femaleField)) {
       totalField.value = $scope.getTotal(maleField, femaleField);
       totalField.notRecorded = false;
@@ -135,9 +138,9 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.getTotal11 = function (lineItem) {
     if(!$scope.childCoverage.isOutdatedDistribution) {
       lineItem.healthCenter11Months = calculateTotalCoverageForGenderFields(
-        lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months, lineItem.healthCenter11Months);
+        lineItem.healthCenter11Months, lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months);
       lineItem.outreach11Months = calculateTotalCoverageForGenderFields(
-        lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months, lineItem.outreach11Months);
+        lineItem.outreach11Months, lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months);
     }
     return $scope.getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months);
   };
@@ -145,9 +148,9 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.getTotal23 = function (lineItem) {
     if(!$scope.childCoverage.isOutdatedDistribution) {
       lineItem.healthCenter23Months = calculateTotalCoverageForGenderFields(
-        lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months, lineItem.healthCenter23Months);
+        lineItem.healthCenter23Months, lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months);
       lineItem.outreach23Months = calculateTotalCoverageForGenderFields(
-        lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months, lineItem.outreach23Months);
+        lineItem.outreach23Months, lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months);
     }
     return $scope.getTotal(lineItem.outreach23Months, lineItem.healthCenter23Months);
   };
