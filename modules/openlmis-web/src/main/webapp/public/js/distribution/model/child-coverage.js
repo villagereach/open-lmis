@@ -28,11 +28,12 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
 
   function getMandatoryFields() {
     if(this.isOutdatedDistribution) {
-      return ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months'];
+      return ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months', 'femaleHealthCenter9YMonths',
+         'femaleOutreach9YMonths'];
     } else {
       return ['maleHealthCenter11Months', 'femaleHealthCenter11Months',
          'maleOutreach11Months', 'femaleOutreach11Months', 'maleHealthCenter23Months', 'femaleHealthCenter23Months',
-         'maleOutreach23Months', 'femaleOutreach23Months'];
+         'maleOutreach23Months', 'femaleOutreach23Months', 'femaleHealthCenter9YMonths', 'femaleOutreach9YMonths'];
     }
   }
 
@@ -42,6 +43,22 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
 
   function maleFemaleFieldsNotPresent(maleField, femaleField, totalField) {
     return (isEmpty(maleField) && isEmpty(femaleField) && !isEmpty(totalField));
+  }
+
+  function isCoverage11Field(field) {
+    return ((['maleHealthCenter11Months', 'femaleHealthCenter11Months','maleOutreach11Months',
+     'femaleOutreach11Months'].indexOf(field) !== -1 && !this.isOutdatedDistribution) ||
+     (['healthCenter11Months', 'outreach11Months'].indexOf(field) !== -1 && this.isOutdatedDistribution));
+  }
+
+  function isCoverage23Field(field) {
+    return ((['maleHealthCenter23Months', 'femaleHealthCenter23Months','maleOutreach23Months',
+     'femaleOutreach23Months'].indexOf(field) !== -1 && !this.isOutdatedDistribution) ||
+     (['healthCenter23Months', 'outreach23Months'].indexOf(field) !== -1 && this.isOutdatedDistribution));
+  }
+
+  function isCoverage9YField(field) {
+    return (['femaleHealthCenter9YMonths', 'femaleOutreach9YMonths'].indexOf(field) !== -1);
   }
 
   function checkIfIsOutdatedDistribution() {
@@ -87,14 +104,12 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     function validateLineItems(lineItems, mandatoryFields) {
       $(lineItems).each(function (index, lineItem) {
         $(mandatoryFields).each(function (index, field) {
-          if (lineItem.vaccination === 'Polio (Newborn)' &&
-              mandatoryFields.slice(mandatoryFields.length / 2, mandatoryFields.length).indexOf(field) !== -1)
+          if ((lineItem.vaccination === 'Polio (Newborn)' || lineItem.vaccination === 'IPV') &&
+            isCoverage23Field(field))
             return true;
-          if (lineItem.vaccination === 'IPV' &&
-              mandatoryFields.slice(mandatoryFields.length / 2, mandatoryFields.length).indexOf(field) !== -1)
+          if (lineItem.vaccination === 'Sarampo 2a dose' && isCoverage11Field(field))
             return true;
-          if (lineItem.vaccination === 'Sarampo 2a dose' &&
-              mandatoryFields.slice(0, mandatoryFields.length / 2).indexOf(field) !== -1)
+          if (lineItem.vaccination !== 'HPV' && isCoverage9YField(field))
             return true;
           if ((status === DistributionStatus.COMPLETE || !status) && isValid(lineItem[field])) {
             status = DistributionStatus.COMPLETE;

@@ -38,6 +38,8 @@
                   openlmis-message={{columns.coverageRate}}></th>
               <th class="col-complete-vaccinated center-justified" id="childrenAgeGroup2" colspan="3"
                   openlmis-message={{columns.childrenAgeGroup12To23}}></th>
+              <th class="col-complete-vaccinated center-justified" id="childrenAgeGroup3" colspan="3"
+                  openlmis-message={{columns.childrenAgeGroup9To11}}></th>
               <th class="col-complete-vaccinated" id="totalVaccination" rowspan="2"
                   openlmis-message={{columns.totalVaccination}}></th>
               <th class="col-complete-vaccinated" id="openedVials" rowspan="2"
@@ -58,6 +60,12 @@
                   openlmis-message={{columns.categoryTwoMobileBrigade}}></th>
               <th class="col-complete-vaccinated" id="categoryTwoTotal"
                   openlmis-message={{columns.categoryTwoTotal}}></th>
+              <th class="col-complete-vaccinated" id="categoryThreeHealthCenter"
+                  openlmis-message={{columns.categoryThreeHealthCenter}}></th>
+              <th class="col-complete-vaccinated" id="categoryThreeMobileBrigade"
+                  openlmis-message={{columns.categoryThreeMobileBrigade}}></th>
+              <th class="col-complete-vaccinated" id="categoryThreeTotal"
+                  openlmis-message={{columns.categoryThreeTotal}}></th>
             </tr>
             </thead>
             <tbody>
@@ -69,7 +77,7 @@
                 <span ng-bind="lineItem.targetGroup"></span>
               </td>
               <td class="col-complete-vaccinated" id="sex{{$index}}" ng-if="!childCoverage.isOutdatedDistribution">
-                <span class="row">
+                <span class="row" ng-hide="lineItem.vaccination == 'HPV'">
                   <label openlmis-message="label.coverage.sex.male"></label>
                 </span>
                 <span class="row">
@@ -77,7 +85,7 @@
                 </span>
               </td>
               <td class="col-complete-vaccinated">
-                <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose'">
+                <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose' || lineItem.vaccination == 'HPV'">
                   <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                     <input id="maleHealthCenter11Months{{$index}}" type="number"
                            ng-model="lineItem.maleHealthCenter11Months.value"
@@ -138,9 +146,10 @@
                              openlmis-message="label.not.recorded"></label>
                     </span>
                   </span>
+                </span>
               </td>
               <td class="col-complete-vaccinated">
-                <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose'">
+                <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose' || lineItem.vaccination == 'HPV'">
                   <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                     <input id="maleOutreach11Months{{$index}}" type="number"
                            ng-model="lineItem.maleOutreach11Months.value"
@@ -201,6 +210,7 @@
                              openlmis-message="label.not.recorded"></label>
                     </span>
                   </span>
+                </span>
               </td>
               <td class="col-complete-vaccinated col-total">
                 <span id="total0{{$index}}"
@@ -211,7 +221,7 @@
                       ng-bind="getFormattedAsPercent(calculateCoverageRate(getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months), lineItem.targetGroup))"></span>
               </td>
               <td class="col-complete-vaccinated">
-                <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV'">
+                <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV' || lineItem.vaccination == 'HPV'">
                     <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                       <input id="maleHealthCenter23Months{{$index}}" type="number"
                              ng-model="lineItem.maleHealthCenter23Months.value"
@@ -275,7 +285,7 @@
                 </span>
               </td>
               <td class="col-complete-vaccinated">
-                <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV'">
+                <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV' || lineItem.vaccination == 'HPV'">
                     <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                       <input id="maleOutreach23Months{{$index}}" type="number"
                              ng-model="lineItem.maleOutreach23Months.value"
@@ -337,50 +347,102 @@
                       </span>
                     </span>
                 </span>
-                            </td>
-                            <td class="col-complete-vaccinated col-total">
+              </td>
+              <td class="col-complete-vaccinated col-total">
                 <span id="total1{{$index}}"
                       ng-bind="getTotal23(lineItem)"></span>
-                            </td>
-                            <td class="col-complete-vaccinated col-total">
-                                <span id="total2{{$index}}" ng-bind="getTotalVaccinations(lineItem)"></span>
-                            </td>
-                            <td class="col-complete-vaccinated opened-vials"
-                                ng-hide="hideCell('{{lineItem.vaccination}}')"
-                                rowspan="{{productsMap[lineItem.vaccination].rowSpan}}">
-                                <div id="{{product | removeSpaces}}Container"
-                                     ng-repeat="product in productsMap[lineItem.vaccination].products">
-                                    <span id="{{product}}" ng-bind="product"></span>
-                                    <div>
-                                        <span class="position-relative">
-                                          <input id="openedVial{{$parent.$index}}{{$index}}" type="number"
-                                                 ng-model="openedVialMap[product].openedVial.value"
-                                                 name="coverageOpenedVial{{$parent.$index}}{{$index}}"
-                                                 numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                                                 ng-trim=false error-holder="{{product}}OpenedVialError"
-                                                 ng-class="{'required-error': !(openedVialMap[product].openedVial.value.hasValue() ||
-                                                 openedVialMap[product].openedVial.notRecorded)}"/>
-                                          <span id="{{product}}OpenedVialError"
-                                                class="rnr-form-error"
-                                                openlmis-message="error.number.only"
-                                                style="display: none"></span>
-                                        </span>
-                                    </div>
-                                    <input id="coverageOpenedVial{{$parent.$index}}{{$index}}" type="checkbox"
-                                           ng-hide="(product == 'Polio10' || product == 'Penta1')"
-                                           ng-model="openedVialMap[product].openedVial.notRecorded"
-                                           not-recorded/>
-                                    <label class="checkbox-label" for="coverageOpenedVial{{$parent.$index}}{{$index}}"
-                                           ng-hide="(product == 'Polio10' || product == 'Penta1')"
-                                           openlmis-message="label.not.recorded"></label>
-                                </div>
-                            </td>
-                            <td class="col-complete-vaccinated col-opened-vial"
-                                ng-hide="hideCell('{{lineItem.vaccination}}')"
-                                rowspan="{{productsMap[lineItem.vaccination].rowSpan}}">
+              </td>
+              <td class="col-complete-vaccinated">
+                <span ng-if="lineItem.vaccination == 'HPV'">
+                  <span class="row">
+                    <input id="femaleHealthCenter9YMonths{{$index}}" type="number"
+                           ng-model="lineItem.femaleHealthCenter9YMonths.value"
+                           name="femaleCoverageHealthCenter9YMonths{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="femaleHealthCenter9YMonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.femaleHealthCenter9YMonths.value.hasValue() ||
+                           lineItem.femaleHealthCenter9YMonths.notRecorded)}"/>
+                    <span id="femaleHealthCenter9YMonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="femaleCoverageHealthCenter9YMonths{{$index}}" type="checkbox"
+                             ng-model="lineItem.femaleHealthCenter9YMonths.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="femaleCoverageHealthCenter9YMonths{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+                </span>
+              </td>
+              <td class="col-complete-vaccinated">
+                <span ng-if="lineItem.vaccination == 'HPV'">
+                  <span class="row">
+                    <input id="femaleOutreach9YMonths{{$index}}" type="number"
+                           ng-model="lineItem.femaleOutreach9YMonths.value"
+                           name="femaleCoverageOutreach9YMonths{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="femaleOutreach9YMonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.femaleOutreach9YMonths.value.hasValue() ||
+                           lineItem.femaleOutreach9YMonths.notRecorded)}"/>
+                    <span id="femaleOutreach9YMonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="femaleCoverageOutreach9YMonths{{$index}}" type="checkbox"
+                             ng-model="lineItem.femaleOutreach9YMonths.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="femaleCoverageOutreach9YMonths{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+                </span>
+              </td>
+              <td class="col-complete-vaccinated col-total">
+                <span id="total3{{$index}}"
+                    ng-bind="getTotal9Y(lineItem)"></span>
+              </td>
+              <td class="col-complete-vaccinated col-total">
+                  <span id="total2{{$index}}" ng-bind="getTotalVaccinations(lineItem)"></span>
+              </td>
+              <td class="col-complete-vaccinated opened-vials"
+                  ng-hide="hideCell('{{lineItem.vaccination}}')"
+                  rowspan="{{productsMap[lineItem.vaccination].rowSpan}}">
+                  <div id="{{product | removeSpaces}}Container"
+                       ng-repeat="product in productsMap[lineItem.vaccination].products">
+                      <span id="{{product}}" ng-bind="product"></span>
+                      <div>
+                          <span class="position-relative">
+                            <input id="openedVial{{$parent.$index}}{{$index}}" type="number"
+                                   ng-model="openedVialMap[product].openedVial.value"
+                                   name="coverageOpenedVial{{$parent.$index}}{{$index}}"
+                                   numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                                   ng-trim=false error-holder="{{product}}OpenedVialError"
+                                   ng-class="{'required-error': !(openedVialMap[product].openedVial.value.hasValue() ||
+                                   openedVialMap[product].openedVial.notRecorded)}"/>
+                            <span id="{{product}}OpenedVialError"
+                                  class="rnr-form-error"
+                                  openlmis-message="error.number.only"
+                                  style="display: none"></span>
+                          </span>
+                      </div>
+                      <input id="coverageOpenedVial{{$parent.$index}}{{$index}}" type="checkbox"
+                             ng-hide="(product == 'Polio10' || product == 'Penta1')"
+                             ng-model="openedVialMap[product].openedVial.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="coverageOpenedVial{{$parent.$index}}{{$index}}"
+                             ng-hide="(product == 'Polio10' || product == 'Penta1')"
+                             openlmis-message="label.not.recorded"></label>
+                  </div>
+              </td>
+              <td class="col-complete-vaccinated col-opened-vial"
+                  ng-hide="hideCell('{{lineItem.vaccination}}')"
+                  rowspan="{{productsMap[lineItem.vaccination].rowSpan}}">
                 <span id="wastageRateCalculated{{$index}}"
                       ng-bind="getFormattedAsPercent(calculateWastageRate(productsMap[lineItem.vaccination]))"></span>
-                            </td>
+              </td>
                         </tr>
                         </tbody>
                     </table>

@@ -692,7 +692,7 @@ public class TestCaseHelper {
     String facilityVisitId = dbWrapper.getAttributeFromTable("facility_visits", "id", "facilityId", facilityId);
 
     List<String> vaccinations = asList("BCG", "Polio (Newborn)", "Polio 1a dose", "Polio 2a dose", "Polio 3a dose", "IPV", "Penta 1a dose", "Penta 2a dose",
-            "Penta 3a dose", "PCV10 1a dose", "PCV10 2a dose", "PCV10 3a dose", "RV Rotarix 1a dose", "RV Rotarix 2a dose", "Sarampo 1a dose", "Sarampo 2a dose");
+            "Penta 3a dose", "PCV10 1a dose", "PCV10 2a dose", "PCV10 3a dose", "RV Rotarix 1a dose", "RV Rotarix 2a dose", "Sarampo 1a dose", "Sarampo 2a dose", "HPV");
 
     for (int i = 1; i <= 16; i++) {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
@@ -707,7 +707,7 @@ public class TestCaseHelper {
         assertEquals(childCoverageDetails.getString("outreach23months"), String.valueOf(i));
       }
     }
-    List<String> openedVials = asList("BCG", "Polio10", "Polio20", "IPV", "Penta1", "Penta10", "PCV", "RV Rotarix", "Sarampo", "MSD");
+    List<String> openedVials = asList("BCG", "Polio10", "Polio20", "IPV", "Penta1", "Penta10", "PCV", "RV Rotarix", "Sarampo", "MSD", "HPV");
     for (int i = 1; i <= 10; i++) {
       ResultSet openedVialLineItem = dbWrapper.getChildOpenedVialLineItem(openedVials.get(i - 1), facilityVisitId);
       assertEquals(openedVialLineItem.getString("openedVials"), String.valueOf(i));

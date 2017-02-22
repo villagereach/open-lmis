@@ -41,14 +41,14 @@ public class VaccinationChildCoverage extends VaccinationCoverage {
   private List<ChildCoverageLineItem> childCoverageLineItems = new ArrayList<>();
 
   private static List<String> validProductVials = Collections.unmodifiableList(asList(
-    "BCG", "Polio10", "Polio20", "IPV", "Penta1", "Penta10", "PCV", "RV Rotarix", "Sarampo", "MSD"));
+    "BCG", "Polio10", "Polio20", "IPV", "Penta1", "Penta10", "PCV", "RV Rotarix", "Sarampo", "MSD", "HPV"));
 
   //Note that the order in which vaccines are listed here is important - it implicitly defines their intended display order
   private static List<String> validVaccinationsInOrder = Collections.unmodifiableList(
           asList("BCG", "Polio (Newborn)", "Polio 1a dose", "Polio 2a dose",
                   "Polio 3a dose", "IPV", "Penta 1a dose", "Penta 2a dose", "Penta 3a dose",
                   "PCV10 1a dose", "PCV10 2a dose", "PCV10 3a dose", "RV Rotarix 1a dose",
-                  "RV Rotarix 2a dose", "Sarampo 1a dose", "Sarampo 2a dose"));
+                  "RV Rotarix 2a dose", "Sarampo 1a dose", "Sarampo 2a dose", "HPV"));
 
   public VaccinationChildCoverage(FacilityVisit facilityVisit, Facility facility,
                                   ProcessingPeriod period, List<TargetGroupProduct> targetGroupProducts,
