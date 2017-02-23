@@ -95,9 +95,15 @@ public class FacilityDistribution {
     dto.setPopulation(population);
     dto.setGeographicZone(geographicZone);
     dto.setFacilityVisit(facilityVisit.transform());
-    dto.setEpiUse(epiUse.transform());
-    dto.setEpiInventory(epiInventory.transform());
-    dto.setRefrigerators(refrigerators.transform());
+    if (epiUse != null) {
+      dto.setEpiUse(epiUse.transform());
+    }
+    if (epiInventory != null) {
+      dto.setEpiInventory(epiInventory.transform());
+    }
+    if (refrigerators != null) {
+      dto.setRefrigerators(refrigerators.transform());
+    }
     if (fullCoverage != null) {
       dto.setFullCoverage(fullCoverage.transform());
     }
