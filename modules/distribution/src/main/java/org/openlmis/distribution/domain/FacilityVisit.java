@@ -48,6 +48,16 @@ public class FacilityVisit extends BaseModel {
   private Facilitator confirmedBy;
   private Facilitator verifiedBy;
   private String observations;
+  private String priorObservations;
+
+  private Integer numberOfOutreachVisitsPlanned;
+  private Integer numberOfOutreachVisitsCompleted;
+  private Integer numberOfMotorbikesAtHU;
+  private Integer numberOfFunctioningMotorbikes;
+  private Integer numberOfMotorizedVehiclesWithProblems;
+  private Integer numberOfDaysWithLimitedTransport;
+
+  private MotorbikeProblems motorbikeProblems;
 
   @JsonDeserialize(using = DateDeserializer.class)
   private Date visitDate;
@@ -81,11 +91,19 @@ public class FacilityVisit extends BaseModel {
     this.verifiedBy = new Facilitator();
     this.vehicleId = null;
     this.visitDate = null;
+    this.numberOfOutreachVisitsPlanned = null;
+    this.numberOfOutreachVisitsCompleted = null;
+    this.numberOfMotorbikesAtHU = null;
+    this.numberOfFunctioningMotorbikes = null;
+    this.numberOfMotorizedVehiclesWithProblems = null;
+    this.numberOfDaysWithLimitedTransport = null;
+    this.motorbikeProblems = new MotorbikeProblems();
   }
 
   public FacilityVisitDTO transform() {
     Facilitator confirmedBy = Optional.fromNullable(this.confirmedBy).or(new Facilitator());
     Facilitator verifiedBy = Optional.fromNullable(this.verifiedBy).or(new Facilitator());
+    MotorbikeProblems motorbikeProblems = Optional.fromNullable(this.motorbikeProblems).or(new MotorbikeProblems());
 
     FacilityVisitDTO dto = new FacilityVisitDTO();
     dto.setId(id);
@@ -99,12 +117,20 @@ public class FacilityVisit extends BaseModel {
     dto.setConfirmedBy(confirmedBy.transform());
     dto.setVerifiedBy(verifiedBy.transform());
     dto.setObservations(new Reading(observations));
+    dto.setPriorObservations(new Reading(priorObservations));
     dto.setVisitDate(new Reading(visitDate, "yyyy-MM-dd"));
     dto.setVisited(new Reading(visited));
     dto.setVehicleId(new Reading(vehicleId));
     dto.setReasonForNotVisiting(new Reading(reasonForNotVisiting));
     dto.setOtherReasonDescription(new Reading(otherReasonDescription));
     dto.setSynced(new Reading(synced));
+    dto.setNumberOfOutreachVisitsPlanned(new Reading(numberOfOutreachVisitsPlanned));
+    dto.setNumberOfOutreachVisitsCompleted(new Reading(numberOfOutreachVisitsCompleted));
+    dto.setNumberOfMotorbikesAtHU(new Reading(numberOfMotorbikesAtHU));
+    dto.setNumberOfFunctioningMotorbikes(new Reading(numberOfFunctioningMotorbikes));
+    dto.setNumberOfMotorizedVehiclesWithProblems(new Reading(numberOfMotorizedVehiclesWithProblems));
+    dto.setNumberOfDaysWithLimitedTransport(new Reading(numberOfDaysWithLimitedTransport));
+    dto.setMotorbikeProblems(motorbikeProblems.transform());
 
     notRecorded(dto.getConfirmedBy().getName());
     notRecorded(dto.getConfirmedBy().getTitle());
