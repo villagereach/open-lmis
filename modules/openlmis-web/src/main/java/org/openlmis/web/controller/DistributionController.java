@@ -35,6 +35,7 @@ import java.util.Map;
 import static org.openlmis.web.response.OpenLmisResponse.SUCCESS;
 import static org.openlmis.web.response.OpenLmisResponse.response;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
@@ -96,6 +97,13 @@ public class DistributionController extends BaseController {
     }
     response.getBody().addData("distributionStatus", distributionService.updateDistributionStatus(id, loggedInUserId(httpServletRequest)));
     return response;
+  }
+
+  @RequestMapping(value = "/distributions/previous/{deliveryZoneId}/{programId}/{currentPeriodId}/{n}", method = GET, headers = ACCEPT_JSON)
+  @PreAuthorize("@permissionEvaluator.hasPermission(principal,'MANAGE_DISTRIBUTION')")
+  public ResponseEntity<OpenLmisResponse> getPreviousDistributions(@PathVariable Long deliveryZoneId, @PathVariable Long programId,
+                                                                    @PathVariable Long currentPeriodId, @PathVariable Integer n) {
+    return response("distributions", distributionService.getNPreviousDistributions(deliveryZoneId, programId, currentPeriodId, n));
   }
 
   private ResponseEntity<OpenLmisResponse> returnInitiatedDistribution(Distribution distribution, Distribution existingDistribution) {
