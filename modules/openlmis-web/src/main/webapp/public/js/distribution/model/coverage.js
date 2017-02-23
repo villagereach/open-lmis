@@ -17,8 +17,6 @@ function FullCoverage(facilityVisitId, fullCoverage) {
 
   function init() {
     var _this = this;
-    var countNotNR = 0;
-    var countNR = 0;
     $(fieldList).each(function (i, fieldName) {
       if (!isUndefined(fullCoverage)) {
         _this[fieldName] = fullCoverage[fieldName] || {};
@@ -26,18 +24,25 @@ function FullCoverage(facilityVisitId, fullCoverage) {
       else {
         _this[fieldName] = {fieldName: {}};
       }
-      if(isUndefined(_this[fieldName]) || _this[fieldName].notRecorded === false) {
+    });
+    var fieldsStatusCount = countNRStatus(_this);
+    this.notRecordedApplied = (fieldsStatusCount.notRecorded > fieldsStatusCount.recorded);
+  }
+
+  function countNRStatus(_this) {
+    var countNotNR = 0;
+    var countNR = 0;
+    $(fieldList).each(function (i, fieldName) {
+      if(isUndefined(_this[fieldName]) ||  !_this[fieldName].notRecorded) {
           countNotNR++;
-      }
-      else if(_this[fieldName].notRecorded === true) {
+      } else {
           countNR++;
       }
     });
-    if(countNR > countNotNR) {
-       _this.notRecordedApplied = true;
-    } else {
-       _this.notRecordedApplied = false;
-    }
+    return {
+        recorded: countNotNR,
+        notRecorded: countNR
+    };
   }
 
   init.call(this);

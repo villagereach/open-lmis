@@ -20,39 +20,36 @@ function EpiInventory(epiInventory) {
   var nrFields = ['existingQuantity', 'spoiledQuantity'];
 
   function init() {
+    var fieldsStatusCount = countNRStatus(this.lineItems);
+    this.notRecordedApplied = (fieldsStatusCount.notRecorded > fieldsStatusCount.recorded);
+  }
+
+  function countNRStatus(lineItems) {
     var countNotNR = 0;
     var countNR = 0;
-    $(this.lineItems).each(function (i, lineItem) {
+    $(lineItems).each(function (i, lineItem) {
       $(nrFields).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+        if(isUndefined(lineItem[fieldName])|| !lineItem[fieldName].notRecorded) {
             countNotNR++;
-        }
-        else if(lineItem[fieldName].notRecorded === true) {
+        } else if(lineItem[fieldName].notRecorded) {
             countNR++;
         }
       });
     });
-    if(countNR > countNotNR) {
-       this.notRecordedApplied = true;
-    } else {
-       this.notRecordedApplied = false;
-    }
+    return {
+        recorded: countNotNR,
+        notRecorded: countNR
+    };
   }
 
   init.call(this);
 
   EpiInventory.prototype.setNotRecorded = function () {
-    if(!this.notRecordedApplied) {
-      $(this.lineItems).each(function (index, lineItem) {
-        lineItem.existingQuantity.notRecorded = true;
-        lineItem.spoiledQuantity.notRecorded = true;
-      });
-    } else {
-       $(this.lineItems).each(function (index, lineItem) {
-         lineItem.existingQuantity.notRecorded = false;
-         lineItem.spoiledQuantity.notRecorded = false;
-       });
-    }
+    var _this = this;
+    $(this.lineItems).each(function (index, lineItem) {
+      lineItem.existingQuantity.notRecorded = !_this.notRecordedApplied;
+      lineItem.spoiledQuantity.notRecorded = !_this.notRecordedApplied;
+    });
     this.notRecordedApplied = !this.notRecordedApplied;
   };
 

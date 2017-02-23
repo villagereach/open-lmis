@@ -23,32 +23,27 @@ function AdultCoverage(facilityVisitId, adultCoverageJSON) {
 
   var fieldList = ['healthCenterTetanus1', 'outreachTetanus1', 'healthCenterTetanus2To5', 'outreachTetanus2To5'];
 
-  function init() {
+  function countNRStatus(lineItems, fields) {
     var countNotNR = 0;
     var countNR = 0;
-    $(this.adultCoverageLineItems).each(function (i, lineItem) {
-      $(fieldList).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+    $(lineItems).each(function (i, lineItem) {
+      $(fields).each(function (i, fieldName) {
+        if(isUndefined(lineItem[fieldName]) || !lineItem[fieldName].notRecorded) {
             countNotNR++;
-        }
-        else if(lineItem[fieldName].notRecorded === true) {
+        } else if(lineItem[fieldName].notRecorded) {
             countNR++;
         }
       });
     });
-    $(this.openedVialLineItems).each(function (i, lineItem) {
-      if(isUndefined(lineItem.openedVial) || lineItem.openedVial.notRecorded === false) {
-          countNotNR++;
-      }
-      else if(lineItem.openedVial.notRecorded === true) {
-          countNR++;
-      }
-    });
-    if(countNR > countNotNR) {
-       this.notRecordedApplied = true;
-    } else {
-       this.notRecordedApplied = false;
-    }
+    return {
+        recorded: countNotNR,
+        notRecorded: countNR
+    };
+  }
+
+  function init() {
+    var adultCoverageFieldsStatus = countNRStatus(this.adultCoverageLineItems, fieldList);
+    this.notRecordedApplied = (adultCoverageFieldsStatus.notRecorded > adultCoverageFieldsStatus.recorded);
   }
 
   init.call(this);
@@ -157,22 +152,13 @@ function AdultCoverageLineItem(lineItem) {
 }
 
 function setNotRecorded(field, notRecordedApplied) {
-  if(!notRecordedApplied) {
-    if (field) {
-      delete field.value;
-      field.notRecorded = true;
+  if (field) {
+    delete field.value;
+    field.notRecorded = !notRecordedApplied;
 
-      return field;
-    } else {
-      return {notRecorded: true};
-    }
+    return field;
   } else {
-    if (field) {
-      field.notRecorded = false;
-      return field;
-    } else {
-      return {notRecorded: false};
-    }
+    return {notRecorded: !notRecordedApplied};
   }
 }
 

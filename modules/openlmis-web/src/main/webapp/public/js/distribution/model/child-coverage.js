@@ -24,34 +24,31 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   var mandatoryFields = ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months'];
 
   function init() {
+    var childCoverageFieldsStatus = countNRStatus(this.childCoverageLineItems, mandatoryFields);
+    var openedVialFieldsStatus = countNRStatus(this.openedVialLineItems, ['openedVial']);
+    this.notRecordedApplied = (childCoverageFieldsStatus.notRecorded  +  openedVialFieldsStatus.notRecorded >
+     childCoverageFieldsStatus.recorded + openedVialFieldsStatus.recorded);
+  }
+
+  init.call(this);
+
+  function countNRStatus(lineItems, fields) {
     var countNotNR = 0;
     var countNR = 0;
-    $(this.childCoverageLineItems).each(function (i, lineItem) {
-      $(mandatoryFields).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName]) || lineItem[fieldName].notRecorded === false) {
+    $(lineItems).each(function (i, lineItem) {
+      $(fields).each(function (i, fieldName) {
+        if(isUndefined(lineItem[fieldName])|| !lineItem[fieldName].notRecorded) {
             countNotNR++;
-        }
-        else if(lineItem[fieldName].notRecorded === true) {
+        } else if(lineItem[fieldName].notRecorded) {
             countNR++;
         }
       });
     });
-    $(this.openedVialLineItems).each(function (i, lineItem) {
-      if(isUndefined(lineItem.openedVial) || lineItem.openedVial.notRecorded === false) {
-          countNotNR++;
-      }
-      else if(lineItem.openedVial.notRecorded === true) {
-          countNR++;
-      }
-    });
-    if(countNR > countNotNR) {
-       this.notRecordedApplied = true;
-    } else {
-       this.notRecordedApplied = false;
-    }
+    return {
+        recorded: countNotNR,
+        notRecorded: countNR
+    };
   }
-
-  init.call(this);
 }
 
 ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
@@ -100,22 +97,14 @@ ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncSta
 };
 
 function setNotRecordedChild(field, notRecordedApplied) {
-  if(!notRecordedApplied) {
-    if (field) {
-      delete field.value;
-      field.notRecorded = true;
-      return field;
-    } else {
-      return {notRecorded: true};
-    }
+  if (field) {
+    delete field.value;
+    field.notRecorded = !notRecordedApplied;
+    return field;
   } else {
-    if (field) {
-      field.notRecorded = false;
-      return field;
-    } else {
-      return {notRecorded: false};
-    }
+    return {notRecorded: !notRecordedApplied};
   }
+
 }
 
 ChildCoverage.prototype.setNotRecorded = function () {
