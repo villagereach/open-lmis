@@ -15,6 +15,7 @@ import org.openlmis.core.domain.User;
 import org.openlmis.core.exception.DataException;
 import org.openlmis.core.service.UserService;
 import org.openlmis.distribution.domain.Distribution;
+import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.service.DistributionService;
@@ -99,11 +100,12 @@ public class DistributionController extends BaseController {
     return response;
   }
 
-  @RequestMapping(value = "/distributions/previous/{deliveryZoneId}/{programId}/{currentPeriodId}/{n}", method = GET, headers = ACCEPT_JSON)
+  @RequestMapping(value = "/distributions/previous/{deliveryZoneId}/{programId}/{currentPeriodId}/{n}/getEpiUseData", method = GET, headers = ACCEPT_JSON)
   @PreAuthorize("@permissionEvaluator.hasPermission(principal,'MANAGE_DISTRIBUTION')")
-  public ResponseEntity<OpenLmisResponse> getPreviousDistributions(@PathVariable Long deliveryZoneId, @PathVariable Long programId,
+  public ResponseEntity<OpenLmisResponse> getEpiUseDataForPreviousDistributions(@PathVariable Long deliveryZoneId, @PathVariable Long programId,
                                                                     @PathVariable Long currentPeriodId, @PathVariable Integer n) {
-    return response("distributions", distributionService.getNPreviousDistributions(deliveryZoneId, programId, currentPeriodId, n));
+    return response("distributions", distributionService.getNPreviousDistributions(deliveryZoneId, programId, currentPeriodId, n,
+            new DistributionDataFilter(true, false, false, false, false, false)));
   }
 
   private ResponseEntity<OpenLmisResponse> returnInitiatedDistribution(Distribution distribution, Distribution existingDistribution) {
@@ -112,7 +114,7 @@ public class DistributionController extends BaseController {
     existingDistribution.setPeriod(distribution.getPeriod());
     existingDistribution.setProgram(distribution.getProgram());
 
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.get(existingDistribution);
+    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.get(existingDistribution, new DistributionDataFilter(true));
     existingDistribution.setFacilityDistributions(facilityDistributions);
 
     OpenLmisResponse openLmisResponse = new OpenLmisResponse("distribution", existingDistribution);
