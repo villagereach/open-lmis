@@ -25,9 +25,17 @@
       </span>
     </span>
   </h2>
+  <div class="calculationMethod">
+    <span openlmis-message="label.calculate.based.on"></span>
+    <select ng-model="calculationMethod">
+      <option value="amc" openlmis-message="label.average.monthly.consumption"></option>
+      <option value="isa" openlmis-message="label.isa"></option>
+    </select>
+  </div>
 
   <div class="alert alert-info" ng-show="message"><span openlmis-message="message"></span></div>
   <div class="alert alert-danger" ng-show="apimessage"><span id="apimessage" openlmis-message="apimessage"></span></div>
+  <div class="isaNotation" openlmis-message="label.consumption.data.not.available" ng-show="calculationMethod === 'amc'"></div>
   <div ng-hide="message">
     <div class="info-box">
       <div class="row-fluid">
@@ -47,15 +55,15 @@
 
       <div>
 
-        <div class="facilities-isa-amount-table" ng-model="sortedGeoZoneKeys[0]">
+        <div ng-show="calculationMethod === 'isa'" class="facilities-isa-amount-table" ng-model="sortedGeoZoneKeys[0]">
           <table class="table table-bordered table-striped aggregate-table" id="aggregateTable">
             <thead ng-model="facilityMap[sortedGeoZoneKeys[0]]">
             <tr>
               <th></th>
               <th></th>
               <th class="main-heading"
-                  ng-repeat="productGroup in facilityMap[sortedGeoZoneKeys[0]][0].supportedPrograms[0].sortedProductGroup"
-                  colspan="{{facilityMap[sortedGeoZoneKeys[0]][0].supportedPrograms[0].programProductMap[productGroup].length}}">
+                  ng-repeat="productGroup in getProgramProductGroups(true)"
+                  colspan="{{facilityMap[sortedGeoZoneKeys[0]][0].supportedPrograms[0].programProductMap[productGroup].products.length}}">
                 <span id="productGroupAggregated{{$index}}" ng-bind="productGroup"></span>
               </th>
             </tr>
@@ -98,6 +106,49 @@
           </table>
         </div>
 
+        <div ng-show="calculationMethod === 'amc'" class="facilities-amc-value-table" ng-model="sortedGeoZoneKeys[0]">
+          <table class="table table-bordered table-striped aggregate-table" id="aggregateAmcTable">
+            <thead ng-model="facilityMap[sortedGeoZoneKeys[0]]">
+            <tr>
+              <th class="main-heading">
+                <span id="amcTableGeoZoneLevelName" ng-bind="geoZoneLevelName"></span>
+              </th>
+              <th class="main-heading">
+                <span id="amcTableAggregatePopulationLabel" openlmis-message="label.population"></span>
+              </th>
+              <th class="main-heading"
+                  ng-repeat="productGroup in getProgramProductGroups(false)">
+                <span id="amcTableProductGroupAggregated{{$index}}" ng-bind="productGroup"></span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="geoZoneName in sortedGeoZoneKeys" >
+              <td>
+                <span id="amcTableGeoZoneName{{$index}}" ng-bind="geoZoneName"></span>
+              </td>
+              <td>
+                <span id="amcTablePopulationForGeoZone{{$index}}" ng-bind="aggregateMap[geoZoneName].totalPopulation"></span>
+              </td>
+              <td ng-repeat="productGroup in getProgramProductGroups(false)">
+                <span id="amcTableAmcValueForGeoZone{{$parent.$index}}{{$index}}" ng-bind="aggregateMap[geoZoneName].totalProgramProductsMap[productGroup].amcValue"></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span id="amcTableZoneTotalLabel" openlmis-message="label.zone.total"></span>
+              </td>
+              <td>
+                <span id="amcTableZonesPopulationTotal" ng-bind="zonesTotal.totalPopulation"></span>
+              </td>
+              <td ng-repeat="productGroup in getProgramProductGroups(false)">
+                <span id="amcTableAmcValueAggregate{{$index}}" ng-bind="zonesTotal.totalProgramProductsMap[productGroup].amcValue"></span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
 
@@ -105,7 +156,7 @@
       <h3><span id="geoZoneTitle{{$index}}" ng-bind="geoZoneName"></span></h3>
 
 
-      <div class="facilities-isa-amount-table">
+      <div ng-show="calculationMethod === 'isa'" class="facilities-isa-amount-table">
         <table class="table table-bordered table-striped" id="geoZone{{$index}}">
           <thead ng-model="facilityMap[geoZoneName]">
           <tr>
@@ -115,8 +166,8 @@
             </th>
             <th></th>
             <th class="main-heading"
-                ng-repeat="productGroup in facilityMap[geoZoneName][0].supportedPrograms[0].sortedProductGroup"
-                colspan="{{facilityMap[geoZoneName][0].supportedPrograms[0].programProductMap[productGroup].length}}">
+                ng-repeat="productGroup in getProgramProductGroups(true)"
+                colspan="{{facilityMap[geoZoneName][0].supportedPrograms[0].programProductMap[productGroup].products.length}}">
               <span id="productGroup{{$parent.$index}}{{$index}}" ng-bind="productGroup"></span>
             </th>
           </tr>
@@ -161,6 +212,58 @@
             </td>
             <td ng-repeat="programProduct in getProgramProductsForAggregateRow(geoZoneName)">
               <span id="isaAmountTotal{{$parent.$index}}{{$index}}"ng-bind="programProduct.isaAmount"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div ng-show="calculationMethod === 'amc'" class="facilities-amc-value-table">
+        <table class="table table-bordered table-striped" id="amcTableGeoZone{{$index}}">
+          <thead ng-model="facilityMap[geoZoneName]">
+          <tr>
+            <th class="main-heading">
+              <span id="amcTableFacilityLabel{{$index}}" openlmis-message="label.facility"></span>
+            </th>
+            <th class="main-heading" ng-show="viewColdChainStatusAvailable">
+              <span id="amcTableEquipmentStatusLabel{{$index}}" openlmis-message="label.cold.chain.equipment.status"></span></th>
+            <th class="main-heading">
+              <span id="amcTablePopulationLabel{{$index}}" openlmis-message="label.population"></span>
+            </th>
+            <th class="main-heading"
+                ng-repeat="productGroup in getProgramProductGroups(false)">
+              <span id="amcTableProductGroup{{$parent.$index}}{{$index}}" ng-bind="productGroup"></span>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="facility in facilityMap[geoZoneName]">
+            <td>
+              <span id="amcTableFacilityName{{$parent.$index}}{{$index}}"ng-bind="facility.name"></span>
+              <span id="amcTableFacilityCode{{$parent.$index}}{{$index}}"ng-bind="facility.code"></span>
+            </td>
+            <td class="equipment-status" ng-show="viewColdChainStatusAvailable">
+              <a ng-show="isDataAvailable(facility.code)" ng-href="{{getURL(facility.code)}}"><img src="/public/images/refrigator{{getFacitilityStatus(facility.code)}}.png"/></a>
+            </td>
+            <td>
+              <span id="amcTablePopulation{{$parent.$index}}{{$index}}" ng-bind="facility.catchmentPopulation"></span>
+            </td>
+            <td ng-repeat="productGroup in getProgramProductGroups(false)">
+              <span id="amcValue{{$parent.$parent.$index}}{{$parent.$index}}{{$index}}" ng-bind="facility.supportedPrograms[0].programProductMap[productGroup].amcValue"></span>
+              <span id="amcValueNotation{{$parent.$parent.$index}}{{$parent.$index}}{{$index}}" ng-show="facility.supportedPrograms[0].programProductMap[productGroup].overwrittenByIsa">*</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="amcTableGeoZoneNameLabel{{$index}}" ng-bind="geoZoneName"></span>
+              <span id="amcTableTotalLabel{{$index}}" openlmis-message="label.total"></span>
+            </td>
+            <td ng-show="viewColdChainStatusAvailable"></td>
+            <td>
+              <span id="amcTablePopulation{{$index}}" ng-bind="aggregateMap[geoZoneName]['totalPopulation']"></span>
+            </td>
+            <td ng-repeat="productGroup in getProgramProductGroups(false)">
+              <span id="amcValueTotal{{$parent.$index}}{{$index}}" ng-bind="aggregateMap[geoZoneName].totalProgramProductsMap[productGroup].amcValue"></span>
             </td>
           </tr>
           </tbody>

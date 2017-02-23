@@ -33,17 +33,17 @@ describe('ViewLoadAmountController', function () {
           {program: program1, programProducts: programProducts}
         ]}
     ];
-    controller(ViewLoadAmountController, {$scope: scope, facilities: facilities, period: {id: 1, name: 'period 1'}, deliveryZone: {id: 1}, fridges: {}, nexleafDeliveryZones: []});
+    controller(ViewLoadAmountController, {$scope: scope, facilities: facilities, period: {id: 1, name: 'period 1'}, deliveryZone: {id: 1}, fridges: {}, nexleafDeliveryZones: [], previousDistributions: {}});
 
   }));
 
   it('should set no records found message if no facilities are found', function () {
-    controller(ViewLoadAmountController, {$scope: scope, facilities: [], period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: []});
+    controller(ViewLoadAmountController, {$scope: scope, facilities: [], period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: [], previousDistributions: {}});
     expect(scope.message).toEqual("msg.no.records.found");
   });
 
   it('should set no records found message if no facilities are undefined', function () {
-    controller(ViewLoadAmountController, {$scope: scope, facilities: undefined, period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: []});
+    controller(ViewLoadAmountController, {$scope: scope, facilities: undefined, period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: [], previousDistributions: {}});
     expect(scope.message).toEqual("msg.no.records.found");
   });
 
@@ -60,8 +60,8 @@ describe('ViewLoadAmountController', function () {
   });
 
   it('should group program products of each facility by product group name', function () {
-    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].length).toEqual(2);
-    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].length).toEqual(1);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].products.length).toEqual(2);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].products.length).toEqual(1);
   });
 
   it('should sort program products of each facility by product group name', function () {
@@ -100,36 +100,42 @@ describe('ViewLoadAmountController', function () {
     };
     scope.zonesTotal = {
       totalProgramProductsMap: {
-        group1: [
-          {
-            product: product1
-          },
-          {
-            product: {
-              productGroup: {
-                name: 'group1'
+        group1: {
+          products: [
+            {
+              product: product1
+            },
+            {
+              product: {
+                productGroup: {
+                  name: 'group1'
+                }
               }
             }
-          }
-        ],
-        group2: [
-          {
-            product: {
-              productGroup: {
-                name: 'group2'
+          ],
+        },
+        group2: {
+          products: [
+            {
+              product: {
+                productGroup: {
+                  name: 'group2'
+                }
               }
             }
-          }
-        ],
-        group3: [
-          {
-            product: {
-              productGroup: {
-                name: 'group3'
+          ]
+        },
+        group3: {
+          products: [
+            {
+              product: {
+                productGroup: {
+                  name: 'group3'
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       }
     };
     scope.sortedGeoZoneKeys = ['zone1', 'zone2'];

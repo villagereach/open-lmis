@@ -8,8 +8,9 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-function ViewLoadAmountController($scope, facilities, period, deliveryZone, fridges, nexleafDeliveryZones) {
+function ViewLoadAmountController($scope, facilities, period, deliveryZone, fridges, nexleafDeliveryZones, previousDistributions) {
   if (!isUndefined(facilities) && facilities.length > 0) {
+    $scope.calculationMethod = 'amc';
     $scope.message = "";
     $scope.program = facilities[0].supportedPrograms[0].program;
     $scope.period = period;
@@ -22,6 +23,7 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     $scope.viewColdChainStatusAvailable = _.contains(nexleafDeliveryZones, deliveryZone.code);
 
     $scope.aggregateMap = {};
+    $scope.facilityAmcMap = {};
     if ($scope.viewColdChainStatusAvailable) {
       if (!fridges.coldTraceData) {
         $scope.apimessage = "message.api.error";
@@ -66,6 +68,9 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
         };
       }
     }
+
+    handlePreviousDistributionsForAmc(previousDistributions);
+
     $(facilities).each(function (i, facility) {
       var totalForGeoZone = $scope.aggregateMap[facility.geographicZone.name];
       if (isUndefined(totalForGeoZone)) {
@@ -90,6 +95,8 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
       facility.supportedPrograms[0].programProducts = programProductsWithISA;
 
       facility.supportedPrograms[0].programProductMap = ProgramProduct.groupProductsMapByName(facility, otherGroupName);
+      transformProductsMap(facility.supportedPrograms[0].programProductMap);
+      calculateAmcValues(facility.name, facility.supportedPrograms[0].programProductMap);
 
       facility.supportedPrograms[0].sortedProductGroup = _.sortBy(_.keys(facility.supportedPrograms[0].programProductMap), function (key) {
         return key;
@@ -102,14 +109,13 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
       }
 
       $(facility.supportedPrograms[0].sortedProductGroup).each(function (index, productGroup) {
-        calculateTotalIsaForEachFacilityGroupedByProductGroup(totalForProducts, productGroup, facility);
+        calculateTotalForEachFacilityGroupedByProductGroup(totalForProducts, productGroup, facility);
       });
 
       $scope.aggregateMap[facility.geographicZone.name].totalProgramProductsMap = totalForProducts;
       pushBlankProductGroupToLast(facility);
 
       $scope.aggregateMap[facility.geographicZone.name].sortedProductGroup = facility.supportedPrograms[0].sortedProductGroup;
-
     });
 
 
@@ -138,9 +144,17 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     if (!isUndefined(facility)) {
       var programProducts = [];
       $(facility.supportedPrograms[0].sortedProductGroup).each(function (index, sortedProductGroupKey) {
-        programProducts = programProducts.concat(facility.supportedPrograms[0].programProductMap[sortedProductGroupKey]);
+        programProducts = programProducts.concat(facility.supportedPrograms[0].programProductMap[sortedProductGroupKey].products);
       });
       return programProducts;
+    }
+  };
+
+  $scope.getProgramProductGroups = function (includeOtherGroup) {
+    if (includeOtherGroup) {
+      return $scope.facilityMap[$scope.sortedGeoZoneKeys[0]][0].supportedPrograms[0].sortedProductGroup;
+    } else {
+      return _.without($scope.facilityMap[$scope.sortedGeoZoneKeys[0]][0].supportedPrograms[0].sortedProductGroup, otherGroupName);
     }
   };
 
@@ -148,11 +162,11 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     var programProducts = [];
     if (!zonesTotal) {
       $($scope.aggregateMap[geoZoneName].sortedProductGroup).each(function (index, sortedProductGroupKey) {
-        programProducts = programProducts.concat($scope.aggregateMap[geoZoneName].totalProgramProductsMap[sortedProductGroupKey]);
+        programProducts = programProducts.concat($scope.aggregateMap[geoZoneName].totalProgramProductsMap[sortedProductGroupKey].products);
       });
     } else {
       $($scope.aggregateMap[$scope.sortedGeoZoneKeys[0]].sortedProductGroup).each(function (index, sortedProductGroupKey) {
-        programProducts = programProducts.concat($scope.zonesTotal.totalProgramProductsMap[sortedProductGroupKey]);
+        programProducts = programProducts.concat($scope.zonesTotal.totalProgramProductsMap[sortedProductGroupKey].products);
       });
     }
     return programProducts;
@@ -177,17 +191,19 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
       $($scope.aggregateMap[geoZoneKey].sortedProductGroup).each(function (index, sortedProductGroupKey) {
         var totalForGroup = $scope.zonesTotal.totalProgramProductsMap[sortedProductGroupKey];
         if (isUndefined(totalForGroup)) {
-          totalForGroup = [];
+          totalForGroup = {products: [], amcValue: 0};
         }
-        $($scope.aggregateMap[geoZoneKey].totalProgramProductsMap[sortedProductGroupKey]).each(function (index, aggregateProduct) {
-          var productTotal = _.find(totalForGroup, function (totalProduct) {
+
+        totalForGroup.amcValue += $scope.aggregateMap[geoZoneKey].totalProgramProductsMap[sortedProductGroupKey].amcValue;
+        $($scope.aggregateMap[geoZoneKey].totalProgramProductsMap[sortedProductGroupKey].products).each(function (index, aggregateProduct) {
+          var productTotal = _.find(totalForGroup.products, function (totalProduct) {
             return totalProduct.code == aggregateProduct.product.code;
           });
           if (productTotal) {
             ProgramProduct.calculateProductIsaTotal(aggregateProduct, productTotal);
 
           } else {
-            totalForGroup.push({code: aggregateProduct.product.code, isaAmount: aggregateProduct.isaAmount});
+            totalForGroup.products.push({code: aggregateProduct.product.code, isaAmount: aggregateProduct.isaAmount});
             $scope.zonesTotal.totalProgramProductsMap[sortedProductGroupKey] = totalForGroup;
           }
         });
@@ -195,24 +211,129 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     });
   }
 
-  function calculateTotalIsaForEachFacilityGroupedByProductGroup(totalForProducts, productGroup, facility) {
-    var total = totalForProducts[productGroup] || [];
-    var products = facility.supportedPrograms[0].programProductMap[productGroup];
+  function calculateTotalForEachFacilityGroupedByProductGroup(totalForProducts, productGroup, facility) {
+    var total = totalForProducts[productGroup] || {products: [], amcValue: 0};
+    var products = facility.supportedPrograms[0].programProductMap[productGroup].products;
+
+    total.amcValue += facility.supportedPrograms[0].programProductMap[productGroup].amcValue;
     $(products).each(function (index, programProduct) {
-      var existingTotal = _.find(total, function (totalProduct) {
+      var existingTotal = _.find(total.products, function (totalProduct) {
         return totalProduct.product.code == programProduct.product.code;
       });
 
       if (existingTotal) {
         ProgramProduct.calculateProductIsaTotal(programProduct, existingTotal);
       } else {
-        total.push({product: {code: programProduct.product.code}, isaAmount: programProduct.isaAmount});
+        total.products.push({product: {code: programProduct.product.code}, isaAmount: programProduct.isaAmount});
       }
 
     });
     totalForProducts[productGroup] = total;
   }
 
+  function calculateAmcValues(facilityName, programProductMap) {
+    $(_.keys(programProductMap)).each(function (i, groupName) {
+      var facilityAmcMapEntry = $scope.facilityAmcMap[facilityName],
+          programProductGroup = programProductMap[groupName];
+          overwriteByIsa = true;
+
+      if (!isUndefined(facilityAmcMapEntry) && !isUndefined(facilityAmcMapEntry.productGroups)) {
+        var groupEntry = facilityAmcMapEntry.productGroups[groupName];
+
+        if (!isUndefined(groupEntry) && groupEntry.availablePeriodsAmount > 0) {
+          overwriteByIsa = false;
+          programProductGroup.amcValue = Math.round(groupEntry.amcSum / groupEntry.availablePeriodsAmount);
+        }
+      }
+
+      if (overwriteByIsa) {
+        programProductGroup.amcValue = calculateIsaSumForProductGroup(programProductGroup.products);
+        programProductGroup.overwrittenByIsa = true;
+      }
+
+      var isaMinimumSum = calculateIsaMinimumSumForProductGroup(programProductGroup.products);
+      if (isaMinimumSum > programProductGroup.amcValue) {
+        programProductGroup.amcValue = isaMinimumSum;
+      }
+    });
+  }
+
+  function calculateIsaMinimumSumForProductGroup(programGroupProducts) {
+    var isaMinimumSum = 0;
+
+    $(programGroupProducts).each(function (i, programGroupProduct) {
+      if (!isUndefined(programGroupProduct.programProductIsa) && programGroupProduct.programProductIsa.minimumValue) {
+        isaMinimumSum += programGroupProduct.programProductIsa.minimumValue;
+      }
+    });
+    return isaMinimumSum;
+  }
+
+  function calculateIsaSumForProductGroup(programGroupProducts) {
+    var isaSum = 0;
+
+    $(programGroupProducts).each(function (i, programGroupProduct) {
+      if (programGroupProduct.isaAmount) {
+        isaSum += programGroupProduct.isaAmount;
+      }
+    });
+    return isaSum;
+  }
+
+  function calculateConsumptionSum(productGroupAmcData, lineItem) {
+    if (!lineItem.distributed.notRecorded || !lineItem.loss.notRecorded) {
+      productGroupAmcData.availablePeriodsAmount++;
+
+      if (lineItem.distributed.value) {
+        productGroupAmcData.amcSum += lineItem.distributed.value;
+      }
+
+      if (lineItem.loss.value) {
+        productGroupAmcData.amcSum += lineItem.loss.value;
+      }
+    }
+  }
+
+  function transformProductsMap(programProductsMap) {
+    $(_.keys(programProductsMap)).each(function (i, key) {
+      var products = programProductsMap[key];
+
+      programProductsMap[key] = {
+        products: products,
+        amcValue: 0,
+        overwrittenByIsa: false
+      };
+    });
+  }
+
+  function handlePreviousDistributionsForAmc(previousDistributions) {
+    if (!isUndefined(previousDistributions) && previousDistributions.length > 0) {
+      $(previousDistributions).each(function (i, distribution) {
+        $(_.keys(distribution.facilityDistributions)).each(function (i, key) {
+          var facilityDistribution = distribution.facilityDistributions[key];
+          $(facilityDistribution.epiUse.lineItems).each(function (i, lineItem) {
+            var facilityDistributionData = $scope.facilityAmcMap[facilityDistribution.facilityName];
+            if (isUndefined(facilityDistributionData)) {
+              facilityDistributionData = {
+                facilityName: facilityDistribution.facilityName,
+                geographicZone: facilityDistribution.geographicZone,
+                productGroups: {}
+              };
+            }
+
+            var productGroupAmcData = facilityDistributionData.productGroups[lineItem.productGroup.name];
+            if (isUndefined(productGroupAmcData)) {
+              productGroupAmcData = {amcSum: 0, availablePeriodsAmount: 0};
+            }
+
+            calculateConsumptionSum(productGroupAmcData, lineItem);
+            facilityDistributionData.productGroups[lineItem.productGroup.name] = productGroupAmcData;
+            $scope.facilityAmcMap[facilityDistribution.facilityName] = facilityDistributionData;
+          });
+        });
+      });
+    }
+  }
 
   function pushBlankProductGroupToLast(facility) {
     if (_.indexOf(facility.supportedPrograms[0].sortedProductGroup, otherGroupName) > -1) {
@@ -275,6 +396,18 @@ ViewLoadAmountController.resolve = {
       }, function (data) {
         deferred.resolve([]);
       });
+    }, 100);
+
+    return deferred.promise;
+  },
+
+  previousDistributions: function (PreviousDistributions, $route, $timeout, $q) {
+    var deferred = $q.defer();
+    $timeout(function () {
+      PreviousDistributions.get({deliveryZoneId: $route.current.params.deliveryZoneId, programId: $route.current.params.programId,
+                                 currentPeriodId: $route.current.params.periodId, n: 3}, function (data) {
+        deferred.resolve(data.distributions);
+      }, {});
     }, 100);
 
     return deferred.promise;
