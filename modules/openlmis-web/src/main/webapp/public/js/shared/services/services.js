@@ -276,7 +276,7 @@ services.factory('Distributions', function ($resource) {
 });
 
 services.factory('PreviousDistributions', function ($resource) {
-  return $resource('/distributions/previous/:deliveryZoneId/:programId/:currentPeriodId/:n.json', {}, {});
+  return $resource('/distributions/previous/:deliveryZoneId/:programId/:currentPeriodId/:n/getEpiUseData.json', {}, {});
 });
 
 services.factory('SyncFacilityDistributionData', function ($resource) {
