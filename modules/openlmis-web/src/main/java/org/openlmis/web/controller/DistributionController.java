@@ -15,6 +15,7 @@ import org.openlmis.core.domain.User;
 import org.openlmis.core.exception.DataException;
 import org.openlmis.core.service.UserService;
 import org.openlmis.distribution.domain.Distribution;
+import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.service.DistributionService;
@@ -104,7 +105,7 @@ public class DistributionController extends BaseController {
     existingDistribution.setPeriod(distribution.getPeriod());
     existingDistribution.setProgram(distribution.getProgram());
 
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.get(existingDistribution, true);
+    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.get(existingDistribution, new DistributionDataFilter(true));
     existingDistribution.setFacilityDistributions(facilityDistributions);
 
     OpenLmisResponse openLmisResponse = new OpenLmisResponse("distribution", existingDistribution);

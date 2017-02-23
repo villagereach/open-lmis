@@ -17,6 +17,7 @@ import org.openlmis.core.domain.ProcessingPeriod;
 import org.openlmis.core.domain.Program;
 import org.openlmis.core.service.ProcessingScheduleService;
 import org.openlmis.distribution.domain.Distribution;
+import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.DistributionEdit;
 import org.openlmis.distribution.domain.DistributionStatus;
 import org.openlmis.distribution.domain.DistributionsEditHistory;
@@ -71,7 +72,7 @@ public class DistributionService {
     return repository.get(distribution);
   }
 
-  public DistributionDTO getDistribution(Distribution arg, Long userId) {
+  public DistributionDTO getDistribution(Distribution arg, Long userId, DistributionDataFilter distributionDataFilter) {
     Distribution distribution = getFullSyncedDistribution(arg);
 
     if (distribution != null) {
@@ -79,7 +80,7 @@ public class DistributionService {
         insertEditInProgress(userId, distribution.getId());
       }
 
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, true);
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, distributionDataFilter);
 
       distribution.setFacilityDistributions(facilityDistributionMap);
 
@@ -146,8 +147,8 @@ public class DistributionService {
     repository.insertHistory(history);
   }
 
-  public DistributionDTO getPreviousDistribution(Distribution currentDistribution) {
-    List<DistributionDTO> distributionList = getNPreviousDistributions(currentDistribution, 1);
+  public DistributionDTO getPreviousDistribution(Distribution currentDistribution, DistributionDataFilter distributionDataFilter) {
+    List<DistributionDTO> distributionList = getNPreviousDistributions(currentDistribution, 1, distributionDataFilter);
 
     if (distributionList != null && !distributionList.isEmpty()) {
       return distributionList.get(0);
@@ -156,7 +157,7 @@ public class DistributionService {
     return null;
   }
 
-  public List<DistributionDTO> getNPreviousDistributions(Distribution currentDistribution, Integer n) {
+  public List<DistributionDTO> getNPreviousDistributions(Distribution currentDistribution, Integer n, DistributionDataFilter distributionDataFilter) {
     List<ProcessingPeriod> previousPeriods = processingScheduleService.getNPreviousPeriodsInDescOrder(currentDistribution.getPeriod(), n);
     List<DistributionDTO> previousDistributions = new ArrayList<>();
     Distribution distributionFilter = new Distribution();
@@ -166,7 +167,7 @@ public class DistributionService {
     if (previousPeriods != null && !previousPeriods.isEmpty()) {
       for (int i = 0; i < previousPeriods.size(); i++) {
         distributionFilter.setPeriod(previousPeriods.get(i));
-        DistributionDTO pastDistribution = getDistribution(distributionFilter, null);
+        DistributionDTO pastDistribution = getDistribution(distributionFilter, null, distributionDataFilter);
 
         if (pastDistribution != null) {
           previousDistributions.add(pastDistribution);
