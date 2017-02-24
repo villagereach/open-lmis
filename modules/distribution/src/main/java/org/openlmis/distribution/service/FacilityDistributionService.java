@@ -243,7 +243,10 @@ public class FacilityDistributionService {
 
       if (previousFacilityDistribution != null) {
         Reading previousObservations = previousFacilityDistribution.getFacilityVisit().getObservations();
+        Reading previousTechnicalStaff = previousFacilityDistribution.getFacilityVisit().getTechnicalStaff();
+
         facilityVisit.setPriorObservations(Reading.safeRead(previousObservations).getEffectiveValue());
+        facilityVisit.setTechnicalStaff(Reading.safeRead(previousTechnicalStaff).parsePositiveInt());
       }
     }
 
