@@ -117,12 +117,14 @@ function VisitInfoController($scope, distributionService, $routeParams) {
 
   function setApplicableVisitInfoForTechnicalStaff(visit) {
     if (typeof visit.technicalStaff === 'number') {
+      // for initiated distribution we need to convert the field to reading object
       visit.technicalStaff = {
         type: "reading",
         defaultValue: visit.technicalStaff,
         value: visit.technicalStaff
       };
     } else if (!visit.technicalStaff || !visit.technicalStaff.value) {
+      // handling old distributions without technical staff field
       visit.technicalStaff = {
         original: {
           type: "reading",
@@ -132,8 +134,10 @@ function VisitInfoController($scope, distributionService, $routeParams) {
         value: 0
       };
     } else if (visit.technicalStaff.defaultValue) {
+      // for initiated distribution, instead of clearing the field, reset it to the default value
       visit.technicalStaff.value = visit.technicalStaff.defaultValue;
     } else if ($scope.isCurrentPeriod()) {
+      // for current period, if default value is not present, clear the field the same way as the others
       visit.technicalStaff = setApplicableField(visit.technicalStaff);
     }
   }
