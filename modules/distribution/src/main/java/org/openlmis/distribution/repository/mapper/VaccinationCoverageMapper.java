@@ -67,7 +67,8 @@ public interface VaccinationCoverageMapper {
   @Update({"UPDATE vaccination_child_coverage_line_items SET healthCenter11Months = #{healthCenter11Months}, outreach11Months = #{outreach11Months},",
     " healthCenter23Months = #{healthCenter23Months}, outreach23Months = #{outreach23Months}, maleHealthCenter11Months = #{maleHealthCenter11Months}, maleOutreach11Months = #{maleOutreach11Months}," +
         " maleHealthCenter23Months = #{maleHealthCenter23Months}, maleOutreach23Months = #{maleOutreach23Months}, femaleHealthCenter11Months = #{femaleHealthCenter11Months}, femaleOutreach11Months = #{femaleOutreach11Months}," +
-        " femaleHealthCenter23Months = #{femaleHealthCenter23Months}, femaleOutreach23Months = #{femaleOutreach23Months}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT, displayOrder = #{displayOrder} WHERE id = #{id}"})
+        " femaleHealthCenter23Months = #{femaleHealthCenter23Months}, femaleOutreach23Months = #{femaleOutreach23Months}, femaleHealthCenter9YMonths = #{femaleHealthCenter9YMonths}, femaleOutreach9YMonths = #{femaleOutreach9YMonths}," +
+        " modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT, displayOrder = #{displayOrder} WHERE id = #{id}"})
   void updateChildCoverageLineItem(ChildCoverageLineItem childCoverageLineItem);
 
   @Update({"UPDATE child_coverage_opened_vial_line_items SET openedVials = #{openedVials}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT WHERE id = #{id}"})

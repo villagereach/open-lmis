@@ -64,6 +64,7 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     sex: "label.coverage.sex",
     childrenAgeGroup0To11: "label.children.age.group.zero.eleven.months",
     childrenAgeGroup12To23: "label.children.age.group.twelve.twenty.three.months",
+    childrenAgeGroup9To11: "label.children.age.group.nine.eleven.months",
     categoryOneHealthCenter: "label.coverage.health.center",
     categoryOneMobileBrigade: "label.coverage.outreach",
     categoryOneTotal: "label.child.coverage.first.total",
@@ -71,6 +72,9 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     categoryTwoHealthCenter: "label.coverage.health.center",
     categoryTwoMobileBrigade: "label.coverage.outreach",
     categoryTwoTotal: "label.child.coverage.first.total",
+    categoryThreeHealthCenter: "label.coverage.health.center",
+    categoryThreeMobileBrigade: "label.coverage.outreach",
+    categoryThreeTotal: "label.child.coverage.first.total",
     totalVaccination: "label.child.coverage.total.vaccination",
     openedVials: "label.coverage.opened.vials",
     openedVialsWastageRate: "label.coverage.opened.vials.wastage.rate"
@@ -116,6 +120,11 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
       products: ['MSD'],
       vaccinations: ['Sarampo 2a dose'],
       rowSpan: 1
+    },
+    "HPV": {
+      products: ['HPV'],
+      vaccinations: ['HPV'],
+      rowSpan: 1
     }
   };
 
@@ -155,8 +164,12 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     return $scope.getTotal(lineItem.outreach23Months, lineItem.healthCenter23Months);
   };
 
+  $scope.getTotal9Y = function (lineItem) {
+    return $scope.getTotal(lineItem.femaleHealthCenter9YMonths, lineItem.femaleOutreach9YMonths);
+  };
+
   $scope.getTotalVaccinations = function (childCoverageLineItem) {
-    return $scope.getTotal11(childCoverageLineItem) + $scope.getTotal23(childCoverageLineItem);
+    return $scope.getTotal11(childCoverageLineItem) + $scope.getTotal23(childCoverageLineItem) + $scope.getTotal9Y(childCoverageLineItem);
   };
 
   $scope.calculateCoverageRate = function (total, targetGroup) {
@@ -164,11 +177,11 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   };
 
   $scope.getFormattedAsPercent = function (number) {
-      return utils.getFormattedPercent(number);
+    return utils.getFormattedPercent(number);
   };
 
   $scope.getHTMLFormattedVaccinationName = function (vaccination) {
-      return vaccination.replace('1a', '1<sup>a</sup>').replace('2a', '2<sup>a</sup>').replace('3a', '3<sup>a</sup>');
+    return vaccination.replace('1a', '1<sup>a</sup>').replace('2a', '2<sup>a</sup>').replace('3a', '3<sup>a</sup>');
   };
 
   $scope.calculateWastageRate = function (productMapEntry) {

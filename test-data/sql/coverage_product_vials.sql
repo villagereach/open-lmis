@@ -19,3 +19,4 @@ INSERT INTO coverage_product_vials (vial, productCode, childCoverage) VALUES ('R
 INSERT INTO coverage_product_vials (vial, productCode, childCoverage) VALUES ('Sarampo', 'Sarampo', true);
 INSERT INTO coverage_product_vials (vial, productCode, childCoverage) VALUES ('MSD', 'MSD', true);
 INSERT INTO coverage_product_vials (vial, productCode, childCoverage) VALUES ('Tetanus', 'Tetanus', false);
+INSERT INTO coverage_product_vials (vial, productCode, childCoverage) VALUES ('HPV', 'HPV', true);

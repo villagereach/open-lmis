@@ -48,6 +48,8 @@ public class ChildCoverageLineItem extends CoverageLineItem {
   private Integer femaleOutreach11Months;
   private Integer femaleHealthCenter23Months;
   private Integer femaleOutreach23Months;
+  private Integer femaleHealthCenter9YMonths;
+  private Integer femaleOutreach9YMonths;
 
   public ChildCoverageLineItem(FacilityVisit facilityVisit, Facility facility, TargetGroupProduct targetGroupProduct,
                                String vaccination, Integer displayOrder, Integer processingPeriodMonths) {
@@ -79,6 +81,8 @@ public class ChildCoverageLineItem extends CoverageLineItem {
     dto.setMaleHealthCenter23Months(new Reading(maleHealthCenter23Months));
     dto.setMaleOutreach11Months(new Reading(maleOutreach11Months));
     dto.setMaleOutreach23Months(new Reading(maleOutreach23Months));
+    dto.setFemaleOutreach9YMonths(new Reading(femaleOutreach9YMonths));
+    dto.setFemaleHealthCenter9YMonths(new Reading(femaleHealthCenter9YMonths));
 
     return dto;
   }
