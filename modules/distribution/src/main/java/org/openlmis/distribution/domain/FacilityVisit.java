@@ -50,6 +50,7 @@ public class FacilityVisit extends BaseModel {
   private String observations;
   private String priorObservations;
 
+  private Integer technicalStaff;
   private Integer numberOfOutreachVisitsPlanned;
   private Integer numberOfOutreachVisitsCompleted;
   private Integer numberOfMotorbikesAtHU;
@@ -124,6 +125,7 @@ public class FacilityVisit extends BaseModel {
     dto.setReasonForNotVisiting(new Reading(reasonForNotVisiting));
     dto.setOtherReasonDescription(new Reading(otherReasonDescription));
     dto.setSynced(new Reading(synced));
+    dto.setTechnicalStaff(new Reading(technicalStaff));
     dto.setNumberOfOutreachVisitsPlanned(new Reading(numberOfOutreachVisitsPlanned));
     dto.setNumberOfOutreachVisitsCompleted(new Reading(numberOfOutreachVisitsCompleted));
     dto.setNumberOfMotorbikesAtHU(new Reading(numberOfMotorbikesAtHU));

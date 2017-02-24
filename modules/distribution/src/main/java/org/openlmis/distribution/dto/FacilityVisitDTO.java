@@ -52,6 +52,7 @@ public class FacilityVisitDTO extends BaseModel {
 
   private Reading synced;
 
+  private Reading technicalStaff;
   private Reading numberOfOutreachVisitsPlanned;
   private Reading numberOfOutreachVisitsCompleted;
   private Reading numberOfMotorbikesAtHU;
@@ -72,6 +73,7 @@ public class FacilityVisitDTO extends BaseModel {
     ReasonForNotVisiting reasonForNotVisiting = Reading.safeRead(this.reasonForNotVisiting).parseReasonForNotVisiting();
     String otherReasonDescription = Reading.safeRead(this.otherReasonDescription).getEffectiveValue();
     Boolean synced = Reading.safeRead(this.synced).parseBoolean();
+    Integer technicalStaff = Reading.safeRead(this.technicalStaff).parsePositiveInt();
     Integer numberOfOutreachVisitsPlanned = Reading.safeRead(this.numberOfOutreachVisitsPlanned).parsePositiveInt();
     Integer numberOfOutreachVisitsCompleted = Reading.safeRead(this.numberOfOutreachVisitsCompleted).parsePositiveInt();
     Integer numberOfMotorbikesAtHU = Reading.safeRead(this.numberOfMotorbikesAtHU).parsePositiveInt();
@@ -105,6 +107,7 @@ public class FacilityVisitDTO extends BaseModel {
 
     facilityVisit.setSynced(synced);
 
+    facilityVisit.setTechnicalStaff(technicalStaff);
     facilityVisit.setNumberOfOutreachVisitsPlanned(numberOfOutreachVisitsPlanned);
     facilityVisit.setNumberOfOutreachVisitsCompleted(numberOfOutreachVisitsCompleted);
     facilityVisit.setNumberOfMotorbikesAtHU(numberOfMotorbikesAtHU);
