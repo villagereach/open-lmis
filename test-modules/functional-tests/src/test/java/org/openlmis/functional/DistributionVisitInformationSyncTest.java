@@ -106,7 +106,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void testVisitInformationPageAndFacilityIndicatorWhenFacilityVisitedAndSync() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("LG", "yu", "Hry3", visitInformationData.get(FIRST_FACILITY_CODE));
+    dbWrapper.addRefrigeratorToFacility("LG", "yu", "Hry3", "Type", visitInformationData.get(FIRST_FACILITY_CODE));
     HomePage homePage = loginPage.loginAs(visitInformationData.get(USER), visitInformationData.get(PASSWORD));
     initiateDistribution(visitInformationData.get(FIRST_DELIVERY_ZONE_NAME), visitInformationData.get(VACCINES_PROGRAM));
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(visitInformationData.get(FIRST_FACILITY_CODE));
@@ -191,7 +191,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void testVisitInformationPageSyncWhenFacilityNotVisitedAndAllFormsFilled() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("LG", "GR890", "GNRE0989", visitInformationData.get(FIRST_FACILITY_CODE));
+    dbWrapper.addRefrigeratorToFacility("LG", "GR890", "GNRE0989", "Type", visitInformationData.get(FIRST_FACILITY_CODE));
     HomePage homePage = loginPage.loginAs(visitInformationData.get(USER), visitInformationData.get(PASSWORD));
     initiateDistribution(visitInformationData.get(FIRST_DELIVERY_ZONE_NAME), visitInformationData.get(VACCINES_PROGRAM));
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(visitInformationData.get(FIRST_FACILITY_CODE));
@@ -202,7 +202,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
     refrigeratorPage.clickOKButton();
 
     refrigeratorPage.clickAddNew();
-    refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876");
+    refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876", "Type");
 
     refrigeratorPage.clickShowForRefrigerator(1);
     refrigeratorPage.enterValueInRefrigeratorTemperature("3", 1);
@@ -271,7 +271,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
     verifyEpiInventoryDataInDatabase(null, null, null, "Product6", visitInformationData.get(FIRST_FACILITY_CODE));
     verifyEpiInventoryDataInDatabase(null, null, null, "P11", visitInformationData.get(FIRST_FACILITY_CODE));
     verifyRefrigeratorReadingsNullInDatabase("GNRE0989", visitInformationData.get(FIRST_FACILITY_CODE));
-    verifyRefrigeratorsDataInDatabase(visitInformationData.get(FIRST_FACILITY_CODE), "GNRE0989", "LG", "GR890", "t");
+    verifyRefrigeratorsDataInDatabase(visitInformationData.get(FIRST_FACILITY_CODE), "GNRE0989", "LG", "GR890", "Type", "t");
 
     distributionPage.clickRecordData(1);
     facilityListPage.selectFacility(visitInformationData.get(FIRST_FACILITY_CODE));
@@ -285,8 +285,8 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void testVisitInformationPageSyncWhenFacilityNotVisitedAndFormsPartiallyFilled() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "F10");
-    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "F11");
+    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "Type", "F10");
+    dbWrapper.addRefrigeratorToFacility("LG", "800L", "GNR7878", "Type", "F11");
     HomePage homePage = loginPage.loginAs(visitInformationData.get(USER), visitInformationData.get(PASSWORD));
     initiateDistribution(visitInformationData.get(FIRST_DELIVERY_ZONE_NAME), visitInformationData.get(VACCINES_PROGRAM));
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(visitInformationData.get(FIRST_FACILITY_CODE));
@@ -354,7 +354,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
     verifyEpiInventoryDataInDatabase(null, null, null, "Product6", visitInformationData.get(FIRST_FACILITY_CODE));
     verifyEpiInventoryDataInDatabase(null, null, null, "P11", visitInformationData.get(FIRST_FACILITY_CODE));
     verifyRefrigeratorReadingsNullInDatabase("GNR7878", visitInformationData.get(FIRST_FACILITY_CODE));
-    verifyRefrigeratorsDataInDatabase(visitInformationData.get(FIRST_FACILITY_CODE), "GNR7878", "LG", "800L", "t");
+    verifyRefrigeratorsDataInDatabase(visitInformationData.get(FIRST_FACILITY_CODE), "GNR7878", "LG", "800L", "Type", "t");
 
     distributionPage.clickRecordData(1);
     facilityListPage.selectFacility(visitInformationData.get(FIRST_FACILITY_CODE));
@@ -369,7 +369,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void testVisitInformationPageAndFacilityIndicatorWhenFacilityNotVisited() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("LG", "yu", "Hry3", visitInformationData.get(FIRST_FACILITY_CODE));
+    dbWrapper.addRefrigeratorToFacility("LG", "yu", "Hry3", "Type", visitInformationData.get(FIRST_FACILITY_CODE));
     loginPage.loginAs(visitInformationData.get(USER), visitInformationData.get(PASSWORD));
     initiateDistribution(visitInformationData.get(FIRST_DELIVERY_ZONE_NAME), visitInformationData.get(VACCINES_PROGRAM));
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(visitInformationData.get(FIRST_FACILITY_CODE));
@@ -416,7 +416,7 @@ public class DistributionVisitInformationSyncTest extends TestCaseHelper {
       refrigeratorPage.clickOKButton();
 
       refrigeratorPage.clickAddNew();
-      refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876");
+      refrigeratorPage.addNewRefrigerator("SAM", "800L", "GNR7876", "Type");
 
       refrigeratorPage.clickShowForRefrigerator(1);
       refrigeratorPage.enterValueInRefrigeratorTemperature("3", 1);

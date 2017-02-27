@@ -101,6 +101,9 @@ public class RefrigeratorPage extends DistributionTab {
   @FindBy(how = ID, using = "manufacturerSerialNumber")
   private static WebElement manufacturerSerialNumberTextField = null;
 
+  @FindBy(how = ID, using = "type")
+  private static WebElement typeTextField = null;
+
   @FindBy(how = ID, using = "done-button")
   private static WebElement doneButtonOnModal = null;
 
@@ -276,6 +279,12 @@ public class RefrigeratorPage extends DistributionTab {
     manufacturerSerialNumberTextField.sendKeys(Keys.TAB);
   }
 
+  public void enterValueInTypeModal(String value) {
+    testWebDriver.waitForElementToAppear(typeTextField);
+    sendKeys(typeTextField, value);
+    typeTextField.sendKeys(Keys.TAB);
+  }
+
   public void enterValueInHighAlarmEvents(String value, int refrigeratorNumber) {
     WebElement highAlarmEventsTextField = testWebDriver.getElementByName("highAlarmEvent" + (refrigeratorNumber - 1));
     testWebDriver.waitForElementToAppear(highAlarmEventsTextField);
@@ -397,10 +406,11 @@ public class RefrigeratorPage extends DistributionTab {
     testWebDriver.sleep(500);
   }
 
-  public void addNewRefrigerator(String brand, String model, String manufacturerSerialNumber) {
+  public void addNewRefrigerator(String brand, String model, String manufacturerSerialNumber, String type) {
     enterValueInBrandModal(brand);
     enterValueInModelModal(model);
     enterValueInManufacturingSerialNumberModal(manufacturerSerialNumber);
+    enterValueInTypeModal(type);
     clickDoneOnModal();
   }
 

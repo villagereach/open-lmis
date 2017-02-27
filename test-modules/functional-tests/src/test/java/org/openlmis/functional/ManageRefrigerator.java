@@ -68,6 +68,12 @@ public class ManageRefrigerator extends TestCaseHelper {
     refrigeratorPage.enterValueInModelModal(modal);
   }
 
+  @When("^I enter Type \"([^\"]*)\"$")
+  public void enterType(String type) throws SQLException {
+    refrigeratorPage = PageObjectFactory.getRefrigeratorPage(testWebDriver);
+    refrigeratorPage.enterValueInTypeModal(type);
+  }
+
   @And("^I enter Serial Number \"([^\"]*)\"$")
   public void enterSerialNumber(String serial) throws SQLException {
     refrigeratorPage = PageObjectFactory.getRefrigeratorPage(testWebDriver);
