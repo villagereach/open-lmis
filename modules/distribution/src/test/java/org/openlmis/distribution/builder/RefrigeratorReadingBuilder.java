@@ -25,6 +25,7 @@ public class RefrigeratorReadingBuilder {
   public static Property<RefrigeratorReading, String> brand = newProperty();
   public static Property<RefrigeratorReading, String> model = newProperty();
   public static Property<RefrigeratorReading, String> serialNumber = newProperty();
+  public static Property<RefrigeratorReading, String> type = newProperty();
   public static Property<RefrigeratorReading, Float> temperature = newProperty();
   public static Property<RefrigeratorReading, String> functioningCorrectly = newProperty();
   public static Property<RefrigeratorReading, Integer> lowAlarmEvents = newProperty();

@@ -15,11 +15,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.openlmis.core.domain.Facility;
-import org.openlmis.core.domain.Refrigerator;
 import org.openlmis.core.exception.DataException;
 import org.openlmis.core.service.FacilityService;
 import org.openlmis.core.service.MessageService;
-import org.openlmis.core.service.RefrigeratorService;
 import org.openlmis.distribution.domain.Distribution;
 import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.DistributionRefrigerators;
@@ -28,6 +26,7 @@ import org.openlmis.distribution.domain.EpiUse;
 import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.domain.ProductVial;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 import org.openlmis.distribution.domain.TargetGroupProduct;
 import org.openlmis.distribution.domain.VaccinationAdultCoverage;
@@ -250,7 +249,10 @@ public class FacilityDistributionService {
 
       if (previousFacilityDistribution != null) {
         Reading previousObservations = previousFacilityDistribution.getFacilityVisit().getObservations();
+        Reading previousTechnicalStaff = previousFacilityDistribution.getFacilityVisit().getTechnicalStaff();
+
         facilityVisit.setPriorObservations(Reading.safeRead(previousObservations).getEffectiveValue());
+        facilityVisit.setTechnicalStaff(Reading.safeRead(previousTechnicalStaff).parsePositiveInt());
       }
     }
 

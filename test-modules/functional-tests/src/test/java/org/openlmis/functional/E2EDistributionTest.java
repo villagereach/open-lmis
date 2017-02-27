@@ -260,8 +260,8 @@ public class E2EDistributionTest extends TestCaseHelper {
     verifyEpiUseDataInDatabase(10, 20, 30, null, 50, "10/2011", "PG1", facilityCodeFirst);
     verifyRefrigeratorReadingDataInDatabase(facilityCodeFirst, "GR-J287PGHV", 3F, "Y", 1, 0, "D", "miscellaneous");
     verifyRefrigeratorProblemDataNullInDatabase("GR-J287PGHV", facilityCodeFirst);
-    verifyRefrigeratorDetailsInReadingsTable(facilityCodeFirst, "GR-J287PGHV", null, null);
-    verifyRefrigeratorsDataInDatabase(facilityCodeFirst, "GR-J287PGHV", null, null, "t");
+    verifyRefrigeratorDetailsInReadingsTable(facilityCodeFirst, "GR-J287PGHV", null, null, null);
+    verifyRefrigeratorsDataInDatabase(facilityCodeFirst, "GR-J287PGHV", null, null, null, "t");
     verifyFacilityVisitInformationInDatabase(facilityCodeFirst, null, "samuel", "Doe", "Verifier", "XYZ", "90U-L!K3", "t", "t", null, null);
     verifyFullCoveragesDataInDatabase(5, 7, 0, 9999999, facilityCodeFirst);
     verifyEpiInventoryDataInDatabase(null, "10", null, "P10", facilityCodeFirst);

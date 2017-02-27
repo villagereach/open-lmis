@@ -16,7 +16,7 @@
     <div class="refrigerator-container" disable-form="{{facilityData.isDisabled('refrigerator-data', distributionReview)}}">
       <h3>
         <span id="refrigeratorsLabel" openlmis-message="label.refrigerators"></span>
-        <input type="button" class="btn btn-primary pull-right" id="addNew" ng-click="showRefrigeratorModal()"
+        <input type="button" class="btn btn-primary pull-right" id="addNew" ng-click="showRefrigeratorModal(false, null)"
                openlmis-message="button.add.new"/>
       </h3>
 
@@ -30,14 +30,15 @@
         <div class="list-header-container">
           <div class="list-header row-fluid">
             <div class="span1"></div>
-            <div class="span3" openlmis-message="label.refrigerator.serial.number"></div>
+            <div class="span2" openlmis-message="label.refrigerator.serial.number"></div>
             <div class="span2" openlmis-message="label.refrigerator.brand"></div>
-            <div class="span3" openlmis-message="label.refrigerator.model"></div>
-            <div class="span3"></div>
+            <div class="span1" openlmis-message="label.refrigerator.model"></div>
+            <div class="span1" openlmis-message="label.refrigerator.type"></div>
+            <div class="span2"></div>
           </div>
         </div>
         <div class="list-container">
-          <div class="list-row" ng-class="{isEditable: edit[refrigeratorReading.refrigerator.serialNumber]}"
+          <div class="list-row" ng-class="{isEditable: edit[refrigeratorReading.refrigerator.serialNumber.value]}"
                ng-repeat="refrigeratorReading in facilityData.refrigerators.readings">
             <ng-include
                 src="'/public/pages/logistics/distribution/partials/refrigerator-reading.html'"></ng-include>
@@ -48,28 +49,25 @@
 
       <div id="addRefrigeratorModal" modal="addRefrigeratorModal" options="{ backdrop: 'static', escape: false}">
         <div class="modal-header">
-          <h3 openlmis-message="label.new.refrigerator"></h3>
+          <h3 ng-show="!editMode" openlmis-message="label.new.refrigerator"></h3>
+          <h3 ng-show="editMode" openlmis-message="label.edit.refrigerator"></h3>
         </div>
 
         <div class="modal-body">
           <div class="row-fluid">
             <div class="span12">
-              <label for="manufacturerSerialNumber">
-                <span openlmis-message="label.refrigerator.serial.number"></span>
-                <span class="label-required">*</span>
-              </label>
-              <input type="text" id="manufacturerSerialNumber" maxlength="30"
-                     ng-model="newRefrigeratorReading.refrigerator.serialNumber"/>
-
-              <div id="duplicateSerialNumberError" ng-show="isDuplicateSerialNumber" class="rnr-form-error"
-                   openlmis-message="error.duplicate.serial.number"></div>
-            </div>
-          </div>
-          <div class="row-fluid">
-            <div class="span12">
               <label for="brand" openlmis-message="label.refrigerator.brand">
               </label>
-              <input type="text" id="brand" ng-model="newRefrigeratorReading.refrigerator.brand"
+              <input type="text" id="brand" ng-model="refrigeratorReading.refrigerator.brand.value"
+                     maxlength="20"/>
+            </div>
+          </div>
+
+          <div class="row-fluid">
+            <div class="span12">
+              <label for="type" openlmis-message="label.refrigerator.type">
+              </label>
+              <input type="text" id="type" ng-model="refrigeratorReading.refrigerator.type.value"
                      maxlength="20"/>
             </div>
           </div>
@@ -78,8 +76,23 @@
             <div class="span12">
               <label for="model" openlmis-message="label.refrigerator.model">
               </label>
-              <input type="text" id="model" ng-model="newRefrigeratorReading.refrigerator.model"
+              <input type="text" id="model" ng-model="refrigeratorReading.refrigerator.model.value"
                      maxlength="20"/>
+            </div>
+          </div>
+
+          <div class="row-fluid">
+            <div class="span12">
+              <label for="manufacturerSerialNumber">
+                <span openlmis-message="label.refrigerator.serial.number"></span>
+                <span class="label-required">*</span>
+              </label>
+              <input type="text" id="manufacturerSerialNumber" maxlength="30"
+                     ng-model="refrigeratorReading.refrigerator.serialNumber.value"
+                     ng-disabled="editMode"/>
+
+              <div id="duplicateSerialNumberError" ng-show="isDuplicateSerialNumber" class="rnr-form-error"
+                   openlmis-message="error.duplicate.serial.number"></div>
             </div>
           </div>
         </div>
@@ -87,7 +100,11 @@
         <div class="modal-footer">
           <input type="button" id="done-button" class="btn btn-primary" ng-click="addRefrigeratorToStore()"
                  openlmis-message="button.done"
-                 ng-disabled="!newRefrigeratorReading.refrigerator.serialNumber"/>
+                 ng-disabled="editMode || !refrigeratorReading.refrigerator.serialNumber.value"
+                 ng-show="!editMode"/>
+          <input type="button" id="edit-done-button" class="btn btn-primary" ng-click="updateRefrigeratorInStore()"
+                 openlmis-message="button.done"
+                 ng-show="editMode"/>
           <input id="button-cancel" type="button" class="btn btn-cancel"
                  ng-click="addRefrigeratorModal = false;"
                  openlmis-message="button.cancel"/>

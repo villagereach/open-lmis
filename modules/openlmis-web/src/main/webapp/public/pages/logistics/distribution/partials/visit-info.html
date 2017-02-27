@@ -64,6 +64,19 @@
           </div>
 
           <div class="form-row clearfix">
+            <label openlmis-message="label.visit.technical.staff.number"></label>
+            <input id="technicalStaff{{ $index }}" type="number" ng-model="facilityData.facilityVisit.technicalStaff.value"
+                   name="technicalStaff{{$index}}" ng-trim=false
+                   numeric-validator="positiveInteger,2" min="0" max="99" step="1"
+                   ng-readonly="!isCurrentPeriod()"
+                   error-holder="technicalStaffError{{$index}}"
+                   ng-class="{'required-error': !facilityData.facilityVisit.technicalStaff.value.hasValue()}"/>
+            <span id="technicalStaffError{{$index}}"
+                  class="rnr-form-error"
+                  openlmis-message="error.number.only"
+                  style="display: none"></span>
+          </div>
+          <div class="form-row clearfix">
             <label openlmis-message="label.visits.planned.number"></label>
             <input id="numberOfOutreachVisitsPlanned{{ $index }}" type="number" ng-model="facilityData.facilityVisit.numberOfOutreachVisitsPlanned.value"
                    name="numberOfOutreachVisitsPlanned{{$index}}" ng-trim=false

@@ -12,8 +12,7 @@ package org.openlmis.distribution.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.openlmis.core.domain.Refrigerator;
-import org.openlmis.core.service.RefrigeratorService;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.distribution.domain.DistributionRefrigerators;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;

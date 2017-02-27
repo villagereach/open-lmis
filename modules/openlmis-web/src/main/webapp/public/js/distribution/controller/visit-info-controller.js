@@ -20,6 +20,7 @@ function VisitInfoController($scope, distributionService, $routeParams) {
   };
 
   $scope.startDate = $scope.convertToDateObject($scope.distribution.period.stringStartDate);
+  $scope.endDate = $scope.convertToDateObject($scope.distribution.period.stringEndDate);
 
   $scope.reasons = {
     badWeather: "ROAD_IMPASSABLE",
@@ -39,6 +40,11 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     }
 
     return [true, ""];
+  };
+
+  $scope.isCurrentPeriod = function () {
+    var now = new Date();
+    return $scope.startDate <= now && $scope.endDate >= now;
   };
 
   $scope.clearMotorbikeProblems = function () {
@@ -69,6 +75,8 @@ function VisitInfoController($scope, distributionService, $routeParams) {
           value: visit.priorObservations
         };
       }
+
+      setApplicableVisitInfoForTechnicalStaff(visit);
       visit.reasonForNotVisiting = setApplicableField(visit.reasonForNotVisiting);
       visit.otherReasonDescription = setApplicableField(visit.otherReasonDescription);
       return;
@@ -105,5 +113,32 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     }
 
     return { original: field.original, type: 'reading' };
+  }
+
+  function setApplicableVisitInfoForTechnicalStaff(visit) {
+    if (typeof visit.technicalStaff === 'number') {
+      // for initiated distribution we need to convert the field to reading object
+      visit.technicalStaff = {
+        type: "reading",
+        defaultValue: visit.technicalStaff,
+        value: visit.technicalStaff
+      };
+    } else if (!visit.technicalStaff || !visit.technicalStaff.value) {
+      // handling old distributions without technical staff field
+      visit.technicalStaff = {
+        original: {
+          type: "reading",
+          value: 0
+        },
+        type: "reading",
+        value: 0
+      };
+    } else if (visit.technicalStaff.defaultValue) {
+      // for initiated distribution, instead of clearing the field, reset it to the default value
+      visit.technicalStaff.value = visit.technicalStaff.defaultValue;
+    } else if ($scope.isCurrentPeriod()) {
+      // for current period, if default value is not present, clear the field the same way as the others
+      visit.technicalStaff = setApplicableField(visit.technicalStaff);
+    }
   }
 }

@@ -171,7 +171,7 @@ public class DistributionEpiInventoryTest extends TestCaseHelper {
     FacilityListPage facilityListPage = distributionPage.clickRecordData(1);
     RefrigeratorPage refrigeratorPage = facilityListPage.selectFacility(epiInventoryData.get(FIRST_FACILITY_CODE)).navigateToRefrigerators();
     refrigeratorPage.clickAddNew();
-    refrigeratorPage.addNewRefrigerator("new", "new", "SR111");
+    refrigeratorPage.addNewRefrigerator("new", "new", "SR111", "Type");
     EpiInventoryPage epiInventoryPage = refrigeratorPage.navigateToEpiInventory();
 
     epiInventoryPage.verifyIndicator("RED");

@@ -1309,9 +1309,9 @@ public class DBWrapper {
 
   }
 
-  public void addRefrigeratorToFacility(String brand, String model, String serialNumber, String facilityCode) throws SQLException {
-    update("INSERT INTO refrigerators(brand, model, serialNumber, facilityId, createdBy , modifiedBy) VALUES" +
-      "('" + brand + "','" + model + "','" + serialNumber + "',(SELECT id FROM facilities WHERE code = '" + facilityCode + "'),1,1);");
+  public void addRefrigeratorToFacility(String brand, String model, String serialNumber, String type, String facilityCode) throws SQLException {
+    update("INSERT INTO refrigerators(brand, model, serialNumber, type, facilityId, createdBy , modifiedBy) VALUES" +
+      "('" + brand + "','" + model + "','" + serialNumber + "','" + type + "',(SELECT id FROM facilities WHERE code = '" + facilityCode + "'),1,1);");
   }
 
   public ResultSet getRefrigeratorReadings(String refrigeratorSerialNumber, String facilityCode) throws SQLException {

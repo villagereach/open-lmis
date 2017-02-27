@@ -22,7 +22,6 @@ import org.openlmis.core.domain.*;
 import org.openlmis.core.exception.DataException;
 import org.openlmis.core.service.FacilityService;
 import org.openlmis.core.service.MessageService;
-import org.openlmis.core.service.RefrigeratorService;
 import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.*;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -93,7 +92,7 @@ public class FacilityDistributionServiceTest {
     List<Facility> facilities = asList(facility);
     FacilityDistribution facilityDistribution = new FacilityDistribution(null, new EpiUse(), null, null, null, null, null);
 
-    Refrigerator refrigerator = new Refrigerator("LG", "S. No.", "Model", 2L, true);
+    Refrigerator refrigerator = new Refrigerator("LG", "S. No.", "Model", "Type", 2L, true);
     List<Refrigerator> refrigerators = asList(refrigerator);
 
     when(facilityService.getAllForDeliveryZoneAndProgram(1L, 3L)).thenReturn(facilities);
@@ -134,7 +133,7 @@ public class FacilityDistributionServiceTest {
   public void shouldGetFacilityDistributionDataForAFacilityAndDistribution() throws Exception {
     Facility facility = new Facility(2L);
 
-    Refrigerator refrigerator = new Refrigerator("LG", "S. No.", "Model", 2L, true);
+    Refrigerator refrigerator = new Refrigerator("LG", "S. No.", "Model", "Type", 2L, true);
     List<Refrigerator> refrigerators = asList(refrigerator);
     RefrigeratorReading refrigeratorReading = new RefrigeratorReading(refrigerator);
 
