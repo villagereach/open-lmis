@@ -134,10 +134,10 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     function validateLineItems(lineItems, mandatoryFields) {
       $(lineItems).each(function (index, lineItem) {
         $(mandatoryFields).each(function (index, field) {
-          if ((lineItem.vaccination === 'Polio (Newborn)' || lineItem.vaccination === 'IPV') &&
+          if ((lineItem.vaccination === 'Polio (Newborn)' || lineItem.vaccination === 'IPV' || lineItem.vaccination === 'HPV') &&
             isCoverage23Field(field))
             return true;
-          if (lineItem.vaccination === 'Sarampo 2a dose' && isCoverage11Field(field))
+          if ((lineItem.vaccination === 'Sarampo 2a dose' || lineItem.vaccination === 'HPV') && isCoverage11Field(field))
             return true;
           if (lineItem.vaccination !== 'HPV' && isCoverage9YField(field))
             return true;

@@ -22,6 +22,7 @@ import org.openlmis.distribution.dto.ChildCoverageDTO;
 import org.openlmis.distribution.dto.ChildCoverageLineItemDTO;
 import org.openlmis.distribution.dto.DistributionRefrigeratorsDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
+import org.openlmis.distribution.dto.OpenedVialLineItemDTO;
 import org.openlmis.distribution.dto.Reading;
 import org.openlmis.distribution.dto.RefrigeratorProblemDTO;
 import org.openlmis.distribution.dto.RefrigeratorReadingDTO;
@@ -207,26 +208,47 @@ public class FacilityDistributionEditHandler {
 
   private void checkChildCoverageData(FacilityDistributionEditResults results, String originalPropertyName,
                                       Object original, Object replacement) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-    List<ChildCoverageLineItem> originalLineItems =  ((VaccinationChildCoverage)original).getChildCoverageLineItems();
-    List<ChildCoverageLineItemDTO> replacementLineItems = ((ChildCoverageDTO) replacement).getChildCoverageLineItems();
+    VaccinationChildCoverage childCoverage = (VaccinationChildCoverage) original;
+    ChildCoverageDTO childCoverageDTO = (ChildCoverageDTO) replacement;
+    List<ChildCoverageLineItem> originalChildCoverageLineItems =  new ArrayList<>(childCoverage.getChildCoverageLineItems());
+    List<ChildCoverageLineItemDTO> replacementChildCoverageLineItems = new ArrayList<>(childCoverageDTO.getChildCoverageLineItems());
+    List<OpenedVialLineItem> originalOpenedVialLineItems = new ArrayList<>(childCoverage.getOpenedVialLineItems());
+    List<OpenedVialLineItemDTO> replacementOpenedVialLineItems = new ArrayList<>(childCoverageDTO.getOpenedVialLineItems());
 
-    Collections.sort(originalLineItems, new Comparator<ChildCoverageLineItem>() {
+    Collections.sort(originalChildCoverageLineItems, new Comparator<ChildCoverageLineItem>() {
           @Override
           public int compare(ChildCoverageLineItem a, ChildCoverageLineItem b) {
             return a.getVaccination().compareToIgnoreCase(b.getVaccination());
           }
         }
     );
-    Collections.sort(replacementLineItems, new Comparator<ChildCoverageLineItemDTO>() {
+    Collections.sort(replacementChildCoverageLineItems, new Comparator<ChildCoverageLineItemDTO>() {
           @Override
           public int compare(ChildCoverageLineItemDTO a, ChildCoverageLineItemDTO b) {
             return a.getVaccination().compareToIgnoreCase(b.getVaccination());
           }
         }
     );
+    Collections.sort(originalOpenedVialLineItems, new Comparator<OpenedVialLineItem>() {
+        @Override
+        public int compare(OpenedVialLineItem a, OpenedVialLineItem b) {
+          return a.getProductVialName().compareToIgnoreCase(b.getProductVialName());
+        }
+      }
+    );
+    Collections.sort(replacementOpenedVialLineItems, new Comparator<OpenedVialLineItemDTO>() {
+        @Override
+        public int compare(OpenedVialLineItemDTO a, OpenedVialLineItemDTO b) {
+          return a.getProductVialName().compareToIgnoreCase(b.getProductVialName());
+        }
+      }
+    );
 
-    for (int i = 0; i < originalLineItems.size(); ++i) {
-      checkProperties(results, original, originalPropertyName, originalLineItems.get(i), replacementLineItems.get(i));
+    for (int i = 0; i < originalChildCoverageLineItems.size(); ++i) {
+      checkProperties(results, original, originalPropertyName, originalChildCoverageLineItems.get(i), replacementChildCoverageLineItems.get(i));
+    }
+    for (int i = 0; i < originalOpenedVialLineItems.size(); ++i) {
+      checkProperties(results, original, originalPropertyName, originalOpenedVialLineItems.get(i), replacementOpenedVialLineItems.get(i));
     }
   }
 
