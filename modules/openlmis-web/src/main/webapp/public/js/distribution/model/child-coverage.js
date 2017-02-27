@@ -31,24 +31,6 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   }
 
   init.call(this);
-
-  function countNRStatus(lineItems, fields) {
-    var countNotNR = 0;
-    var countNR = 0;
-    $(lineItems).each(function (i, lineItem) {
-      $(fields).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName])|| !lineItem[fieldName].notRecorded) {
-            countNotNR++;
-        } else if(lineItem[fieldName].notRecorded) {
-            countNR++;
-        }
-      });
-    });
-    return {
-        recorded: countNotNR,
-        notRecorded: countNR
-    };
-  }
 }
 
 ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
@@ -96,7 +78,7 @@ ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncSta
   return this.status;
 };
 
-function setNotRecordedChild(field, notRecordedApplied) {
+function toggleNotRecordedChildCoverage(field, notRecordedApplied) {
   if (field) {
     delete field.value;
     field.notRecorded = !notRecordedApplied;
@@ -110,13 +92,13 @@ function setNotRecordedChild(field, notRecordedApplied) {
 ChildCoverage.prototype.setNotRecorded = function () {
   var _this = this;
   this.childCoverageLineItems.forEach(function (lineItem) {
-    lineItem.healthCenter11Months = setNotRecordedChild(lineItem.healthCenter11Months, _this.notRecordedApplied);
-    lineItem.healthCenter23Months = setNotRecordedChild(lineItem.healthCenter23Months, _this.notRecordedApplied);
-    lineItem.outreach11Months = setNotRecordedChild(lineItem.outreach11Months, _this.notRecordedApplied);
-    lineItem.outreach23Months = setNotRecordedChild(lineItem.outreach23Months, _this.notRecordedApplied);
+    lineItem.healthCenter11Months = toggleNotRecordedChildCoverage(lineItem.healthCenter11Months, _this.notRecordedApplied);
+    lineItem.healthCenter23Months = toggleNotRecordedChildCoverage(lineItem.healthCenter23Months, _this.notRecordedApplied);
+    lineItem.outreach11Months = toggleNotRecordedChildCoverage(lineItem.outreach11Months, _this.notRecordedApplied);
+    lineItem.outreach23Months = toggleNotRecordedChildCoverage(lineItem.outreach23Months, _this.notRecordedApplied);
   });
   this.openedVialLineItems.forEach(function (lineItem) {
-    lineItem.openedVial = setNotRecordedChild(lineItem.openedVial, _this.notRecordedApplied);
+    lineItem.openedVial = toggleNotRecordedChildCoverage(lineItem.openedVial, _this.notRecordedApplied);
   });
   this.notRecordedApplied = !this.notRecordedApplied;
 };

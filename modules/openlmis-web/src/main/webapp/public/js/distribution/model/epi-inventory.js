@@ -20,26 +20,8 @@ function EpiInventory(epiInventory) {
   var nrFields = ['existingQuantity', 'spoiledQuantity'];
 
   function init() {
-    var fieldsStatusCount = countNRStatus(this.lineItems);
+    var fieldsStatusCount = countNRStatus(this.lineItems, nrFields);
     this.notRecordedApplied = (fieldsStatusCount.notRecorded > fieldsStatusCount.recorded);
-  }
-
-  function countNRStatus(lineItems) {
-    var countNotNR = 0;
-    var countNR = 0;
-    $(lineItems).each(function (i, lineItem) {
-      $(nrFields).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName])|| !lineItem[fieldName].notRecorded) {
-            countNotNR++;
-        } else if(lineItem[fieldName].notRecorded) {
-            countNR++;
-        }
-      });
-    });
-    return {
-        recorded: countNotNR,
-        notRecorded: countNR
-    };
   }
 
   init.call(this);

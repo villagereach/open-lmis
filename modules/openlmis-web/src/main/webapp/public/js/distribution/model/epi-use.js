@@ -20,26 +20,8 @@ function EpiUse(epiUse) {
         lineItem[fieldName] = lineItem[fieldName] || {};
       });
     });
-    var fieldsStatusCount = countNRStatus(this.lineItems);
+    var fieldsStatusCount = countNRStatus(this.lineItems, fieldList);
     this.notRecordedApplied = (fieldsStatusCount.notRecorded > fieldsStatusCount.recorded);
-  }
-
-  function countNRStatus(lineItems) {
-    var countNotNR = 0;
-    var countNR = 0;
-    $(lineItems).each(function (i, lineItem) {
-      $(fieldList).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName])|| !lineItem[fieldName].notRecorded) {
-            countNotNR++;
-        } else if(lineItem[fieldName].notRecorded) {
-            countNR++;
-        }
-      });
-    });
-    return {
-        recorded: countNotNR,
-        notRecorded: countNR
-    };
   }
 
   init.call(this);

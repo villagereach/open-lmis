@@ -23,24 +23,6 @@ function AdultCoverage(facilityVisitId, adultCoverageJSON) {
 
   var fieldList = ['healthCenterTetanus1', 'outreachTetanus1', 'healthCenterTetanus2To5', 'outreachTetanus2To5'];
 
-  function countNRStatus(lineItems, fields) {
-    var countNotNR = 0;
-    var countNR = 0;
-    $(lineItems).each(function (i, lineItem) {
-      $(fields).each(function (i, fieldName) {
-        if(isUndefined(lineItem[fieldName]) || !lineItem[fieldName].notRecorded) {
-            countNotNR++;
-        } else if(lineItem[fieldName].notRecorded) {
-            countNR++;
-        }
-      });
-    });
-    return {
-        recorded: countNotNR,
-        notRecorded: countNR
-    };
-  }
-
   function init() {
     var adultCoverageFieldsStatus = countNRStatus(this.adultCoverageLineItems, fieldList);
     this.notRecordedApplied = (adultCoverageFieldsStatus.notRecorded > adultCoverageFieldsStatus.recorded);
@@ -151,7 +133,7 @@ function AdultCoverageLineItem(lineItem) {
   this.healthCenterTetanus2To5 = this.healthCenterTetanus2To5 || {};
 }
 
-function setNotRecorded(field, notRecordedApplied) {
+function toggleNotRecorded(field, notRecordedApplied) {
   if (field) {
     delete field.value;
     field.notRecorded = !notRecordedApplied;
@@ -163,10 +145,10 @@ function setNotRecorded(field, notRecordedApplied) {
 }
 
 AdultCoverageLineItem.prototype.setNotRecorded = function (_this) {
-  this.healthCenterTetanus1 = setNotRecorded(this.healthCenterTetanus1, _this.notRecordedApplied);
-  this.outreachTetanus1 = setNotRecorded(this.outreachTetanus1, _this.notRecordedApplied);
-  this.healthCenterTetanus2To5 = setNotRecorded( this.healthCenterTetanus2To5, _this.notRecordedApplied);
-  this.outreachTetanus2To5 = setNotRecorded(this.outreachTetanus2To5, _this.notRecordedApplied);
+  this.healthCenterTetanus1 = toggleNotRecorded(this.healthCenterTetanus1, _this.notRecordedApplied);
+  this.outreachTetanus1 = toggleNotRecorded(this.outreachTetanus1, _this.notRecordedApplied);
+  this.healthCenterTetanus2To5 = toggleNotRecorded( this.healthCenterTetanus2To5, _this.notRecordedApplied);
+  this.outreachTetanus2To5 = toggleNotRecorded(this.outreachTetanus2To5, _this.notRecordedApplied);
 };
 
 AdultCoverageLineItem.prototype.totalTetanus1 = function () {
@@ -202,5 +184,5 @@ OpenedVialLineItem.prototype.wastageRate = function (totalTetanus) {
 };
 
 OpenedVialLineItem.prototype.setNotRecorded = function (_this) {
-  this.openedVial = setNotRecorded(this.openedVial, _this.notRecordedApplied);
+  this.openedVial = toggleNotRecorded(this.openedVial, _this.notRecordedApplied);
 };
