@@ -21,6 +21,7 @@ import org.openlmis.db.categories.IntegrationTests;
 import org.openlmis.distribution.builder.DistributionBuilder;
 import org.openlmis.distribution.domain.Distribution;
 import org.openlmis.distribution.domain.FacilityVisit;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +119,7 @@ public class DistributionRefrigeratorsMapperIT {
     distributionMapper.insert(distribution);
 
 
-    refrigerator = new Refrigerator("SAM", "SAM", "LG", facility.getId(), true);
+    refrigerator = new Refrigerator("SAM", "SAM", "LG", "Type", facility.getId(), true);
     refrigerator.setCreatedBy(createdBy);
     refrigerator.setModifiedBy(createdBy);
     refrigeratorMapper.insert(refrigerator);
@@ -145,6 +146,7 @@ public class DistributionRefrigeratorsMapperIT {
     assertThat(resultSet.getString("refrigeratorSerialNumber"), is(reading.getRefrigerator().getSerialNumber()));
     assertThat(resultSet.getString("refrigeratorBrand"), is(reading.getRefrigerator().getBrand()));
     assertThat(resultSet.getString("refrigeratorModel"), is(reading.getRefrigerator().getModel()));
+    assertThat(resultSet.getString("refrigeratorType"), is(reading.getRefrigerator().getType()));
   }
 
   @Test
@@ -187,7 +189,7 @@ public class DistributionRefrigeratorsMapperIT {
     mapper.insertProblem(expectedRefrigeratorProblem);
 
 
-    Refrigerator refrigerator2 = new Refrigerator("SAM2", "SAM2", "LG2", facility.getId(), true);
+    Refrigerator refrigerator2 = new Refrigerator("SAM2", "SAM2", "LG2", "Type", facility.getId(), true);
     refrigerator2.setCreatedBy(createdBy);
     refrigerator2.setModifiedBy(createdBy);
     refrigeratorMapper.insert(refrigerator2);
@@ -216,6 +218,7 @@ public class DistributionRefrigeratorsMapperIT {
     assertThat(actualRefrigerator.getModel(), is(expectedRefrigerator.getModel()));
     assertThat(actualRefrigerator.getBrand(), is(expectedRefrigerator.getBrand()));
     assertThat(actualRefrigerator.getSerialNumber(), is(expectedRefrigerator.getSerialNumber()));
+    assertThat(actualRefrigerator.getType(), is(expectedRefrigerator.getType()));
   }
 
   @Test

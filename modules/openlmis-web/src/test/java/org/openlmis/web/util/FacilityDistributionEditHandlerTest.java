@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openlmis.core.domain.ProductGroup;
-import org.openlmis.core.domain.Refrigerator;
+import org.openlmis.distribution.domain.Refrigerator;
 import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.AdultCoverageLineItem;
 import org.openlmis.distribution.domain.ChildCoverageLineItem;

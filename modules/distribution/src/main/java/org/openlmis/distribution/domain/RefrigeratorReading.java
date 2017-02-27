@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.openlmis.core.domain.BaseModel;
-import org.openlmis.core.domain.Refrigerator;
 import org.openlmis.distribution.dto.Reading;
 import org.openlmis.distribution.dto.RefrigeratorReadingDTO;
 
@@ -84,7 +83,7 @@ public class RefrigeratorReading extends BaseModel {
     dto.setCreatedDate(createdDate);
     dto.setModifiedBy(modifiedBy);
     dto.setModifiedDate(modifiedDate);
-    dto.setRefrigerator(refrigerator);
+    dto.setRefrigerator(refrigerator.transform());
     dto.setFacilityVisitId(facilityVisitId);
     dto.setTemperature(new Reading(temperature));
     dto.setFunctioningCorrectly(new Reading(functioningCorrectly));

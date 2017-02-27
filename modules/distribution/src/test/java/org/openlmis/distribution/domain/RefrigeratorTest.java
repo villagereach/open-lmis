@@ -8,7 +8,7 @@
  *  You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package org.openlmis.core.domain;
+package org.openlmis.distribution.domain;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class RefrigeratorTest {
 
   @Test
   public void shouldThrowErrorIfSerialNumberBlank() throws Exception {
-    Refrigerator refrigerator = new Refrigerator("", "", null, 3L, true);
+    Refrigerator refrigerator = new Refrigerator("", "", null, "", 3L, true);
 
     expectedException.expect(DataException.class);
     expectedException.expectMessage("error.invalid.reading.value");

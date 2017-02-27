@@ -123,7 +123,7 @@ public class DistributionFullCoverageSyncTest extends TestCaseHelper {
 
   @Test(groups = {"distribution"})
   public void shouldTestFullCoverageAndFacilityIconStatusAndSync() throws SQLException {
-    dbWrapper.addRefrigeratorToFacility("brand", "model", "serial", "F10");
+    dbWrapper.addRefrigeratorToFacility("brand", "model", "serial", "Type", "F10");
 
     HomePage homePage = loginPage.loginAs(fullCoverageData.get(USER), fullCoverageData.get(PASSWORD));
     DistributionPage distributionPage = homePage.navigateToDistributionWhenOnline();
