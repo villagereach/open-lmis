@@ -222,7 +222,9 @@ function RecordFacilityDataController($scope, $location, $route, $routeParams, d
             distributionService.distributionReview.editMode[facilityId] = {};
           });
 
-          $route.reload();
+          $timeout(function () {
+            $route.reload();
+          }, 1000);
         }
 
         $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error(onFailure);
