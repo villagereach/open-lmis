@@ -88,7 +88,8 @@ public class DistributionService {
         insertEditInProgress(userId, distribution.getId());
       }
 
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, distributionDataFilter);
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, distributionDataFilter, null);
+
       distribution.setFacilityDistributions(facilityDistributionMap);
 
       return distribution.transform();
