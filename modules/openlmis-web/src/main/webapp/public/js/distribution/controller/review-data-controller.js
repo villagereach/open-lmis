@@ -12,6 +12,7 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
   var empty = {};
 
   $scope.message = '';
+  $scope.error = '';
 
   $scope.reload = function() {
     window.location.reload();
@@ -30,16 +31,8 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
     };
   });
 
-  function getDistributions() {
-    return _.filter(SharedDistributions.distributionList, function (elem) {
-      return SharedDistributions.isReview(elem);
-    });
-  }
-
   $scope.reloadList = function () {
-    $scope.distributionsList = SynchronizedDistributions.get(empty, $scope.filters.selected, undefined, function () {
-      $scope.distributionsList = getDistributions();
-    });
+    $scope.distributionsList = SynchronizedDistributions.get(empty, $scope.filters.selected, undefined, $scope.onFailure);
   };
 
   $scope.sort = function (column) {
@@ -87,10 +80,6 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
       $location.path('/record-facility-data/' + distribution.id + '/');
     }
 
-    function onFailure(data) {
-        $scope.message = data.error;
-    }
-
     function onSuccess(data, status) {
       var message = data.success;
       distribution = data.distribution;
@@ -107,7 +96,7 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
 
     function getDistribution() {
       if (!distributionService.isCached(distribution)) {
-        $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error(onFailure);
+        $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error($scope.onFailure);
       } else {
         sachedDistribution = distributionService.get(distribution);
 
@@ -115,7 +104,7 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
             goTo(sachedDistribution);
         } else {
             distributionService.deleteDistribution(sachedDistribution.id);
-            $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error(onFailure);
+            $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error($scope.onFailure);
         }
       }
     }
@@ -140,12 +129,15 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
       }
     }
 
-    $http.post('/review-data/distribution/check.json', distribution).success(onCheckSuccess);
+    $http.post('/review-data/distribution/check.json', distribution).success(onCheckSuccess).error($scope.onFailure);
   };
 
   $scope.getPDF = function (distributionId) {
     $window.open('/review-data/distribution/' + distributionId + '/pdf', '_blank');
   };
 
+  $scope.onFailure = function (data) {
+    $scope.error = data.error ? data.error : messageService.get("error.network.check");
+  };
 }
 
