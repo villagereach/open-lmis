@@ -115,3 +115,21 @@ distributionModule.directive('disableForm', function ($timeout) {
     }
   };
 });
+
+function countNRStatus(lineItems, fields) {
+  var countNotNR = 0;
+  var countNR = 0;
+  $(lineItems).each(function (i, lineItem) {
+    $(fields).each(function (i, fieldName) {
+      if(isUndefined(lineItem[fieldName])|| !lineItem[fieldName].notRecorded) {
+          countNotNR++;
+      } else if(lineItem[fieldName].notRecorded) {
+          countNR++;
+      }
+    });
+  });
+  return {
+      recorded: countNotNR,
+      notRecorded: countNR
+  };
+}

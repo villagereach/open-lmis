@@ -9,13 +9,15 @@
  */
 
 describe('Coverage controller', function () {
-  var distributionService, routeParams, scope;
+  var distributionService, routeParams, scope, coverage;
 
   beforeEach(module('distribution'));
   beforeEach(inject(function ($controller, $rootScope, _distributionService_) {
     scope = $rootScope.$new();
     distributionService = _distributionService_;
     routeParams = {facility: 2};
+    coverage = jasmine.createSpyObj('Coverage', ['setNotRecorded']);
+    distributionService.distribution = {facilityDistributions: {2: {fullCoverage: coverage}}};
     $controller('CoverageController', {$scope: scope, $routeParams: routeParams, distributionService: distributionService});
   }));
 
@@ -29,9 +31,6 @@ describe('Coverage controller', function () {
 
   it('should apply NR to all coverage fields', function() {
     spyOn(distributionService, 'applyNR');
-
-    var coverage = jasmine.createSpyObj('Coverage', ['setNotRecorded']);
-    scope.distribution = {facilityDistributions: {2: {fullCoverage: coverage}}};
 
     scope.applyNRAll();
 

@@ -31,21 +31,38 @@ describe('Child coverage', function () {
 
   describe('Apply NR to all', function () {
 
-    function verifyCoverageLineItemNotRecordedSet(lineItem) {
-      expect(lineItem.healthCenter11Months.notRecorded).toBeTruthy();
-      expect(lineItem.outreach11Months.notRecorded).toBeTruthy();
-      expect(lineItem.healthCenter23Months.notRecorded).toBeTruthy();
-      expect(lineItem.outreach23Months.notRecorded).toBeTruthy();
+    function verifyCoverageLineItemNotRecordedSet(lineItem, value) {
+      expect(lineItem.healthCenter11Months.notRecorded).toEqual(value);
+      expect(lineItem.outreach11Months.notRecorded).toEqual(value);
+      expect(lineItem.healthCenter23Months.notRecorded).toEqual(value);
+      expect(lineItem.outreach23Months.notRecorded).toEqual(value);
     }
 
     it('should set all NR flags to true', function () {
+      childCoverage.notRecordedApplied = false;
       childCoverage.setNotRecorded();
 
-      verifyCoverageLineItemNotRecordedSet(childCoverage.childCoverageLineItems[0]);
-      verifyCoverageLineItemNotRecordedSet(childCoverage.childCoverageLineItems[1]);
+      verifyCoverageLineItemNotRecordedSet(childCoverage.childCoverageLineItems[0], true);
+      verifyCoverageLineItemNotRecordedSet(childCoverage.childCoverageLineItems[1], true);
 
       expect(childCoverage.openedVialLineItems[0].openedVial.notRecorded).toBeTruthy();
       expect(childCoverage.openedVialLineItems[1].openedVial.notRecorded).toBeTruthy();
+
+      expect(childCoverage.notRecordedApplied).toBeTruthy();
+    });
+
+    it('should set all NR flags to false', function () {
+      childCoverage.notRecordedApplied = true;
+      childCoverage.setNotRecorded();
+
+      verifyCoverageLineItemNotRecordedSet(childCoverage.childCoverageLineItems[0], false);
+      verifyCoverageLineItemNotRecordedSet(childCoverage.childCoverageLineItems[1], false);
+
+      expect(childCoverage.openedVialLineItems[0].openedVial.notRecorded).not.toBeTruthy();
+      expect(childCoverage.openedVialLineItems[1].openedVial.notRecorded).not.toBeTruthy();
+
+      expect(childCoverage.notRecordedApplied).not.toBeTruthy();
+
     });
 
     it('should create child coverage object from JSON', function () {

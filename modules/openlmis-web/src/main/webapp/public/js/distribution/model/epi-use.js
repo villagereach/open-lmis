@@ -20,16 +20,20 @@ function EpiUse(epiUse) {
         lineItem[fieldName] = lineItem[fieldName] || {};
       });
     });
+    var fieldsStatusCount = countNRStatus(this.lineItems, fieldList);
+    this.notRecordedApplied = (fieldsStatusCount.notRecorded > fieldsStatusCount.recorded);
   }
 
   init.call(this);
 
   EpiUse.prototype.setNotRecorded = function () {
+    var _this = this;
     $(this.lineItems).each(function (i, lineItem) {
       $(fieldList).each(function (j, fieldName) {
-        lineItem[fieldName].notRecorded = true;
+        lineItem[fieldName].notRecorded = !_this.notRecordedApplied;
       });
     });
+    this.notRecordedApplied = !this.notRecordedApplied;
   };
 
   EpiUse.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {

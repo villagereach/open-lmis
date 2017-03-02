@@ -12,11 +12,17 @@ function CoverageController($scope, $routeParams, distributionService) {
   $scope.distribution = distributionService.distribution;
   $scope.distributionReview = distributionService.distributionReview;
   $scope.selectedFacilityId = $routeParams.facility;
+  $scope.fullCoverage = $scope.distribution.facilityDistributions[$routeParams.facility].fullCoverage;
 
   $scope.applyNRAll = function () {
     distributionService.applyNR(function () {
-      $scope.distribution.facilityDistributions[$routeParams.facility].fullCoverage.setNotRecorded();
-    });
+      $scope.fullCoverage.setNotRecorded();
+    }, false);
   };
 
+  $scope.clearNRAll = function () {
+    distributionService.applyNR(function () {
+      $scope.fullCoverage.setNotRecorded();
+    }, true);
+  };
 }

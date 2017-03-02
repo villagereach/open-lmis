@@ -52,6 +52,7 @@ describe('FullCoverage', function () {
     var fullCoverage = new FullCoverage(facilityVisitId, {
       femaleHealthCenterReading: {notRecorded: true}, femaleMobileBrigadeReading: {value: 5432}, maleHealthCenterReading: {value: 3}, maleMobileBrigadeReading: {value: 23}
     });
+    fullCoverage.notRecordedApplied = false;
 
     fullCoverage.setNotRecorded();
 
@@ -59,5 +60,23 @@ describe('FullCoverage', function () {
     expect(fullCoverage.femaleMobileBrigadeReading.notRecorded).toBeTruthy();
     expect(fullCoverage.maleHealthCenterReading.notRecorded).toBeTruthy();
     expect(fullCoverage.maleMobileBrigadeReading.notRecorded).toBeTruthy();
+
+    expect(fullCoverage.notRecordedApplied).toBeTruthy();
+  });
+
+  it('should set all NR flags to false', function () {
+    var fullCoverage = new FullCoverage(facilityVisitId, {
+      femaleHealthCenterReading: {notRecorded: true}, femaleMobileBrigadeReading: {value: 5432}, maleHealthCenterReading: {value: 3}, maleMobileBrigadeReading: {value: 23}
+    });
+    fullCoverage.notRecordedApplied = true;
+
+    fullCoverage.setNotRecorded();
+
+    expect(fullCoverage.femaleHealthCenterReading.notRecorded).not.toBeTruthy();
+    expect(fullCoverage.femaleMobileBrigadeReading.notRecorded).not.toBeTruthy();
+    expect(fullCoverage.maleHealthCenterReading.notRecorded).not.toBeTruthy();
+    expect(fullCoverage.maleMobileBrigadeReading.notRecorded).not.toBeTruthy();
+
+    expect(fullCoverage.notRecordedApplied).not.toBeTruthy();
   });
 });
