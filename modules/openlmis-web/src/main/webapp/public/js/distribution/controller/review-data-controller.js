@@ -138,6 +138,6 @@ function ReviewDataController($scope, SynchronizedDistributions, ReviewDataFilte
 
   $scope.onFailure = function (data) {
     $scope.error = data.error ? data.error : messageService.get("error.network.check");
-  }
+  };
 }
 
