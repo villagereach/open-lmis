@@ -25,6 +25,24 @@ function FullCoverage(facilityVisitId, fullCoverage) {
         _this[fieldName] = {fieldName: {}};
       }
     });
+    var fieldsStatusCount = countNRStatus(_this);
+    this.notRecordedApplied = (fieldsStatusCount.notRecorded > fieldsStatusCount.recorded);
+  }
+
+  function countNRStatus(_this) {
+    var countNotNR = 0;
+    var countNR = 0;
+    $(fieldList).each(function (i, fieldName) {
+      if(isUndefined(_this[fieldName]) ||  !_this[fieldName].notRecorded) {
+          countNotNR++;
+      } else {
+          countNR++;
+      }
+    });
+    return {
+        recorded: countNotNR,
+        notRecorded: countNR
+    };
   }
 
   init.call(this);
@@ -61,7 +79,8 @@ function FullCoverage(facilityVisitId, fullCoverage) {
   FullCoverage.prototype.setNotRecorded = function () {
     var _this = this;
     $(fieldList).each(function (j, fieldName) {
-      _this[fieldName].notRecorded = true;
+      _this[fieldName].notRecorded = !_this.notRecordedApplied;
     });
+    this.notRecordedApplied = !this.notRecordedApplied;
   };
 }

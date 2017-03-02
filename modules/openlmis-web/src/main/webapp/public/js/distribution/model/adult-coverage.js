@@ -20,6 +20,15 @@ function AdultCoverage(facilityVisitId, adultCoverageJSON) {
   $(this.openedVialLineItems).each(function (i, lineItem) {
     _this.openedVialLineItems[i] = new OpenedVialLineItem(lineItem);
   });
+
+  var fieldList = ['healthCenterTetanus1', 'outreachTetanus1', 'healthCenterTetanus2To5', 'outreachTetanus2To5'];
+
+  function init() {
+    var adultCoverageFieldsStatus = countNRStatus(this.adultCoverageLineItems, fieldList);
+    this.notRecordedApplied = (adultCoverageFieldsStatus.notRecorded > adultCoverageFieldsStatus.recorded);
+  }
+
+  init.call(this);
 }
 
 AdultCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
@@ -73,13 +82,15 @@ AdultCoverage.prototype.wastageRate = function (lineItem) {
 };
 
 AdultCoverage.prototype.setNotRecorded = function () {
+  var _this = this;
   $(this.adultCoverageLineItems).each(function (i, lineItem) {
-    lineItem.setNotRecorded();
+    lineItem.setNotRecorded(_this);
   });
 
   $(this.openedVialLineItems).each(function (i, lineItem) {
-    lineItem.setNotRecorded();
+    lineItem.setNotRecorded(_this);
   });
+  this.notRecordedApplied = !this.notRecordedApplied;
 };
 
 AdultCoverage.prototype.totalHealthCenterTetanus1 = function () {
@@ -122,22 +133,22 @@ function AdultCoverageLineItem(lineItem) {
   this.healthCenterTetanus2To5 = this.healthCenterTetanus2To5 || {};
 }
 
-function setNotRecorded(field) {
+function toggleNotRecorded(field, notRecordedApplied) {
   if (field) {
     delete field.value;
-    field.notRecorded = true;
+    field.notRecorded = !notRecordedApplied;
 
     return field;
   } else {
-    return {notRecorded: true};
+    return {notRecorded: !notRecordedApplied};
   }
 }
 
-AdultCoverageLineItem.prototype.setNotRecorded = function () {
-  this.healthCenterTetanus1 = setNotRecorded(this.healthCenterTetanus1);
-  this.outreachTetanus1 = setNotRecorded(this.outreachTetanus1);
-  this.healthCenterTetanus2To5 = setNotRecorded( this.healthCenterTetanus2To5);
-  this.outreachTetanus2To5 = setNotRecorded(this.outreachTetanus2To5);
+AdultCoverageLineItem.prototype.setNotRecorded = function (_this) {
+  this.healthCenterTetanus1 = toggleNotRecorded(this.healthCenterTetanus1, _this.notRecordedApplied);
+  this.outreachTetanus1 = toggleNotRecorded(this.outreachTetanus1, _this.notRecordedApplied);
+  this.healthCenterTetanus2To5 = toggleNotRecorded( this.healthCenterTetanus2To5, _this.notRecordedApplied);
+  this.outreachTetanus2To5 = toggleNotRecorded(this.outreachTetanus2To5, _this.notRecordedApplied);
 };
 
 AdultCoverageLineItem.prototype.totalTetanus1 = function () {
@@ -172,6 +183,6 @@ OpenedVialLineItem.prototype.wastageRate = function (totalTetanus) {
   return Math.round((totalDosesConsumed - totalTetanus) / totalDosesConsumed * 100);
 };
 
-OpenedVialLineItem.prototype.setNotRecorded = function () {
-  this.openedVial = setNotRecorded(this.openedVial);
+OpenedVialLineItem.prototype.setNotRecorded = function (_this) {
+  this.openedVial = toggleNotRecorded(this.openedVial, _this.notRecordedApplied);
 };

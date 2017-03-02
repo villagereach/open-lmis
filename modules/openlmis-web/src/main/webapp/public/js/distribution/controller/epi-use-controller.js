@@ -12,11 +12,18 @@ function EPIUseController($scope, $routeParams, distributionService) {
   $scope.distribution = distributionService.distribution;
   $scope.distributionReview = distributionService.distributionReview;
   $scope.selectedFacilityId = $routeParams.facility;
+  $scope.epiUse = $scope.distribution.facilityDistributions[$routeParams.facility].epiUse;
 
   $scope.applyNRAll = function () {
     distributionService.applyNR(function () {
-      $scope.distribution.facilityDistributions[$routeParams.facility].epiUse.setNotRecorded();
-    });
+      $scope.epiUse.setNotRecorded();
+    }, false);
+  };
+
+  $scope.clearNRAll = function () {
+    distributionService.applyNR(function () {
+      $scope.epiUse.setNotRecorded();
+    }, true);
   };
 }
 

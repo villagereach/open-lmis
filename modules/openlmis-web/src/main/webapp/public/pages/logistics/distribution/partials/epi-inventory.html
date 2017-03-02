@@ -19,7 +19,9 @@
           <h3>
             <span id="epiInventoryPageLabel" openlmis-message="label.epi.inventory.header"></span>
             <input id="epiInventoryApplyNRAll" type="button" ng-click="applyNRAll()" class="pull-right btn"
-                   openlmis-message="button.apply.nr.all"/>
+                   openlmis-message="button.apply.nr.all" ng-if="!epiInventory.notRecordedApplied"/>
+            <input id="epiInventoryClearNRFromAll" type="button" ng-click="clearNRAll()" class="pull-right btn"
+                   openlmis-message="button.clear.nr.all" ng-if="epiInventory.notRecordedApplied"/>
           </h3>
 
             <div class="clearfix"></div>

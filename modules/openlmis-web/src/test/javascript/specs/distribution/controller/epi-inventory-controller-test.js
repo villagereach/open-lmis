@@ -9,13 +9,16 @@
  */
 
 describe('EPI Inventory Controller', function () {
-  var scope, routeParams, distributionService, distribution;
+  var scope, routeParams, distributionService, distribution, epiInventory;
 
   beforeEach(module('distribution'))
   beforeEach(inject(function ($controller, $rootScope, _distributionService_) {
     scope = $rootScope.$new();
     routeParams = {facility: '4'};
     distributionService = _distributionService_;
+
+    epiInventory = jasmine.createSpyObj('Epi Inventory', ['setNotRecorded']);
+    distributionService.distribution = {id: 1, facilityDistributions: {4: {epiInventory: epiInventory}}};
 
     $controller(EPIInventoryController, {$scope: scope, $routeParams: routeParams});
   }));
@@ -30,9 +33,6 @@ describe('EPI Inventory Controller', function () {
 
   it('should apply NR to all epi inventory fields', function () {
     spyOn(distributionService, 'applyNR');
-
-    var epiInventory = jasmine.createSpyObj('Epi Inventory', ['setNotRecorded']);
-    scope.distribution = {id: 1, facilityDistributions: {4: {epiInventory: epiInventory}}};
 
     scope.applyNRAll();
 

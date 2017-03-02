@@ -152,6 +152,12 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
   $scope.applyNRAll = function () {
     distributionService.applyNR(function () {
       $scope.childCoverage.setNotRecorded();
-    });
+    }, false);
+  };
+
+  $scope.clearNRAll = function () {
+    distributionService.applyNR(function () {
+      $scope.childCoverage.setNotRecorded();
+    }, true);
   };
 }
