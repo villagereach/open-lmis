@@ -36,10 +36,14 @@ describe('Child coverage', function () {
   describe('Apply NR to all', function () {
 
     function verifyCoverageLineItemNotRecordedSet(lineItem, value) {
-      expect(lineItem.healthCenter11Months.notRecorded).toEqual(value);
-      expect(lineItem.outreach11Months.notRecorded).toEqual(value);
-      expect(lineItem.healthCenter23Months.notRecorded).toEqual(value);
-      expect(lineItem.outreach23Months.notRecorded).toEqual(value);
+      expect(lineItem.femaleHealthCenter11Months.notRecorded).toEqual(value);
+      expect(lineItem.femaleOutreach11Months.notRecorded).toEqual(value);
+      expect(lineItem.femaleHealthCenter23Months.notRecorded).toEqual(value);
+      expect(lineItem.femaleOutreach23Months.notRecorded).toEqual(value);
+      expect(lineItem.maleHealthCenter11Months.notRecorded).toEqual(value);
+      expect(lineItem.maleOutreach11Months.notRecorded).toEqual(value);
+      expect(lineItem.maleHealthCenter23Months.notRecorded).toEqual(value);
+      expect(lineItem.maleOutreach23Months.notRecorded).toEqual(value);
     }
 
     it('should set all NR flags to true', function () {

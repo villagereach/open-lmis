@@ -24,17 +24,15 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   });
 
   function init() {
-    var childCoverageFieldsStatus = countNRStatus(this.childCoverageLineItems, mandatoryFields);
+    var childCoverageFieldsStatus = countNRStatus(this.childCoverageLineItems, this.mandatoryFields);
     var openedVialFieldsStatus = countNRStatus(this.openedVialLineItems, ['openedVial']);
     this.notRecordedApplied = (childCoverageFieldsStatus.notRecorded  +  openedVialFieldsStatus.notRecorded >
      childCoverageFieldsStatus.recorded + openedVialFieldsStatus.recorded);
   }
 
-  init.call(this);
-}
-
   this.isOutdatedDistribution = checkIfIsOutdatedDistribution.call(this);
   this.mandatoryFields = getMandatoryFields.call(this);
+  init.call(this);
 
   function getMandatoryFields() {
     if(this.isOutdatedDistribution) {
@@ -129,25 +127,27 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     return this.status;
   };
 
-function toggleNotRecordedChildCoverage(field, notRecordedApplied) {
-  if (field) {
-    delete field.value;
-    field.notRecorded = !notRecordedApplied;
-    return field;
-  } else {
-    return {notRecorded: !notRecordedApplied};
+  function toggleNotRecordedChildCoverage(field, notRecordedApplied) {
+    if (field) {
+      delete field.value;
+      field.notRecorded = !notRecordedApplied;
+      return field;
+    } else {
+      return {notRecorded: !notRecordedApplied};
+    }
   }
 
   ChildCoverage.prototype.setNotRecorded = function () {
-    fields = this.mandatoryFields;
+    var _this = this;
     this.childCoverageLineItems.forEach(function (lineItem) {
-      $(fields).each(function (index, field) {
-        lineItem[field] = setNotRecorded(lineItem[field]);
+      $(_this.mandatoryFields).each(function (index, field) {
+        lineItem[field] = toggleNotRecordedChildCoverage(lineItem[field], _this.notRecordedApplied);
       });
     });
     this.openedVialLineItems.forEach(function (lineItem) {
-      lineItem.openedVial = setNotRecorded(lineItem.openedVial);
+      lineItem.openedVial = toggleNotRecordedChildCoverage(lineItem.openedVial, _this.notRecordedApplied);
     });
     this.notRecordedApplied = !this.notRecordedApplied;
   };
+
 }
