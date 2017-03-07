@@ -36,14 +36,14 @@ describe('Child coverage', function () {
   describe('Apply NR to all', function () {
 
     function verifyCoverageLineItemNotRecordedSet(lineItem, value) {
-      expect(lineItem.maleHealthCenter11Months.notRecorded).toEqual(value);
-      expect(lineItem.maleOutreach11Months.notRecorded).toEqual(value);
-      expect(lineItem.maleHealthCenter23Months.notRecorded).toEqual(value);
-      expect(lineItem.maleOutreach23Months.notRecorded).toEqual(value);
       expect(lineItem.femaleHealthCenter11Months.notRecorded).toEqual(value);
       expect(lineItem.femaleOutreach11Months.notRecorded).toEqual(value);
       expect(lineItem.femaleHealthCenter23Months.notRecorded).toEqual(value);
       expect(lineItem.femaleOutreach23Months.notRecorded).toEqual(value);
+      expect(lineItem.maleHealthCenter11Months.notRecorded).toEqual(value);
+      expect(lineItem.maleOutreach11Months.notRecorded).toEqual(value);
+      expect(lineItem.maleHealthCenter23Months.notRecorded).toEqual(value);
+      expect(lineItem.maleOutreach23Months.notRecorded).toEqual(value);
     }
 
     it('should set all NR flags to true', function () {
@@ -206,4 +206,76 @@ describe('Child coverage', function () {
       expect(status).toEqual(DistributionStatus.INCOMPLETE);
     });
   });
+
+  describe('outdated distributions', function () {
+    it('should be treated as outdated distribution', function () {
+      var childCoverage = new ChildCoverage(12, {
+        childCoverageLineItems: [
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: 1}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
+            maleHealthCenter11Months: {notRecorded: true}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {notRecorded: true}, maleOutreach23Months: {notRecorded: true},
+            femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {notRecorded: true}}
+        ],
+        openedVialLineItems: [
+          {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {}},
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {}}
+        ]
+      });
+      expect(childCoverage.isOutdatedDistribution).toBeTruthy();
+    });
+
+    it('should not be treated as outdated distribution', function () {
+      var childCoverage = new ChildCoverage(12, {
+        childCoverageLineItems: [
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: 1}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
+            maleHealthCenter11Months: {value: 5}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {value: 1}, maleOutreach23Months: {notRecorded: true},
+            femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {value: 4}}
+        ],
+        openedVialLineItems: [
+          {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {}},
+          {"id": 16, "facilityVisitId": 3, "productVialName": "Polio10", "packSize": 10, openedVial: {}}
+        ]
+      });
+      expect(childCoverage.isOutdatedDistribution).not.toBeTruthy();
+    });
+
+    it('should compute status correctly for outdated distribution', function () {
+      var childCoverage = new ChildCoverage(12, {
+        childCoverageLineItems: [
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: undefined}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
+            maleHealthCenter11Months: {notRecorded: true}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {notRecorded: true}, maleOutreach23Months: {notRecorded: true},
+            femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {notRecorded: true}}
+        ],
+        openedVialLineItems: [
+          {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: 1}},
+        ]
+      });
+      var status = childCoverage.computeStatus();
+      expect(status).toEqual(DistributionStatus.INCOMPLETE);
+    });
+
+    it('should applyNR for outdated distribution', function () {
+      var childCoverage = new ChildCoverage(12, {
+        childCoverageLineItems: [
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: 1}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
+            maleHealthCenter11Months: {notRecorded: true}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {notRecorded: true}, maleOutreach23Months: {notRecorded: true},
+            femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {notRecorded: true}}
+        ],
+        openedVialLineItems: [
+          {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: 1}},
+        ]
+      });
+      childCoverage.notRecordedApplied = false;
+      childCoverage.setNotRecorded();
+      expect(childCoverage.childCoverageLineItems[0].totalHealthCenter11Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalOutreach11Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalHealthCenter23Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalOutreach23Months.notRecorded).toBeTruthy();
+    });
+
+  });
+
 });

@@ -58,8 +58,7 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
 
   function getMandatoryFields() {
     if(this.isOutdatedDistribution) {
-      return ['healthCenter11Months', 'outreach11Months', 'healthCenter23Months', 'outreach23Months', 'femaleHealthCenter9YMonths',
-         'femaleOutreach9YMonths'];
+      return ['totalHealthCenter11Months', 'totalOutreach11Months', 'totalHealthCenter23Months', 'totalOutreach23Months'];
     } else {
       return ['maleHealthCenter11Months', 'femaleHealthCenter11Months',
          'maleOutreach11Months', 'femaleOutreach11Months', 'maleHealthCenter23Months', 'femaleHealthCenter23Months',
@@ -95,24 +94,24 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     outdated = false;
     $(this.childCoverageLineItems).each(function (index, lineItem) {
       if(maleFemaleFieldsNotPresent(lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months,
-          lineItem.healthCenter11Months)) {
+          lineItem.totalHealthCenter11Months)) {
         outdated = true;
-        return;
+        return outdated;
       }
       if(maleFemaleFieldsNotPresent(lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months,
-          lineItem.healthCenter23Months)) {
+          lineItem.totalHealthCenter23Months)) {
         outdated = true;
-        return;
+        return outdated;
       }
       if(maleFemaleFieldsNotPresent(lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months,
-          lineItem.outreach11Months)) {
+          lineItem.totalOutreach11Months)) {
         outdated = true;
-        return;
+        return outdated;
       }
       if(maleFemaleFieldsNotPresent(lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months,
-          lineItem.outreach23Months)) {
+          lineItem.totalOutreach23Months)) {
         outdated = true;
-        return;
+        return outdated;
       }
     });
     return outdated;
@@ -196,4 +195,5 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     });
     this.notRecordedApplied = !this.notRecordedApplied;
   };
+
 }

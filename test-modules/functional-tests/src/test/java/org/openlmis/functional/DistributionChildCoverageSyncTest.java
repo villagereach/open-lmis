@@ -122,14 +122,14 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(1));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(12));
 
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(9, "10");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(9, "10");
     assertEquals("40", childCoveragePage.getCoverageRateForGivenRow(9));
     assertEquals("0", childCoveragePage.getCoverageRateForGivenRow(10));
     assertEquals("0", childCoveragePage.getCoverageRateForGivenRow(11));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(1));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(12));
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "19");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "19");
     assertEquals("116", childCoveragePage.getCoverageRateForGivenRow(9));
     assertEquals("0", childCoveragePage.getCoverageRateForGivenRow(10));
     assertEquals("0", childCoveragePage.getCoverageRateForGivenRow(11));
@@ -158,8 +158,8 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(1));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(12));
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "19");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(9, "10");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "19");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(9, "10");
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(9));
   }
 
@@ -197,8 +197,8 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(1));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(12));
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "19");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(9, "10");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "19");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(9, "10");
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(9));
   }
 
@@ -234,8 +234,8 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(1));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(12));
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "19");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(9, "10");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "19");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(9, "10");
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(9));
   }
 
@@ -271,11 +271,11 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(1));
     assertEquals("", childCoveragePage.getCoverageRateForGivenRow(12));
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "19");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(9, "10");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "19");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(9, "10");
     assertEquals("193", childCoveragePage.getCoverageRateForGivenRow(9));
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "162");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "162");
     assertEquals("1147", childCoveragePage.getCoverageRateForGivenRow(9));
 
     dbWrapper.updateFieldValue("program_products", "active", "t", "productId", productId);
@@ -379,36 +379,36 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     assertTrue(childCoveragePage.isOpenVialEnabled(2, 2));
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(2, 1, "5");
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(1, "10");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(1, "10");
     assertEquals("10", childCoveragePage.getTotalForGivenColumnAndRow(1, 1));
     assertEquals("0", childCoveragePage.getTotalForGivenColumnAndRow(2, 1));
     assertEquals("10", childCoveragePage.getTotalForGivenColumnAndRow(3, 1));
 
-    childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(1, "032");
+    childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(1, "032");
     assertEquals("10", childCoveragePage.getTotalForGivenColumnAndRow(1, 1));
     assertEquals("32", childCoveragePage.getTotalForGivenColumnAndRow(2, 1));
     assertEquals("42", childCoveragePage.getTotalForGivenColumnAndRow(3, 1));
 
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(1, "27");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(1, "27");
     assertEquals("37", childCoveragePage.getTotalForGivenColumnAndRow(1, 1));
     assertEquals("32", childCoveragePage.getTotalForGivenColumnAndRow(2, 1));
     assertEquals("69", childCoveragePage.getTotalForGivenColumnAndRow(3, 1));
 
-    childCoveragePage.enterOutreach23MonthsDataForGivenRow(1, "0");
+    childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(1, "0");
     assertEquals("37", childCoveragePage.getTotalForGivenColumnAndRow(1, 1));
     assertEquals("32", childCoveragePage.getTotalForGivenColumnAndRow(2, 1));
     assertEquals("69", childCoveragePage.getTotalForGivenColumnAndRow(3, 1));
 
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(1);
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(1);
     assertEquals("27", childCoveragePage.getTotalForGivenColumnAndRow(1, 1));
     assertEquals("32", childCoveragePage.getTotalForGivenColumnAndRow(2, 1));
     assertEquals("59", childCoveragePage.getTotalForGivenColumnAndRow(3, 1));
 
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(1);
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(1, "9999999");
-    childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(1, "9999999");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(1, "9999999");
-    childCoveragePage.enterOutreach23MonthsDataForGivenRow(1, "9999999");
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(1);
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(1, "9999999");
+    childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(1, "9999999");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(1, "9999999");
+    childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(1, "9999999");
     assertEquals("19999998", childCoveragePage.getTotalForGivenColumnAndRow(1, 1));
     assertEquals("19999998", childCoveragePage.getTotalForGivenColumnAndRow(2, 1));
     assertEquals("39999996", childCoveragePage.getTotalForGivenColumnAndRow(3, 1));
@@ -427,7 +427,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     ChildCoveragePage childCoveragePage = visitInformationPage.navigateToChildCoverage();
 
     dbWrapper.updateFieldValue("products", "packSize", "5", "code", "P10");
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(9, "9");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(9, "9");
     assertEquals("9", childCoveragePage.getTotalForGivenColumnAndRow(1, 9));
     assertEquals("0", childCoveragePage.getTotalForGivenColumnAndRow(2, 9));
     assertEquals("9", childCoveragePage.getTotalForGivenColumnAndRow(3, 9));
@@ -460,7 +460,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
 
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(12, 1, "99");
     assertEquals("", childCoveragePage.getWastageRateForGivenRow(12));
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(12, "67");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(12, "67");
     assertEquals("", childCoveragePage.getWastageRateForGivenRow(12));
   }
 
@@ -497,25 +497,25 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(childCoverageData.get(FIRST_FACILITY_CODE));
     ChildCoveragePage childCoveragePage = visitInformationPage.navigateToChildCoverage();
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(2, "9");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(2, "9");
     assertEquals("9", childCoveragePage.getTotalForGivenColumnAndRow(1, 2));
     assertEquals("9", childCoveragePage.getTotalForGivenColumnAndRow(3, 2));
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(2, 1, "7");
     assertEquals("57", childCoveragePage.getWastageRateForGivenRow(2));
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(2, "9999999");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(2, "9999999");
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(3, "99999999");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(3, "99999999");
-    childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(3, "99999999");
-    childCoveragePage.enterOutreach23MonthsDataForGivenRow(3, "99999999");
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(4, "99999999");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(4, "99999999");
-    childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(4, "99999999");
-    childCoveragePage.enterOutreach23MonthsDataForGivenRow(4, "99999999");
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(5, "99999999");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(5, "99999999");
-    childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(5, "99999999");
-    childCoveragePage.enterOutreach23MonthsDataForGivenRow(5, "99999999");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(2, "9999999");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(2, "9999999");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(3, "99999999");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(3, "99999999");
+    childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(3, "99999999");
+    childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(3, "99999999");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(4, "99999999");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(4, "99999999");
+    childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(4, "99999999");
+    childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(4, "99999999");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(5, "99999999");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(5, "99999999");
+    childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(5, "99999999");
+    childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(5, "99999999");
     assertEquals("-666666500", childCoveragePage.getWastageRateForGivenRow(2));
 
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(2, 1, "9999999");
@@ -524,12 +524,12 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(2, 2, "9999999");
     assertEquals("-8", childCoveragePage.getWastageRateForGivenRow(2));
 
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(3);
-    assertFalse(childCoveragePage.isHealthCenter11MonthsEnabledForGivenRow(3));
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(3);
+    assertFalse(childCoveragePage.isTotalHealthCenter11MonthsEnabledForGivenRow(3));
     assertEquals("0", childCoveragePage.getWastageRateForGivenRow(2));
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(3);
-    assertTrue(childCoveragePage.isHealthCenter11MonthsEnabledForGivenRow(3));
-    assertEquals("", childCoveragePage.getHealthCenter11MonthsDataForGivenRow(3));
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(3);
+    assertTrue(childCoveragePage.isTotalHealthCenter11MonthsEnabledForGivenRow(3));
+    assertEquals("", childCoveragePage.getTotalHealthCenter11MonthsDataForGivenRow(3));
     assertEquals("0", childCoveragePage.getWastageRateForGivenRow(2));
 
     childCoveragePage.applyNrToPolioOpenedVials();
@@ -550,7 +550,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     VisitInformationPage visitInformationPage = facilityListPage.selectFacility(childCoverageData.get(FIRST_FACILITY_CODE));
     ChildCoveragePage childCoveragePage = visitInformationPage.navigateToChildCoverage();
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(6, "9");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(6, "9");
     assertEquals("9", childCoveragePage.getTotalForGivenColumnAndRow(1, 6));
     assertEquals("0", childCoveragePage.getTotalForGivenColumnAndRow(2, 6));
     assertEquals("9", childCoveragePage.getTotalForGivenColumnAndRow(3, 6));
@@ -575,7 +575,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
 
     childCoveragePage.verifyIndicator("RED");
 
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(6, "9");
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(6, "9");
     childCoveragePage.verifyIndicator("AMBER");
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(6, 1, "7");
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(6, 2, "9");
@@ -608,7 +608,7 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(2, 2, "9");
     childCoveragePage.verifyIndicator("GREEN");
 
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(1);
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(1);
     childCoveragePage.verifyIndicator("AMBER");
 
     assertTrue(childCoveragePage.isOpenVialEnabled(2, 1));
@@ -643,13 +643,13 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     for (int i = 1; i <= 16; i++) {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
       if (i != 16) {
-        assertEqualsAndNulls(childCoverageDetails.getString("healthCenter11months"), "null");
-        assertEqualsAndNulls(childCoverageDetails.getString("outreach11months"), "null");
+        assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter11Months"), "null");
+        assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach11Months"), "null");
       }
 
       if (i != 2 && i != 6) {
-        assertEqualsAndNulls(childCoverageDetails.getString("healthCenter23months"), "null");
-        assertEqualsAndNulls(childCoverageDetails.getString("outreach23months"), "null");
+        assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter23Months"), "null");
+        assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach23Months"), "null");
       }
     }
     List<String> openedVials = asList("BCG", "Polio10", "Polio20", "IPV", "Penta1", "Penta10", "PCV", "RV Rotarix", "Sarampo", "MSD", "HPV");
@@ -670,14 +670,14 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
 
     childCoveragePage.applyNRToAll();
     childCoveragePage.clickOK();
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(1);
-    childCoveragePage.applyNRToOutreach11MonthsForGivenRow(2);
-    childCoveragePage.applyNRToHealthCenter23MonthsForGivenRow(11);
-    childCoveragePage.applyNRToOutreach23MonthsDataForGivenRow(12);
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(1, "9");
-    childCoveragePage.enterOutreach11MonthsDataForGivenRow(2, "23");
-    childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(11, "1234567");
-    childCoveragePage.enterOutreach23MonthsDataForGivenRow(12, "7654321");
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(1);
+    childCoveragePage.applyNRToTotalOutreach11MonthsForGivenRow(2);
+    childCoveragePage.applyNRToTotalHealthCenter23MonthsForGivenRow(11);
+    childCoveragePage.applyNRToTotalOutreach23MonthsDataForGivenRow(12);
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(1, "9");
+    childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(2, "23");
+    childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(11, "1234567");
+    childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(12, "7654321");
 
     childCoveragePage.applyNrToBcgOpenedVials();
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(1, 1, "1234567");
@@ -703,28 +703,28 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     String facilityVisitId = dbWrapper.getAttributeFromTable("facility_visits", "id", "facilityId", facilityId);
 
     ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails("BCG", facilityVisitId);
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter11months"), "9");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach11months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter23months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach23months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter11Months"), "9");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach11Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter23Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach23Months"), "null");
 
     childCoverageDetails = dbWrapper.getChildCoverageDetails("Polio (Newborn)", facilityVisitId);
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter11months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach11months"), "23");
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter23months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach23months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter11Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach11Months"), "23");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter23Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach23Months"), "null");
 
     childCoverageDetails = dbWrapper.getChildCoverageDetails("PCV10 3a dose", facilityVisitId);
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter11months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach11months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter23months"), "1234567");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach23months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter11Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach11Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter23Months"), "1234567");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach23Months"), "null");
 
     childCoverageDetails = dbWrapper.getChildCoverageDetails("Sarampo 1a dose", facilityVisitId);
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter11months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach11months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("healthcenter23months"), "null");
-    assertEqualsAndNulls(childCoverageDetails.getString("outreach23months"), "7654321");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter11Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach11Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalHealthCenter23Months"), "null");
+    assertEqualsAndNulls(childCoverageDetails.getString("totalOutreach23Months"), "7654321");
 
     ResultSet openedVialLineItem = dbWrapper.getChildOpenedVialLineItem("BCG", facilityVisitId);
     assertEquals(openedVialLineItem.getString("openedVials"), "1234567");
@@ -778,13 +778,13 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
 
       if (i != 16) {
-        assertEquals(childCoverageDetails.getString("healthCenter11months"), String.valueOf(i));
-        assertEquals(childCoverageDetails.getString("outreach11months"), String.valueOf(i + 10));
+        assertEquals(childCoverageDetails.getString("totalHealthCenter11Months"), String.valueOf(i));
+        assertEquals(childCoverageDetails.getString("totalOutreach11Months"), String.valueOf(i + 10));
       }
 
       if (i != 2 && i != 6) {
-        assertEquals(childCoverageDetails.getString("healthCenter23months"), String.valueOf(i + 100));
-        assertEquals(childCoverageDetails.getString("outreach23months"), String.valueOf(i + 11));
+        assertEquals(childCoverageDetails.getString("totalHealthCenter23Months"), String.valueOf(i + 100));
+        assertEquals(childCoverageDetails.getString("totalOutreach23Months"), String.valueOf(i + 11));
       }
     }
 
@@ -883,16 +883,16 @@ public class DistributionChildCoverageSyncTest extends TestCaseHelper {
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("HPV", "HPV", true);
   }
 
-  @When("^I apply NR to healthCenter11Months for rowNumber \"([^\"]*)\"$")
+  @When("^I apply NR to totalHealthCenter11Months for rowNumber \"([^\"]*)\"$")
   public void applyNrToHealthCenter11(String rowNumber) {
     ChildCoveragePage childCoveragePage = PageObjectFactory.getChildCoveragePage(testWebDriver);
-    childCoveragePage.applyNRToHealthCenter11MonthsForGivenRow(Integer.parseInt(rowNumber));
+    childCoveragePage.applyNRToTotalHealthCenter11MonthsForGivenRow(Integer.parseInt(rowNumber));
   }
 
-  @And("^I enter healthCenter11Months for rowNumber \"([^\"]*)\" as \"([^\"]*)\"$")
+  @And("^I enter totalHealthCenter11Months for rowNumber \"([^\"]*)\" as \"([^\"]*)\"$")
   public void enterHealthCenter11Data(String rowNumber, String value) {
     ChildCoveragePage childCoveragePage = PageObjectFactory.getChildCoveragePage(testWebDriver);
-    childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(Integer.parseInt(rowNumber), value);
+    childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(Integer.parseInt(rowNumber), value);
   }
 
   @And("^I apply NR to all fields on child coverage page$")

@@ -159,11 +159,11 @@ public class E2EDistributionTest extends TestCaseHelper {
     assertEquals(childCoveragePage.getTextOfTargetGroupValue(12), "");
 
     for (int rowNumber = 1; rowNumber <= 12; rowNumber++) {
-      childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
-      childCoveragePage.enterOutreach11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+      childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+      childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
       if (rowNumber != 2) {
-        childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
-        childCoveragePage.enterOutreach23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+        childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+        childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
       }
     }
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(1, 1, "1");
@@ -219,12 +219,12 @@ public class E2EDistributionTest extends TestCaseHelper {
 
     fullCoveragePage.navigateToChildCoverage();
     assertEquals("300", childCoveragePage.getTextOfTargetGroupValue(9));
-    assertEquals("9", childCoveragePage.getHealthCenter11MonthsDataForGivenRow(9));
-    assertEquals("9", childCoveragePage.getOutreach11MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalHealthCenter11MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalOutreach11MonthsDataForGivenRow(9));
     assertEquals("18", childCoveragePage.getTotalForGivenColumnAndRow(1, 9));
     assertEquals("6", childCoveragePage.getCoverageRateForGivenRow(9));
-    assertEquals("9", childCoveragePage.getHealthCenter23MonthsDataForGivenRow(9));
-    assertEquals("9", childCoveragePage.getOutreach23MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalHealthCenter23MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalOutreach23MonthsDataForGivenRow(9));
     assertEquals("18", childCoveragePage.getTotalForGivenColumnAndRow(2, 9));
     assertEquals("36", childCoveragePage.getTotalForGivenColumnAndRow(3, 9));
     assertEquals("6", childCoveragePage.getOpenedVialsCountForGivenGroupAndRow(9, 1));
@@ -442,11 +442,11 @@ public class E2EDistributionTest extends TestCaseHelper {
     adultCoveragePage.navigateToChildCoverage();
 
     for (int rowNumber = 1; rowNumber <= 12; rowNumber++) {
-      childCoveragePage.enterHealthCenter11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
-      childCoveragePage.enterOutreach11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+      childCoveragePage.enterTotalHealthCenter11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+      childCoveragePage.enterTotalOutreach11MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
       if (rowNumber != 2) {
-        childCoveragePage.enterHealthCenter23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
-        childCoveragePage.enterOutreach23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+        childCoveragePage.enterTotalHealthCenter23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
+        childCoveragePage.enterTotalOutreach23MonthsDataForGivenRow(rowNumber, String.valueOf(rowNumber));
       }
     }
     childCoveragePage.enterOpenedVialsCountForGivenGroupAndRow(1, 1, "1");
@@ -493,12 +493,12 @@ public class E2EDistributionTest extends TestCaseHelper {
     visitInformationPage.navigateToChildCoverage();
     childCoveragePage.verifyIndicator("GREEN");
     assertEquals("300", childCoveragePage.getTextOfTargetGroupValue(9));
-    assertEquals("9", childCoveragePage.getHealthCenter11MonthsDataForGivenRow(9));
-    assertEquals("9", childCoveragePage.getOutreach11MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalHealthCenter11MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalOutreach11MonthsDataForGivenRow(9));
     assertEquals("18", childCoveragePage.getTotalForGivenColumnAndRow(1, 9));
     assertEquals("6", childCoveragePage.getCoverageRateForGivenRow(9));
-    assertEquals("9", childCoveragePage.getHealthCenter23MonthsDataForGivenRow(9));
-    assertEquals("9", childCoveragePage.getOutreach23MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalHealthCenter23MonthsDataForGivenRow(9));
+    assertEquals("9", childCoveragePage.getTotalOutreach23MonthsDataForGivenRow(9));
     assertEquals("18", childCoveragePage.getTotalForGivenColumnAndRow(2, 9));
     assertEquals("36", childCoveragePage.getTotalForGivenColumnAndRow(3, 9));
     assertEquals("6", childCoveragePage.getOpenedVialsCountForGivenGroupAndRow(9, 1));
