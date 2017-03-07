@@ -102,8 +102,8 @@ describe('Child coverage', function () {
     it('should set status as is-empty if no fields filled', function () {
       var unfilledChildCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
-          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG", healthCenter11Months: {value: undefined}, outreach11Months: {value: undefined}, healthCenter23Months: {value: undefined}, outreach23Months: {value: undefined}},
-          {"id": 26, "facilityVisitId": 3, "vaccination": "Polio (Newborn)", healthCenter11Months: {value: undefined}, outreach11Months: {value: undefined}, healthCenter23Months: {value: undefined}, outreach23Months: {value: undefined}}
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG", totalHealthCenter11Months: {value: undefined}, totalOutreach11Months: {value: undefined}, totalHealthCenter23Months: {value: undefined}, totalOutreach23Months: {value: undefined}},
+          {"id": 26, "facilityVisitId": 3, "vaccination": "Polio (Newborn)", totalHealthCenter11Months: {value: undefined}, totalOutreach11Months: {value: undefined}, totalHealthCenter23Months: {value: undefined}, totalOutreach23Months: {value: undefined}}
         ],
         openedVialLineItems: [
           {"id": 15, "facilityVisitId": 3, "productVialName": "BCG", "packSize": 10, openedVial: {value: undefined}},
@@ -211,8 +211,8 @@ describe('Child coverage', function () {
     it('should be treated as outdated distribution', function () {
       var childCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
-          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  healthCenter11Months: {value: 1}, outreach11Months: {notRecorded: true},
-            healthCenter23Months: {value: 2}, outreach23Months: {value: 7},
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: 1}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
             maleHealthCenter11Months: {notRecorded: true}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {notRecorded: true}, maleOutreach23Months: {notRecorded: true},
             femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {notRecorded: true}}
         ],
@@ -227,8 +227,8 @@ describe('Child coverage', function () {
     it('should not be treated as outdated distribution', function () {
       var childCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
-          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  healthCenter11Months: {value: 1}, outreach11Months: {notRecorded: true},
-            healthCenter23Months: {value: 2}, outreach23Months: {value: 7},
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: 1}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
             maleHealthCenter11Months: {value: 5}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {value: 1}, maleOutreach23Months: {notRecorded: true},
             femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {value: 4}}
         ],
@@ -243,8 +243,8 @@ describe('Child coverage', function () {
     it('should compute status correctly for outdated distribution', function () {
       var childCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
-          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  healthCenter11Months: {value: undefined}, outreach11Months: {notRecorded: true},
-            healthCenter23Months: {value: 2}, outreach23Months: {value: 7},
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: undefined}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
             maleHealthCenter11Months: {notRecorded: true}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {notRecorded: true}, maleOutreach23Months: {notRecorded: true},
             femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {notRecorded: true}}
         ],
@@ -259,8 +259,8 @@ describe('Child coverage', function () {
     it('should applyNR for outdated distribution', function () {
       var childCoverage = new ChildCoverage(12, {
         childCoverageLineItems: [
-          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  healthCenter11Months: {value: 1}, outreach11Months: {notRecorded: true},
-            healthCenter23Months: {value: 2}, outreach23Months: {value: 7},
+          {"id": 5, "facilityVisitId": 3, "vaccination": "BCG",  totalHealthCenter11Months: {value: 1}, totalOutreach11Months: {notRecorded: true},
+            totalHealthCenter23Months: {value: 2}, totalOutreach23Months: {value: 7},
             maleHealthCenter11Months: {notRecorded: true}, maleOutreach11Months: {notRecorded: true}, maleHealthCenter23Months: {notRecorded: true}, maleOutreach23Months: {notRecorded: true},
             femaleHealthCenter11Months: {notRecorded: true}, femaleOutreach11Months: {notRecorded: true}, femaleHealthCenter23Months: {notRecorded: true}, femaleOutreach23Months: {notRecorded: true}}
         ],
@@ -270,10 +270,10 @@ describe('Child coverage', function () {
       });
       childCoverage.notRecordedApplied = false;
       childCoverage.setNotRecorded();
-      expect(childCoverage.childCoverageLineItems[0].healthCenter11Months.notRecorded).toBeTruthy();
-      expect(childCoverage.childCoverageLineItems[0].outreach11Months.notRecorded).toBeTruthy();
-      expect(childCoverage.childCoverageLineItems[0].healthCenter23Months.notRecorded).toBeTruthy();
-      expect(childCoverage.childCoverageLineItems[0].outreach23Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalHealthCenter11Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalOutreach11Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalHealthCenter23Months.notRecorded).toBeTruthy();
+      expect(childCoverage.childCoverageLineItems[0].totalOutreach23Months.notRecorded).toBeTruthy();
     });
 
   });

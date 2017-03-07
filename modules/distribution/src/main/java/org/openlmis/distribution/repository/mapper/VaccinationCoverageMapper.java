@@ -64,8 +64,8 @@ public interface VaccinationCoverageMapper {
   @Select({"SELECT * FROM coverage_product_vials"})
   List<ProductVial> getProductVials();
 
-  @Update({"UPDATE vaccination_child_coverage_line_items SET healthCenter11Months = #{healthCenter11Months}, outreach11Months = #{outreach11Months},",
-    " healthCenter23Months = #{healthCenter23Months}, outreach23Months = #{outreach23Months}, maleHealthCenter11Months = #{maleHealthCenter11Months}, maleOutreach11Months = #{maleOutreach11Months}," +
+  @Update({"UPDATE vaccination_child_coverage_line_items SET totalHealthCenter11Months = #{totalHealthCenter11Months}, totalOutreach11Months = #{totalOutreach11Months},",
+    " totalHealthCenter23Months = #{totalHealthCenter23Months}, totalOutreach23Months = #{totalOutreach23Months}, maleHealthCenter11Months = #{maleHealthCenter11Months}, maleOutreach11Months = #{maleOutreach11Months}," +
         " maleHealthCenter23Months = #{maleHealthCenter23Months}, maleOutreach23Months = #{maleOutreach23Months}, femaleHealthCenter11Months = #{femaleHealthCenter11Months}, femaleOutreach11Months = #{femaleOutreach11Months}," +
         " femaleHealthCenter23Months = #{femaleHealthCenter23Months}, femaleOutreach23Months = #{femaleOutreach23Months}, modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT, displayOrder = #{displayOrder} WHERE id = #{id}"})
   void updateChildCoverageLineItem(ChildCoverageLineItem childCoverageLineItem);

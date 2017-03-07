@@ -168,16 +168,16 @@ public class FacilityDistributionEditHandler {
             continue;
           }
 
-          String addictional = getAddictional(parent, original);
+          String additional = getAdditional(parent, original);
 
           if (Objects.equals(previousValue, originalProperty)) {
             // a user works on current version of the given property
-            results.allow(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, addictional);
+            results.allow(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, additional);
             continue;
           }
 
           // a user works on different version of the given property
-          results.deny(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, addictional);
+          results.deny(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, additional);
           continue;
         }
 
@@ -243,7 +243,7 @@ public class FacilityDistributionEditHandler {
     return !clazz.equals(Reading.class) && name.startsWith("org.openlmis.distribution.dto");
   }
 
-  private String getAddictional(Object parent, Object original) {
+  private String getAdditional(Object parent, Object original) {
     if (original instanceof RefrigeratorReading) {
       return ((RefrigeratorReading) original).getRefrigerator().getSerialNumber();
     }

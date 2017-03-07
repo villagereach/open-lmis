@@ -126,8 +126,8 @@ describe('Child Coverage Controller', function () {
   });
 
   it('should return total as 0 if value of healthCenter and outReach is undefined', function () {
-    childCoverageLineItem1.outreach11Months = undefined;
-    var total = scope.getTotal(childCoverageLineItem1.healthCenter11Months, childCoverageLineItem1.outreach11Months);
+    childCoverageLineItem1.totalOutreach11Months = undefined;
+    var total = scope.getTotal(childCoverageLineItem1.totalHealthCenter11Months, childCoverageLineItem1.totalOutreach11Months);
 
     expect(total).toEqual(0);
   });

@@ -137,22 +137,22 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
 
   $scope.getTotal11 = function (lineItem) {
     if(!$scope.childCoverage.isOutdatedDistribution) {
-      lineItem.healthCenter11Months = calculateTotalCoverageForGenderFields(
-        lineItem.healthCenter11Months, lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months);
-      lineItem.outreach11Months = calculateTotalCoverageForGenderFields(
-        lineItem.outreach11Months, lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months);
+      lineItem.totalHealthCenter11Months = calculateTotalCoverageForGenderFields(
+        lineItem.totalHealthCenter11Months, lineItem.maleHealthCenter11Months, lineItem.femaleHealthCenter11Months);
+      lineItem.totalOutreach11Months = calculateTotalCoverageForGenderFields(
+        lineItem.totalOutreach11Months, lineItem.maleOutreach11Months, lineItem.femaleOutreach11Months);
     }
-    return $scope.getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months);
+    return $scope.getTotal(lineItem.totalHealthCenter11Months, lineItem.totalOutreach11Months);
   };
 
   $scope.getTotal23 = function (lineItem) {
     if(!$scope.childCoverage.isOutdatedDistribution) {
-      lineItem.healthCenter23Months = calculateTotalCoverageForGenderFields(
-        lineItem.healthCenter23Months, lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months);
-      lineItem.outreach23Months = calculateTotalCoverageForGenderFields(
-        lineItem.outreach23Months, lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months);
+      lineItem.totalHealthCenter23Months = calculateTotalCoverageForGenderFields(
+        lineItem.totalHealthCenter23Months, lineItem.maleHealthCenter23Months, lineItem.femaleHealthCenter23Months);
+      lineItem.totalOutreach23Months = calculateTotalCoverageForGenderFields(
+        lineItem.totalOutreach23Months, lineItem.maleOutreach23Months, lineItem.femaleOutreach23Months);
     }
-    return $scope.getTotal(lineItem.outreach23Months, lineItem.healthCenter23Months);
+    return $scope.getTotal(lineItem.totalOutreach23Months, lineItem.totalHealthCenter23Months);
   };
 
   $scope.getTotalVaccinations = function (childCoverageLineItem) {
