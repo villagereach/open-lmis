@@ -130,6 +130,7 @@ public class ManageDistribution extends TestCaseHelper {
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("RV Rotarix 2a dose", "RV Rotarix", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Sarampo 1a dose", "Sarampo", true);
     dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("Sarampo 2a dose", "MSD", true);
+    dbWrapper.insertTargetGroupEntityAndProductsInMappingTable("HPV", "HPV", true);
     dbWrapper.insertChildCoverageProductVial("Polio10", "P11");
     dbWrapper.insertChildCoverageProductVial("Polio20", "P10");
     dbWrapper.insertChildCoverageProductVial("IPV", "IPV");
@@ -139,6 +140,7 @@ public class ManageDistribution extends TestCaseHelper {
     dbWrapper.insertChildCoverageProductVial("RV Rotarix", "RV Rotarix");
     dbWrapper.insertChildCoverageProductVial("Sarampo", "Sarampo");
     dbWrapper.insertChildCoverageProductVial("MSD", "MSD");
+    dbWrapper.insertChildCoverageProductVial("HPV", "HPV");
   }
 
   @And("^I setup mapping for adult coverage")
