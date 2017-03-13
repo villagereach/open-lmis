@@ -156,7 +156,7 @@ public class ReviewDataService {
     List<SynchronizedDistribution> list = new ArrayList<>();
 
     for (Distribution distribution : distributions) {
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, new DistributionDataFilter(false));
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, new DistributionDataFilter(false), 1);
       Iterator<Map.Entry<Long, FacilityDistribution>> iterator = facilityDistributionMap.entrySet().iterator();
 
       if (!iterator.hasNext()) {
@@ -252,14 +252,14 @@ public class ReviewDataService {
   public DistributionDTO update(Long distributionId, Long facilityId, FacilityDistributionEditDetail detail, Long userId) {
     Distribution distribution = distributionService.getBy(distributionId);
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(true));
+    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(true), null);
     distribution.setFacilityDistributions(facilityDistributions);
 
     facilityDistributionEditService.save(detail);
     createHistory(userId, distribution, detail, facilityId);
 
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(true));
+    facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(true), null);
     distribution.setFacilityDistributions(facilityDistributions);
 
     return distribution.transform();
@@ -313,7 +313,7 @@ public class ReviewDataService {
       Distribution distribution = distributionService.getBy(distributionId);
       distribution = distributionService.getFullSyncedDistribution(distribution);
 
-      Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(false));
+      Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(false), null);
       Iterator<Map.Entry<Long, FacilityDistribution>> iterator = facilityDistributions.entrySet().iterator();
 
       if (!iterator.hasNext()) {

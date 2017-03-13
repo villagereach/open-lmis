@@ -18,7 +18,9 @@
           <h3>
             <span id="coverageHeader" openlmis-message="label.coverage.children"></span>
             <input id="childCoverageApplyNRAll" type="button" ng-click="applyNRAll()" class="pull-right btn"
-                   openlmis-message="button.apply.nr.all"/>
+                   openlmis-message="button.apply.nr.all" ng-if="!childCoverage.notRecordedApplied"/>
+            <input id="childCoverageClearNRFromAll" type="button" ng-click="clearNRAll()" class="pull-right btn"
+                   openlmis-message="button.clear.nr.all" ng-if="childCoverage.notRecordedApplied"/>
           </h3>
 
       <div id="childCoverageTable" class="parent facility-distribution-form-table coverage-table">
@@ -30,6 +32,8 @@
                   openlmis-message={{columns.vaccination}}></th>
               <th class="col-complete-vaccinated" id="targetGroup" rowspan="2"
                   openlmis-message={{columns.targetGroup}}></th>
+              <th class="col-complete-vaccinated" id="sex" rowspan="2"
+                  openlmis-message={{columns.sex}} ng-if="!childCoverage.isOutdatedDistribution"></th>
               <th class="col-complete-vaccinated center-justified" id="childrenAgeGroup1" colspan="3"
                   openlmis-message={{columns.childrenAgeGroup0To11}}></th>
               <th class="col-complete-vaccinated" id="coverageRate" rowspan="2"
@@ -66,112 +70,279 @@
               <td class="col-complete-vaccinated col-target-group" id="target{{$index}}">
                 <span ng-bind="lineItem.targetGroup"></span>
               </td>
-              <td class="col-complete-vaccinated">
-                <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose'">
-                <div>
-                  <span class="position-relative">
-                    <input id="healthCenter11Months{{$index}}" type="number"
-                           ng-model="lineItem.healthCenter11Months.value"
-                           name="coverageHealthCenter11Months{{$index}}" ng-trim=false
-                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                           error-holder="healthCenter11MonthsError{{$index}}"
-                           ng-class="{'required-error': !(lineItem.healthCenter11Months.value.hasValue() ||
-                           lineItem.healthCenter11Months.notRecorded)}"/>
-                    <span id="healthCenter11MonthsError{{$index}}"
-                          class="rnr-form-error"
-                          openlmis-message="error.number.only"
-                          style="display: none"></span>
-                  </span>
-                </div>
-                <input id="coverageHealthCenter11Months{{$index}}" type="checkbox"
-                       ng-model="lineItem.healthCenter11Months.notRecorded"
-                       not-recorded/>
-                <label class="checkbox-label" for="coverageHealthCenter11Months{{$index}}"
-                       openlmis-message="label.not.recorded"></label>
+              <td class="col-complete-vaccinated" id="sex{{$index}}" ng-if="!childCoverage.isOutdatedDistribution">
+                <span class="row">
+                  <label openlmis-message="label.coverage.sex.male"></label>
+                </span>
+                <span class="row">
+                  <label openlmis-message="label.coverage.sex.female"></label>
+                </span>
               </td>
               <td class="col-complete-vaccinated">
                 <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose'">
-                <div>
-                  <span class="position-relative">
-                    <input id="outreach11Months{{$index}}" type="number"
-                           ng-model="lineItem.outreach11Months.value"
-                           name="coverageOutreach11Months{{$index}}" ng-trim=false
+                  <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                    <input id="maleHealthCenter11Months{{$index}}" type="number"
+                           ng-model="lineItem.maleHealthCenter11Months.value"
+                           name="maleCoverageHealthCenter11Months{{$index}}" ng-trim=false
                            numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                           error-holder="outreach11MonthsError{{$index}}"
-                           ng-class="{'required-error': !(lineItem.outreach11Months.value.hasValue() ||
-                           lineItem.outreach11Months.notRecorded)}"/>
-                    <span id="outreach11MonthsError{{$index}}"
+                           error-holder="maleHealthCenter11MonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.maleHealthCenter11Months.value.hasValue() ||
+                           lineItem.maleHealthCenter11Months.notRecorded)}"/>
+                    <span id="maleHealthCenter11MonthsError{{$index}}"
                           class="rnr-form-error"
                           openlmis-message="error.number.only"
                           style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="maleCoverageHealthCenter11Months{{$index}}" type="checkbox"
+                             ng-model="lineItem.maleHealthCenter11Months.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="maleCoverageHealthCenter11Months{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
                   </span>
-                                </div>
-                                <input id="coverageOutreach11Months{{$index}}" type="checkbox"
-                                       ng-model="lineItem.outreach11Months.notRecorded"
-                                       not-recorded/>
-                                <label class="checkbox-label" for="coverageOutreach11Months{{$index}}"
-                                       openlmis-message="label.not.recorded"></label>
-                            </td>
-                            <td class="col-complete-vaccinated col-total">
+                  <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                    <input id="femaleHealthCenter11Months{{$index}}" type="number"
+                           ng-model="lineItem.femaleHealthCenter11Months.value"
+                           name="femaleCoverageHealthCenter11Months{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="femaleHealthCenter11MonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.femaleHealthCenter11Months.value.hasValue() ||
+                           lineItem.femaleHealthCenter11Months.notRecorded)}"/>
+                    <span id="femaleHealthCenter11MonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="femaleCoverageHealthCenter11Months{{$index}}" type="checkbox"
+                             ng-model="lineItem.femaleHealthCenter11Months.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="femaleCoverageHealthCenter11Months{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+                  <span class="row" ng-if="childCoverage.isOutdatedDistribution">
+                    <input id="totalHealthCenter11Months{{$index}}" type="number"
+                           ng-model="lineItem.totalHealthCenter11Months.value"
+                           name="coverageTotalHealthCenter11Months{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="totalHealthCenter11MonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.totalHealthCenter11Months.value.hasValue() ||
+                           lineItem.totalHealthCenter11Months.notRecorded)}"/>
+                    <span id="totalHealthCenter11MonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="coverageTotalHealthCenter11Months{{$index}}" type="checkbox"
+                             ng-model="lineItem.totalHealthCenter11Months.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="coverageTotalHealthCenter11Months{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+              </td>
+              <td class="col-complete-vaccinated">
+                <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose'">
+                  <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                    <input id="maleOutreach11Months{{$index}}" type="number"
+                           ng-model="lineItem.maleOutreach11Months.value"
+                           name="maleCoverageOutreach11Months{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="maleOutreach11MonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.maleOutreach11Months.value.hasValue() ||
+                           lineItem.maleOutreach11Months.notRecorded)}"/>
+                    <span id="maleOutreach11MonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="maleCoverageOutreach11Months{{$index}}" type="checkbox"
+                             ng-model="lineItem.maleOutreach11Months.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="maleCoverageOutreach11Months{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+                  <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                    <input id="femaleOutreach11Months{{$index}}" type="number"
+                           ng-model="lineItem.femaleOutreach11Months.value"
+                           name="femaleCoverageOutreach11Months{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="femaleOutreach11MonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.femaleOutreach11Months.value.hasValue() ||
+                           lineItem.femaleOutreach11Months.notRecorded)}"/>
+                    <span id="femaleOutreach11MonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="femaleCoverageOutreach11Months{{$index}}" type="checkbox"
+                             ng-model="lineItem.femaleOutreach11Months.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="femaleCoverageOutreach11Months{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+                  <span class="row" ng-if="childCoverage.isOutdatedDistribution">
+                    <input id="totalOutreach11Months{{$index}}" type="number"
+                           ng-model="lineItem.totalOutreach11Months.value"
+                           name="coverageTotalOutreach11Months{{$index}}" ng-trim=false
+                           numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                           error-holder="totalOutreach11MonthsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.totalOutreach11Months.value.hasValue() ||
+                           lineItem.totalOutreach11Months.notRecorded)}"/>
+                    <span id="totalOutreach11MonthsError{{$index}}"
+                          class="rnr-form-error"
+                          openlmis-message="error.number.only"
+                          style="display: none"></span>
+                    <span class="span-not-recorded">
+                      <input id="coverageTotalOutreach11Months{{$index}}" type="checkbox"
+                             ng-model="lineItem.totalOutreach11Months.notRecorded"
+                             not-recorded/>
+                      <label class="checkbox-label" for="coverageTotalOutreach11Months{{$index}}"
+                             openlmis-message="label.not.recorded"></label>
+                    </span>
+                  </span>
+              </td>
+              <td class="col-complete-vaccinated col-total">
                 <span id="total0{{$index}}"
-                      ng-bind="getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months)"></span>
-                            </td>
-                            <td class="col-complete-vaccinated col-coverage-rate">
+                      ng-bind="getTotal11(lineItem)"></span>
+              </td>
+              <td class="col-complete-vaccinated col-coverage-rate">
                 <span id="coverageRateCalculated{{$index}}"
-                      ng-bind="getFormattedAsPercent(calculateCoverageRate(getTotal(lineItem.healthCenter11Months, lineItem.outreach11Months), lineItem.targetGroup))"></span>
+                      ng-bind="getFormattedAsPercent(calculateCoverageRate(getTotal(lineItem.totalHealthCenter11Months, lineItem.totalOutreach11Months), lineItem.targetGroup))"></span>
               </td>
               <td class="col-complete-vaccinated">
                 <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV'">
-                  <div>
-                    <span class="position-relative">
-                      <input id="healthCenter23Months{{$index}}" type="number"
-                             ng-model="lineItem.healthCenter23Months.value"
-                             name="coverageHealthCenter23Months{{$index}}" ng-trim=false
+                    <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                      <input id="maleHealthCenter23Months{{$index}}" type="number"
+                             ng-model="lineItem.maleHealthCenter23Months.value"
+                             name="maleCoverageHealthCenter23Months{{$index}}" ng-trim=false
                              numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                             error-holder="healthCenter23MonthsError{{$index}}"
-                             ng-class="{'required-error': !(lineItem.healthCenter23Months.value.hasValue() ||
-                             lineItem.healthCenter23Months.notRecorded)}"/>
-                      <span id="healthCenter23MonthsError{{$index}}"
+                             error-holder="maleHealthCenter23MonthsError{{$index}}"
+                             ng-class="{'required-error': !(lineItem.maleHealthCenter23Months.value.hasValue() ||
+                             lineItem.maleHealthCenter23Months.notRecorded)}"/>
+                      <span id="maleHealthCenter23MonthsError{{$index}}"
                             class="rnr-form-error"
                             openlmis-message="error.number.only"
                             style="display: none"></span>
+                      <span class="span-not-recorded">
+                        <input id="maleCoverageHealthCenter23Months{{$index}}" type="checkbox"
+                               ng-model="lineItem.maleHealthCenter23Months.notRecorded"
+                               not-recorded/>
+                        <label class="checkbox-label" for="maleCoverageHealthCenter23Months{{$index}}"
+                               openlmis-message="label.not.recorded"></label>
+                      </span>
                     </span>
-                  </div>
-                  <input id="coverageHealthCenter23Months{{$index}}" type="checkbox"
-                         ng-model="lineItem.healthCenter23Months.notRecorded"
-                         not-recorded/>
-                  <label class="checkbox-label" for="coverageHealthCenter23Months{{$index}}"
-                         openlmis-message="label.not.recorded"></label>
+                    <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                      <input id="femaleHealthCenter23Months{{$index}}" type="number"
+                             ng-model="lineItem.femaleHealthCenter23Months.value"
+                             name="femaleCoverageHealthCenter23Months{{$index}}" ng-trim=false
+                             numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                             error-holder="femaleHealthCenter23MonthsError{{$index}}"
+                             ng-class="{'required-error': !(lineItem.femaleHealthCenter23Months.value.hasValue() ||
+                             lineItem.femaleHealthCenter23Months.notRecorded)}"/>
+                      <span id="femaleHealthCenter23MonthsError{{$index}}"
+                            class="rnr-form-error"
+                            openlmis-message="error.number.only"
+                            style="display: none"></span>
+                      <span class="span-not-recorded">
+                        <input id="femaleCoverageHealthCenter23Months{{$index}}" type="checkbox"
+                               ng-model="lineItem.femaleHealthCenter23Months.notRecorded"
+                               not-recorded/>
+                        <label class="checkbox-label" for="femaleCoverageHealthCenter23Months{{$index}}"
+                               openlmis-message="label.not.recorded"></label>
+                      </span>
+                    </span>
+                    <span class="row" ng-if="childCoverage.isOutdatedDistribution">
+                      <input id="totalHealthCenter23Months{{$index}}" type="number"
+                             ng-model="lineItem.totalHealthCenter23Months.value"
+                             name="coverageTotalHealthCenter23Months{{$index}}" ng-trim=false
+                             numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                             error-holder="totalHealthCenter23MonthsError{{$index}}"
+                             ng-class="{'required-error': !(lineItem.totalHealthCenter23Months.value.hasValue() ||
+                             lineItem.totalHealthCenter23Months.notRecorded)}"/>
+                      <span id="totalHealthCenter23MonthsError{{$index}}"
+                            class="rnr-form-error"
+                            openlmis-message="error.number.only"
+                            style="display: none"></span>
+                      <span class="span-not-recorded">
+                        <input id="coverageTotalHealthCenter23Months{{$index}}" type="checkbox"
+                               ng-model="lineItem.totalHealthCenter23Months.notRecorded"
+                               not-recorded/>
+                        <label class="checkbox-label" for="coverageTotalHealthCenter23Months{{$index}}"
+                               openlmis-message="label.not.recorded"></label>
+                      </span>
+                    </span>
                 </span>
               </td>
               <td class="col-complete-vaccinated">
                 <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV'">
-                  <div>
-                    <span class="position-relative">
-                      <input id="outreach23Months{{$index}}" type="number"
-                             ng-model="lineItem.outreach23Months.value"
-                             name="coverageOutreach23Months{{$index}}" ng-trim=false
+                    <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                      <input id="maleOutreach23Months{{$index}}" type="number"
+                             ng-model="lineItem.maleOutreach23Months.value"
+                             name="maleCoverageOutreach23Months{{$index}}" ng-trim=false
                              numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                             error-holder="outreach23MonthsError{{$index}}"
-                             ng-class="{'required-error': !(lineItem.outreach23Months.value.hasValue() ||
-                             lineItem.outreach23Months.notRecorded)}"/>
-                      <span id="outreach23MonthsError{{$index}}"
+                             error-holder="maleOutreach23MonthsError{{$index}}"
+                             ng-class="{'required-error': !(lineItem.maleOutreach23Months.value.hasValue() ||
+                             lineItem.maleOutreach23Months.notRecorded)}"/>
+                      <span id="maleOutreach23MonthsError{{$index}}"
                             class="rnr-form-error"
                             openlmis-message="error.number.only"
                             style="display: none"></span>
+                      <span class="span-not-recorded">
+                        <input id="maleCoverageOutreach23Months{{$index}}" type="checkbox"
+                               ng-model="lineItem.maleOutreach23Months.notRecorded"
+                               not-recorded/>
+                        <label class="checkbox-label" for="maleCoverageOutreach23Months{{$index}}"
+                               openlmis-message="label.not.recorded"></label>
+                      </span>
                     </span>
-                  </div>
-                  <input id="coverageOutreach23Months{{$index}}" type="checkbox"
-                         ng-model="lineItem.outreach23Months.notRecorded"
-                         not-recorded/>
-
-                  <label class="checkbox-label" for="coverageOutreach23Months{{$index}}"
-                         openlmis-message="label.not.recorded"></label>
+                    <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
+                      <input id="femaleOutreach23Months{{$index}}" type="number"
+                             ng-model="lineItem.femaleOutreach23Months.value"
+                             name="femaleCoverageOutreach23Months{{$index}}" ng-trim=false
+                             numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                             error-holder="femaleOutreach23MonthsError{{$index}}"
+                             ng-class="{'required-error': !(lineItem.femaleOutreach23Months.value.hasValue() ||
+                             lineItem.femaleOutreach23Months.notRecorded)}"/>
+                      <span id="femaleOutreach23MonthsError{{$index}}"
+                            class="rnr-form-error"
+                            openlmis-message="error.number.only"
+                            style="display: none"></span>
+                      <span class="span-not-recorded">
+                        <input id="femaleCoverageOutreach23Months{{$index}}" type="checkbox"
+                               ng-model="lineItem.femaleOutreach23Months.notRecorded"
+                               not-recorded/>
+                        <label class="checkbox-label" for="femaleCoverageOutreach23Months{{$index}}"
+                               openlmis-message="label.not.recorded"></label>
+                      </span>
+                    </span>
+                    <span class="row" ng-if="childCoverage.isOutdatedDistribution">
+                      <input id="totalOutreach23Months{{$index}}" type="number"
+                             ng-model="lineItem.totalOutreach23Months.value"
+                             name="coverageTotalOutreach23Months{{$index}}" ng-trim=false
+                             numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
+                             error-holder="totalOutreach23MonthsError{{$index}}"
+                             ng-class="{'required-error': !(lineItem.totalOutreach23Months.value.hasValue() ||
+                             lineItem.totalOutreach23Months.notRecorded)}"/>
+                      <span id="totalOutreach23MonthsError{{$index}}"
+                            class="rnr-form-error"
+                            openlmis-message="error.number.only"
+                            style="display: none"></span>
+                      <span class="span-not-recorded">
+                        <input id="coverageTotalOutreach23Months{{$index}}" type="checkbox"
+                               ng-model="lineItem.totalOutreach23Months.notRecorded"
+                               not-recorded/>
+                        <label class="checkbox-label" for="coverageTotalOutreach23Months{{$index}}"
+                               openlmis-message="label.not.recorded"></label>
+                      </span>
+                    </span>
                 </span>
                             </td>
                             <td class="col-complete-vaccinated col-total">
                 <span id="total1{{$index}}"
-                      ng-bind="getTotal(lineItem.healthCenter23Months, lineItem.outreach23Months)"></span>
+                      ng-bind="getTotal23(lineItem)"></span>
                             </td>
                             <td class="col-complete-vaccinated col-total">
                                 <span id="total2{{$index}}" ng-bind="getTotalVaccinations(lineItem)"></span>

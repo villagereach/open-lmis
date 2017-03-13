@@ -23,10 +23,10 @@ public final class ReadingParser {
     POSITIVE_INTS.put(AdultCoverageLineItem.class, "healthCenterTetanus2To5");
     POSITIVE_INTS.put(AdultCoverageLineItem.class, "outreachTetanus2To5");
 
-    POSITIVE_INTS.put(ChildCoverageLineItem.class, "healthCenter11Months");
-    POSITIVE_INTS.put(ChildCoverageLineItem.class, "outreach11Months");
-    POSITIVE_INTS.put(ChildCoverageLineItem.class, "healthCenter23Months");
-    POSITIVE_INTS.put(ChildCoverageLineItem.class, "outreach23Months");
+    POSITIVE_INTS.put(ChildCoverageLineItem.class, "totalHealthCenter11Months");
+    POSITIVE_INTS.put(ChildCoverageLineItem.class, "totalOutreach11Months");
+    POSITIVE_INTS.put(ChildCoverageLineItem.class, "totalHealthCenter23Months");
+    POSITIVE_INTS.put(ChildCoverageLineItem.class, "totalOutreach23Months");
 
     POSITIVE_INTS.put(EpiInventoryLineItem.class, "existingQuantity");
     POSITIVE_INTS.put(EpiInventoryLineItem.class, "spoiledQuantity");

@@ -24,19 +24,19 @@ public class ChildCoverageLineItemDTOTest {
   @Test
   public void shouldTransformDTOIntoObject() throws Exception {
     ChildCoverageLineItemDTO childCoverageLineItemDTO = new ChildCoverageLineItemDTO();
-    childCoverageLineItemDTO.setHealthCenter11Months(new Reading("123", false));
-    childCoverageLineItemDTO.setHealthCenter23Months(new Reading("12", false));
-    childCoverageLineItemDTO.setOutreach11Months(new Reading("10", false));
-    childCoverageLineItemDTO.setOutreach23Months(new Reading("20", false));
+    childCoverageLineItemDTO.setTotalHealthCenter11Months(new Reading("123", false));
+    childCoverageLineItemDTO.setTotalHealthCenter23Months(new Reading("12", false));
+    childCoverageLineItemDTO.setTotalOutreach11Months(new Reading("10", false));
+    childCoverageLineItemDTO.setTotalOutreach23Months(new Reading("20", false));
     childCoverageLineItemDTO.setModifiedBy(2121L);
     childCoverageLineItemDTO.setId(11122L);
 
     ChildCoverageLineItem lineItem = childCoverageLineItemDTO.transform();
 
-    assertThat(lineItem.getHealthCenter11Months(), is(123));
-    assertThat(lineItem.getHealthCenter23Months(), is(12));
-    assertThat(lineItem.getOutreach11Months(), is(10));
-    assertThat(lineItem.getOutreach23Months(), is(20));
+    assertThat(lineItem.getTotalHealthCenter11Months(), is(123));
+    assertThat(lineItem.getTotalHealthCenter23Months(), is(12));
+    assertThat(lineItem.getTotalOutreach11Months(), is(10));
+    assertThat(lineItem.getTotalOutreach23Months(), is(20));
     assertThat(lineItem.getModifiedBy(), is(2121L));
     assertThat(lineItem.getId(), is(11122L));
   }

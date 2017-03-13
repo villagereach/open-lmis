@@ -36,10 +36,18 @@ public class ChildCoverageLineItem extends CoverageLineItem {
 
   private String vaccination;
   private Integer displayOrder;
-  private Integer healthCenter11Months;
-  private Integer outreach11Months;
-  private Integer healthCenter23Months;
-  private Integer outreach23Months;
+  private Integer totalHealthCenter11Months;
+  private Integer totalOutreach11Months;
+  private Integer totalHealthCenter23Months;
+  private Integer totalOutreach23Months;
+  private Integer maleHealthCenter11Months;
+  private Integer maleOutreach11Months;
+  private Integer maleHealthCenter23Months;
+  private Integer maleOutreach23Months;
+  private Integer femaleHealthCenter11Months;
+  private Integer femaleOutreach11Months;
+  private Integer femaleHealthCenter23Months;
+  private Integer femaleOutreach23Months;
 
   public ChildCoverageLineItem(FacilityVisit facilityVisit, Facility facility, TargetGroupProduct targetGroupProduct,
                                String vaccination, Integer displayOrder, Integer processingPeriodMonths) {
@@ -57,12 +65,20 @@ public class ChildCoverageLineItem extends CoverageLineItem {
     dto.setModifiedDate(modifiedDate);
     dto.setVaccination(vaccination);
     dto.setDisplayOrder(displayOrder);
-    dto.setHealthCenter11Months(new Reading(healthCenter11Months));
-    dto.setHealthCenter23Months(new Reading(healthCenter23Months));
-    dto.setOutreach11Months(new Reading(outreach11Months));
-    dto.setOutreach23Months(new Reading(outreach23Months));
+    dto.setTotalHealthCenter11Months(new Reading(totalHealthCenter11Months));
+    dto.setTotalHealthCenter23Months(new Reading(totalHealthCenter23Months));
+    dto.setTotalOutreach11Months(new Reading(totalOutreach11Months));
+    dto.setTotalOutreach23Months(new Reading(totalOutreach23Months));
     dto.setFacilityVisitId(facilityVisitId);
     dto.setTargetGroup(targetGroup);
+    dto.setFemaleHealthCenter11Months(new Reading(femaleHealthCenter11Months));
+    dto.setFemaleHealthCenter23Months(new Reading(femaleHealthCenter23Months));
+    dto.setFemaleOutreach11Months(new Reading(femaleOutreach11Months));
+    dto.setFemaleOutreach23Months(new Reading(femaleOutreach23Months));
+    dto.setMaleHealthCenter11Months(new Reading(maleHealthCenter11Months));
+    dto.setMaleHealthCenter23Months(new Reading(maleHealthCenter23Months));
+    dto.setMaleOutreach11Months(new Reading(maleOutreach11Months));
+    dto.setMaleOutreach23Months(new Reading(maleOutreach23Months));
 
     return dto;
   }

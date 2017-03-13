@@ -88,7 +88,7 @@ public class DistributionService {
         insertEditInProgress(userId, distribution.getId());
       }
 
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, distributionDataFilter);
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, distributionDataFilter, null);
 
       distribution.setFacilityDistributions(facilityDistributionMap);
 
@@ -173,7 +173,6 @@ public class DistributionService {
 
     return getNPreviousDistributions(currentDistributionFilter, n, distributionDataFilter);
   }
-
 
   public List<DistributionDTO> getNPreviousDistributions(Distribution currentDistribution, Integer n, DistributionDataFilter distributionDataFilter) {
     List<ProcessingPeriod> previousPeriods = processingScheduleService.getNPreviousPeriodsInDescOrder(currentDistribution.getPeriod(), n);

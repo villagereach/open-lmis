@@ -31,24 +31,49 @@ public class ChildCoverageLineItemDTO extends CoverageLineItem {
 
   private String vaccination;
   private Integer displayOrder;
-  private Reading healthCenter11Months;
-  private Reading outreach11Months;
-  private Reading healthCenter23Months;
-  private Reading outreach23Months;
+  private Reading totalHealthCenter11Months;
+  private Reading totalOutreach11Months;
+  private Reading totalHealthCenter23Months;
+  private Reading totalOutreach23Months;
+  private Reading maleHealthCenter11Months;
+  private Reading maleOutreach11Months;
+  private Reading maleHealthCenter23Months;
+  private Reading maleOutreach23Months;
+  private Reading femaleHealthCenter11Months;
+  private Reading femaleOutreach11Months;
+  private Reading femaleHealthCenter23Months;
+  private Reading femaleOutreach23Months;
 
   public ChildCoverageLineItem transform() {
-    Integer healthCenter11Months = Reading.safeRead(this.healthCenter11Months).parsePositiveInt();
-    Integer healthCenter23Months = Reading.safeRead(this.healthCenter23Months).parsePositiveInt();
-    Integer outreach11Months = Reading.safeRead(this.outreach11Months).parsePositiveInt();
-    Integer outreach23Months = Reading.safeRead(this.outreach23Months).parsePositiveInt();
+    Integer totalHealthCenter11Months = Reading.safeRead(this.totalHealthCenter11Months).parsePositiveInt();
+    Integer totalHealthCenter23Months = Reading.safeRead(this.totalHealthCenter23Months).parsePositiveInt();
+    Integer totalOutreach11Months = Reading.safeRead(this.totalOutreach11Months).parsePositiveInt();
+    Integer totalOutreach23Months = Reading.safeRead(this.totalOutreach23Months).parsePositiveInt();
+    Integer maleHealthCenter11Months = Reading.safeRead(this.maleHealthCenter11Months).parsePositiveInt();
+    Integer maleHealthCenter23Months = Reading.safeRead(this.maleHealthCenter23Months).parsePositiveInt();
+    Integer maleOutreach11Months = Reading.safeRead(this.maleOutreach11Months).parsePositiveInt();
+    Integer maleOutreach23Months = Reading.safeRead(this.maleOutreach23Months).parsePositiveInt();
+    Integer femaleHealthCenter11Months = Reading.safeRead(this.femaleHealthCenter11Months).parsePositiveInt();
+    Integer femaleOutreach11Months = Reading.safeRead(this.femaleOutreach11Months).parsePositiveInt();
+    Integer femaleHealthCenter23Months = Reading.safeRead(this.femaleHealthCenter23Months).parsePositiveInt();
+    Integer femaleOutreach23Months = Reading.safeRead(this.femaleOutreach23Months).parsePositiveInt();
 
     ChildCoverageLineItem lineItem = new ChildCoverageLineItem();
-    lineItem.setHealthCenter11Months(healthCenter11Months);
-    lineItem.setHealthCenter23Months(healthCenter23Months);
-    lineItem.setOutreach11Months(outreach11Months);
-    lineItem.setOutreach23Months(outreach23Months);
+    lineItem.setTotalHealthCenter11Months(totalHealthCenter11Months);
+    lineItem.setTotalHealthCenter23Months(totalHealthCenter23Months);
+    lineItem.setTotalOutreach11Months(totalOutreach11Months);
+    lineItem.setTotalOutreach23Months(totalOutreach23Months);
+    lineItem.setFemaleHealthCenter11Months(femaleHealthCenter11Months);
+    lineItem.setFemaleHealthCenter23Months(femaleHealthCenter23Months);
+    lineItem.setFemaleOutreach11Months(femaleOutreach11Months);
+    lineItem.setFemaleOutreach23Months(femaleOutreach23Months);
+    lineItem.setMaleHealthCenter11Months(maleHealthCenter11Months);
+    lineItem.setMaleOutreach11Months(maleOutreach11Months);
+    lineItem.setMaleHealthCenter23Months(maleHealthCenter23Months);
+    lineItem.setMaleOutreach23Months(maleOutreach23Months);
     lineItem.setId(this.id);
     lineItem.setModifiedBy(this.modifiedBy);
+
 
     return lineItem;
   }

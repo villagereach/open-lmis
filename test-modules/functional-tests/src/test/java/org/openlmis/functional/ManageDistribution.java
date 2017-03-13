@@ -486,13 +486,13 @@ public class ManageDistribution extends TestCaseHelper {
         ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
 
         if (i != 16) {
-          assertEquals(childCoverageDetails.getString("healthCenter11months"), map.get("healthCenter11"));
-          assertEquals(childCoverageDetails.getString("outreach11months"), map.get("outreach11"));
+          assertEquals(childCoverageDetails.getString("totalHealthCenter11Months"), map.get("healthCenter11"));
+          assertEquals(childCoverageDetails.getString("totalOutreach11Months"), map.get("outreach11"));
         }
 
         if (i != 2 && i != 6) {
-          assertEquals(childCoverageDetails.getString("healthCenter23months"), map.get("healthCenter23"));
-          assertEquals(childCoverageDetails.getString("outreach23months"), map.get("outreach23"));
+          assertEquals(childCoverageDetails.getString("totalHealthCenter23Months"), map.get("healthCenter23"));
+          assertEquals(childCoverageDetails.getString("totalOutreach23Months"), map.get("outreach23"));
         }
       }
 

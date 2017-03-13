@@ -73,7 +73,12 @@ function FacilityDistribution(facilityDistribution) {
 
   FacilityDistribution.prototype.isDisabled = function (tabName, review) {
     if (review) {
-      return !review.editMode[this.facilityId][tabName || review.currentScreen];
+      var editMode = review.editMode[this.facilityId][tabName || review.currentScreen];
+
+      if (["refrigerator-data", "epi-inventory", "epi-use"].indexOf(tabName || review.currentScreen) != -1) {
+        return !editMode || (this.facilityVisit.visited && this.facilityVisit.visited.value === false);
+      }
+      return !editMode;
     }
 
     if ([DistributionStatus.SYNCED, DistributionStatus.DUPLICATE].indexOf(this.status) != -1) {

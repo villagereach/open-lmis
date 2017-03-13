@@ -203,8 +203,8 @@ public class FacilityDistributionService {
     return getFacilityDistributions(distribution, unSyncedFacilities, distributionDataFilter);
   }
 
-  public Map<Long, FacilityDistribution> getData(Distribution distribution, DistributionDataFilter distributionDataFilter) {
-    List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId());
+  public Map<Long, FacilityDistribution> getData(Distribution distribution, DistributionDataFilter distributionDataFilter, Integer limit) {
+    List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId(), limit);
     return getFacilityDistributions(distribution, visits, distributionDataFilter);
   }
 

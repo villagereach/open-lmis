@@ -52,22 +52,22 @@ public class FacilityDistributionEditResults {
 
   public void allow(Object parent, String parentProperty, Object original,
                     String originalPropertyName, Object originalProperty, Object previousProperty,
-                    Object replacementProperty, String addictional) {
+                    Object replacementProperty, String additional) {
     create(parent, parentProperty, original, originalPropertyName, originalProperty,
-            previousProperty, replacementProperty, false, addictional);
+            previousProperty, replacementProperty, false, additional);
   }
 
   public void deny(Object parent, String parentProperty, Object original,
                    String originalPropertyName, Object originalProperty, Object previousProperty,
-                   Object replacementProperty, String addictional) {
+                   Object replacementProperty, String additional) {
     conflict = true;
     create(parent, parentProperty, original, originalPropertyName, originalProperty,
-            previousProperty, replacementProperty, true, addictional);
+            previousProperty, replacementProperty, true, additional);
   }
 
   private void create(Object parent, String parentProperty, Object original,
                       String originalPropertyName, Object originalProperty, Object previousProperty,
-                      Object replacementProperty, boolean conflict, String addictional) {
+                      Object replacementProperty, boolean conflict, String additional) {
     FacilityDistributionEditDetail detail = new FacilityDistributionEditDetail();
 
     detail.setParentDataScreenId(parent instanceof BaseModel ? ((BaseModel) parent).getId() : null);
@@ -86,7 +86,7 @@ public class FacilityDistributionEditResults {
     detail.setConflict(conflict);
 
     detail.setDataScreenUI(getDataScreen(detail.getDataScreen(), detail.getParentDataScreen()));
-    detail.setEditedItemUI(getField(detail.getDataScreen(), detail.getEditedItem(), detail.getParentDataScreen(), detail.getParentProperty(), addictional));
+    detail.setEditedItemUI(getField(detail.getDataScreen(), detail.getEditedItem(), detail.getParentDataScreen(), detail.getParentProperty(), additional));
 
     details.add(detail);
   }

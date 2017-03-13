@@ -20,8 +20,9 @@
       <div id="coverageTable" class="facility-distribution-form-table" disable-form="{{facilityData.isDisabled(null, distributionReview)}}">
         <div id="applyNRContainer" class="clearfix">
           <input id="CoverageFormApplyNRToAll" type="button" ng-click="applyNRAll()"
-                 class="pull-right btn"
-                 openlmis-message="button.apply.nr.all"/>
+                 class="pull-right btn" openlmis-message="button.apply.nr.all" ng-if="!fullCoverage.notRecordedApplied"/>
+          <input id="CoverageClearNRFromAll" type="button" ng-click="clearNRAll()" class="pull-right btn"
+                 openlmis-message="button.clear.nr.all" ng-if="fullCoverage.notRecordedApplied"/>
         </div>
         <form auto-save="distribution" object-store="distributions">
           <table class="table table-bordered">

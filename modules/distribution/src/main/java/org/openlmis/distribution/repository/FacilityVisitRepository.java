@@ -54,8 +54,8 @@ public class FacilityVisitRepository {
     return mapper.getUnsyncedFacilityCountForDistribution(distributionId);
   }
 
-  public List<FacilityVisit> getByDistributionId(Long distributionId) {
-    return retrieveDetails(mapper.getByDistributionId(distributionId));
+  public List<FacilityVisit> getByDistributionId(Long distributionId, Integer limit) {
+    return mapper.getByDistributionId(distributionId, limit);
   }
 
   public FacilityVisit save(FacilityVisit facilityVisit) {

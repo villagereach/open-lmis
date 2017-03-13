@@ -10,7 +10,7 @@
 
 describe('EPI Use row controller', function () {
 
-  var scope, controller;
+  var scope, controller, epiUse;
 
   beforeEach(inject(function ($rootScope, $controller) {
     scope = $rootScope.$new();
@@ -51,22 +51,21 @@ describe('EPI Use row controller', function () {
 
 describe('Epi use controller', function () {
 
-  var scope, controller, distributionService;
+  var scope, controller, distributionService, epiUse;
 
   beforeEach(module('distribution'));
   beforeEach(inject(function ($rootScope, $controller, _distributionService_, $routeParams) {
     scope = $rootScope.$new();
     $routeParams.facility = 3;
     distributionService = _distributionService_;
+    epiUse = jasmine.createSpyObj('Epi Use', ['setNotRecorded']);
+    distributionService.distribution = {id: 1, facilityDistributions: {3: {epiUse: epiUse}}};
     controller = $controller(EPIUseController, {$scope: scope});
   }));
 
 
   it('should apply NR to all epi Use fields', function () {
     spyOn(distributionService, 'applyNR');
-
-    var epiUse = jasmine.createSpyObj('Epi Use', ['setNotRecorded']);
-    scope.distribution = {id: 1, facilityDistributions: {3: {epiUse: epiUse}}};
 
     scope.applyNRAll();
 

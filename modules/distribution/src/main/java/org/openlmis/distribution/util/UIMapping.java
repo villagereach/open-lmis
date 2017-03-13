@@ -98,10 +98,10 @@ public final class UIMapping {
     FIELD_MAPPING.put("VaccinationFullCoverage", "maleHealthCenter", "label.coverage.health.center");
     FIELD_MAPPING.put("VaccinationFullCoverage", "maleOutreach", "label.coverage.outreach");
 
-    FIELD_MAPPING.put("ChildCoverageLineItem", "healthCenter11Months", "label.coverage.health.center");
-    FIELD_MAPPING.put("ChildCoverageLineItem", "healthCenter23Months", "label.coverage.health.center");
-    FIELD_MAPPING.put("ChildCoverageLineItem", "outreach11Months", "label.coverage.outreach");
-    FIELD_MAPPING.put("ChildCoverageLineItem", "outreach23Months", "label.coverage.outreach");
+    FIELD_MAPPING.put("ChildCoverageLineItem", "totalHealthCenter11Months", "label.coverage.health.center");
+    FIELD_MAPPING.put("ChildCoverageLineItem", "totalHealthCenter23Months", "label.coverage.health.center");
+    FIELD_MAPPING.put("ChildCoverageLineItem", "totalOutreach11Months", "label.coverage.outreach");
+    FIELD_MAPPING.put("ChildCoverageLineItem", "totalOutreach23Months", "label.coverage.outreach");
 
     FIELD_MAPPING.put("AdultCoverageLineItem", "healthCenterTetanus1", "label.coverage.health.center");
     FIELD_MAPPING.put("AdultCoverageLineItem", "outreachTetanus1", "label.coverage.outreach");
@@ -127,7 +127,7 @@ public final class UIMapping {
 
   public static EditedItemUI getField(String classSimpleName, String propertyName,
                     String parentSimpleName, String parentPropertyName,
-                    String addictional) {
+                    String additional) {
     EditedItemUI item = new EditedItemUI();
     item.addTransalte(FIELD_MAPPING.get(classSimpleName, propertyName));
 
@@ -158,8 +158,8 @@ public final class UIMapping {
         }
     }
 
-    if (null != addictional) {
-      item.addNoTransalte(addictional);
+    if (null != additional) {
+      item.addNoTransalte(additional);
     }
 
     return item;

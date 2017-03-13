@@ -23,7 +23,7 @@ var migrationFunc = function (event) {
     createDistributionStore();
   }
 
-  if (!event.oldVersion || event.oldVersion < 5) {
+  if (!event.oldVersion || event.oldVersion < 6) {
     createReviewStore();
   }
 
