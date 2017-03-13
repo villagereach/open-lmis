@@ -19,6 +19,7 @@ import org.openlmis.core.exception.DataException;
 import org.openlmis.core.service.FacilityService;
 import org.openlmis.core.service.MessageService;
 import org.openlmis.distribution.domain.Distribution;
+import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.DistributionRefrigerators;
 import org.openlmis.distribution.domain.EpiInventory;
 import org.openlmis.distribution.domain.EpiUse;
@@ -100,7 +101,7 @@ public class FacilityDistributionService {
     List<ProductVial> childProductVials = new ArrayList<>();
     List<ProductVial> adultProductVials = new ArrayList<>();
     filterProductVials(productVials, childProductVials, adultProductVials);
-    DistributionDTO previousDistribution = distributionService.getPreviousDistribution(distribution);
+    DistributionDTO previousDistribution = distributionService.getPreviousDistribution(distribution, new DistributionDataFilter(false));
 
     for (Facility facility : facilities) {
       facilityDistributions.put(facility.getId(), createDistributionData(facility, distribution, distributionRefrigerators, childrenTargetGroupProducts,
@@ -197,43 +198,48 @@ public class FacilityDistributionService {
     });
   }
 
-  public Map<Long, FacilityDistribution> get(Distribution distribution) {
+  public Map<Long, FacilityDistribution> get(Distribution distribution, DistributionDataFilter distributionDataFilter) {
     List<FacilityVisit> unSyncedFacilities = facilityVisitService.getUnSyncedFacilities(distribution.getId());
-    return getFacilityDistributions(distribution, unSyncedFacilities);
+    return getFacilityDistributions(distribution, unSyncedFacilities, distributionDataFilter);
   }
 
-  public Map<Long, FacilityDistribution> getData(Distribution distribution) {
-    List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId());
-    return getFacilityDistributions(distribution, visits);
+  public Map<Long, FacilityDistribution> getData(Distribution distribution, DistributionDataFilter distributionDataFilter, Integer limit) {
+    List<FacilityVisit> visits = facilityVisitService.getByDistributionId(distribution.getId(), limit);
+    return getFacilityDistributions(distribution, visits, distributionDataFilter);
   }
 
-  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits) {
-    Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
+  public FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution, DistributionDataFilter distributionDataFilter) {
+    FacilityDistribution facilityDistribution = new FacilityDistribution();
 
-    for (FacilityVisit facilityVisit : facilityVisits) {
-      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution));
-    }
+    EpiUse epiUse = distributionDataFilter.isReadEpiUseData() ? epiUseService.getBy(facilityVisit.getId()) : null;
 
-    return facilityDistributions;
-  }
+    List<Refrigerator> refrigerators = distributionDataFilter.isReadRefrigeratorsData() ?
+            refrigeratorService.getRefrigeratorsForADeliveryZoneAndProgram(distribution.getDeliveryZone().getId(), distribution.getProgram().getId()) : null;
+    DistributionRefrigerators distributionRefrigerators = distributionDataFilter.isReadRefrigeratorsData() ?
+            new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, facilityVisit.getId())) : null;
 
-  private FacilityDistribution getDistributionData(FacilityVisit facilityVisit, Distribution distribution) {
-    EpiUse epiUse = epiUseService.getBy(facilityVisit.getId());
+    EpiInventory epiInventory = distributionDataFilter.isReadEpiInventoryData() ? epiInventoryService.getBy(facilityVisit.getId()) : null;
+    VaccinationFullCoverage coverage = distributionDataFilter.isReadFullCoverageData() ? vaccinationCoverageService.getFullCoverageBy(facilityVisit.getId()) : null;
+    VaccinationChildCoverage childCoverage = distributionDataFilter.isReadChildCoverageData() ? vaccinationCoverageService.getChildCoverageBy(facilityVisit.getId()) : null;
+    VaccinationAdultCoverage adultCoverage = distributionDataFilter.isReadAdulCoverageData() ? vaccinationCoverageService.getAdultCoverageBy(facilityVisit.getId()) : null;
 
-    List<Refrigerator> refrigerators = refrigeratorService.getRefrigeratorsForADeliveryZoneAndProgram(distribution.getDeliveryZone().getId(), distribution.getProgram().getId());
-    DistributionRefrigerators distributionRefrigerators = new DistributionRefrigerators(getRefrigeratorReadings(facilityVisit.getFacilityId(), refrigerators, facilityVisit.getId()));
+    facilityDistribution = new FacilityDistribution(facilityVisit, epiUse, distributionRefrigerators, epiInventory, coverage,
+              childCoverage, adultCoverage);
 
     Facility facility = facilityService.getById(facilityVisit.getFacilityId());
 
-    EpiInventory epiInventory = epiInventoryService.getBy(facilityVisit.getId());
-    VaccinationFullCoverage coverage = vaccinationCoverageService.getFullCoverageBy(facilityVisit.getId());
-    VaccinationChildCoverage childCoverage = vaccinationCoverageService.getChildCoverageBy(facilityVisit.getId());
-    VaccinationAdultCoverage adultCoverage = vaccinationCoverageService.getAdultCoverageBy(facilityVisit.getId());
-
-    FacilityDistribution facilityDistribution = new FacilityDistribution(facilityVisit, epiUse, distributionRefrigerators, epiInventory, coverage,
-      childCoverage, adultCoverage);
     facilityDistribution.setFacility(facility);
     return facilityDistribution;
+  }
+
+  private Map<Long, FacilityDistribution> getFacilityDistributions(Distribution distribution, List<FacilityVisit> facilityVisits, DistributionDataFilter distributionDataFilter) {
+    Map<Long, FacilityDistribution> facilityDistributions = new HashMap<>();
+
+    for (FacilityVisit facilityVisit : facilityVisits) {
+      facilityDistributions.put(facilityVisit.getFacilityId(), getDistributionData(facilityVisit, distribution, distributionDataFilter));
+    }
+
+    return facilityDistributions;
   }
 
   private FacilityVisit createFacilityVisitData(Facility facility, Distribution distribution, DistributionDTO previousDistribution) {

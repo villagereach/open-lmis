@@ -83,12 +83,12 @@ public interface FacilityVisitMapper {
   @Select({"SELECT * FROM motorbike_problems WHERE facilityVisitId = #{facilityVisitId}"})
   MotorbikeProblems getMotorbikeProblemsByFacilityVisitId(Long facilityVisitId);
 
-  @Select("SELECT * FROM facility_visits WHERE distributionId = #{distributionId}")
+  @Select("SELECT * FROM facility_visits WHERE distributionId = #{distributionId} LIMIT #{limit}")
   @Results({
           @Result(property = "verifiedBy.name", column = "verifiedByName"),
           @Result(property = "verifiedBy.title", column = "verifiedByTitle"),
           @Result(property = "confirmedBy.name", column = "confirmedByName"),
           @Result(property = "confirmedBy.title", column = "confirmedByTitle")
   })
-  List<FacilityVisit> getByDistributionId(Long distributionId);
+  List<FacilityVisit> getByDistributionId(@Param(value = "distributionId") Long distributionId, @Param(value = "limit") Integer limit);
 }

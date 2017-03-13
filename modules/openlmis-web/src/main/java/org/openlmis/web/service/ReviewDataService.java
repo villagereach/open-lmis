@@ -30,13 +30,16 @@ import org.openlmis.core.service.MessageService;
 import org.openlmis.core.service.ProgramService;
 import org.openlmis.core.service.UserService;
 import org.openlmis.distribution.domain.Distribution;
+import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.DistributionEdit;
 import org.openlmis.distribution.domain.DistributionsEditHistory;
 import org.openlmis.distribution.domain.FacilityDistribution;
+import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.dto.DistributionDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.service.DistributionService;
 import org.openlmis.distribution.service.FacilityDistributionService;
+import org.openlmis.distribution.service.FacilityVisitService;
 import org.openlmis.distribution.util.EditedItemUI;
 import org.openlmis.web.model.ReviewDataFilter;
 import org.openlmis.web.model.ReviewDataFilters;
@@ -87,6 +90,9 @@ public class ReviewDataService {
 
   @Autowired
   private FacilityService facilityService;
+
+  @Autowired
+  private FacilityVisitService facilityVisitService;
 
   @Autowired
   private DeliveryZoneService deliveryZoneService;
@@ -149,7 +155,7 @@ public class ReviewDataService {
     List<SynchronizedDistribution> list = new ArrayList<>();
 
     for (Distribution distribution : distributions) {
-      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution);
+      Map<Long, FacilityDistribution> facilityDistributionMap = facilityDistributionService.getData(distribution, new DistributionDataFilter(false), 1);
       Iterator<Map.Entry<Long, FacilityDistribution>> iterator = facilityDistributionMap.entrySet().iterator();
 
       if (!iterator.hasNext()) {
@@ -215,12 +221,11 @@ public class ReviewDataService {
 
     Distribution distribution = distributionService.getBy(distributionId);
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution);
-    distribution.setFacilityDistributions(facilityDistributions);
 
     if (facilityDistributionEditHandler.modified(replacement)) {
       replacement.setModifiedBy(userId);
-      FacilityDistribution original = facilityDistributions.get(replacement.getFacilityId());
+      FacilityVisit facilityVisit = facilityVisitService.getBy(replacement.getFacilityId(), distributionId);
+      FacilityDistribution original = facilityDistributionService.getDistributionData(facilityVisit, distribution, new DistributionDataFilter(true));
 
       results = facilityDistributionEditHandler.check(original, replacement);
 
@@ -246,14 +251,14 @@ public class ReviewDataService {
   public DistributionDTO update(Long distributionId, Long facilityId, FacilityDistributionEditDetail detail, Long userId) {
     Distribution distribution = distributionService.getBy(distributionId);
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution);
+    Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(true), null);
     distribution.setFacilityDistributions(facilityDistributions);
 
     facilityDistributionEditService.save(detail);
     createHistory(userId, distribution, detail, facilityId);
 
     distribution = distributionService.getFullSyncedDistribution(distribution);
-    facilityDistributions = facilityDistributionService.getData(distribution);
+    facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(true), null);
     distribution.setFacilityDistributions(facilityDistributions);
 
     return distribution.transform();
@@ -307,7 +312,7 @@ public class ReviewDataService {
       Distribution distribution = distributionService.getBy(distributionId);
       distribution = distributionService.getFullSyncedDistribution(distribution);
 
-      Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution);
+      Map<Long, FacilityDistribution> facilityDistributions = facilityDistributionService.getData(distribution, new DistributionDataFilter(false), null);
       Iterator<Map.Entry<Long, FacilityDistribution>> iterator = facilityDistributions.entrySet().iterator();
 
       if (!iterator.hasNext()) {

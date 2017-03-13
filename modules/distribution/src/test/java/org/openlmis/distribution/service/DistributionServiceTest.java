@@ -21,12 +21,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.core.domain.DeliveryZone;
 import org.openlmis.core.domain.ProcessingPeriod;
 import org.openlmis.core.domain.Program;
-import org.openlmis.core.repository.ProcessingPeriodRepository;
 import org.openlmis.core.service.DeliveryZoneService;
 import org.openlmis.core.service.ProcessingScheduleService;
 import org.openlmis.core.service.ProgramService;
 import org.openlmis.db.categories.UnitTests;
 import org.openlmis.distribution.domain.Distribution;
+import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.DistributionStatus;
 import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.domain.FacilityVisit;
@@ -43,7 +43,9 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.openlmis.core.builder.ProcessingPeriodBuilder.defaultProcessingPeriod;
 import static org.openlmis.distribution.domain.DistributionStatus.INITIATED;
 import static org.openlmis.distribution.domain.DistributionStatus.SYNCED;
@@ -132,7 +134,7 @@ public class DistributionServiceTest {
     assertNotNull(expectedDistribution.transform());
 
     when(repository.getFullSyncedDistribution(previousDistribution)).thenReturn(expectedDistribution);
-    DistributionDTO returnedDistributionDTO = service.getPreviousDistribution(currentDistribution);
+    DistributionDTO returnedDistributionDTO = service.getPreviousDistribution(currentDistribution, new DistributionDataFilter(true));
 
     verify(repository).getFullSyncedDistribution(previousDistribution);
     assertThat(returnedDistributionDTO, is(expectedDistribution.transform()));

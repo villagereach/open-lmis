@@ -183,11 +183,22 @@ function RecordFacilityDataController($scope, $location, $route, $routeParams, d
     };
 
     if (result) {
+      var facilityDataIncomplete = _.filter($scope.distribution.facilityDistributions, function (facilityDistribution) {
+        return facilityDistribution.computeStatus(false, true) !== DistributionStatus.COMPLETE;
+      });
+
+      if (facilityDataIncomplete.length) {
+        $scope.errorMessage = messageService.get('msg.sync.error.incomplete.data');
+        return;
+      }
+
       var promises = [];
 
       $.each($scope.distribution.facilityDistributions, function (ignore, facilityDistribution) {
-        var promise = $http.post(url, facilityDistribution).success(onSuccess).error(onError);
-        promises.push(promise);
+        if (modified(facilityDistribution)) {
+          var promise = $http.post(url, facilityDistribution).success(onSuccess).error(onError);
+          promises.push(promise);
+        }
       });
 
       $q.all(promises).then(function () {
@@ -220,7 +231,9 @@ function RecordFacilityDataController($scope, $location, $route, $routeParams, d
             distributionService.distributionReview.editMode[facilityId] = {};
           });
 
-          $route.reload();
+          $timeout(function () {
+            $route.reload();
+          }, 1000);
         }
 
         $http.post('/review-data/distribution/get.json', distribution).success(onSuccess).error(onFailure);
@@ -229,21 +242,13 @@ function RecordFacilityDataController($scope, $location, $route, $routeParams, d
   }
 
   $scope.sync = function () {
-    var facilityDataIncomplete = _.filter($scope.distribution.facilityDistributions, function (facilityDistribution) {
-      return facilityDistribution.computeStatus(false, true) !== DistributionStatus.COMPLETE;
-    });
+    var dialogOpts = {
+      id: 'distributionSync',
+      header: 'label.distribution.sync',
+      body: 'msg.sync.edit.data'
+    };
 
-    if (facilityDataIncomplete.length) {
-      $scope.errorMessage = messageService.get('msg.sync.error.incomplete.data');
-    } else {
-      var dialogOpts = {
-        id: 'distributionSync',
-        header: 'label.distribution.sync',
-        body: 'msg.sync.edit.data'
-      };
-
-      OpenLmisDialog.newDialog(dialogOpts, syncCallback, $dialog);
-    }
+    OpenLmisDialog.newDialog(dialogOpts, syncCallback, $dialog);
   };
 
   $scope.abandonAll = function () {
