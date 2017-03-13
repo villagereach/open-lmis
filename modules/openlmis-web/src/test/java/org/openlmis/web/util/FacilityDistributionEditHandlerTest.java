@@ -124,18 +124,18 @@ public class FacilityDistributionEditHandlerTest {
     ChildCoverageLineItem line6 = new ChildCoverageLineItem();
     line6.setId(12L);
     line6.setVaccination("V1");
-    line6.setHealthCenter11Months(11);
-    line6.setOutreach11Months(11);
-    line6.setHealthCenter23Months(23);
-    line6.setOutreach23Months(23);
+    line6.setTotalHealthCenter11Months(11);
+    line6.setTotalOutreach11Months(11);
+    line6.setTotalHealthCenter23Months(23);
+    line6.setTotalOutreach23Months(23);
 
     ChildCoverageLineItem line7 = new ChildCoverageLineItem();
     line7.setId(13L);
     line7.setVaccination("V2");
-    line7.setHealthCenter11Months(23);
-    line7.setOutreach11Months(23);
-    line7.setHealthCenter23Months(11);
-    line7.setOutreach23Months(11);
+    line7.setTotalHealthCenter11Months(23);
+    line7.setTotalOutreach11Months(23);
+    line7.setTotalHealthCenter23Months(11);
+    line7.setTotalOutreach23Months(11);
 
     VaccinationChildCoverage childCoverage = new VaccinationChildCoverage();
     childCoverage.setChildCoverageLineItems(Arrays.asList(line6, line7));

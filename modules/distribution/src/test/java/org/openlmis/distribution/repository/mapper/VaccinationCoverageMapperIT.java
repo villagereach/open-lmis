@@ -174,7 +174,8 @@ public class VaccinationCoverageMapperIT {
       targetGroupProduct.getTargetGroupEntity(), targetGroupProduct.getProductCode(), targetGroupProduct.getChildCoverage());
 
     Integer nullInteger = null;
-    ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", 0, nullInteger, nullInteger, nullInteger, nullInteger);
+    ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", 0, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger,
+        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
     childCoverageLineItem.setFacilityVisitId(facilityVisit.getId());
     childCoverageLineItem.setTargetGroup(56);
     childCoverageLineItem.setCreatedBy(123L);
@@ -200,7 +201,8 @@ public class VaccinationCoverageMapperIT {
       targetGroupProduct.getTargetGroupEntity(), targetGroupProduct.getProductCode(), targetGroupProduct.getChildCoverage());
 
     Integer nullInteger = null;
-    ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
+    ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger,
+        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
     childCoverageLineItem.setFacilityVisitId(facilityVisit.getId());
     childCoverageLineItem.setTargetGroup(56);
     mapper.insertChildCoverageLineItem(childCoverageLineItem);
@@ -252,26 +254,27 @@ public class VaccinationCoverageMapperIT {
   @Test
   public void shouldUpdateChildCoverageLineItem() {
     Integer nullInteger = null;
-    ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", 0, nullInteger, nullInteger, nullInteger, nullInteger);
+    ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", 0, nullInteger, nullInteger, nullInteger, nullInteger,
+        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
     childCoverageLineItem.setFacilityVisitId(facilityVisit.getId());
     childCoverageLineItem.setTargetGroup(56);
 
     mapper.insertChildCoverageLineItem(childCoverageLineItem);
 
     childCoverageLineItem.setDisplayOrder(5);
-    childCoverageLineItem.setHealthCenter11Months(1234);
-    childCoverageLineItem.setOutreach11Months(34);
-    childCoverageLineItem.setHealthCenter23Months(43);
-    childCoverageLineItem.setOutreach23Months(4234);
+    childCoverageLineItem.setTotalHealthCenter11Months(1234);
+    childCoverageLineItem.setTotalOutreach11Months(34);
+    childCoverageLineItem.setTotalHealthCenter23Months(43);
+    childCoverageLineItem.setTotalOutreach23Months(4234);
     childCoverageLineItem.setModifiedBy(123L);
 
     mapper.updateChildCoverageLineItem(childCoverageLineItem);
 
     assertThat(childCoverageLineItem.getDisplayOrder(), is(5));
-    assertThat(childCoverageLineItem.getHealthCenter11Months(), is(1234));
-    assertThat(childCoverageLineItem.getOutreach11Months(), is(34));
-    assertThat(childCoverageLineItem.getHealthCenter23Months(), is(43));
-    assertThat(childCoverageLineItem.getOutreach23Months(), is(4234));
+    assertThat(childCoverageLineItem.getTotalHealthCenter11Months(), is(1234));
+    assertThat(childCoverageLineItem.getTotalOutreach11Months(), is(34));
+    assertThat(childCoverageLineItem.getTotalHealthCenter23Months(), is(43));
+    assertThat(childCoverageLineItem.getTotalOutreach23Months(), is(4234));
     assertThat(childCoverageLineItem.getModifiedBy(), is(123L));
   }
 

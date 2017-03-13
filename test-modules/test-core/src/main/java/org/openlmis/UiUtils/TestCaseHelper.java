@@ -700,13 +700,13 @@ public class TestCaseHelper {
       ResultSet childCoverageDetails = dbWrapper.getChildCoverageDetails(vaccinations.get(i - 1), facilityVisitId);
 
       if (i != 15) {
-        assertEquals(childCoverageDetails.getString("healthCenter11months"), String.valueOf(i));
-        assertEquals(childCoverageDetails.getString("outreach11months"), String.valueOf(i));
+        assertEquals(childCoverageDetails.getString("totalHealthCenter11Months"), String.valueOf(i));
+        assertEquals(childCoverageDetails.getString("totalOutreach11Months"), String.valueOf(i));
       }
 
       if (i != 2 && i != 6) {
-        assertEquals(childCoverageDetails.getString("healthCenter23months"), String.valueOf(i));
-        assertEquals(childCoverageDetails.getString("outreach23months"), String.valueOf(i));
+        assertEquals(childCoverageDetails.getString("totalHealthCenter23Months"), String.valueOf(i));
+        assertEquals(childCoverageDetails.getString("totalOutreach23Months"), String.valueOf(i));
       }
     }
     List<String> openedVials = asList("BCG", "Polio10", "Polio20", "IPV", "Penta1", "Penta10", "PCV", "RV Rotarix", "Sarampo", "MSD");

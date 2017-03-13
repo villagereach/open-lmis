@@ -17,6 +17,9 @@ import org.openlmis.distribution.domain.MotorbikeProblems;
 import org.openlmis.distribution.domain.OpenedVialLineItem;
 import org.openlmis.distribution.domain.RefrigeratorProblem;
 import org.openlmis.distribution.domain.RefrigeratorReading;
+import org.openlmis.distribution.domain.VaccinationChildCoverage;
+import org.openlmis.distribution.dto.ChildCoverageDTO;
+import org.openlmis.distribution.dto.ChildCoverageLineItemDTO;
 import org.openlmis.distribution.dto.DistributionRefrigeratorsDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
 import org.openlmis.distribution.dto.Reading;
@@ -32,6 +35,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -163,16 +168,16 @@ public class FacilityDistributionEditHandler {
             continue;
           }
 
-          String addictional = getAddictional(parent, original);
+          String additional = getAdditional(parent, original);
 
           if (Objects.equals(previousValue, originalProperty)) {
             // a user works on current version of the given property
-            results.allow(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, addictional);
+            results.allow(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, additional);
             continue;
           }
 
           // a user works on different version of the given property
-          results.deny(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, addictional);
+          results.deny(parent, parentProperty, original, originalPropertyName, originalProperty, previousValue, newValue, additional);
           continue;
         }
 
@@ -183,10 +188,11 @@ public class FacilityDistributionEditHandler {
           if (originalProperty instanceof List) {
             if (parent instanceof FacilityDistribution && original instanceof DistributionRefrigerators && replacement instanceof DistributionRefrigeratorsDTO) {
               checkRefrigerators(results, (FacilityDistribution) parent, (DistributionRefrigerators) original, (DistributionRefrigeratorsDTO) replacement);
+            } else if (original instanceof VaccinationChildCoverage && replacement instanceof ChildCoverageDTO) {
+              checkChildCoverageData(results, originalPropertyName, original, replacement);
             } else {
               List originalList = (List) originalProperty;
               List replacementList = (List) replacementProperty;
-
               for (int i = 0; i < originalList.size(); ++i) {
                 checkProperties(results, original, originalPropertyName, originalList.get(i), replacementList.get(i));
               }
@@ -196,6 +202,31 @@ public class FacilityDistributionEditHandler {
           }
         }
       }
+    }
+  }
+
+  private void checkChildCoverageData(FacilityDistributionEditResults results, String originalPropertyName,
+                                      Object original, Object replacement) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    List<ChildCoverageLineItem> originalLineItems =  ((VaccinationChildCoverage)original).getChildCoverageLineItems();
+    List<ChildCoverageLineItemDTO> replacementLineItems = ((ChildCoverageDTO) replacement).getChildCoverageLineItems();
+
+    Collections.sort(originalLineItems, new Comparator<ChildCoverageLineItem>() {
+          @Override
+          public int compare(ChildCoverageLineItem a, ChildCoverageLineItem b) {
+            return a.getVaccination().compareToIgnoreCase(b.getVaccination());
+          }
+        }
+    );
+    Collections.sort(replacementLineItems, new Comparator<ChildCoverageLineItemDTO>() {
+          @Override
+          public int compare(ChildCoverageLineItemDTO a, ChildCoverageLineItemDTO b) {
+            return a.getVaccination().compareToIgnoreCase(b.getVaccination());
+          }
+        }
+    );
+
+    for (int i = 0; i < originalLineItems.size(); ++i) {
+      checkProperties(results, original, originalPropertyName, originalLineItems.get(i), replacementLineItems.get(i));
     }
   }
 
@@ -212,7 +243,7 @@ public class FacilityDistributionEditHandler {
     return !clazz.equals(Reading.class) && name.startsWith("org.openlmis.distribution.dto");
   }
 
-  private String getAddictional(Object parent, Object original) {
+  private String getAdditional(Object parent, Object original) {
     if (original instanceof RefrigeratorReading) {
       return ((RefrigeratorReading) original).getRefrigerator().getSerialNumber();
     }
