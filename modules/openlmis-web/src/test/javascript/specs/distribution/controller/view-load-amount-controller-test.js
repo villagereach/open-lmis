@@ -17,10 +17,18 @@ describe('ViewLoadAmountController', function () {
     controller = $controller;
     httpBackend = $httpBackend;
     program1 = {id: 1, name: 'Vaccine'};
+    isa = {
+      whoRatio: 1,
+      adjustmentValue: 33,
+      dosesPerYear: 45,
+      wastageFactor: 1,
+      bufferPercentage: 7,
+      minimumValue: 20
+    }
     var programProducts = [
-      {product: {id: 1, name: 'polio10', productGroup: {name: 'polio'}}},
-      {product: {id: 2, name: 'polio20', productGroup: {name: 'polio'}}},
-      {product: {id: 3, name: 'penta1', productGroup: {name: 'penta'}}},
+      {product: {id: 1, name: 'polio10', productGroup: {name: 'polio'}, packSize: 1}, programProductIsa: isa},
+      {product: {id: 2, name: 'polio20', productGroup: {name: 'polio'}, packSize: 1}, programProductIsa: isa},
+      {product: {id: 3, name: 'penta1', productGroup: {name: 'penta'}, packSize: 1}, programProductIsa: isa},
       {product: {id: 4, name: 'blank', productGroup: {name: ''}}}
     ];
     facilities = [
@@ -33,17 +41,55 @@ describe('ViewLoadAmountController', function () {
           {program: program1, programProducts: programProducts}
         ]}
     ];
-    controller(ViewLoadAmountController, {$scope: scope, facilities: facilities, period: {id: 1, name: 'period 1'}, deliveryZone: {id: 1}, fridges: {}, nexleafDeliveryZones: []});
+    distributions = [
+      {id: 522, facilityDistributions: {
+        963: { geographicZone: "Ngrogoro", facilityName: 'Village Dispensary',
+          epiUse: {
+            lineItems: [
+              {distributed: {notRecorded: false, value: 10}, loss: {notRecorded: false, value: 20}, productGroup: {name: 'polio'}},
+              {distributed: {notRecorded: true}, loss: {notRecorded: true}, productGroup: {name: 'penta'}}
+            ]
+           }
+        },
+        964: { geographicZone: 'District 1', facilityName: 'Central Hospital',
+          epiUse: {
+            lineItems: [
+              {distributed: {notRecorded: false, value: 10}, loss: {notRecorded: false, value: 5}, productGroup: {name: 'polio'}},
+              {distributed: {notRecorded: true}, loss: {notRecorded: true}, productGroup: {name: 'penta'}}
+            ]
+          }
+        }
+      }},
+      {id: 523, facilityDistributions: {
+        963: { geographicZone: "Ngrogoro", facilityName: 'Village Dispensary',
+          epiUse: {
+            lineItems: [
+              {distributed: {notRecorded: false, value: 20}, loss: {notRecorded: false, value: 30}, productGroup: {name: 'polio'}},
+              {distributed: {notRecorded: true}, loss: {notRecorded: true}, productGroup: {name: 'penta'}}
+            ]
+           }
+        },
+        964: { geographicZone: 'District 1', facilityName: 'Central Hospital',
+          epiUse: {
+            lineItems: [
+              {distributed: {notRecorded: true}, loss: {notRecorded: true}, productGroup: {name: 'polio'}},
+              {distributed: {notRecorded: true}, loss: {notRecorded: true}, productGroup: {name: 'penta'}}
+            ]
+          }
+        }
+      }},
+    ];
+    controller(ViewLoadAmountController, {$scope: scope, facilities: facilities, period: {id: 1, name: 'period 1', numberOfMonths: 1}, deliveryZone: {id: 1}, fridges: {}, nexleafDeliveryZones: [], previousDistributions: distributions});
 
   }));
 
   it('should set no records found message if no facilities are found', function () {
-    controller(ViewLoadAmountController, {$scope: scope, facilities: [], period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: []});
+    controller(ViewLoadAmountController, {$scope: scope, facilities: [], period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: [], previousDistributions: {}});
     expect(scope.message).toEqual("msg.no.records.found");
   });
 
   it('should set no records found message if no facilities are undefined', function () {
-    controller(ViewLoadAmountController, {$scope: scope, facilities: undefined, period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: []});
+    controller(ViewLoadAmountController, {$scope: scope, facilities: undefined, period: {}, deliveryZone: {}, fridges: {}, nexleafDeliveryZones: [], previousDistributions: {}});
     expect(scope.message).toEqual("msg.no.records.found");
   });
 
@@ -56,12 +102,12 @@ describe('ViewLoadAmountController', function () {
   });
 
   it('should set period', function () {
-    expect(scope.period).toEqual({id: 1, name: 'period 1'});
+    expect(scope.period).toEqual({id: 1, name: 'period 1', numberOfMonths: 1});
   });
 
   it('should group program products of each facility by product group name', function () {
-    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].length).toEqual(2);
-    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].length).toEqual(1);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].products.length).toEqual(2);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].products.length).toEqual(1);
   });
 
   it('should sort program products of each facility by product group name', function () {
@@ -91,6 +137,45 @@ describe('ViewLoadAmountController', function () {
     expect(scope.aggregateMap['District 1']['totalPopulation']).toEqual(150);
   });
 
+  it('should calculate isa', function () {
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].products[0].isaAmount).toEqual(42);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].products[1].isaAmount).toEqual(42);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].products[0].isaAmount).toEqual(42);
+
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['polio'].products[0].isaAmount).toEqual(40);
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['polio'].products[1].isaAmount).toEqual(40);
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['penta'].products[0].isaAmount).toEqual(40);
+  });
+
+  it('should calculate consumption sum for all facilities', function () {
+    expect(scope.facilityAmcMap['Village Dispensary'].productGroups['polio'].amcSum).toEqual(80);
+    expect(scope.facilityAmcMap['Village Dispensary'].productGroups['polio'].availablePeriodsAmount).toEqual(2);
+    expect(scope.facilityAmcMap['Village Dispensary'].productGroups['penta'].amcSum).toEqual(0);
+    expect(scope.facilityAmcMap['Village Dispensary'].productGroups['penta'].availablePeriodsAmount).toEqual(0);
+
+    expect(scope.facilityAmcMap['Central Hospital'].productGroups['polio'].amcSum).toEqual(15);
+    expect(scope.facilityAmcMap['Central Hospital'].productGroups['polio'].availablePeriodsAmount).toEqual(1);
+    expect(scope.facilityAmcMap['Central Hospital'].productGroups['penta'].amcSum).toEqual(0);
+    expect(scope.facilityAmcMap['Central Hospital'].productGroups['penta'].availablePeriodsAmount).toEqual(0);
+  });
+
+  it('should calculate amc', function () {
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].amcValue).toEqual(40);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['polio'].overwrittenByIsa).toEqual(false);
+  });
+
+  it('should set isa value if amc is not available', function () {
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].amcValue).toEqual(42);
+    expect(scope.facilityMap['Ngrogoro'][0].supportedPrograms[0].programProductMap['penta'].overwrittenByIsa).toEqual(true);
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['penta'].amcValue).toEqual(40);
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['penta'].overwrittenByIsa).toEqual(true);
+  });
+
+  it('should set minimum isa if amc is lower', function () {
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['polio'].amcValue).toEqual(40);
+    expect(scope.facilityMap['District 1'][0].supportedPrograms[0].programProductMap['polio'].overwrittenByIsa).toEqual(false);
+  });
+
   it('should get program products for total of zones', function () {
     var product1 = {
       name: "product1",
@@ -100,36 +185,42 @@ describe('ViewLoadAmountController', function () {
     };
     scope.zonesTotal = {
       totalProgramProductsMap: {
-        group1: [
-          {
-            product: product1
-          },
-          {
-            product: {
-              productGroup: {
-                name: 'group1'
+        group1: {
+          products: [
+            {
+              product: product1
+            },
+            {
+              product: {
+                productGroup: {
+                  name: 'group1'
+                }
               }
             }
-          }
-        ],
-        group2: [
-          {
-            product: {
-              productGroup: {
-                name: 'group2'
+          ],
+        },
+        group2: {
+          products: [
+            {
+              product: {
+                productGroup: {
+                  name: 'group2'
+                }
               }
             }
-          }
-        ],
-        group3: [
-          {
-            product: {
-              productGroup: {
-                name: 'group3'
+          ]
+        },
+        group3: {
+          products: [
+            {
+              product: {
+                productGroup: {
+                  name: 'group3'
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       }
     };
     scope.sortedGeoZoneKeys = ['zone1', 'zone2'];

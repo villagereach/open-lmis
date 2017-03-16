@@ -15,7 +15,9 @@ package org.openlmis.distribution.service;
 import org.openlmis.core.domain.DeliveryZone;
 import org.openlmis.core.domain.ProcessingPeriod;
 import org.openlmis.core.domain.Program;
+import org.openlmis.core.service.DeliveryZoneService;
 import org.openlmis.core.service.ProcessingScheduleService;
+import org.openlmis.core.service.ProgramService;
 import org.openlmis.distribution.domain.Distribution;
 import org.openlmis.distribution.domain.DistributionDataFilter;
 import org.openlmis.distribution.domain.DistributionEdit;
@@ -50,6 +52,12 @@ public class DistributionService {
 
   @Autowired
   ProcessingScheduleService processingScheduleService;
+
+  @Autowired
+  private ProgramService programService;
+
+  @Autowired
+  private DeliveryZoneService deliveryZoneService;
 
   @Autowired
   DistributionRepository repository;
@@ -155,6 +163,15 @@ public class DistributionService {
     }
 
     return null;
+  }
+
+  public List<DistributionDTO> getNPreviousDistributions(Long deliveryZoneId, Long programId, Long currentPeriodId, Integer n, DistributionDataFilter distributionDataFilter) {
+    Distribution currentDistributionFilter = new Distribution();
+    currentDistributionFilter.setDeliveryZone(deliveryZoneService.getById(deliveryZoneId));
+    currentDistributionFilter.setProgram(programService.getById(programId));
+    currentDistributionFilter.setPeriod(processingScheduleService.getPeriodById(currentPeriodId));
+
+    return getNPreviousDistributions(currentDistributionFilter, n, distributionDataFilter);
   }
 
   public List<DistributionDTO> getNPreviousDistributions(Distribution currentDistribution, Integer n, DistributionDataFilter distributionDataFilter) {

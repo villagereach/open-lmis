@@ -37,6 +37,7 @@ import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.dto.DistributionDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
+import org.openlmis.distribution.repository.FacilityVisitRepository;
 import org.openlmis.distribution.service.DistributionService;
 import org.openlmis.distribution.service.FacilityDistributionService;
 import org.openlmis.distribution.service.FacilityVisitService;
@@ -92,9 +93,6 @@ public class ReviewDataService {
   private FacilityService facilityService;
 
   @Autowired
-  private FacilityVisitService facilityVisitService;
-
-  @Autowired
   private DeliveryZoneService deliveryZoneService;
 
   @Autowired
@@ -108,6 +106,9 @@ public class ReviewDataService {
 
   @Autowired
   private FacilityDistributionService facilityDistributionService;
+
+  @Autowired
+  private FacilityVisitService facilityVisitService;
 
   @Autowired
   private PermissionEvaluator permissionEvaluator;

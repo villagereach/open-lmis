@@ -227,7 +227,6 @@ public class FacilityDistributionService {
               childCoverage, adultCoverage);
 
     Facility facility = facilityService.getById(facilityVisit.getFacilityId());
-
     facilityDistribution.setFacility(facility);
     return facilityDistribution;
   }
