@@ -64,8 +64,8 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(16));
-    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(10));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(17));
+    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(11));
   }
 
   @Test
@@ -87,8 +87,8 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, asList(productVial));
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(16));
-    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(10));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(17));
+    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(11));
     assertTrue(vaccinationChildCoverage.getChildCoverageLineItems().get(0).getVaccination().equals("BCG"));
     verifyNew(ChildCoverageLineItem.class).withArguments(facilityVisit, facility, null, "BCG", 0, 2);
   }
@@ -114,8 +114,8 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(16));
-    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(10));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(17));
+    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(11));
     assertTrue(vaccinationChildCoverage.getOpenedVialLineItems().get(0).getProductVialName().equals("BCG"));
     verifyNew(OpenedVialLineItem.class).withArguments(facilityVisit, facility, null, "BCG");
   }
@@ -138,8 +138,8 @@ public class VaccinationChildCoverageTest {
     whenNew(OpenedVialLineItem.class).withAnyArguments().thenReturn(openedVialLineItem);
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(16));
-    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(10));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(17));
+    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(11));
   }
 
   @Test
@@ -161,7 +161,7 @@ public class VaccinationChildCoverageTest {
 
     VaccinationChildCoverage vaccinationChildCoverage = new VaccinationChildCoverage(facilityVisit, facility, period, targetGroupProducts, productVials);
 
-    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(16));
-    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(10));
+    assertThat(vaccinationChildCoverage.getChildCoverageLineItems().size(), is(17));
+    assertThat(vaccinationChildCoverage.getOpenedVialLineItems().size(), is(11));
   }
 }

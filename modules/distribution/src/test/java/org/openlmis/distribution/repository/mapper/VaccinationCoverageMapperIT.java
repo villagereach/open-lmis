@@ -175,7 +175,7 @@ public class VaccinationCoverageMapperIT {
 
     Integer nullInteger = null;
     ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", 0, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger,
-        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
+        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
     childCoverageLineItem.setFacilityVisitId(facilityVisit.getId());
     childCoverageLineItem.setTargetGroup(56);
     childCoverageLineItem.setCreatedBy(123L);
@@ -202,7 +202,7 @@ public class VaccinationCoverageMapperIT {
 
     Integer nullInteger = null;
     ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger,
-        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
+        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
     childCoverageLineItem.setFacilityVisitId(facilityVisit.getId());
     childCoverageLineItem.setTargetGroup(56);
     mapper.insertChildCoverageLineItem(childCoverageLineItem);
@@ -255,7 +255,7 @@ public class VaccinationCoverageMapperIT {
   public void shouldUpdateChildCoverageLineItem() {
     Integer nullInteger = null;
     ChildCoverageLineItem childCoverageLineItem = new ChildCoverageLineItem("BCG", 0, nullInteger, nullInteger, nullInteger, nullInteger,
-        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
+        nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger, nullInteger);
     childCoverageLineItem.setFacilityVisitId(facilityVisit.getId());
     childCoverageLineItem.setTargetGroup(56);
 

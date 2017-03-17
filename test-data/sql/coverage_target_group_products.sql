@@ -24,5 +24,6 @@ INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, chil
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('RV Rotarix 2a dose', 'RV Rotarix', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Sarampo 1a dose', 'Sarampo', TRUE);
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Sarampo 2a dose', 'MSD', TRUE);
+INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('HPV', 'HPV', TRUE);
 
 INSERT INTO coverage_target_group_products (targetGroupEntity, productCode, childCoverage) VALUES ('Pregnant Women', 'Tetanus', FALSE);
