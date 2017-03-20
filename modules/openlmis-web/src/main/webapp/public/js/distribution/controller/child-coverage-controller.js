@@ -64,7 +64,7 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     sex: "label.coverage.sex",
     childrenAgeGroup0To11: "label.children.age.group.zero.eleven.months",
     childrenAgeGroup12To23: "label.children.age.group.twelve.twenty.three.months",
-    childrenAgeGroup9To11: "label.children.age.group.nine.eleven.years",
+    childrenAgeGroup9To11: "label.children.age.group.nine.twelve.years",
     categoryOneHealthCenter: "label.coverage.health.center",
     categoryOneMobileBrigade: "label.coverage.outreach",
     categoryOneTotal: "label.child.coverage.first.total",
