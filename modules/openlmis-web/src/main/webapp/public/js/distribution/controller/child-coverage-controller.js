@@ -113,13 +113,8 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     },
     "Sarampo 1a dose": {
       products: ['Sarampo'],
-      vaccinations: ['Sarampo 1a dose'],
-      rowSpan: 1
-    },
-    "Sarampo 2a dose": {
-      products: ['MSD'],
-      vaccinations: ['Sarampo 2a dose'],
-      rowSpan: 1
+      vaccinations: ['Sarampo 1a dose', 'Sarampo 2a dose'],
+      rowSpan: 2
     },
     "HPV": {
       products: ['HPV'],
