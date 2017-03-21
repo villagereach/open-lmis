@@ -50,21 +50,21 @@
                   openlmis-message={{columns.openedVialsWastageRate}}></th>
             </tr>
             <tr>
-              <th class="col-complete-vaccinated" id="categoryOneHealthCenter"
+              <th class="col-complete-vaccinated col-gender-division" id="categoryOneHealthCenter"
                   openlmis-message={{columns.categoryOneHealthCenter}}></th>
-              <th class="col-complete-vaccinated" id="categoryOneMobileBrigade"
+              <th class="col-complete-vaccinated col-gender-division" id="categoryOneMobileBrigade"
                   openlmis-message={{columns.categoryOneMobileBrigade}}></th>
               <th class="col-complete-vaccinated" id="categoryOneTotal"
                   openlmis-message={{columns.categoryOneTotal}}></th>
-              <th class="col-complete-vaccinated" id="categoryTwoHealthCenter"
+              <th class="col-complete-vaccinated col-gender-division" id="categoryTwoHealthCenter"
                   openlmis-message={{columns.categoryTwoHealthCenter}}></th>
-              <th class="col-complete-vaccinated" id="categoryTwoMobileBrigade"
+              <th class="col-complete-vaccinated col-gender-division" id="categoryTwoMobileBrigade"
                   openlmis-message={{columns.categoryTwoMobileBrigade}}></th>
               <th class="col-complete-vaccinated" id="categoryTwoTotal"
                   openlmis-message={{columns.categoryTwoTotal}}></th>
-              <th class="col-complete-vaccinated" id="categoryThreeHealthCenter"
+              <th class="col-complete-vaccinated col-gender-division" id="categoryThreeHealthCenter"
                   openlmis-message={{columns.categoryThreeHealthCenter}}></th>
-              <th class="col-complete-vaccinated" id="categoryThreeMobileBrigade"
+              <th class="col-complete-vaccinated col-gender-division" id="categoryThreeMobileBrigade"
                   openlmis-message={{columns.categoryThreeMobileBrigade}}></th>
               <th class="col-complete-vaccinated" id="categoryThreeTotal"
                   openlmis-message={{columns.categoryThreeTotal}}></th>
@@ -79,14 +79,14 @@
                 <span ng-bind="lineItem.targetGroup"></span>
               </td>
               <td class="col-complete-vaccinated" id="sex{{$index}}" ng-if="!childCoverage.isOutdatedDistribution">
-                <span class="row" ng-hide="lineItem.vaccination == 'HPV'">
+                <div class="gender" ng-hide="lineItem.vaccination == 'HPV'">
                   <label openlmis-message="label.coverage.sex.male"></label>
-                </span>
-                <span class="row">
+                </div>
+                <div class="gender">
                   <label openlmis-message="label.coverage.sex.female"></label>
-                </span>
+                </div>
               </td>
-              <td class="col-complete-vaccinated">
+              <td class="col-complete-vaccinated col-gender-division">
                 <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose' || lineItem.vaccination == 'HPV'">
                   <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                     <input id="maleHealthCenter11Months{{$index}}" type="number"
@@ -150,7 +150,7 @@
                   </span>
                 </span>
               </td>
-              <td class="col-complete-vaccinated">
+              <td class="col-complete-vaccinated col-gender-division">
                 <span ng-hide="lineItem.vaccination == 'Sarampo 2a dose' || lineItem.vaccination == 'HPV'">
                   <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                     <input id="maleOutreach11Months{{$index}}" type="number"
@@ -222,7 +222,7 @@
                 <span id="coverageRateCalculated{{$index}}"
                       ng-bind="getFormattedAsPercent(calculateCoverageRate(getTotal(lineItem.totalHealthCenter11Months, lineItem.totalOutreach11Months), lineItem.targetGroup))"></span>
               </td>
-              <td class="col-complete-vaccinated">
+              <td class="col-complete-vaccinated col-gender-division">
                 <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV' || lineItem.vaccination == 'HPV'">
                     <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                       <input id="maleHealthCenter23Months{{$index}}" type="number"
@@ -286,7 +286,7 @@
                     </span>
                 </span>
               </td>
-              <td class="col-complete-vaccinated">
+              <td class="col-complete-vaccinated col-gender-division">
                 <span ng-hide="lineItem.vaccination == 'Polio (Newborn)' || lineItem.vaccination == 'IPV' || lineItem.vaccination == 'HPV'">
                     <span class="row" ng-if="!childCoverage.isOutdatedDistribution">
                       <input id="maleOutreach23Months{{$index}}" type="number"
@@ -354,7 +354,7 @@
                 <span id="total1{{$index}}"
                       ng-bind="getTotal23(lineItem)"></span>
               </td>
-              <td class="col-complete-vaccinated">
+              <td class="col-complete-vaccinated col-gender-division">
                 <span ng-if="lineItem.vaccination == 'HPV'">
                   <span class="row">
                     <input id="femaleHealthCenter9YMonths{{$index}}" type="number"
@@ -378,7 +378,7 @@
                   </span>
                 </span>
               </td>
-              <td class="col-complete-vaccinated">
+              <td class="col-complete-vaccinated col-gender-division">
                 <span ng-if="lineItem.vaccination == 'HPV'">
                   <span class="row">
                     <input id="femaleOutreach9YMonths{{$index}}" type="number"
