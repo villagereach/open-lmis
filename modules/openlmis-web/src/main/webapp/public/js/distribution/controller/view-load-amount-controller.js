@@ -262,7 +262,7 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     var isaMinimumSum = 0;
 
     $(programGroupProducts).each(function (i, programGroupProduct) {
-      if (!isUndefined(programGroupProduct.programProductIsa) && programGroupProduct.programProductIsa.minimumValue) {
+      if (!isUndefined(programGroupProduct.programProductIsa) && !isNaN(programGroupProduct.programProductIsa.minimumValue)) {
         isaMinimumSum += programGroupProduct.programProductIsa.minimumValue;
       }
     });
@@ -273,7 +273,7 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     var isaSum = 0;
 
     $(programGroupProducts).each(function (i, programGroupProduct) {
-      if (programGroupProduct.isaAmount) {
+      if (!isNaN(programGroupProduct.isaAmount)) {
         isaSum += programGroupProduct.isaAmount;
       }
     });
@@ -284,11 +284,11 @@ function ViewLoadAmountController($scope, facilities, period, deliveryZone, frid
     if (!lineItem.distributed.notRecorded || !lineItem.loss.notRecorded) {
       productGroupAmcData.availablePeriodsAmount++;
 
-      if (lineItem.distributed.value) {
+      if (!isNaN(lineItem.distributed.value)) {
         productGroupAmcData.amcSum += lineItem.distributed.value;
       }
 
-      if (lineItem.loss.value) {
+      if (!isNaN(lineItem.loss.value)) {
         productGroupAmcData.amcSum += lineItem.loss.value;
       }
     }
