@@ -35,6 +35,7 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
     if (editMode) {
       var existingRefrigeratorReading = $scope.findRefrigeratorReading(serialNumber);
       if (existingRefrigeratorReading) {
+        $scope.oldSerialNumberValue = existingRefrigeratorReading.refrigerator.serialNumber.value;
         $scope.refrigeratorReading = {
           refrigerator: {
             serialNumber: { value: existingRefrigeratorReading.refrigerator.serialNumber.value },
@@ -62,14 +63,21 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
   };
 
   $scope.updateRefrigeratorInStore = function () {
+    var editedRefrigerator = $scope.findRefrigeratorReading($scope.oldSerialNumberValue);
     var existing = $scope.findRefrigeratorReading($scope.refrigeratorReading.refrigerator.serialNumber.value);
-    existing.refrigerator.brand.value = $scope.refrigeratorReading.refrigerator.brand.value;
-    existing.refrigerator.model.value = $scope.refrigeratorReading.refrigerator.model.value;
-    existing.refrigerator.type.value = $scope.refrigeratorReading.refrigerator.type.value;
 
-    IndexedDB.put('distributions', $scope.distribution);
+    if (existing && $scope.refrigeratorReading.refrigerator.serialNumber.value !== $scope.oldSerialNumberValue) {
+      $scope.isDuplicateSerialNumber = true;
+    } else {
+      editedRefrigerator.refrigerator.serialNumber.value = $scope.refrigeratorReading.refrigerator.serialNumber.value;
+      editedRefrigerator.refrigerator.brand.value = $scope.refrigeratorReading.refrigerator.brand.value;
+      editedRefrigerator.refrigerator.model.value = $scope.refrigeratorReading.refrigerator.model.value;
+      editedRefrigerator.refrigerator.type.value = $scope.refrigeratorReading.refrigerator.type.value;
 
-    $scope.addRefrigeratorModal = $scope.editMode = undefined;
+      IndexedDB.put('distributions', $scope.distribution);
+
+      $scope.addRefrigeratorModal = $scope.editMode = $scope.isDuplicateSerialNumber = undefined;
+    }
   };
 
   $scope.updateRefrigeratorReadingStatus = function (refrigeratorReading) {
