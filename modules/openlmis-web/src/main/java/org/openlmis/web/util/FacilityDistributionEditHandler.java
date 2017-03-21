@@ -346,7 +346,7 @@ public class FacilityDistributionEditHandler {
           Refrigerator refrigerator = originalRefrigeratorReading.getRefrigerator();
           Optional<RefrigeratorReadingDTO> replacementRefrigeratorReading = FluentIterable
                   .from(replacement.getReadings())
-                  .firstMatch(new FindRefrigeratorReadingDTO(refrigerator.getSerialNumber()));
+                  .firstMatch(new FindRefrigeratorReadingDTO(refrigerator.getId()));
 
           if (replacementRefrigeratorReading.isPresent()) {
             checkProperties(results, original, "readings", originalRefrigeratorReading, replacementRefrigeratorReading.get());
@@ -356,7 +356,7 @@ public class FacilityDistributionEditHandler {
         // remove existing readings
         for (RefrigeratorReading reading : originalReadings) {
           Refrigerator refrigerator = reading.getRefrigerator();
-          boolean exist = FluentIterable.from(replacementReadings).anyMatch(new FindRefrigeratorReading(refrigerator.getSerialNumber()));
+          boolean exist = FluentIterable.from(replacementReadings).anyMatch(new FindRefrigeratorReading(refrigerator.getId()));
 
           if (!exist) {
             refrigerator.setEnabled(false);
@@ -367,7 +367,7 @@ public class FacilityDistributionEditHandler {
         // create new reading
         for (RefrigeratorReading reading : replacementReadings) {
           Refrigerator refrigerator = reading.getRefrigerator();
-          boolean exist = FluentIterable.from(originalReadings).anyMatch(new FindRefrigeratorReading(refrigerator.getSerialNumber()));
+          boolean exist = FluentIterable.from(originalReadings).anyMatch(new FindRefrigeratorReading(refrigerator.getId()));
 
           if (!exist) {
             refrigerator.setFacilityId(parent.getFacilityId());
@@ -381,29 +381,29 @@ public class FacilityDistributionEditHandler {
   }
 
   private static final class FindRefrigeratorReading implements Predicate<RefrigeratorReading> {
-    private String serialNumber;
+    private Long id;
 
-    FindRefrigeratorReading(String serialNumber) {
-      this.serialNumber = serialNumber;
+    FindRefrigeratorReading(Long id) {
+      this.id = id;
     }
 
     @Override
     public boolean apply(@Nullable RefrigeratorReading input) {
-      return null != input && input.getRefrigerator().getSerialNumber().equals(serialNumber);
+      return null != input && input.getRefrigerator().getId().equals(id);
     }
 
   }
 
   private static final class FindRefrigeratorReadingDTO implements Predicate<RefrigeratorReadingDTO> {
-    private String serialNumber;
+    private Long id;
 
-    FindRefrigeratorReadingDTO(String serialNumber) {
-      this.serialNumber = serialNumber;
+    FindRefrigeratorReadingDTO(Long id) {
+      this.id = id;
     }
 
     @Override
     public boolean apply(@Nullable RefrigeratorReadingDTO input) {
-      return null != input && Reading.safeRead(input.getRefrigerator().getSerialNumber()).getEffectiveValue().equals(serialNumber);
+      return null != input && input.getRefrigerator().getId().equals(id);
     }
 
   }

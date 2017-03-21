@@ -88,8 +88,7 @@
                 <span class="label-required">*</span>
               </label>
               <input type="text" id="manufacturerSerialNumber" maxlength="30"
-                     ng-model="refrigeratorReading.refrigerator.serialNumber.value"
-                     ng-disabled="editMode"/>
+                     ng-model="refrigeratorReading.refrigerator.serialNumber.value"/>
 
               <div id="duplicateSerialNumberError" ng-show="isDuplicateSerialNumber" class="rnr-form-error"
                    openlmis-message="error.duplicate.serial.number"></div>
@@ -104,6 +103,7 @@
                  ng-show="!editMode"/>
           <input type="button" id="edit-done-button" class="btn btn-primary" ng-click="updateRefrigeratorInStore()"
                  openlmis-message="button.done"
+                 ng-disabled="!refrigeratorReading.refrigerator.serialNumber.value"
                  ng-show="editMode"/>
           <input id="button-cancel" type="button" class="btn btn-cancel"
                  ng-click="addRefrigeratorModal = false;"
