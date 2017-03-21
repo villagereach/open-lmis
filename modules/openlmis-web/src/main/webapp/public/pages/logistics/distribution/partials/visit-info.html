@@ -68,7 +68,6 @@
             <input id="technicalStaff{{ $index }}" type="number" ng-model="facilityData.facilityVisit.technicalStaff.value"
                    name="technicalStaff{{$index}}" ng-trim=false
                    numeric-validator="positiveInteger,2" min="0" max="99" step="1"
-                   ng-readonly="!isCurrentPeriod()"
                    error-holder="technicalStaffError{{$index}}"
                    ng-class="{'required-error': !facilityData.facilityVisit.technicalStaff.value.hasValue()}"/>
             <span id="technicalStaffError{{$index}}"
