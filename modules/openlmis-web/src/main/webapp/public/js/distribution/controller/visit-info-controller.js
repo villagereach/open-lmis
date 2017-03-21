@@ -128,10 +128,8 @@ function VisitInfoController($scope, distributionService, $routeParams) {
       visit.technicalStaff = {
         original: {
           type: "reading",
-          value: 0
         },
         type: "reading",
-        value: 0
       };
     } else if (visit.technicalStaff.defaultValue) {
       // for initiated distribution, instead of clearing the field, reset it to the default value
