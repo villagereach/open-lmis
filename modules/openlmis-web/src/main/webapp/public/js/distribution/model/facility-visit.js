@@ -38,33 +38,49 @@ function FacilityVisit(facilityVisitJson) {
         return DistributionStatus.INCOMPLETE;
       }
 
-      if (isEmpty(this.numberOfMotorbikesAtHU) || isEmpty(this.numberOfFunctioningMotorbikes) ||
-        isEmpty(this.numberOfMotorizedVehiclesWithProblems) || isEmpty(this.numberOfDaysWithLimitedTransport)) {
+      if (isEmpty(this.numberOfMotorbikesAtHU)) {
+        return DistributionStatus.INCOMPLETE;
+      }
+
+      if (this.numberOfMotorbikesAtHU.value >= 1) {
+        if (isEmpty(this.numberOfFunctioningMotorbikes) || isEmpty(this.numberOfMotorizedVehiclesWithProblems)) {
           return DistributionStatus.INCOMPLETE;
+        }
+
+        if ((this.numberOfFunctioningMotorbikes.value < this.numberOfMotorbikesAtHU.value) ||
+          this.numberOfMotorizedVehiclesWithProblems.value >= 1) {
+            if (isEmpty(this.numberOfDaysWithLimitedTransport)) {
+              return DistributionStatus.INCOMPLETE;
+            }
+
+            if (isUndefined(this.motorbikeProblems)) {
+              return DistributionStatus.INCOMPLETE;
+            }
+
+            if (!this.motorbikeProblems.notRecorded) {
+              // if no problem was selected
+              if (isEmptyOrFalse(this.motorbikeProblems.lackOfFundingForFuel) &&
+                isEmptyOrFalse(this.motorbikeProblems.repairsSchedulingProblem) &&
+                isEmptyOrFalse(this.motorbikeProblems.lackOfFundingForRepairs) &&
+                isEmptyOrFalse(this.motorbikeProblems.missingParts) &&
+                isEmptyOrFalse(this.motorbikeProblems.other)) {
+                  return DistributionStatus.INCOMPLETE;
+              }
+
+              // if selected other problem but description is empty
+              if (!isEmptyOrFalse(this.motorbikeProblems.other) && isBlank(this.motorbikeProblems.motorbikeProblemOther)) {
+                return DistributionStatus.INCOMPLETE;
+              }
+          }
+        }
+      }
+
+      if (!isEmpty(this.numberOfFunctioningMotorbikes) && this.numberOfMotorbikesAtHU.value > this.numberOfFunctioningMotorbikes.value) {
+        return DistributionStatus.INCOMPLETE;
       }
 
       if (isEmpty(this.technicalStaff)) {
         return DistributionStatus.INCOMPLETE;
-      }
-
-      if (isUndefined(this.motorbikeProblems)) {
-        return DistributionStatus.INCOMPLETE;
-      }
-
-      if (!this.motorbikeProblems.notRecorded) {
-        // if no problem was selected
-        if (isEmptyOrFalse(this.motorbikeProblems.lackOfFundingForFuel) &&
-          isEmptyOrFalse(this.motorbikeProblems.repairsSchedulingProblem) &&
-          isEmptyOrFalse(this.motorbikeProblems.lackOfFundingForRepairs) &&
-          isEmptyOrFalse(this.motorbikeProblems.missingParts) &&
-          isEmptyOrFalse(this.motorbikeProblems.other)) {
-            return DistributionStatus.INCOMPLETE;
-        }
-
-        // if selected other problem but description is empty
-        if (!isEmptyOrFalse(this.motorbikeProblems.other) && isBlank(this.motorbikeProblems.motorbikeProblemOther)) {
-          return DistributionStatus.INCOMPLETE;
-        }
       }
 
       var visitedObservationStatus = computeStatusForObservation.call(this);
