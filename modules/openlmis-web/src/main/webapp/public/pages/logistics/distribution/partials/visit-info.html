@@ -111,19 +111,25 @@
                   openlmis-message="error.number.only"
                   style="display: none"></span>
           </div>
-          <div class="form-row clearfix">
+          <div class="form-row clearfix" ng-show="areMotorbikesPresentAtHu()">
             <label openlmis-message="label.motorbikes.functioning.number"></label>
             <input id="numberOfFunctioningMotorbikes{{ $index }}" type="number" ng-model="facilityData.facilityVisit.numberOfFunctioningMotorbikes.value"
                    name="numberOfFunctioningMotorbikes{{$index}}" ng-trim=false
                    numeric-validator="positiveInteger,2" min="0" max="99" step="1"
                    error-holder="numberOfFunctioningMotorbikesError{{$index}}"
-                   ng-class="{'required-error': !facilityData.facilityVisit.numberOfFunctioningMotorbikes.value.hasValue()}"/>
+                   ng-class="{'required-error': !facilityData.facilityVisit.numberOfFunctioningMotorbikes.value.hasValue() ||
+                     isMotorbikesFunctioningGreaterThanAvailable()}"/>
             <span id="numberOfFunctioningMotorbikesError{{$index}}"
                   class="rnr-form-error"
                   openlmis-message="error.number.only"
                   style="display: none"></span>
+            <span id="numberOfMotorbikesAtHUValueError{{$index}}"
+                  class="rnr-form-error"
+                  openlmis-message="error.motorbikes.functioning.greater.than.available"
+                  ng-show="isMotorbikesFunctioningGreaterThanAvailable()"
+            ></span>
           </div>
-          <div class="form-row clearfix">
+          <div class="form-row clearfix" ng-show="areMotorbikesPresentAtHu()">
             <label openlmis-message="label.motorbikes.with.problems.number"></label>
             <input id="numberOfMotorizedVehiclesWithProblems{{ $index }}" type="number" ng-model="facilityData.facilityVisit.numberOfMotorizedVehiclesWithProblems.value"
                    name="numberOfMotorizedVehiclesWithProblems{{$index}}" ng-trim=false
@@ -135,7 +141,7 @@
                   openlmis-message="error.number.only"
                   style="display: none"></span>
           </div>
-          <div class="form-row clearfix">
+          <div class="form-row clearfix" ng-show="shouldDisplayMotorbikeProblemsRelatedFields()">
             <div class="form-group motorbike-problems-form">
               <div class="form-row clearfix">
                 <label openlmis-message="label.motorbikes.select"></label>
@@ -189,7 +195,7 @@
              </div>
            </div>
           </div>
-          <div class="form-row clearfix">
+          <div class="form-row clearfix" ng-show="shouldDisplayMotorbikeProblemsRelatedFields()">
             <label openlmis-message="label.motorbikes.limited.transport.days.number"></label>
             <input id="numberOfDaysWithLimitedTransport{{ $index }}" type="number" ng-model="facilityData.facilityVisit.numberOfDaysWithLimitedTransport.value"
                    name="numberOfDaysWithLimitedTransport{{$index}}" ng-trim=false
