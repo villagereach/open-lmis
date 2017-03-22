@@ -357,22 +357,22 @@
               <td class="col-complete-vaccinated col-gender-division">
                 <span ng-if="lineItem.vaccination == 'HPV'">
                   <span class="row">
-                    <input id="femaleHealthCenter9YMonths{{$index}}" type="number"
-                           ng-model="lineItem.femaleHealthCenter9YMonths.value"
-                           name="femaleCoverageHealthCenter9YMonths{{$index}}" ng-trim=false
+                    <input id="femaleHealthCenter9Years{{$index}}" type="number"
+                           ng-model="lineItem.femaleHealthCenter9Years.value"
+                           name="femaleCoverageHealthCenter9Years{{$index}}" ng-trim=false
                            numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
-                           error-holder="femaleHealthCenter9YMonthsError{{$index}}"
-                           ng-class="{'required-error': !(lineItem.femaleHealthCenter9YMonths.value.hasValue() ||
-                           lineItem.femaleHealthCenter9YMonths.notRecorded)}"/>
-                    <span id="femaleHealthCenter9YMonthsError{{$index}}"
+                           error-holder="femaleHealthCenter9YearsError{{$index}}"
+                           ng-class="{'required-error': !(lineItem.femaleHealthCenter9Years.value.hasValue() ||
+                           lineItem.femaleHealthCenter9Years.notRecorded)}"/>
+                    <span id="femaleHealthCenter9YearsError{{$index}}"
                           class="rnr-form-error"
                           openlmis-message="error.number.only"
                           style="display: none"></span>
                     <span class="span-not-recorded">
-                      <input id="femaleCoverageHealthCenter9YMonths{{$index}}" type="checkbox"
-                             ng-model="lineItem.femaleHealthCenter9YMonths.notRecorded"
+                      <input id="femaleCoverageHealthCenter9Years{{$index}}" type="checkbox"
+                             ng-model="lineItem.femaleHealthCenter9Years.notRecorded"
                              not-recorded/>
-                      <label class="checkbox-label" for="femaleCoverageHealthCenter9YMonths{{$index}}"
+                      <label class="checkbox-label" for="femaleCoverageHealthCenter9Years{{$index}}"
                              openlmis-message="label.not.recorded"></label>
                     </span>
                   </span>
@@ -381,9 +381,9 @@
               <td class="col-complete-vaccinated col-gender-division">
                 <span ng-if="lineItem.vaccination == 'HPV'">
                   <span class="row">
-                    <input id="femaleOutreach9YMonths{{$index}}" type="number"
-                           ng-model="lineItem.femaleOutreach9YMonths.value"
-                           name="femaleCoverageOutreach9YMonths{{$index}}" ng-trim=false
+                    <input id="femaleOutreach9Years{{$index}}" type="number"
+                           ng-model="lineItem.femaleOutreach9Years.value"
+                           name="femaleCoverageOutreach9Years{{$index}}" ng-trim=false
                            numeric-validator="positiveInteger,7" min="0" max="9999999" step="1"
                            error-holder="femaleOutreach9YMonthsError{{$index}}"
                            ng-class="{'required-error': !(lineItem.femaleOutreach9YMonths.value.hasValue() ||

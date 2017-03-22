@@ -10,8 +10,8 @@
 
 
 ALTER TABLE vaccination_child_coverage_line_items
-ADD COLUMN femaleHealthCenter9YMonths INTEGER,
-ADD COLUMN femaleOutreach9YMonths INTEGER;
+ADD COLUMN femaleHealthCenter9Years INTEGER,
+ADD COLUMN femaleOutreach9Years INTEGER;
 
 UPDATE vaccination_child_coverage_line_items
 SET displayOrder = 16

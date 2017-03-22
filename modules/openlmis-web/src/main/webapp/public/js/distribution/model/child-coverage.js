@@ -62,7 +62,7 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     } else {
       return ['maleHealthCenter11Months', 'femaleHealthCenter11Months',
          'maleOutreach11Months', 'femaleOutreach11Months', 'maleHealthCenter23Months', 'femaleHealthCenter23Months',
-         'maleOutreach23Months', 'femaleOutreach23Months', 'femaleHealthCenter9YMonths', 'femaleOutreach9YMonths'];
+         'maleOutreach23Months', 'femaleOutreach23Months', 'femaleHealthCenter9Years', 'femaleOutreach9Years'];
     }
   }
 
@@ -87,7 +87,7 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
   }
 
   function isCoverage9YField(field) {
-    return (['femaleHealthCenter9YMonths', 'femaleOutreach9YMonths'].indexOf(field) !== -1);
+    return (['femaleHealthCenter9Years', 'femaleOutreach9Years'].indexOf(field) !== -1);
   }
 
   function checkIfIsOutdatedDistribution() {

@@ -67,7 +67,7 @@ public interface VaccinationCoverageMapper {
   @Update({"UPDATE vaccination_child_coverage_line_items SET totalHealthCenter11Months = #{totalHealthCenter11Months}, totalOutreach11Months = #{totalOutreach11Months},",
     " totalHealthCenter23Months = #{totalHealthCenter23Months}, totalOutreach23Months = #{totalOutreach23Months}, maleHealthCenter11Months = #{maleHealthCenter11Months}, maleOutreach11Months = #{maleOutreach11Months}," +
         " maleHealthCenter23Months = #{maleHealthCenter23Months}, maleOutreach23Months = #{maleOutreach23Months}, femaleHealthCenter11Months = #{femaleHealthCenter11Months}, femaleOutreach11Months = #{femaleOutreach11Months}," +
-        " femaleHealthCenter23Months = #{femaleHealthCenter23Months}, femaleOutreach23Months = #{femaleOutreach23Months}, femaleHealthCenter9YMonths = #{femaleHealthCenter9YMonths}, femaleOutreach9YMonths = #{femaleOutreach9YMonths}," +
+        " femaleHealthCenter23Months = #{femaleHealthCenter23Months}, femaleOutreach23Months = #{femaleOutreach23Months}, femaleHealthCenter9Years = #{femaleHealthCenter9Years}, femaleOutreach9Years = #{femaleOutreach9Years}," +
         " modifiedBy = #{modifiedBy}, modifiedDate = DEFAULT, displayOrder = #{displayOrder} WHERE id = #{id}"})
   void updateChildCoverageLineItem(ChildCoverageLineItem childCoverageLineItem);
 

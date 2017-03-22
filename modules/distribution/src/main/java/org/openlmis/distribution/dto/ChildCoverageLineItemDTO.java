@@ -43,8 +43,8 @@ public class ChildCoverageLineItemDTO extends CoverageLineItem {
   private Reading femaleOutreach11Months;
   private Reading femaleHealthCenter23Months;
   private Reading femaleOutreach23Months;
-  private Reading femaleHealthCenter9YMonths;
-  private Reading femaleOutreach9YMonths;
+  private Reading femaleHealthCenter9Years;
+  private Reading femaleOutreach9Years;
 
   public ChildCoverageLineItem transform() {
     Integer totalHealthCenter11Months = Reading.safeRead(this.totalHealthCenter11Months).parsePositiveInt();
@@ -59,8 +59,8 @@ public class ChildCoverageLineItemDTO extends CoverageLineItem {
     Integer femaleOutreach11Months = Reading.safeRead(this.femaleOutreach11Months).parsePositiveInt();
     Integer femaleHealthCenter23Months = Reading.safeRead(this.femaleHealthCenter23Months).parsePositiveInt();
     Integer femaleOutreach23Months = Reading.safeRead(this.femaleOutreach23Months).parsePositiveInt();
-    Integer femaleHealthCenter9YMonths = Reading.safeRead(this.femaleHealthCenter9YMonths).parsePositiveInt();
-    Integer femaleOutreach9YMonths = Reading.safeRead(this.femaleOutreach9YMonths).parsePositiveInt();
+    Integer femaleHealthCenter9Years = Reading.safeRead(this.femaleHealthCenter9Years).parsePositiveInt();
+    Integer femaleOutreach9Years = Reading.safeRead(this.femaleOutreach9Years).parsePositiveInt();
 
     ChildCoverageLineItem lineItem = new ChildCoverageLineItem();
     lineItem.setTotalHealthCenter11Months(totalHealthCenter11Months);
@@ -75,8 +75,8 @@ public class ChildCoverageLineItemDTO extends CoverageLineItem {
     lineItem.setMaleOutreach11Months(maleOutreach11Months);
     lineItem.setMaleHealthCenter23Months(maleHealthCenter23Months);
     lineItem.setMaleOutreach23Months(maleOutreach23Months);
-    lineItem.setFemaleHealthCenter9YMonths(femaleHealthCenter9YMonths);
-    lineItem.setFemaleOutreach9YMonths(femaleOutreach9YMonths);
+    lineItem.setFemaleHealthCenter9Years(femaleHealthCenter9Years);
+    lineItem.setFemaleOutreach9Years(femaleOutreach9Years);
     lineItem.setId(this.id);
     lineItem.setModifiedBy(this.modifiedBy);
 
