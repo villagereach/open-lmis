@@ -10,6 +10,9 @@
 
 package org.openlmis.distribution.repository;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
+import org.joda.time.DateTime;
 import org.openlmis.core.domain.DeliveryZone;
 import org.openlmis.core.domain.ProcessingPeriod;
 import org.openlmis.core.domain.Program;
@@ -19,8 +22,10 @@ import org.openlmis.distribution.domain.DistributionStatus;
 import org.openlmis.distribution.domain.DistributionsEditHistory;
 import org.openlmis.distribution.repository.mapper.DistributionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -32,6 +37,9 @@ public class DistributionRepository {
 
   @Autowired
   DistributionMapper mapper;
+
+  @Value("${distributions.display.month.limit}")
+  private Integer distributionPeriodAllowedMonths;
 
   public Distribution create(Distribution distribution) {
     distribution.setStatus(DistributionStatus.INITIATED);
@@ -67,24 +75,28 @@ public class DistributionRepository {
     return mapper.getFullSyncedDistribution(distribution);
   }
 
+  public Distribution getPopulatedDistribution(Distribution distribution) {
+    return mapper.getPopulatedDistribution(distribution);
+  }
+
   public List<Distribution> getFullSyncedDistributions() {
     return mapper.getFullSyncedDistributions();
   }
 
   public List<Distribution> getFullSyncedDistributions(Program program, DeliveryZone deliveryZone, ProcessingPeriod period) {
+    List<Distribution> distributions;
+
     if (null != deliveryZone && null != period) {
-      return mapper.getFullSyncedDistributionsForProgramAndDeliveryZoneAndPeriod(program.getId(), deliveryZone.getId(), period.getId());
+      distributions = mapper.getFullSyncedDistributionsForProgramAndDeliveryZoneAndPeriod(program.getId(), deliveryZone.getId(), period.getId());
+    } else if (null != deliveryZone) {
+      distributions = mapper.getFullSyncedDistributionsForProgramAndDeliveryZone(program.getId(), deliveryZone.getId());
+    } else if (null != period) {
+      distributions = mapper.getFullSyncedDistributionsForProgramAndPeriod(program.getId(), period.getId());
+    } else {
+      distributions = mapper.getFullSyncedDistributionsForProgram(program.getId());
     }
 
-    if (null != deliveryZone) {
-      return mapper.getFullSyncedDistributionsForProgramAndDeliveryZone(program.getId(), deliveryZone.getId());
-    }
-
-    if (null != period) {
-      return mapper.getFullSyncedDistributionsForProgramAndPeriod(program.getId(), period.getId());
-    }
-
-    return mapper.getFullSyncedDistributionsForProgram(program.getId());
+    return FluentIterable.from(distributions).filter(new DistributionStartsWithinMonthLimit()).toImmutableList();
   }
 
   public void insertEditInProgress(Long userId, Long distributionId) {
@@ -113,5 +125,13 @@ public class DistributionRepository {
 
   public void insertHistory(DistributionsEditHistory history) {
     mapper.insertHistory(history);
+  }
+
+  private final class DistributionStartsWithinMonthLimit implements Predicate<Distribution> {
+    @Override
+    public boolean apply(@Nullable Distribution input) {
+      return null != input && null != input.getPeriod() &&
+              new DateTime(input.getPeriod().getStartDate()).isAfter(DateTime.now().minusMonths(distributionPeriodAllowedMonths));
+    }
   }
 }

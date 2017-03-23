@@ -64,7 +64,7 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     sex: "label.coverage.sex",
     childrenAgeGroup0To11: "label.children.age.group.zero.eleven.months",
     childrenAgeGroup12To23: "label.children.age.group.twelve.twenty.three.months",
-    childrenAgeGroup9To11: "label.children.age.group.nine.eleven.years",
+    childrenAgeGroup9To11: "label.children.age.group.nine.twelve.years",
     categoryOneHealthCenter: "label.coverage.health.center",
     categoryOneMobileBrigade: "label.coverage.outreach",
     categoryOneTotal: "label.child.coverage.first.total",
@@ -113,13 +113,8 @@ function ChildCoverageController($scope, $routeParams, distributionService) {
     },
     "Sarampo 1a dose": {
       products: ['Sarampo'],
-      vaccinations: ['Sarampo 1a dose'],
-      rowSpan: 1
-    },
-    "Sarampo 2a dose": {
-      products: ['MSD'],
-      vaccinations: ['Sarampo 2a dose'],
-      rowSpan: 1
+      vaccinations: ['Sarampo 1a dose', 'Sarampo 2a dose'],
+      rowSpan: 2
     },
     "HPV": {
       products: ['HPV'],

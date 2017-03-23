@@ -27,6 +27,7 @@ import org.openlmis.core.service.DeliveryZoneService;
 import org.openlmis.core.service.FacilityService;
 import org.openlmis.core.service.GeographicZoneService;
 import org.openlmis.core.service.MessageService;
+import org.openlmis.core.service.ProcessingScheduleService;
 import org.openlmis.core.service.ProgramService;
 import org.openlmis.core.service.UserService;
 import org.openlmis.distribution.domain.Distribution;
@@ -37,7 +38,6 @@ import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.dto.DistributionDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
-import org.openlmis.distribution.repository.FacilityVisitRepository;
 import org.openlmis.distribution.service.DistributionService;
 import org.openlmis.distribution.service.FacilityDistributionService;
 import org.openlmis.distribution.service.FacilityVisitService;
@@ -122,6 +122,9 @@ public class ReviewDataService {
   @Autowired
   private FacilityDistributionEditHandler facilityDistributionEditHandler;
 
+  @Autowired
+  private ProcessingScheduleService processingScheduleService;
+
   @Value("${eligibility.edit}")
   private Long eligibilityEdit;
 
@@ -131,20 +134,25 @@ public class ReviewDataService {
   @Value("${distribution.edit.province.level}")
   private Integer distributionEditProvinceLevel;
 
+  @Value("${distributions.display.month.limit}")
+  private Integer distributionPeriodAllowedMonths;
+
   public ReviewDataFilters getFilters() {
     List<Program> programs = programService.getAllPushPrograms();
     List<GeographicZone> geographicZones = facilityService.searchByLevelNumber(distributionEditProvinceLevel);
     List<DeliveryZone> deliveryZones = deliveryZoneService.getAll();
 
     List<Distribution> distributions = distributionService.getFullSyncedDistributions();
-    List<ProcessingPeriod> periods = new ArrayList<>(distributions.size());
+    List<ProcessingPeriod> periods = new ArrayList<>();
 
     for (Distribution distribution : distributions) {
       ProcessingPeriod period = distribution.getPeriod();
-      boolean exist = FluentIterable.from(periods).anyMatch(new PeriodPredicate(period.getId()));
+      if (new DateTime(period.getStartDate()).isAfter(DateTime.now().minusMonths(distributionPeriodAllowedMonths))) {
+        boolean exist = FluentIterable.from(periods).anyMatch(new PeriodPredicate(period.getId()));
 
-      if (!exist) {
-        periods.add(period);
+        if (!exist) {
+          periods.add(period);
+        }
       }
     }
 

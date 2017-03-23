@@ -361,7 +361,8 @@ INSERT INTO program_products(programId, productId, dosesPerMonth, currentPrice, 
 (5, (SELECT id from products WHERE code = 'RV Rotarix'), 30, 12.5, true, 3, (select id from product_categories where code = 'C2')),
 (5, (SELECT id from products WHERE code = 'Sarampo'), 30, 12.5, true, 3, (select id from product_categories where code = 'C2')),
 (5, (SELECT id from products WHERE code = 'MSD'), 30, 12.5, true, 3, (select id from product_categories where code = 'C2')),
-(5, (SELECT id from products WHERE code = 'Tetanus'), 30, 12.5, true, 3, (select id from product_categories where code = 'C2'));
+(5, (SELECT id from products WHERE code = 'Tetanus'), 30, 12.5, true, 3, (select id from product_categories where code = 'C2')),
+(5, (SELECT id from products WHERE code = 'HPV'), 30, 12.5, true, 3, (select id from product_categories where code = 'C2'));
 
 
 

@@ -60,6 +60,53 @@ function VisitInfoController($scope, distributionService, $routeParams) {
     });
   };
 
+  $scope.areMotorbikesPresentAtHu = function () {
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+    return visit.numberOfMotorbikesAtHU && visit.numberOfMotorbikesAtHU.value >= 1;
+  };
+
+  $scope.shouldDisplayMotorbikeProblemsRelatedFields = function () {
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+    if (visit.numberOfMotorizedVehiclesWithProblems && visit.numberOfMotorizedVehiclesWithProblems.value >= 1) {
+      return true;
+    }
+
+    if (visit.numberOfFunctioningMotorbikes && visit.numberOfFunctioningMotorbikes.value >= 0 &&
+      visit.numberOfMotorbikesAtHU && visit.numberOfMotorbikesAtHU.value >= 0) {
+        return visit.numberOfFunctioningMotorbikes.value < visit.numberOfMotorbikesAtHU.value;
+    }
+    return false;
+  };
+
+  $scope.isMotorbikesFunctioningGreaterThanAvailable = function () {
+    var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+    return (visit.numberOfMotorbikesAtHU && visit.numberOfFunctioningMotorbikes) &&
+      (visit.numberOfFunctioningMotorbikes.value > visit.numberOfMotorbikesAtHU.value);
+  };
+
+  $scope.motorbikesAtHuChanged = function () {
+    if (!$scope.areMotorbikesPresentAtHu()) {
+      var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+      $scope.clearMotorbikeProblems();
+      visit.numberOfFunctioningMotorbikes = setApplicableField(visit.numberOfFunctioningMotorbikes);
+      visit.numberOfMotorizedVehiclesWithProblems = setApplicableField(visit.numberOfMotorizedVehiclesWithProblems);
+      visit.numberOfDaysWithLimitedTransport = setApplicableField(visit.numberOfDaysWithLimitedTransport);
+    }
+  };
+
+  $scope.motorbikesFunctioningChanged = function () {
+    if (!$scope.shouldDisplayMotorbikeProblemsRelatedFields()) {
+      var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+      $scope.clearMotorbikeProblems();
+      visit.numberOfDaysWithLimitedTransport = setApplicableField(visit.numberOfDaysWithLimitedTransport);
+    }
+  };
+
   $scope.setApplicableVisitInfo = function () {
     var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
 
@@ -128,10 +175,8 @@ function VisitInfoController($scope, distributionService, $routeParams) {
       visit.technicalStaff = {
         original: {
           type: "reading",
-          value: 0
         },
         type: "reading",
-        value: 0
       };
     } else if (visit.technicalStaff.defaultValue) {
       // for initiated distribution, instead of clearing the field, reset it to the default value
