@@ -80,8 +80,8 @@ public class DistributionService {
     return repository.get(distribution);
   }
 
-  public DistributionDTO getDistribution(Distribution arg, Long userId, DistributionDataFilter distributionDataFilter, Boolean fullySyncedOnly) {
-    Distribution distribution = fullySyncedOnly ? getFullSyncedDistribution(arg) : getDistribution(arg);
+  public DistributionDTO getDistributionDTO(Distribution arg, Long userId, DistributionDataFilter distributionDataFilter, Boolean fullySyncedOnly) {
+    Distribution distribution = fullySyncedOnly ? getFullSyncedDistribution(arg) : getDistributionDTO(arg);
 
     if (distribution != null) {
       if (userId != null) {
@@ -123,8 +123,8 @@ public class DistributionService {
     return repository.getFullSyncedDistribution(distribution);
   }
 
-  public Distribution getDistribution(Distribution distribution) {
-    return repository.getDistribution(distribution);
+  public Distribution getDistributionDTO(Distribution distribution) {
+    return repository.getPopulatedDistribution(distribution);
   }
 
   public List<Distribution> getFullSyncedDistributions() {
@@ -188,7 +188,7 @@ public class DistributionService {
     if (previousPeriods != null && !previousPeriods.isEmpty()) {
       for (int i = 0; i < previousPeriods.size(); i++) {
         distributionFilter.setPeriod(previousPeriods.get(i));
-        DistributionDTO pastDistribution = getDistribution(distributionFilter, null, distributionDataFilter, false);
+        DistributionDTO pastDistribution = getDistributionDTO(distributionFilter, null, distributionDataFilter, false);
 
         if (pastDistribution != null) {
           previousDistributions.add(pastDistribution);

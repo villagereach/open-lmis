@@ -38,7 +38,6 @@ import org.openlmis.distribution.domain.FacilityDistribution;
 import org.openlmis.distribution.domain.FacilityVisit;
 import org.openlmis.distribution.dto.DistributionDTO;
 import org.openlmis.distribution.dto.FacilityDistributionDTO;
-import org.openlmis.distribution.repository.FacilityVisitRepository;
 import org.openlmis.distribution.service.DistributionService;
 import org.openlmis.distribution.service.FacilityDistributionService;
 import org.openlmis.distribution.service.FacilityVisitService;
@@ -135,7 +134,7 @@ public class ReviewDataService {
   @Value("${distribution.edit.province.level}")
   private Integer distributionEditProvinceLevel;
 
-  @Value("${distribution.period.allowed.months}")
+  @Value("${distributions.display.month.limit}")
   private Integer distributionPeriodAllowedMonths;
 
   public ReviewDataFilters getFilters() {

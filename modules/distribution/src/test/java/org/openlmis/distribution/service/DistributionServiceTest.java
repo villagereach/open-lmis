@@ -133,10 +133,10 @@ public class DistributionServiceTest {
     assertThat(initiatedPreviousDistribution, is(expectedDistribution));
     assertNotNull(expectedDistribution.transform());
 
-    when(repository.getDistribution(previousDistribution)).thenReturn(expectedDistribution);
+    when(repository.getPopulatedDistribution(previousDistribution)).thenReturn(expectedDistribution);
     DistributionDTO returnedDistributionDTO = service.getPreviousDistribution(currentDistribution, new DistributionDataFilter(true));
 
-    verify(repository).getDistribution(previousDistribution);
+    verify(repository).getPopulatedDistribution(previousDistribution);
     assertThat(returnedDistributionDTO, is(expectedDistribution.transform()));
   }
 

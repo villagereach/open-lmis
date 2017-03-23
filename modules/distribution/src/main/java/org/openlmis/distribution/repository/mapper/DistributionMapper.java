@@ -74,7 +74,7 @@ public interface DistributionMapper {
           @Result(property = "program", column = "programId", javaType = Long.class,
                   one = @One(select = "org.openlmis.core.repository.mapper.ProgramMapper.getById"))
   })
-  Distribution getDistribution(Distribution distribution);
+  Distribution getPopulatedDistribution(Distribution distribution);
 
   @Select({"SELECT * FROM distributions WHERE status = 'SYNCED' AND programId=#{program.id} AND periodId=#{period.id} AND deliveryZoneId=#{deliveryZone.id}"})
   @Results(value = {

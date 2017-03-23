@@ -38,7 +38,7 @@ public class DistributionRepository {
   @Autowired
   DistributionMapper mapper;
 
-  @Value("${distribution.period.allowed.months}")
+  @Value("${distributions.display.month.limit}")
   private Integer distributionPeriodAllowedMonths;
 
   public Distribution create(Distribution distribution) {
@@ -75,8 +75,8 @@ public class DistributionRepository {
     return mapper.getFullSyncedDistribution(distribution);
   }
 
-  public Distribution getDistribution(Distribution distribution) {
-    return mapper.getDistribution(distribution);
+  public Distribution getPopulatedDistribution(Distribution distribution) {
+    return mapper.getPopulatedDistribution(distribution);
   }
 
   public List<Distribution> getFullSyncedDistributions() {
@@ -96,7 +96,7 @@ public class DistributionRepository {
       distributions = mapper.getFullSyncedDistributionsForProgram(program.getId());
     }
 
-    return FluentIterable.from(distributions).filter(new DistributionPeriodPredicate()).toImmutableList();
+    return FluentIterable.from(distributions).filter(new DistributionStartsWithinMonthLimit()).toImmutableList();
   }
 
   public void insertEditInProgress(Long userId, Long distributionId) {
@@ -127,7 +127,7 @@ public class DistributionRepository {
     mapper.insertHistory(history);
   }
 
-  private final class DistributionPeriodPredicate implements Predicate<Distribution> {
+  private final class DistributionStartsWithinMonthLimit implements Predicate<Distribution> {
     @Override
     public boolean apply(@Nullable Distribution input) {
       return null != input && null != input.getPeriod() &&
