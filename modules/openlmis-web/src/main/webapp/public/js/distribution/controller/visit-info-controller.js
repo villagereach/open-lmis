@@ -87,6 +87,26 @@ function VisitInfoController($scope, distributionService, $routeParams) {
       (visit.numberOfFunctioningMotorbikes.value > visit.numberOfMotorbikesAtHU.value);
   };
 
+  $scope.motorbikesAtHuChanged = function () {
+    if (!$scope.areMotorbikesPresentAtHu()) {
+      var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+      $scope.clearMotorbikeProblems();
+      visit.numberOfFunctioningMotorbikes = setApplicableField(visit.numberOfFunctioningMotorbikes);
+      visit.numberOfMotorizedVehiclesWithProblems = setApplicableField(visit.numberOfMotorizedVehiclesWithProblems);
+      visit.numberOfDaysWithLimitedTransport = setApplicableField(visit.numberOfDaysWithLimitedTransport);
+    }
+  };
+
+  $scope.motorbikesFunctioningChanged = function () {
+    if (!$scope.shouldDisplayMotorbikeProblemsRelatedFields()) {
+      var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
+
+      $scope.clearMotorbikeProblems();
+      visit.numberOfDaysWithLimitedTransport = setApplicableField(visit.numberOfDaysWithLimitedTransport);
+    }
+  };
+
   $scope.setApplicableVisitInfo = function () {
     var visit = $scope.distribution.facilityDistributions[$scope.selectedFacility].facilityVisit;
 
