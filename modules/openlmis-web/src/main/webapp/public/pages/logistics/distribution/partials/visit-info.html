@@ -105,7 +105,8 @@
                    name="numberOfMotorbikesAtHU{{$index}}" ng-trim=false
                    numeric-validator="positiveInteger,2" min="0" max="99" step="1"
                    error-holder="numberOfMotorbikesAtHUError{{$index}}"
-                   ng-class="{'required-error': !facilityData.facilityVisit.numberOfMotorbikesAtHU.value.hasValue()}"/>
+                   ng-class="{'required-error': !facilityData.facilityVisit.numberOfMotorbikesAtHU.value.hasValue()}"
+                   ng-change="motorbikesAtHuChanged()" />
             <span id="numberOfMotorbikesAtHUError{{$index}}"
                   class="rnr-form-error"
                   openlmis-message="error.number.only"
@@ -118,7 +119,8 @@
                    numeric-validator="positiveInteger,2" min="0" max="99" step="1"
                    error-holder="numberOfFunctioningMotorbikesError{{$index}}"
                    ng-class="{'required-error': !facilityData.facilityVisit.numberOfFunctioningMotorbikes.value.hasValue() ||
-                     isMotorbikesFunctioningGreaterThanAvailable()}"/>
+                     isMotorbikesFunctioningGreaterThanAvailable()}"
+                   ng-change="motorbikesFunctioningChanged()"/>
             <span id="numberOfFunctioningMotorbikesError{{$index}}"
                   class="rnr-form-error"
                   openlmis-message="error.number.only"
@@ -135,7 +137,8 @@
                    name="numberOfMotorizedVehiclesWithProblems{{$index}}" ng-trim=false
                    numeric-validator="positiveInteger,2" min="0" max="99" step="1"
                    error-holder="numberOfMotorizedVehiclesWithProblemsError{{$index}}"
-                   ng-class="{'required-error': !facilityData.facilityVisit.numberOfMotorizedVehiclesWithProblems.value.hasValue()}"/>
+                   ng-class="{'required-error': !facilityData.facilityVisit.numberOfMotorizedVehiclesWithProblems.value.hasValue()}"
+                   ng-change="motorbikesFunctioningChanged()"/>
             <span id="numberOfMotorizedVehiclesWithProblemsError{{$index}}"
                   class="rnr-form-error"
                   openlmis-message="error.number.only"

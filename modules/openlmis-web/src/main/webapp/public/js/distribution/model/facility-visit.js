@@ -75,7 +75,7 @@ function FacilityVisit(facilityVisitJson) {
         }
       }
 
-      if (!isEmpty(this.numberOfFunctioningMotorbikes) && this.numberOfMotorbikesAtHU.value > this.numberOfFunctioningMotorbikes.value) {
+      if (!isEmpty(this.numberOfFunctioningMotorbikes) && this.numberOfMotorbikesAtHU.value < this.numberOfFunctioningMotorbikes.value) {
         return DistributionStatus.INCOMPLETE;
       }
 
