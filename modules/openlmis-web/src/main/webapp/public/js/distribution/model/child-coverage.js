@@ -119,6 +119,8 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
             return true;
           if (lineItem.vaccination !== 'HPV' && isCoverage9YField(field))
             return true;
+          if (lineItem.productVialName === 'MSD')
+            return true;
           if ((status === DistributionStatus.COMPLETE || !status) && isValid(lineItem[field])) {
             status = DistributionStatus.COMPLETE;
             return true;
