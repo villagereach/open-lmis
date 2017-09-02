@@ -11,6 +11,9 @@
 ALTER TABLE refrigerators ADD COLUMN type VARCHAR(20);
 ALTER TABLE refrigerator_readings ADD COLUMN refrigeratorType VARCHAR(20);
 
+ALTER TABLE refrigerators ALTER COLUMN brand TYPE varchar(30);
+ALTER TABLE refrigerator_readings ALTER COLUMN refrigeratorbrand TYPE varchar(30);
+
 UPDATE refrigerators SET type = brand;
 UPDATE refrigerators SET brand = serialNumber;
 
