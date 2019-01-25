@@ -47,7 +47,7 @@ function FullCoverage(facilityVisitId, fullCoverage) {
 
   init.call(this);
 
-  FullCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+  FullCoverage.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
     }

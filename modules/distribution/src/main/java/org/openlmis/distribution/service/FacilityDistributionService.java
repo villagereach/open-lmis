@@ -163,7 +163,7 @@ public class FacilityDistributionService {
 
   public FacilityDistribution save(FacilityDistribution facilityDistribution) {
     facilityVisitService.save(facilityDistribution.getFacilityVisit());
-    if (facilityDistribution.getFacilityVisit().getVisited()) {
+    if (facilityDistribution.getFacilityVisit().getVisited() || facilityDistribution.getFacilityVisit().getCalled()) {
       epiInventoryService.save(facilityDistribution.getEpiInventory());
       distributionRefrigeratorsService.save(facilityDistribution.getFacilityVisit().getFacilityId(), facilityDistribution.getRefrigerators());
       epiUseService.save(facilityDistribution.getEpiUse());

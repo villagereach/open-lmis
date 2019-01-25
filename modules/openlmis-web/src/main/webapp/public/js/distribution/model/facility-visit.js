@@ -24,12 +24,13 @@ function FacilityVisit(facilityVisitJson) {
     return isEmpty(field) || (field.value && field.value.length === 0);
   }
 
-  FacilityVisit.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+  FacilityVisit.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
     }
 
-    if (isEmpty(this.visited)) {
+
+    if (isEmpty(this.visited) && isEmpty(this.called)) {
       return DistributionStatus.EMPTY;
     }
 
@@ -87,11 +88,18 @@ function FacilityVisit(facilityVisitJson) {
       return visitedObservationStatus === DistributionStatus.EMPTY ? DistributionStatus.INCOMPLETE : visitedObservationStatus;
     }
 
-    if (this.reasonForNotVisiting && this.reasonForNotVisiting.value === 'OTHER') {
-      return (isEmpty(this.otherReasonDescription) ? DistributionStatus.INCOMPLETE : DistributionStatus.COMPLETE);
+    if (this.called && this.called.value) {
+      if (isEmpty(this.callDate)) {
+        return DistributionStatus.INCOMPLETE;
+      }
     }
-    return isEmpty(this.reasonForNotVisiting) ? DistributionStatus.INCOMPLETE : DistributionStatus.COMPLETE;
+
+    if (this.reasonForNotVisiting && this.reasonForNotVisiting.value === 'OTHER') {
+      return (isEmpty(this.otherReasonDescription) || isEmpty(this.called) ? DistributionStatus.INCOMPLETE : DistributionStatus.COMPLETE);
+    }
+    return isEmpty(this.reasonForNotVisiting) || isEmpty(this.called) ? DistributionStatus.INCOMPLETE : DistributionStatus.COMPLETE;
   };
+
 
   function computeStatusForObservation() {
     var status;

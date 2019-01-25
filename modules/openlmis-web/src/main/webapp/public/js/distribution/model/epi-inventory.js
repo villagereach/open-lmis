@@ -43,12 +43,12 @@ function EpiInventory(epiInventory) {
     return (!isUndefined(lineItem[field].value) || lineItem[field].notRecorded);
   }
 
-  EpiInventory.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+  EpiInventory.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
     }
 
-    if (visited === false) {
+    if (visited === false && called === false) {
       return DistributionStatus.COMPLETE;
     }
     var statusClass;

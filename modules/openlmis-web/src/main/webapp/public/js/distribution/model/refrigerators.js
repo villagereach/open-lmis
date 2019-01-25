@@ -25,12 +25,12 @@ function Refrigerators(facilityVisitId, refrigerators) {
     _this.initReadings.push(new RefrigeratorReading(_this.facilityVisitId, value));
   });
 
-  Refrigerators.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+  Refrigerators.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
     }
 
-    if (visited === false) {
+    if (visited === false && called === false) {
       return DistributionStatus.COMPLETE;
     }
     if (_.findWhere(this.readings, {status: DistributionStatus.INCOMPLETE})) {

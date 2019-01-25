@@ -93,8 +93,9 @@ function RefrigeratorController($scope, $dialog, IndexedDB, $routeParams, distri
     var facilityDistribution = $scope.distribution.facilityDistributions[$scope.selectedFacilityId];
     var status = facilityDistribution.status;
     var facilityVisit = facilityDistribution.facilityVisit;
+    var facilityContacted = (facilityVisit && facilityVisit.visited && facilityVisit.visited.value === true) || (facilityVisit && facilityVisit.called && facilityVisit.called.value === true);
 
-    return (status === DistributionStatus.SYNCED) || (facilityVisit && facilityVisit.visited && facilityVisit.visited.value === false);
+    return (status === DistributionStatus.SYNCED) || (!facilityContacted);
   };
 
   $scope.showDeleteRefrigeratorConfirmationModel = function (serialNumberToDelete) {

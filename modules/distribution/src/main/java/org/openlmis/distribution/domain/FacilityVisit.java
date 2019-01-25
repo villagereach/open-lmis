@@ -60,10 +60,15 @@ public class FacilityVisit extends BaseModel {
 
   private MotorbikeProblems motorbikeProblems;
 
+  private Boolean visited;
   @JsonDeserialize(using = DateDeserializer.class)
   private Date visitDate;
 
-  private Boolean visited;
+  private Boolean called;
+  @JsonDeserialize(using = DateDeserializer.class)
+  private Date callDate;
+
+
   private String vehicleId;
   private ReasonForNotVisiting reasonForNotVisiting;
   private String otherReasonDescription;
@@ -121,6 +126,8 @@ public class FacilityVisit extends BaseModel {
     dto.setPriorObservations(new Reading(priorObservations));
     dto.setVisitDate(new Reading(visitDate, "yyyy-MM-dd"));
     dto.setVisited(new Reading(visited));
+    dto.setCallDate(new Reading(callDate, "yyyy-MM-dd"));
+    dto.setCalled(new Reading(called));
     dto.setVehicleId(new Reading(vehicleId));
     dto.setReasonForNotVisiting(new Reading(reasonForNotVisiting));
     dto.setOtherReasonDescription(new Reading(otherReasonDescription));
@@ -141,6 +148,8 @@ public class FacilityVisit extends BaseModel {
     notRecorded(dto.getObservations());
     notRecorded(dto.getVisitDate());
     notRecorded(dto.getVisited());
+    notRecorded(dto.getCallDate());
+    notRecorded(dto.getCalled());
     notRecorded(dto.getVehicleId());
     notRecorded(dto.getReasonForNotVisiting());
     notRecorded(dto.getOtherReasonDescription());

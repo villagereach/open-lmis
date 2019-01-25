@@ -31,7 +31,7 @@ function AdultCoverage(facilityVisitId, adultCoverageJSON) {
   init.call(this);
 }
 
-AdultCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+AdultCoverage.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
   if (review && !ignoreSyncStatus) {
     return DistributionStatus.SYNCED;
   }

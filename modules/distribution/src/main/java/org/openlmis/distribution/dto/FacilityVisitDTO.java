@@ -43,9 +43,12 @@ public class FacilityVisitDTO extends BaseModel {
   private Reading observations;
   private Reading priorObservations;
 
+  private Reading visited;
   private Reading visitDate;
 
-  private Reading visited;
+  private Reading called;
+  private Reading callDate;
+
   private Reading vehicleId;
   private Reading reasonForNotVisiting;
   private Reading otherReasonDescription;
@@ -69,6 +72,8 @@ public class FacilityVisitDTO extends BaseModel {
     String priorObservations = Reading.safeRead(this.priorObservations).getEffectiveValue();
     Date visitDate = Reading.safeRead(this.visitDate).parseDate();
     Boolean visited = Reading.safeRead(this.visited).parseBoolean();
+    Date callDate = Reading.safeRead(this.callDate).parseDate();
+    Boolean called = Reading.safeRead(this.called).parseBoolean();
     String vehicleId = Reading.safeRead(this.vehicleId).getEffectiveValue();
     ReasonForNotVisiting reasonForNotVisiting = Reading.safeRead(this.reasonForNotVisiting).parseReasonForNotVisiting();
     String otherReasonDescription = Reading.safeRead(this.otherReasonDescription).getEffectiveValue();
@@ -98,9 +103,12 @@ public class FacilityVisitDTO extends BaseModel {
     facilityVisit.setObservations(observations);
     facilityVisit.setPriorObservations(priorObservations);
 
+    facilityVisit.setVisited(visited);
     facilityVisit.setVisitDate(visitDate);
 
-    facilityVisit.setVisited(visited);
+    facilityVisit.setCalled(called);
+    facilityVisit.setCallDate(callDate);
+
     facilityVisit.setVehicleId(vehicleId);
     facilityVisit.setReasonForNotVisiting(reasonForNotVisiting);
     facilityVisit.setOtherReasonDescription(otherReasonDescription);

@@ -36,7 +36,7 @@ function EpiUse(epiUse) {
     this.notRecordedApplied = !this.notRecordedApplied;
   };
 
-  EpiUse.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+  EpiUse.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
     }
@@ -44,7 +44,7 @@ function EpiUse(epiUse) {
     var _this = this;
     var statusClass;
 
-    if (visited === false) {
+    if (visited === false && called === false) {
       return DistributionStatus.COMPLETE;
     }
 

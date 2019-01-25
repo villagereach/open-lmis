@@ -46,7 +46,7 @@ public interface FacilityVisitMapper {
   })
   public FacilityVisit getBy(@Param(value = "facilityId") Long facilityId, @Param(value = "distributionId") Long distributionId);
 
-  @Update({"UPDATE facility_visits SET visited = #{visited}, visitDate = #{visitDate}, vehicleId = #{vehicleId}, ",
+  @Update({"UPDATE facility_visits SET visited = #{visited}, visitDate = #{visitDate}, called = #{called}, callDate = #{callDate},  vehicleId = #{vehicleId}, ",
     "numberOfOutreachVisitsPlanned = #{numberOfOutreachVisitsPlanned}, numberOfOutreachVisitsCompleted = #{numberOfOutreachVisitsCompleted}, ",
     "numberOfMotorbikesAtHU = #{numberOfMotorbikesAtHU}, numberOfFunctioningMotorbikes = #{numberOfFunctioningMotorbikes}, ",
     "numberOfMotorizedVehiclesWithProblems = #{numberOfMotorizedVehiclesWithProblems}, numberOfDaysWithLimitedTransport = #{numberOfDaysWithLimitedTransport}, ",

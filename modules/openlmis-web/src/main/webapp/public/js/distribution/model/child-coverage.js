@@ -96,7 +96,7 @@ function ChildCoverage(facilityVisitId, childCoverageJSON) {
     return outdated;
   }
 
-  ChildCoverage.prototype.computeStatus = function (visited, review, ignoreSyncStatus) {
+  ChildCoverage.prototype.computeStatus = function (visited, called, review, ignoreSyncStatus) {
     if (review && !ignoreSyncStatus) {
       return DistributionStatus.SYNCED;
     }

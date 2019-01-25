@@ -126,9 +126,14 @@ function VisitInfoController($scope, distributionService, $routeParams) {
       setApplicableVisitInfoForTechnicalStaff(visit);
       visit.reasonForNotVisiting = setApplicableField(visit.reasonForNotVisiting);
       visit.otherReasonDescription = setApplicableField(visit.otherReasonDescription);
+      if (!isUndefined(visit.called)) {
+        visit.called.value = false;
+      }
+      visit.callDate = setApplicableField(visit.callDate);
       return;
     }
 
+    visit.callDate = setApplicableField(visit.callDate);
     visit.observations = setApplicableField(visit.observations);
     if (!visit.confirmedBy) {
       visit.confirmedBy = {};
