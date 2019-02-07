@@ -33,8 +33,6 @@ describe('Facility Distribution data', function () {
     spyOn(refrigerators, "computeStatus").andReturn(DistributionStatus.COMPLETE);
     spyOn(facilityVisit, "computeStatus").andReturn(DistributionStatus.COMPLETE);
     spyOn(epiInventory, "computeStatus").andReturn(DistributionStatus.COMPLETE);
-    spyOn(fullCoverage, "computeStatus").andReturn(DistributionStatus.COMPLETE);
-    spyOn(childCoverage, "computeStatus").andReturn(DistributionStatus.COMPLETE);
 
     expect(facilityDistribution.computeStatus()).toEqual(DistributionStatus.COMPLETE);
   });
@@ -45,7 +43,6 @@ describe('Facility Distribution data', function () {
     spyOn(refrigerators, "computeStatus").andReturn(DistributionStatus.COMPLETE);
     spyOn(facilityVisit, "computeStatus").andReturn(DistributionStatus.COMPLETE);
     spyOn(epiInventory, "computeStatus").andReturn(DistributionStatus.COMPLETE);
-    spyOn(fullCoverage, "computeStatus").andReturn(DistributionStatus.INCOMPLETE);
 
     expect(facilityDistribution.computeStatus()).toEqual(DistributionStatus.COMPLETE);
   });
@@ -55,8 +52,6 @@ describe('Facility Distribution data', function () {
     spyOn(refrigerators, "computeStatus").andReturn(DistributionStatus.EMPTY);
     spyOn(facilityVisit, "computeStatus").andReturn(DistributionStatus.EMPTY);
     spyOn(epiInventory, "computeStatus").andReturn(DistributionStatus.EMPTY);
-    spyOn(fullCoverage, "computeStatus").andReturn(DistributionStatus.EMPTY);
-    spyOn(childCoverage, "computeStatus").andReturn(DistributionStatus.EMPTY);
 
     expect(facilityDistribution.computeStatus()).toEqual(DistributionStatus.EMPTY);
   });
