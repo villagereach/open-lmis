@@ -36,12 +36,15 @@
                         <thead>
                         <tr>
                             <th id="vialsUnitsLabel" class="col-vials" openlmis-message="label.vials.unit"></th>
-                            <th id="idealQuantityLabel" class="col-ideal-quantity"
-                                openlmis-message="label.ideal.quantity"></th>
+                           <th id="idealQuantityLabel" class="col-ideal-quantity"
+                                openlmis-message="label.ideal.quantity">
                             <th id="existingQuantityLabel" class="col-existing-quantity"
                                 openlmis-message="label.existing.quantity"></th>
-                            <th id="deliveredQuantityLabel" class="col-delivered-quantity"
-                                openlmis-message="label.delivered.quantity"></th>
+
+                            <th id="deliveredQuantityLabel" class="col-delivered-quantity">
+                                <span ng-show="facilityData.facilityTypeCode !== 'spd_stocked_by_inter_whr'" openlmis-message="label.delivered.quantity"></span>
+                                <span ng-show="facilityData.facilityTypeCode === 'spd_stocked_by_inter_whr'" openlmis-message="label.delivered.quantity.for.inter.warehouse.client"></span>
+                            </th>
                             <th id="spoiledQuantityLabel" class="col-spoiled-quantity"
                                 openlmis-message="label.spoiled.quantity"></th>
                         </tr>

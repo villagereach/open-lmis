@@ -111,16 +111,24 @@ describe('Facility Visit', function () {
     expect(status).toEqual(DistributionStatus.INCOMPLETE);
   });
 
-  it('should return complete if not visited and a reason provided', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: false}, reasonForNotVisiting: {value: "BAD WEATHER"}});
+  it('should return incomplete if called but no call-date is provided', function () {
+    var facilityVisit = new FacilityVisit({called: {value: true}, callDate: undefined});
+
+    var status = facilityVisit.computeStatus();
+
+    expect(status).toEqual(DistributionStatus.INCOMPLETE);
+  });
+
+  it('should return complete if not visited, a reason is provided, and the facilty has not been called', function () {
+    var facilityVisit = new FacilityVisit({visited: {value: false}, reasonForNotVisiting: {value: "BAD WEATHER"}, called: {value: false}});
 
     var status = facilityVisit.computeStatus();
 
     expect(status).toEqual(DistributionStatus.COMPLETE);
   });
 
-  it('should return complete if not visited and a reason selected as other and described', function () {
-    var facilityVisit = new FacilityVisit({visited: {value: false}, reasonForNotVisiting: {value: "OTHER"}, otherReasonDescription: {value: "I was ill"}});
+  it('should return complete if not called, not visited, and a not-visited reason of "other: is selected and described', function () {
+    var facilityVisit = new FacilityVisit({visited: {value: false}, reasonForNotVisiting: {value: "OTHER"}, otherReasonDescription: {value: "I was ill"}, called: {value: false}});
 
     var status = facilityVisit.computeStatus();
 

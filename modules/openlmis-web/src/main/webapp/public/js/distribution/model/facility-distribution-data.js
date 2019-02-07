@@ -24,16 +24,18 @@ function FacilityDistribution(facilityDistribution) {
   var WAREHOUSE = "warehouse";
 
   function initCoverageScreens() {
+    //As of 1/25/2019, we should never display the coverage tabs
+    /*
     this.fullCoverage = !isWarehouse(this.typeCode) ? new FullCoverage(this.facilityVisitId, facilityDistribution.fullCoverage) : null;
     this.childCoverage = !isWarehouse(this.typeCode) ? new ChildCoverage(this.facilityVisitId, facilityDistribution.childCoverage) : null;
-    this.adultCoverage = !isWarehouse(this.typeCode) ? new AdultCoverage(this.facilityVisitId, facilityDistribution.adultCoverage) : null;
+    this.adultCoverage = !isWarehouse(this.typeCode) ? new AdultCoverage(this.facilityVisitId, facilityDistribution.adultCoverage) : null; */
+    this.fullCoverage =  this.childCoverage = this.adultCoverage = null;
   }
 
   initCoverageScreens.call(this);
 
   function getFormsForComputingStatus() {
-      return isWarehouse(this.typeCode) ? [this.epiUse, this.refrigerators, this.facilityVisit, this.epiInventory]
-       : [this.epiUse, this.refrigerators, this.facilityVisit, this.epiInventory, this.fullCoverage, this.childCoverage, this.adultCoverage];
+      return [this.epiUse, this.refrigerators, this.facilityVisit, this.epiInventory];
   }
 
   function isWarehouse(typeCode) {
@@ -106,7 +108,9 @@ function FacilityDistribution(facilityDistribution) {
   };
 
   FacilityDistribution.prototype.shouldDisplayCoverageScreen = function () {
-    return !isWarehouse(this.typeCode);
+    //return !isWarehouse(this.typeCode);
+    //As of 1/25/2019, we should never display the coverage tabs
+    return false;
   };
 
 }
