@@ -193,8 +193,8 @@ public class ReviewDataService {
           list.add(create(userId, distribution, zone.getName()));
           break;
         }
-
-        zone = geographicZoneService.getById(zone.getParent().getId());
+        
+        zone = (zone.getParent() == null) ? null : geographicZoneService.getById(zone.getParent().getId());
       }
     }
 
